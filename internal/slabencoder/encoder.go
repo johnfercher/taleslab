@@ -256,6 +256,28 @@ func float32ToByteArray(value float32) ([]byte, error) {
 	return buf.Bytes(), nil
 }
 
+func int32ToByteArray(value int32) ([]byte, error) {
+	buf := new(bytes.Buffer)
+
+	err := binary.Write(buf, binary.LittleEndian, value)
+	if err != nil {
+		return nil, err
+	}
+
+	return buf.Bytes(), nil
+}
+
+func int64ToByteArray(value int64) ([]byte, error) {
+	buf := new(bytes.Buffer)
+
+	err := binary.Write(buf, binary.LittleEndian, value)
+	if err != nil {
+		return nil, err
+	}
+
+	return buf.Bytes(), nil
+}
+
 func int16ToByteArray(value int16) ([]byte, error) {
 	buf := new(bytes.Buffer)
 
