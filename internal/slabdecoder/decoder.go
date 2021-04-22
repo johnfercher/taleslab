@@ -1,4 +1,4 @@
-package taledecoder
+package slabdecoder
 
 import (
 	"bufio"
@@ -13,7 +13,75 @@ import (
 	"strconv"
 )
 
-func Base64ToReader(stringBase64 string) (*bufio.Reader, error) {
+func Decode(slabBase64 string) (*model.Slab, error) {
+	slab := &model.Slab{}
+	reader, err := base64ToReader(slabBase64)
+	if err != nil {
+		return nil, err
+	}
+
+	// Magic Hex
+	for i := 0; i < 4; i++ {
+		magicHex, err := decodeHex(reader)
+		if err != nil {
+			return nil, err
+		}
+
+		slab.MagicHex = append(slab.MagicHex, magicHex)
+	}
+
+	// Version
+	version, err := decodeInt2(reader)
+	if err != nil {
+		return nil, err
+	}
+	slab.Version = version
+
+	// Assets Count
+	assetCount, err := decodeInt2(reader)
+	if err != nil {
+		return nil, err
+	}
+	slab.AssetsCount = assetCount
+
+	// Assets
+	i := int16(0)
+	for i = 0; i < assetCount; i++ {
+		asset, err := decodeAsset(reader)
+		if err != nil {
+			return nil, err
+		}
+
+		slab.Assets = append(slab.Assets, asset)
+	}
+
+	// Assets.Layouts
+	i = int16(0)
+	for i = 0; i < assetCount; i++ {
+		layoutsCount := slab.Assets[i].LayoutsCount
+
+		j := int16(0)
+		for j = 0; j < layoutsCount; j++ {
+			bounds, err := decodeBounds(reader)
+			if err != nil {
+				return nil, err
+			}
+			slab.Assets[i].Layouts = append(slab.Assets[i].Layouts, bounds)
+		}
+	}
+
+	// Bounds
+	bounds, err := decodeBounds(reader)
+	if err != nil {
+		return nil, err
+	}
+
+	slab.Bounds = bounds
+
+	return slab, nil
+}
+
+func base64ToReader(stringBase64 string) (*bufio.Reader, error) {
 	compressedBytes, err := base64.StdEncoding.DecodeString(stringBase64)
 	if err != nil {
 		return nil, err
@@ -26,106 +94,53 @@ func Base64ToReader(stringBase64 string) (*bufio.Reader, error) {
 	}
 
 	bufferBytes := buffer.Bytes()
+
+	fmt.Println(bufferBytes)
+
 	reader := bytes.NewReader(bufferBytes)
 	bufieReader := bufio.NewReader(reader)
 
 	return bufieReader, nil
 }
 
-func DecodeSlab(forestBase64 string) (*model.Slab, error) {
-	slab := &model.Slab{}
-	reader, err := Base64ToReader(forestBase64)
+func decodeBounds(reader *bufio.Reader) (*model.Bounds, error) {
+	centerX, err := decodeFloat(reader)
 	if err != nil {
 		return nil, err
 	}
 
-	magicHex, err := DecodeString(reader, 4)
-	if err != nil {
-		return nil, err
-	}
-	slab.MagicHex = magicHex
-
-	version, err := DecodeInt2(reader)
-	if err != nil {
-		return nil, err
-	}
-	slab.Version = version
-
-	assetCount, err := DecodeInt2(reader)
-	if err != nil {
-		return nil, err
-	}
-	slab.AssetsCount = assetCount
-
-	for i := 0; i < assetCount; i++ {
-		asset, err := DecodeAsset(reader)
-		if err != nil {
-			return nil, err
-		}
-
-		slab.Assets = append(slab.Assets, asset)
-	}
-
-	for i := 0; i < assetCount; i++ {
-		assetCount := slab.Assets[i].LayoutsCount
-
-		for j := 0; j < assetCount; j++ {
-			bounds, err := DecodeBounds(reader)
-			if err != nil {
-				return nil, err
-			}
-			slab.Assets[i].Layouts = append(slab.Assets[i].Layouts, bounds)
-		}
-	}
-
-	bounds, err := DecodeBounds(reader)
+	centerY, err := decodeFloat(reader)
 	if err != nil {
 		return nil, err
 	}
 
-	slab.Bounds = bounds
-
-	return slab, nil
-}
-
-func DecodeBounds(reader *bufio.Reader) (*model.Bounds, error) {
-	centerX, err := DecodeFloat(reader)
+	centerZ, err := decodeFloat(reader)
 	if err != nil {
 		return nil, err
 	}
 
-	centerY, err := DecodeFloat(reader)
+	extentsX, err := decodeFloat(reader)
 	if err != nil {
 		return nil, err
 	}
 
-	centerZ, err := DecodeFloat(reader)
+	extentsY, err := decodeFloat(reader)
 	if err != nil {
 		return nil, err
 	}
 
-	extentsX, err := DecodeFloat(reader)
+	extentsZ, err := decodeFloat(reader)
 	if err != nil {
 		return nil, err
 	}
 
-	extentsY, err := DecodeFloat(reader)
-	if err != nil {
-		return nil, err
-	}
-
-	extentsZ, err := DecodeFloat(reader)
-	if err != nil {
-		return nil, err
-	}
-
-	rotation, err := DecodeInt1(reader)
+	rotation, err := decodeInt1(reader)
 	if err != nil {
 		return nil, err
 	}
 
 	// TODO: understand why this
-	_, _ = DecodeString(reader, 3)
+	_, _ = decodeString(reader, 3)
 
 	return &model.Bounds{
 		Center: &model.Vector3{
@@ -142,27 +157,30 @@ func DecodeBounds(reader *bufio.Reader) (*model.Bounds, error) {
 	}, nil
 }
 
-func DecodeAsset(reader *bufio.Reader) (*model.Asset, error) {
+func decodeAsset(reader *bufio.Reader) (*model.Asset, error) {
 	asset := &model.Asset{}
-	uuid, err := DecodeUuid(reader)
+
+	// Uuid
+	uuid, err := decodeUuid(reader)
 	if err != nil {
 		return nil, err
 	}
 	asset.Uuid = uuid
 
-	count, err := DecodeInt2(reader)
+	// Count
+	count, err := decodeInt2(reader)
 	if err != nil {
 		return nil, err
 	}
 	asset.LayoutsCount = count
 
-	// TODO: understand why this
-	_, _ = DecodeString(reader, 2)
+	// End of Structure 2
+	_, _ = decodeString(reader, 2)
 
 	return asset, nil
 }
 
-func DecodeString(buf *bufio.Reader, size int) (string, error) {
+func decodeString(buf *bufio.Reader, size int) (string, error) {
 	packetBytes := make([]byte, size)
 
 	n, err := buf.Read(packetBytes)
@@ -175,7 +193,7 @@ func DecodeString(buf *bufio.Reader, size int) (string, error) {
 
 	magicHex := ""
 	for i := 0; i < n; i++ {
-		hex, err := DecodeHex(bufioBuffer)
+		hex, err := decodeHex(bufioBuffer)
 		if err != nil {
 			return "", err
 		}
@@ -186,7 +204,7 @@ func DecodeString(buf *bufio.Reader, size int) (string, error) {
 	return magicHex, nil
 }
 
-func DecodeUuid(buf *bufio.Reader) (string, error) {
+func decodeUuid(buf *bufio.Reader) (string, error) {
 	packetBytes := make([]byte, 16)
 
 	_, err := buf.Read(packetBytes)
@@ -202,7 +220,7 @@ func DecodeUuid(buf *bufio.Reader) (string, error) {
 	return id.String(), nil
 }
 
-func DecodeInt1(buf *bufio.Reader) (int, error) {
+func decodeInt1(buf *bufio.Reader) (int8, error) {
 	packetBytes := make([]byte, 1)
 
 	_, err := buf.Peek(1)
@@ -218,20 +236,20 @@ func DecodeInt1(buf *bufio.Reader) (int, error) {
 	packetBuffer := bytes.NewReader(packetBytes)
 	bufioBuffer := bufio.NewReader(packetBuffer)
 
-	valueString, err := DecodeHex(bufioBuffer)
+	valueString, err := decodeHex(bufioBuffer)
 	if err != nil {
 		return 0, err
 	}
 
-	valueInt, err := strconv.Atoi(valueString)
+	valueInt, err := strconv.ParseInt(valueString, 10, 8)
 	if err != nil {
 		return 0, err
 	}
 
-	return valueInt, nil
+	return int8(valueInt), nil
 }
 
-func DecodeInt2(buf *bufio.Reader) (int, error) {
+func decodeInt2(buf *bufio.Reader) (int16, error) {
 	packetBytes := make([]byte, 2)
 
 	_, err := buf.Read(packetBytes)
@@ -242,20 +260,20 @@ func DecodeInt2(buf *bufio.Reader) (int, error) {
 	packetBuffer := bytes.NewReader(packetBytes)
 	bufioBuffer := bufio.NewReader(packetBuffer)
 
-	valueString, err := DecodeHex(bufioBuffer)
+	valueString, err := decodeHex(bufioBuffer)
 	if err != nil {
 		return 0, err
 	}
 
-	valueInt, err := strconv.Atoi(valueString)
+	valueInt, err := strconv.ParseInt(valueString, 10, 16)
 	if err != nil {
 		return 0, err
 	}
 
-	return valueInt, nil
+	return int16(valueInt), nil
 }
 
-func DecodeFloat(buf *bufio.Reader) (float32, error) {
+func decodeFloat(buf *bufio.Reader) (float32, error) {
 	packetBytes := make([]byte, 4)
 
 	_, err := buf.Read(packetBytes)
@@ -268,7 +286,7 @@ func DecodeFloat(buf *bufio.Reader) (float32, error) {
 	return float, nil
 }
 
-func DecodeHex(buf *bufio.Reader) (string, error) {
+func decodeHex(buf *bufio.Reader) (string, error) {
 	var packet byte
 	err := binary.Read(buf, binary.LittleEndian, &packet)
 	if err != nil {
