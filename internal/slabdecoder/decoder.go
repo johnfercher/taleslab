@@ -10,7 +10,6 @@ import (
 	"github.com/johnfercher/taleslab/internal/gzipper"
 	"github.com/johnfercher/taleslab/pkg/model"
 	"math"
-	"strconv"
 )
 
 func Decode(slabBase64 string) (*model.Slab, error) {
@@ -31,14 +30,14 @@ func Decode(slabBase64 string) (*model.Slab, error) {
 	}
 
 	// Version
-	version, err := decodeInt2(reader)
+	version, err := decodeInt16(reader)
 	if err != nil {
 		return nil, err
 	}
 	slab.Version = version
 
 	// Assets Count
-	assetCount, err := decodeInt2(reader)
+	assetCount, err := decodeInt16(reader)
 	if err != nil {
 		return nil, err
 	}
@@ -104,37 +103,37 @@ func base64ToReader(stringBase64 string) (*bufio.Reader, error) {
 }
 
 func decodeBounds(reader *bufio.Reader) (*model.Bounds, error) {
-	centerX, err := decodeFloat(reader)
+	centerX, err := decodeFloat32(reader)
 	if err != nil {
 		return nil, err
 	}
 
-	centerY, err := decodeFloat(reader)
+	centerY, err := decodeFloat32(reader)
 	if err != nil {
 		return nil, err
 	}
 
-	centerZ, err := decodeFloat(reader)
+	centerZ, err := decodeFloat32(reader)
 	if err != nil {
 		return nil, err
 	}
 
-	extentsX, err := decodeFloat(reader)
+	extentsX, err := decodeFloat32(reader)
 	if err != nil {
 		return nil, err
 	}
 
-	extentsY, err := decodeFloat(reader)
+	extentsY, err := decodeFloat32(reader)
 	if err != nil {
 		return nil, err
 	}
 
-	extentsZ, err := decodeFloat(reader)
+	extentsZ, err := decodeFloat32(reader)
 	if err != nil {
 		return nil, err
 	}
 
-	rotation, err := decodeInt1(reader)
+	rotation, err := decodeInt8(reader)
 	if err != nil {
 		return nil, err
 	}
@@ -168,7 +167,7 @@ func decodeAsset(reader *bufio.Reader) (*model.Asset, error) {
 	asset.Uuid = uuid
 
 	// Count
-	count, err := decodeInt2(reader)
+	count, err := decodeInt16(reader)
 	if err != nil {
 		return nil, err
 	}
@@ -220,36 +219,26 @@ func decodeUuid(buf *bufio.Reader) (string, error) {
 	return id.String(), nil
 }
 
-func decodeInt1(buf *bufio.Reader) (int8, error) {
+func decodeInt8(buf *bufio.Reader) (int8, error) {
 	packetBytes := make([]byte, 1)
 
-	_, err := buf.Peek(1)
-	if err != nil {
-		return 0, nil
-	}
-
-	_, err = buf.Read(packetBytes)
+	_, err := buf.Read(packetBytes)
 	if err != nil {
 		return 0, err
 	}
 
 	packetBuffer := bytes.NewReader(packetBytes)
-	bufioBuffer := bufio.NewReader(packetBuffer)
 
-	valueString, err := decodeHex(bufioBuffer)
+	value := int8(0)
+	err = binary.Read(packetBuffer, binary.LittleEndian, &value)
 	if err != nil {
 		return 0, err
 	}
 
-	valueInt, err := strconv.ParseInt(valueString, 10, 8)
-	if err != nil {
-		return 0, err
-	}
-
-	return int8(valueInt), nil
+	return value, nil
 }
 
-func decodeInt2(buf *bufio.Reader) (int16, error) {
+func decodeInt16(buf *bufio.Reader) (int16, error) {
 	packetBytes := make([]byte, 2)
 
 	_, err := buf.Read(packetBytes)
@@ -258,22 +247,17 @@ func decodeInt2(buf *bufio.Reader) (int16, error) {
 	}
 
 	packetBuffer := bytes.NewReader(packetBytes)
-	bufioBuffer := bufio.NewReader(packetBuffer)
 
-	valueString, err := decodeHex(bufioBuffer)
+	value := int16(0)
+	err = binary.Read(packetBuffer, binary.LittleEndian, &value)
 	if err != nil {
 		return 0, err
 	}
 
-	valueInt, err := strconv.ParseInt(valueString, 10, 16)
-	if err != nil {
-		return 0, err
-	}
-
-	return int16(valueInt), nil
+	return value, nil
 }
 
-func decodeFloat(buf *bufio.Reader) (float32, error) {
+func decodeFloat32(buf *bufio.Reader) (float32, error) {
 	packetBytes := make([]byte, 4)
 
 	_, err := buf.Read(packetBytes)
