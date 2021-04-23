@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	original := "H4sIAAAAAAAACzv369xFJgZmBgaGrnxXhdcrr7vMqb6brRTL2s0IFHOV621ImxbtuMUvsu1qaONikNiRXLHTb4Iz3Pcctq9553rdHyQmBiQK+BgYmEAcKBDgPsDEwAAAJUKx/GAAAAA="
+	original := "H4sIAAAAAAAACzv369xFJgYWBgaGOUbn1Jf/MPXtWx++7fPm7qOMQLHukv7gXZJ5nu33BRK7JkuUgMRctQ/3/1+6yG3ftSk5PevN3oLEdii+f+SUaOo4I3JS44pNYX9AYqxAfEGDgaUfyAmQc2DxAgkyODCByAAhEA0A/IkpR3wAAAA="
 
 	slab, err := slabdecoder.Decode(original)
 	if err != nil {
