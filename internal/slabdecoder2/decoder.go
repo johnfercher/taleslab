@@ -110,12 +110,12 @@ func decodeBounds(reader *bufio.Reader) (*slabv2.Bounds, error) {
 		return nil, err
 	}
 
-	centerY, err := decodeInt16(reader)
+	centerZ, err := decodeInt16(reader)
 	if err != nil {
 		return nil, err
 	}
 
-	centerZ, err := decodeInt16(reader)
+	centerY, err := decodeInt16(reader)
 	if err != nil {
 		return nil, err
 	}

@@ -115,14 +115,6 @@ func encodeAssetLayouts(slab *slabv2.Slab) ([]byte, error) {
 
 			layoutsArray = append(layoutsArray, centerX...)
 
-			// Center Y
-			centerY, err := byteparser.BytesFromInt16(layout.Coordinates.Y)
-			if err != nil {
-				return nil, err
-			}
-
-			layoutsArray = append(layoutsArray, centerY...)
-
 			// Center Z
 			centerZ, err := byteparser.BytesFromInt16(layout.Coordinates.Z)
 			if err != nil {
@@ -130,6 +122,14 @@ func encodeAssetLayouts(slab *slabv2.Slab) ([]byte, error) {
 			}
 
 			layoutsArray = append(layoutsArray, centerZ...)
+
+			// Center Y
+			centerY, err := byteparser.BytesFromInt16(layout.Coordinates.Y)
+			if err != nil {
+				return nil, err
+			}
+
+			layoutsArray = append(layoutsArray, centerY...)
 
 			// Rotation
 			rotation, err := byteparser.BytesFromInt16(layout.Rotation)

@@ -11,6 +11,8 @@ The content of the base64 string is a gzip file
 
 One Fence and Two Tables
 
+![version_size](./../docs/images/version2photo.png)
+
 ```
 H4sIAAAAAAAACzv369xFJgYmBgaG7pL+4F2SeZ7t9wUSuyZLlDACxXYovn/klGjqOCNyUuOKTWF/QOr6gRIBgg4sQCZDAKsDkzQziOUAlAIAoQYiAEwAAAA=
 ```
@@ -19,39 +21,39 @@ H4sIAAAAAAAACzv369xFJgYmBgaG7pL+4F2SeZ7t9wUSuyZLlDACxXYovn/klGjqOCNyUuOKTWF/QOr6
 
 ```json
 {
-	"magic_hex": ["CE", "FA", "CE", "D1"],
-	"version": 2,
-	"assets_count": 2,
-	"assets": [{
-		"id": "AACLdI9TuhluSYffEGGKkxh0",
-		"layouts_count": 1,
-		"layouts": [{
-			"coordinates": {
-				"x": 399,
-				"y": 0,
-				"z": 4432
-			},
-			"rotation": 1088
-		}]
-	}, {
-		"id": "AAC4Ie/iQmE1QZhZkoGoslb8",
-		"layouts_count": 2,
-		"layouts": [{
-			"coordinates": {
-				"x": 0,
-				"y": 0,
-				"z": 1360
-			},
-			"rotation": 576
-		}, {
-			"coordinates": {
-				"x": 795,
-				"y": 0,
-				"z": 0
-			},
-			"rotation": 576
-		}]
-	}]
+  "magic_hex": ["CE", "FA", "CE", "D1"],
+  "version": 2,
+  "assets_count": 2,
+  "assets": [{
+    "id": "AACLdI9TuhluSYffEGGKkxh0",
+    "layouts_count": 1,
+    "layouts": [{
+      "coordinates": {
+        "x": 399,
+        "y": 4432,
+        "z": 0
+      },
+      "rotation": 1088
+    }]
+  }, {
+    "id": "AAC4Ie/iQmE1QZhZkoGoslb8",
+    "layouts_count": 2,
+    "layouts": [{
+      "coordinates": {
+        "x": 0,
+        "y": 1360,
+        "z": 0
+      },
+      "rotation": 576
+    }, {
+      "coordinates": {
+        "x": 795,
+        "y": 0,
+        "z": 0
+      },
+      "rotation": 576
+    }]
+  }]
 }
 ```
 
