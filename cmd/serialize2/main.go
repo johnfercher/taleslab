@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/johnfercher/taleslab/internal/slabencoder"
-	"github.com/johnfercher/taleslab/pkg/slabv1"
+	"github.com/johnfercher/taleslab/pkg/model"
 	"log"
 )
 
@@ -18,8 +18,8 @@ func main() {
 	fmt.Println(slabBase64)
 }
 
-func MockSlab() *slabv1.Slab {
-	return &slabv1.Slab{
+func MockSlab() *model.Slab {
+	return &model.Slab{
 		MagicHex: []string{
 			"CE",
 			"FA",
@@ -28,18 +28,18 @@ func MockSlab() *slabv1.Slab {
 		},
 		Version:     1,
 		AssetsCount: 2,
-		Assets: []*slabv1.Asset{
+		Assets: []*model.Asset{
 			{
-				Id:           "8daf6ef1-017e-6b48-be6d-1fa261569cd4",
+				Uuid:         "8daf6ef1-017e-6b48-be6d-1fa261569cd4",
 				LayoutsCount: 4,
-				Layouts: []*slabv1.Bounds{
+				Layouts: []*model.Bounds{
 					{
-						Center: &slabv1.Vector3f{
+						Center: &model.Vector3{
 							X: 6.0,
 							Y: 1.25,
 							Z: 65.0,
 						},
-						Extents: &slabv1.Vector3f{
+						Extents: &model.Vector3{
 							X: 1,
 							Y: 1.25,
 							Z: 1,
@@ -47,12 +47,12 @@ func MockSlab() *slabv1.Slab {
 						Rotation: 8,
 					},
 					{
-						Center: &slabv1.Vector3f{
+						Center: &model.Vector3{
 							X: 4.0,
 							Y: 1.25,
 							Z: 65.0,
 						},
-						Extents: &slabv1.Vector3f{
+						Extents: &model.Vector3{
 							X: 1,
 							Y: 1.25,
 							Z: 1,
@@ -60,12 +60,12 @@ func MockSlab() *slabv1.Slab {
 						Rotation: 4,
 					},
 					{
-						Center: &slabv1.Vector3f{
+						Center: &model.Vector3{
 							X: 9.0,
 							Y: 1.25,
 							Z: 62.0,
 						},
-						Extents: &slabv1.Vector3f{
+						Extents: &model.Vector3{
 							X: 1,
 							Y: 1.25,
 							Z: 1,
@@ -73,12 +73,12 @@ func MockSlab() *slabv1.Slab {
 						Rotation: 8,
 					},
 					{
-						Center: &slabv1.Vector3f{
+						Center: &model.Vector3{
 							X: 7.0,
 							Y: 1.25,
 							Z: 63.0,
 						},
-						Extents: &slabv1.Vector3f{
+						Extents: &model.Vector3{
 							X: 1,
 							Y: 1.25,
 							Z: 1,
@@ -88,16 +88,16 @@ func MockSlab() *slabv1.Slab {
 				},
 			},
 			{
-				Id:           "84210e62-8964-1144-86b9-223ac358c64b",
+				Uuid:         "84210e62-8964-1144-86b9-223ac358c64b",
 				LayoutsCount: 4,
-				Layouts: []*slabv1.Bounds{
+				Layouts: []*model.Bounds{
 					{
-						Center: &slabv1.Vector3f{
+						Center: &model.Vector3{
 							X: 7.0,
 							Y: 3.0,
 							Z: 60.0,
 						},
-						Extents: &slabv1.Vector3f{
+						Extents: &model.Vector3{
 							X: 1,
 							Y: 1,
 							Z: 1,
@@ -105,12 +105,12 @@ func MockSlab() *slabv1.Slab {
 						Rotation: 8,
 					},
 					{
-						Center: &slabv1.Vector3f{
+						Center: &model.Vector3{
 							X: 6.0,
 							Y: 1.0,
 							Z: 59.0,
 						},
-						Extents: &slabv1.Vector3f{
+						Extents: &model.Vector3{
 							X: 1,
 							Y: 1,
 							Z: 1,
@@ -118,12 +118,12 @@ func MockSlab() *slabv1.Slab {
 						Rotation: 8,
 					},
 					{
-						Center: &slabv1.Vector3f{
+						Center: &model.Vector3{
 							X: 4.0,
 							Y: 1.0,
 							Z: 63.0,
 						},
-						Extents: &slabv1.Vector3f{
+						Extents: &model.Vector3{
 							X: 1,
 							Y: 1,
 							Z: 1,
@@ -131,12 +131,12 @@ func MockSlab() *slabv1.Slab {
 						Rotation: 8,
 					},
 					{
-						Center: &slabv1.Vector3f{
+						Center: &model.Vector3{
 							X: 4.0,
 							Y: 1.0,
 							Z: 61.0,
 						},
-						Extents: &slabv1.Vector3f{
+						Extents: &model.Vector3{
 							X: 1,
 							Y: 1,
 							Z: 1,
@@ -146,13 +146,13 @@ func MockSlab() *slabv1.Slab {
 				},
 			},
 		},
-		Bounds: &slabv1.Bounds{
-			Center: &slabv1.Vector3f{
+		Bounds: &model.Bounds{
+			Center: &model.Vector3{
 				X: 6.5,
 				Y: 2.0,
 				Z: 62.0,
 			},
-			Extents: &slabv1.Vector3f{
+			Extents: &model.Vector3{
 				X: 3.5,
 				Y: 2,
 				Z: 4,

@@ -8,10 +8,10 @@ import (
 	"fmt"
 	"github.com/google/uuid"
 	"github.com/johnfercher/taleslab/internal/gzipper"
-	"github.com/johnfercher/taleslab/pkg/model"
+	"github.com/johnfercher/taleslab/pkg/slabv1"
 )
 
-func Encode(slab *model.Slab) (string, error) {
+func Encode(slab *slabv1.Slab) (string, error) {
 	slabByteArray := []byte{}
 
 	// Magic Hex
@@ -78,13 +78,13 @@ func Encode(slab *model.Slab) (string, error) {
 	return slabBase64, nil
 }
 
-func encodeAssets(slab *model.Slab) ([]byte, error) {
+func encodeAssets(slab *slabv1.Slab) ([]byte, error) {
 	assetsArray := []byte{}
 
 	// For
 	for _, asset := range slab.Assets {
-		// Uuid
-		id, err := uuid.Parse(asset.Uuid)
+		// Id
+		id, err := uuid.Parse(asset.Id)
 		if err != nil {
 			return nil, err
 		}
@@ -110,7 +110,7 @@ func encodeAssets(slab *model.Slab) ([]byte, error) {
 	return assetsArray, nil
 }
 
-func encodeAssetLayouts(slab *model.Slab) ([]byte, error) {
+func encodeAssetLayouts(slab *slabv1.Slab) ([]byte, error) {
 	layoutsArray := []byte{}
 
 	// For
@@ -180,7 +180,7 @@ func encodeAssetLayouts(slab *model.Slab) ([]byte, error) {
 	return layoutsArray, nil
 }
 
-func encodeBounds(slab *model.Slab) ([]byte, error) {
+func encodeBounds(slab *slabv1.Slab) ([]byte, error) {
 	boundsArray := []byte{}
 
 	// Center X
