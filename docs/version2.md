@@ -11,14 +11,20 @@ The content of the base64 string is a gzip file
 
 One Fence and Two Tables
 
+**Photo**
 ![version_size](./../docs/images/version2photo.png)
 
+**Base64**
 ```
 H4sIAAAAAAAACzv369xFJgYmBgaG7pL+4F2SeZ7t9wUSuyZLlDACxXYovn/klGjqOCNyUuOKTWF/QOr6gRIBgg4sQCZDAKsDkzQziOUAlAIAoQYiAEwAAAA=
 ```
-
+**Byte Array**
+```
+206 250 206 209 2 0 2 0 0 0 139 116 143 83 186 25 110 73 135 223 16 97 138 147 24 116 1 0 0 0 184 33 239 226 66 97 53 65 152 89 146 129 168 178 86 252 2 0 0 0 143 1 0 0 80 17 64 4 0 0 0 0 80 5 64 2 27 3 0 0 0 0 64 2 0 0
+```
 ![title](./../docs/images/version2example.png)
 
+**Json**
 ```json
 {
   "magic_hex": ["CE", "FA", "CE", "D1"],
