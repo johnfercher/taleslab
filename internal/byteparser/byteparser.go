@@ -188,3 +188,35 @@ func BufferToInt32(buf *bufio.Reader) (int32, error) {
 
 	return value, nil
 }
+
+func BufferToByte(buf *bufio.Reader) (byte, error) {
+	packetBytes := make([]byte, 1)
+
+	_, err := buf.Peek(1)
+	if err != nil {
+		return 0, nil
+	}
+
+	_, err = buf.Read(packetBytes)
+	if err != nil {
+		return 0, err
+	}
+
+	return packetBytes[0], nil
+}
+
+func BufferToBytes(buf *bufio.Reader, bytesCount int) (byte, error) {
+	packetBytes := make([]byte, bytesCount)
+
+	_, err := buf.Peek(bytesCount)
+	if err != nil {
+		return 0, nil
+	}
+
+	_, err = buf.Read(packetBytes)
+	if err != nil {
+		return 0, err
+	}
+
+	return packetBytes[0], nil
+}

@@ -3,7 +3,6 @@ package slabencoder2
 import (
 	"bytes"
 	"encoding/base64"
-	"encoding/hex"
 	"fmt"
 	"github.com/johnfercher/taleslab/internal/byteparser"
 	"github.com/johnfercher/taleslab/internal/gzipper"
@@ -15,7 +14,7 @@ func Encode(slab *slabv2.Slab) (string, error) {
 
 	// Magic Hex
 	for _, magicHex := range slab.MagicHex {
-		byte, err := hex.DecodeString(magicHex)
+		byte, err := byteparser.BytesFromByte(magicHex)
 		if err != nil {
 			return "", err
 		}
@@ -80,7 +79,7 @@ func encodeAssets(slab *slabv2.Slab) ([]byte, error) {
 
 	// For
 	for _, asset := range slab.Assets {
-		// Uuid
+		// Id
 		for _, assetIdHex := range asset.Id {
 			byte, err := byteparser.BytesFromByte(assetIdHex)
 			if err != nil {

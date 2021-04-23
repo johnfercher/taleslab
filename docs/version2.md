@@ -27,7 +27,7 @@ H4sIAAAAAAAACzv369xFJgYmBgaG7pL+4F2SeZ7t9wUSuyZLlDACxXYovn/klGjqOCNyUuOKTWF/QOr6
 **Json**
 ```json
 {
-  "magic_hex": ["CE", "FA", "CE", "D1"],
+  "magic_hex": "zvrO0Q==",
   "version": 2,
   "assets_count": 2,
   "assets": [{
