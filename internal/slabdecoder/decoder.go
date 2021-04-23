@@ -99,6 +99,8 @@ func base64ToReader(stringBase64 string) (*bufio.Reader, error) {
 		fmt.Printf("0x%X ", bufferByte)
 	}
 
+	fmt.Println("")
+
 	fmt.Println(bufferBytes)
 
 	reader := bytes.NewReader(bufferBytes)
