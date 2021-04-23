@@ -6,7 +6,6 @@ import (
 	"encoding/base64"
 	"encoding/binary"
 	"fmt"
-	"github.com/google/uuid"
 	"github.com/johnfercher/taleslab/internal/gzipper"
 	"github.com/johnfercher/taleslab/pkg/model"
 	"math"
@@ -55,6 +54,10 @@ func Decode(slabBase64 string) (*model.Slab, error) {
 		slab.Assets = append(slab.Assets, asset)
 	}
 
+	// TODO: understand why this
+	toSkip, _ := decodeInt16(reader)
+	fmt.Println(toSkip)
+
 	// Assets.Layouts
 	i = int16(0)
 	for i = 0; i < assetCount; i++ {
@@ -69,14 +72,6 @@ func Decode(slabBase64 string) (*model.Slab, error) {
 			slab.Assets[i].Layouts = append(slab.Assets[i].Layouts, bounds)
 		}
 	}
-
-	// Bounds
-	bounds, err := decodeBounds(reader)
-	if err != nil {
-		return nil, err
-	}
-
-	slab.Bounds = bounds
 
 	return slab, nil
 }
@@ -110,71 +105,48 @@ func base64ToReader(stringBase64 string) (*bufio.Reader, error) {
 }
 
 func decodeBounds(reader *bufio.Reader) (*model.Bounds, error) {
-	centerX, err := decodeFloat32(reader)
+	centerX, err := decodeInt16(reader)
 	if err != nil {
 		return nil, err
 	}
 
-	centerY, err := decodeFloat32(reader)
+	centerY, err := decodeInt16(reader)
 	if err != nil {
 		return nil, err
 	}
 
-	centerZ, err := decodeFloat32(reader)
+	centerZ, err := decodeInt16(reader)
 	if err != nil {
 		return nil, err
 	}
 
-	extentsX, err := decodeFloat32(reader)
+	rotation, err := decodeInt16(reader)
 	if err != nil {
 		return nil, err
 	}
-
-	extentsY, err := decodeFloat32(reader)
-	if err != nil {
-		return nil, err
-	}
-
-	extentsZ, err := decodeFloat32(reader)
-	if err != nil {
-		return nil, err
-	}
-
-	rotation, err := decodeInt8(reader)
-	if err != nil {
-		return nil, err
-	}
-
-	// TODO: understand why this
-	_, _ = decodeString(reader, 3)
 
 	return &model.Bounds{
-		Center: &model.Vector3{
+		Coordinates: &model.Vector3d{
 			X: centerX,
 			Y: centerY,
 			Z: centerZ,
 		},
-		Extents: &model.Vector3{
-			X: extentsX,
-			Y: extentsY,
-			Z: extentsZ,
-		},
-		Rotation: rotation,
+		RotationNew: rotation,
 	}, nil
 }
 
 func decodeAsset(reader *bufio.Reader) (*model.Asset, error) {
 	asset := &model.Asset{}
 
-	// Uuid
-	uuid, err := decodeUuid(reader)
-	if err != nil {
-		return nil, err
-	}
-	asset.Uuid = uuid
+	// Id
+	for i := 0; i < 18; i++ {
+		hex, err := decodeInt8(reader)
+		if err != nil {
+			return nil, err
+		}
 
-	// End of Structure 2
-	_, _ = decodeString(reader, 2)
+		asset.Id = append(asset.Id, hex)
+	}
 
 	// Count
 	count, err := decodeInt16(reader)
@@ -208,24 +180,6 @@ func decodeString(buf *bufio.Reader, size int) (string, error) {
 	}
 
 	return magicHex, nil
-}
-
-func decodeUuid(buf *bufio.Reader) (string, error) {
-	packetBytes := make([]byte, 16)
-
-	_, err := buf.Read(packetBytes)
-	if err != nil {
-		return "", err
-	}
-
-	fmt.Println(packetBytes)
-
-	id, err := uuid.FromBytes(packetBytes)
-	if err != nil {
-		return "", err
-	}
-
-	return id.String(), nil
 }
 
 func decodeInt8(buf *bufio.Reader) (int8, error) {
