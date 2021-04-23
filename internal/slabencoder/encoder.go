@@ -3,9 +3,10 @@ package slabencoder
 import (
 	"bytes"
 	"encoding/base64"
+	"encoding/binary"
 	"encoding/hex"
 	"fmt"
-	"github.com/johnfercher/taleslab/internal/byteparser"
+	"github.com/google/uuid"
 	"github.com/johnfercher/taleslab/internal/gzipper"
 	"github.com/johnfercher/taleslab/pkg/model"
 )
@@ -23,7 +24,7 @@ func Encode(slab *model.Slab) (string, error) {
 	}
 
 	// Version
-	version, err := byteparser.BytesFromInt16(slab.Version)
+	version, err := int16ToByteArray(slab.Version)
 	if err != nil {
 		return "", err
 	}
@@ -31,7 +32,7 @@ func Encode(slab *model.Slab) (string, error) {
 	slabByteArray = append(slabByteArray, version...)
 
 	// AssetsCount
-	assetsCount, err := byteparser.BytesFromInt16(slab.AssetsCount)
+	assetsCount, err := int16ToByteArray(slab.AssetsCount)
 	if err != nil {
 		return "", err
 	}
@@ -46,9 +47,6 @@ func Encode(slab *model.Slab) (string, error) {
 
 	slabByteArray = append(slabByteArray, assetsBytes...)
 
-	// End of Structure 2
-	slabByteArray = append(slabByteArray, 0, 0)
-
 	// Assets.Layouts
 	layoutsBytes, err := encodeAssetLayouts(slab)
 	if err != nil {
@@ -57,8 +55,13 @@ func Encode(slab *model.Slab) (string, error) {
 
 	slabByteArray = append(slabByteArray, layoutsBytes...)
 
-	// End of Structure 2
-	slabByteArray = append(slabByteArray, 0, 0)
+	// Bounds
+	boundsBytes, err := encodeBounds(slab)
+	if err != nil {
+		return "", err
+	}
+
+	slabByteArray = append(slabByteArray, boundsBytes...)
 
 	fmt.Println(slabByteArray)
 
@@ -81,21 +84,27 @@ func encodeAssets(slab *model.Slab) ([]byte, error) {
 	// For
 	for _, asset := range slab.Assets {
 		// Uuid
-		for _, assetIdHex := range asset.Id {
-			byte, err := byteparser.BytesFromInt8(assetIdHex)
-			if err != nil {
-				return nil, err
-			}
-			assetsArray = append(assetsArray, byte...)
+		id, err := uuid.Parse(asset.Uuid)
+		if err != nil {
+			return nil, err
 		}
 
+		idBytes, err := id.MarshalBinary()
+		if err != nil {
+			return nil, err
+		}
+		assetsArray = append(assetsArray, idBytes...)
+
 		// Count
-		layoutsCount, err := byteparser.BytesFromInt16(asset.LayoutsCount)
+		layoutsCount, err := int16ToByteArray(asset.LayoutsCount)
 		if err != nil {
 			return nil, err
 		}
 
 		assetsArray = append(assetsArray, layoutsCount...)
+
+		// End of Structure 2
+		assetsArray = append(assetsArray, 0, 0)
 	}
 
 	return assetsArray, nil
@@ -108,7 +117,7 @@ func encodeAssetLayouts(slab *model.Slab) ([]byte, error) {
 	for _, asset := range slab.Assets {
 		for _, layout := range asset.Layouts {
 			// Center X
-			centerX, err := byteparser.BytesFromInt16(layout.Coordinates.X)
+			centerX, err := float32ToByteArray(layout.Center.X)
 			if err != nil {
 				return nil, err
 			}
@@ -116,7 +125,7 @@ func encodeAssetLayouts(slab *model.Slab) ([]byte, error) {
 			layoutsArray = append(layoutsArray, centerX...)
 
 			// Center Y
-			centerY, err := byteparser.BytesFromInt16(layout.Coordinates.Y)
+			centerY, err := float32ToByteArray(layout.Center.Y)
 			if err != nil {
 				return nil, err
 			}
@@ -124,20 +133,47 @@ func encodeAssetLayouts(slab *model.Slab) ([]byte, error) {
 			layoutsArray = append(layoutsArray, centerY...)
 
 			// Center Z
-			centerZ, err := byteparser.BytesFromInt16(layout.Coordinates.Z)
+			centerZ, err := float32ToByteArray(layout.Center.Z)
 			if err != nil {
 				return nil, err
 			}
 
 			layoutsArray = append(layoutsArray, centerZ...)
 
-			// Rotation
-			rotationNew, err := byteparser.BytesFromInt16(layout.RotationNew)
+			// Extent X
+			extentX, err := float32ToByteArray(layout.Extents.X)
 			if err != nil {
 				return nil, err
 			}
 
-			layoutsArray = append(layoutsArray, rotationNew...)
+			layoutsArray = append(layoutsArray, extentX...)
+
+			// Extent Y
+			extentY, err := float32ToByteArray(layout.Extents.Y)
+			if err != nil {
+				return nil, err
+			}
+
+			layoutsArray = append(layoutsArray, extentY...)
+
+			// Extent Z
+			extentZ, err := float32ToByteArray(layout.Extents.Z)
+			if err != nil {
+				return nil, err
+			}
+
+			layoutsArray = append(layoutsArray, extentZ...)
+
+			// Rotation
+			rotation, err := int8ToByteArray(layout.Rotation)
+			if err != nil {
+				return nil, err
+			}
+
+			layoutsArray = append(layoutsArray, rotation...)
+
+			// End of Structure 3
+			layoutsArray = append(layoutsArray, 0, 0, 0)
 		}
 	}
 
@@ -148,7 +184,7 @@ func encodeBounds(slab *model.Slab) ([]byte, error) {
 	boundsArray := []byte{}
 
 	// Center X
-	centerX, err := byteparser.BytesFromFloat32(slab.Bounds.Center.X)
+	centerX, err := float32ToByteArray(slab.Bounds.Center.X)
 	if err != nil {
 		return nil, err
 	}
@@ -156,7 +192,7 @@ func encodeBounds(slab *model.Slab) ([]byte, error) {
 	boundsArray = append(boundsArray, centerX...)
 
 	// Center Y
-	centerY, err := byteparser.BytesFromFloat32(slab.Bounds.Center.Y)
+	centerY, err := float32ToByteArray(slab.Bounds.Center.Y)
 	if err != nil {
 		return nil, err
 	}
@@ -164,7 +200,7 @@ func encodeBounds(slab *model.Slab) ([]byte, error) {
 	boundsArray = append(boundsArray, centerY...)
 
 	// Center Z
-	centerZ, err := byteparser.BytesFromFloat32(slab.Bounds.Center.Z)
+	centerZ, err := float32ToByteArray(slab.Bounds.Center.Z)
 	if err != nil {
 		return nil, err
 	}
@@ -172,7 +208,7 @@ func encodeBounds(slab *model.Slab) ([]byte, error) {
 	boundsArray = append(boundsArray, centerZ...)
 
 	// Extent X
-	extentX, err := byteparser.BytesFromFloat32(slab.Bounds.Extents.X)
+	extentX, err := float32ToByteArray(slab.Bounds.Extents.X)
 	if err != nil {
 		return nil, err
 	}
@@ -180,7 +216,7 @@ func encodeBounds(slab *model.Slab) ([]byte, error) {
 	boundsArray = append(boundsArray, extentX...)
 
 	// Extent Y
-	extentY, err := byteparser.BytesFromFloat32(slab.Bounds.Extents.Y)
+	extentY, err := float32ToByteArray(slab.Bounds.Extents.Y)
 	if err != nil {
 		return nil, err
 	}
@@ -188,7 +224,7 @@ func encodeBounds(slab *model.Slab) ([]byte, error) {
 	boundsArray = append(boundsArray, extentY...)
 
 	// Extent Z
-	extentZ, err := byteparser.BytesFromFloat32(slab.Bounds.Extents.Z)
+	extentZ, err := float32ToByteArray(slab.Bounds.Extents.Z)
 	if err != nil {
 		return nil, err
 	}
@@ -196,7 +232,7 @@ func encodeBounds(slab *model.Slab) ([]byte, error) {
 	boundsArray = append(boundsArray, extentZ...)
 
 	// Rotation
-	rotation, err := byteparser.BytesFromInt8(slab.Bounds.Rotation)
+	rotation, err := int8ToByteArray(slab.Bounds.Rotation)
 	if err != nil {
 		return nil, err
 	}
@@ -207,4 +243,37 @@ func encodeBounds(slab *model.Slab) ([]byte, error) {
 	boundsArray = append(boundsArray, 255, 255, 255)
 
 	return boundsArray, nil
+}
+
+func float32ToByteArray(value float32) ([]byte, error) {
+	buf := new(bytes.Buffer)
+
+	err := binary.Write(buf, binary.LittleEndian, value)
+	if err != nil {
+		return nil, err
+	}
+
+	return buf.Bytes(), nil
+}
+
+func int16ToByteArray(value int16) ([]byte, error) {
+	buf := new(bytes.Buffer)
+
+	err := binary.Write(buf, binary.LittleEndian, value)
+	if err != nil {
+		return nil, err
+	}
+
+	return buf.Bytes(), nil
+}
+
+func int8ToByteArray(value int8) ([]byte, error) {
+	buf := new(bytes.Buffer)
+
+	err := binary.Write(buf, binary.LittleEndian, value)
+	if err != nil {
+		return nil, err
+	}
+
+	return buf.Bytes(), nil
 }
