@@ -63,6 +63,10 @@ func BytesFromInt8(value int8) ([]byte, error) {
 	return buf.Bytes(), nil
 }
 
+func BytesFromByte(value byte) ([]byte, error) {
+	return []byte{value}, nil
+}
+
 func BufferToHex(buf *bufio.Reader) (string, error) {
 	var packet byte
 	err := binary.Read(buf, binary.LittleEndian, &packet)

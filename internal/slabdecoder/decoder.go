@@ -8,12 +8,12 @@ import (
 	"fmt"
 	"github.com/google/uuid"
 	"github.com/johnfercher/taleslab/internal/gzipper"
-	"github.com/johnfercher/taleslab/pkg/model"
+	"github.com/johnfercher/taleslab/pkg/slabv1"
 	"math"
 )
 
-func Decode(slabBase64 string) (*model.Slab, error) {
-	slab := &model.Slab{}
+func Decode(slabBase64 string) (*slabv1.Slab, error) {
+	slab := &slabv1.Slab{}
 	reader, err := base64ToReader(slabBase64)
 	if err != nil {
 		return nil, err
@@ -102,7 +102,7 @@ func base64ToReader(stringBase64 string) (*bufio.Reader, error) {
 	return bufieReader, nil
 }
 
-func decodeBounds(reader *bufio.Reader) (*model.Bounds, error) {
+func decodeBounds(reader *bufio.Reader) (*slabv1.Bounds, error) {
 	centerX, err := decodeFloat32(reader)
 	if err != nil {
 		return nil, err
@@ -141,13 +141,13 @@ func decodeBounds(reader *bufio.Reader) (*model.Bounds, error) {
 	// TODO: understand why this
 	_, _ = decodeString(reader, 3)
 
-	return &model.Bounds{
-		Center: &model.Vector3{
+	return &slabv1.Bounds{
+		Center: &slabv1.Vector3f{
 			X: centerX,
 			Y: centerY,
 			Z: centerZ,
 		},
-		Extents: &model.Vector3{
+		Extents: &slabv1.Vector3f{
 			X: extentsX,
 			Y: extentsY,
 			Z: extentsZ,
@@ -156,15 +156,15 @@ func decodeBounds(reader *bufio.Reader) (*model.Bounds, error) {
 	}, nil
 }
 
-func decodeAsset(reader *bufio.Reader) (*model.Asset, error) {
-	asset := &model.Asset{}
+func decodeAsset(reader *bufio.Reader) (*slabv1.Asset, error) {
+	asset := &slabv1.Asset{}
 
-	// Uuid
+	// Id
 	uuid, err := decodeUuid(reader)
 	if err != nil {
 		return nil, err
 	}
-	asset.Uuid = uuid
+	asset.Id = uuid
 
 	// Count
 	count, err := decodeInt16(reader)

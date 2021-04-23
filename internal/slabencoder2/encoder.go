@@ -7,10 +7,10 @@ import (
 	"fmt"
 	"github.com/johnfercher/taleslab/internal/byteparser"
 	"github.com/johnfercher/taleslab/internal/gzipper"
-	"github.com/johnfercher/taleslab/pkg/model"
+	"github.com/johnfercher/taleslab/pkg/slabv2"
 )
 
-func Encode(slab *model.Slab) (string, error) {
+func Encode(slab *slabv2.Slab) (string, error) {
 	slabByteArray := []byte{}
 
 	// Magic Hex
@@ -75,14 +75,14 @@ func Encode(slab *model.Slab) (string, error) {
 	return slabBase64, nil
 }
 
-func encodeAssets(slab *model.Slab) ([]byte, error) {
+func encodeAssets(slab *slabv2.Slab) ([]byte, error) {
 	assetsArray := []byte{}
 
 	// For
 	for _, asset := range slab.Assets {
 		// Uuid
 		for _, assetIdHex := range asset.Id {
-			byte, err := byteparser.BytesFromInt8(assetIdHex)
+			byte, err := byteparser.BytesFromByte(assetIdHex)
 			if err != nil {
 				return nil, err
 			}
@@ -101,7 +101,7 @@ func encodeAssets(slab *model.Slab) ([]byte, error) {
 	return assetsArray, nil
 }
 
-func encodeAssetLayouts(slab *model.Slab) ([]byte, error) {
+func encodeAssetLayouts(slab *slabv2.Slab) ([]byte, error) {
 	layoutsArray := []byte{}
 
 	// For
@@ -132,79 +132,14 @@ func encodeAssetLayouts(slab *model.Slab) ([]byte, error) {
 			layoutsArray = append(layoutsArray, centerZ...)
 
 			// Rotation
-			rotationNew, err := byteparser.BytesFromInt16(layout.RotationNew)
+			rotation, err := byteparser.BytesFromInt16(layout.Rotation)
 			if err != nil {
 				return nil, err
 			}
 
-			layoutsArray = append(layoutsArray, rotationNew...)
+			layoutsArray = append(layoutsArray, rotation...)
 		}
 	}
 
 	return layoutsArray, nil
-}
-
-func encodeBounds(slab *model.Slab) ([]byte, error) {
-	boundsArray := []byte{}
-
-	// Center X
-	centerX, err := byteparser.BytesFromFloat32(slab.Bounds.Center.X)
-	if err != nil {
-		return nil, err
-	}
-
-	boundsArray = append(boundsArray, centerX...)
-
-	// Center Y
-	centerY, err := byteparser.BytesFromFloat32(slab.Bounds.Center.Y)
-	if err != nil {
-		return nil, err
-	}
-
-	boundsArray = append(boundsArray, centerY...)
-
-	// Center Z
-	centerZ, err := byteparser.BytesFromFloat32(slab.Bounds.Center.Z)
-	if err != nil {
-		return nil, err
-	}
-
-	boundsArray = append(boundsArray, centerZ...)
-
-	// Extent X
-	extentX, err := byteparser.BytesFromFloat32(slab.Bounds.Extents.X)
-	if err != nil {
-		return nil, err
-	}
-
-	boundsArray = append(boundsArray, extentX...)
-
-	// Extent Y
-	extentY, err := byteparser.BytesFromFloat32(slab.Bounds.Extents.Y)
-	if err != nil {
-		return nil, err
-	}
-
-	boundsArray = append(boundsArray, extentY...)
-
-	// Extent Z
-	extentZ, err := byteparser.BytesFromFloat32(slab.Bounds.Extents.Z)
-	if err != nil {
-		return nil, err
-	}
-
-	boundsArray = append(boundsArray, extentZ...)
-
-	// Rotation
-	rotation, err := byteparser.BytesFromInt8(slab.Bounds.Rotation)
-	if err != nil {
-		return nil, err
-	}
-
-	boundsArray = append(boundsArray, rotation...)
-
-	// End of Structure 3
-	boundsArray = append(boundsArray, 255, 255, 255)
-
-	return boundsArray, nil
 }

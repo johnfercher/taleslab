@@ -7,13 +7,13 @@ import (
 	"encoding/binary"
 	"fmt"
 	"github.com/johnfercher/taleslab/internal/gzipper"
-	"github.com/johnfercher/taleslab/pkg/model"
+	"github.com/johnfercher/taleslab/pkg/slabv2"
 	"math"
 	"strconv"
 )
 
-func Decode(slabBase64 string) (*model.Slab, error) {
-	slab := &model.Slab{}
+func Decode(slabBase64 string) (*slabv2.Slab, error) {
+	slab := &slabv2.Slab{}
 	reader, err := base64ToReader(slabBase64)
 	if err != nil {
 		return nil, err
@@ -104,7 +104,7 @@ func base64ToReader(stringBase64 string) (*bufio.Reader, error) {
 	return bufieReader, nil
 }
 
-func decodeBounds(reader *bufio.Reader) (*model.Bounds, error) {
+func decodeBounds(reader *bufio.Reader) (*slabv2.Bounds, error) {
 	centerX, err := decodeInt16(reader)
 	if err != nil {
 		return nil, err
@@ -125,22 +125,22 @@ func decodeBounds(reader *bufio.Reader) (*model.Bounds, error) {
 		return nil, err
 	}
 
-	return &model.Bounds{
-		Coordinates: &model.Vector3d{
+	return &slabv2.Bounds{
+		Coordinates: &slabv2.Vector3d{
 			X: centerX,
 			Y: centerY,
 			Z: centerZ,
 		},
-		RotationNew: rotation,
+		Rotation: rotation,
 	}, nil
 }
 
-func decodeAsset(reader *bufio.Reader) (*model.Asset, error) {
-	asset := &model.Asset{}
+func decodeAsset(reader *bufio.Reader) (*slabv2.Asset, error) {
+	asset := &slabv2.Asset{}
 
 	// Id
 	for i := 0; i < 18; i++ {
-		hex, err := decodeInt8(reader)
+		hex, err := decodeByte(reader)
 		if err != nil {
 			return nil, err
 		}
@@ -206,6 +206,22 @@ func decodeInt8(buf *bufio.Reader) (int8, error) {
 	return value, nil
 }
 
+func decodeByte(buf *bufio.Reader) (byte, error) {
+	packetBytes := make([]byte, 1)
+
+	_, err := buf.Peek(1)
+	if err != nil {
+		return 0, nil
+	}
+
+	_, err = buf.Read(packetBytes)
+	if err != nil {
+		return 0, err
+	}
+
+	return packetBytes[0], nil
+}
+
 func decodeInt16(buf *bufio.Reader) (int16, error) {
 	packetBytes := make([]byte, 2)
 
@@ -216,7 +232,7 @@ func decodeInt16(buf *bufio.Reader) (int16, error) {
 
 	packetBuffer := bytes.NewReader(packetBytes)
 
-	value := int16(16)
+	value := int16(0)
 	err = binary.Read(packetBuffer, binary.LittleEndian, &value)
 	if err != nil {
 		return 0, err

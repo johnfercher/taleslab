@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/johnfercher/taleslab/internal/slabdecoder2"
 	"github.com/johnfercher/taleslab/internal/slabencoder2"
@@ -8,14 +9,21 @@ import (
 )
 
 func main() {
-	original := "H4sIAAAAAAAACzv369xFJgYWBgaGOUbn1Jf/MPXtWx++7fPm7qOMQLHukv7gXZJ5nu33BRK7JkuUgMRctQ/3/1+6yG3ftSk5PevN3oLEdii+f+SUaOo4I3JS44pNYX9AYqxAfEGDgaUfyAmQc2DxAgkyODCByAAhEA0A/IkpR3wAAAA="
+	original := "H4sIAAAAAAAACzv369xFJgYmBgaG7pL+4F2SeZ7t9wUSuyZLlDACxXYovn/klGjqOCNyUuOKTWF/QOr6gRIBgg4sQCZDAKsDkzQziOUAlAIAoQYiAEwAAAA="
 
 	slab, err := slabdecoder2.Decode(original)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	slab.Assets[0].Layouts[0].RotationNew = 704
+	slabJsonBytes, err := json.Marshal(slab)
+	if err != nil {
+		log.Fatal(slabJsonBytes)
+	}
+
+	fmt.Println(string(slabJsonBytes))
+
+	//slab.Assets[0].Layouts[0].Rotation = 704
 
 	slabBase64, err := slabencoder2.Encode(slab)
 	if err != nil {
