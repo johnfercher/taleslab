@@ -1,5 +1,13 @@
 # Circle
 
+**Printscreen**
+![version_size](../../docs/images/circle.png)
+
+**Base64**
+```bash
+H4sIAAAAAAAE/0SPrQ0CQRCFvz1+FnECe+4MFHAFbBAkiCsACqAAcBiSLQCBwKBIqIAeMKjLYamAGsCQmdkLT+yXTWbee9N8mmeGA8bXu/ueLvPD4hxeYTstgdZDDEZqY1zCyANrmA0hbv7cDYA93PrGd89YJq4y+x+d7T0wn44i8VfV+iL5qgqdixMjBeaTo74dRZoHlk/qA9pP5rR3nu4ojOIr91JB6yEGgF8AAAD//ynsjnYgAQAA
+```
+
 **[Code](../../cmd/examples/circle/main.go)**
 ```golang
 package main
@@ -71,11 +79,3 @@ func fix(value float64, fixValue float64) int16 {
 	return int16(divisionRounded * fixValue)
 }
 ```
-
-**Base64**
-```bash
-H4sIAAAAAAAE/0SPrQ0CQRCFvz1+FnECe+4MFHAFbBAkiCsACqAAcBiSLQCBwKBIqIAeMKjLYamAGsCQmdkLT+yXTWbee9N8mmeGA8bXu/ueLvPD4hxeYTstgdZDDEZqY1zCyANrmA0hbv7cDYA93PrGd89YJq4y+x+d7T0wn44i8VfV+iL5qgqdixMjBeaTo74dRZoHlk/qA9pP5rR3nu4ojOIr91JB6yEGgF8AAAD//ynsjnYgAQAA
-```
-
-**Printscreen**
-![version_size](../../docs/images/circle.png)

@@ -3,5 +3,10 @@
     "id": "AAAQosMB+5SfRIxHmT7aPnEm",
     "name": "nature",
     "dimension": "2x2"
+  },
+  {
+    "id": "AAAN0RE5KxQzT5/qXToQxTeB",
+    "name": "nature_with_stones",
+    "dimension": "2x2"
   }
 ]

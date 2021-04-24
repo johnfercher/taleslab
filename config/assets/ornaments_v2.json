@@ -1,5 +1,4 @@
-{
-  "assets": [
+[
     {
       "id": "AACRYh1DNktSTIna2zN6DGBz",
       "name": "dead_tree",
@@ -29,6 +28,10 @@
       "id": "AABKUWVmd8+rTK08RXqSSmjZ",
       "name": "rectangle_bush",
       "dimension": "1x1"
+    },
+    {
+      "id": "AAAnlx5Fc7wsRoxGUSaH5uFw",
+      "name": "big_stone",
+      "dimension": "2x2"
     }
-  ]
-}
+]
