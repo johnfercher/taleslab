@@ -83,7 +83,9 @@ H4sIAAAAAAAE/zSXvc3rRheEl79ioOBLlTHRV4AKEBgYcKACxALeAq4zJhd4C3DAwIkjA66APThh4gs5
 **Printscreen (Random Cube)**
 ![version_size](./docs/images/randomcube.png)
 
-More examples [here](./docs/examples).
+More examples:
+* [Random Cube](./docs/examples/randomcube.md)
+* [Circle](./docs/examples/circle.md)
 
 ## Slab Versions
 
