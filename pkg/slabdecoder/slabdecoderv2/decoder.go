@@ -2,6 +2,7 @@ package slabdecoderv2
 
 import (
 	"bufio"
+	"fmt"
 	"github.com/johnfercher/taleslab/internal/byteparser"
 	"github.com/johnfercher/taleslab/pkg/slab/slabv2"
 	"github.com/johnfercher/taleslab/pkg/slabcompressor"
@@ -122,6 +123,8 @@ func (self *decoderV2) decodeAsset(reader *bufio.Reader) (*slabv2.Asset, error) 
 	if err != nil {
 		return nil, err
 	}
+
+	fmt.Println(idBytes)
 
 	asset.Id = append(asset.Id, idBytes...)
 

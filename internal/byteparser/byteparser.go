@@ -92,6 +92,25 @@ func BufferToInt16(buf *bufio.Reader) (int16, error) {
 	return value, nil
 }
 
+func BufferToUint16(buf *bufio.Reader) (uint16, error) {
+	packetBytes := make([]byte, 2)
+
+	_, err := buf.Read(packetBytes)
+	if err != nil {
+		return 0, err
+	}
+
+	packetBuffer := bytes.NewReader(packetBytes)
+
+	value := uint16(16)
+	err = binary.Read(packetBuffer, binary.LittleEndian, &value)
+	if err != nil {
+		return 0, err
+	}
+
+	return value, nil
+}
+
 func BytesFromFloat32(value float32) ([]byte, error) {
 	buf := new(bytes.Buffer)
 

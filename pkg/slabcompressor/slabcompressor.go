@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"bytes"
 	"encoding/base64"
+	"fmt"
 	"github.com/johnfercher/taleslab/internal/gzipper"
 )
 
@@ -45,6 +46,8 @@ func (self *slabCompressor) StringBase64ToReader(stringBase64 string) (*bufio.Re
 	}
 
 	bufferBytes := buffer.Bytes()
+
+	fmt.Println(bufferBytes)
 
 	reader := bytes.NewReader(bufferBytes)
 	bufieReader := bufio.NewReader(reader)
