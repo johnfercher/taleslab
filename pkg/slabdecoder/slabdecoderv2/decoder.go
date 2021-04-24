@@ -1,17 +1,30 @@
-package slabdecoder2
+package slabdecoderv2
 
 import (
 	"bufio"
-	"bytes"
-	"encoding/base64"
 	"github.com/johnfercher/taleslab/internal/byteparser"
-	"github.com/johnfercher/taleslab/internal/gzipper"
-	"github.com/johnfercher/taleslab/pkg/slabv2"
+	"github.com/johnfercher/taleslab/pkg/slab/slabv2"
+	"github.com/johnfercher/taleslab/pkg/slabcompressor"
 )
 
-func Decode(slabBase64 string) (*slabv2.Slab, error) {
+type DecoderV2 interface {
+	Decode(slabBase64 string) (*slabv2.Slab, error)
+}
+
+type decoderV2 struct {
+	slabCompressor slabcompressor.SlabCompressor
+}
+
+func NewDecoderV2(slabCompressor slabcompressor.SlabCompressor) *decoderV2 {
+	return &decoderV2{
+		slabCompressor: slabCompressor,
+	}
+}
+
+func (self *decoderV2) Decode(slabBase64 string) (*slabv2.Slab, error) {
 	slab := &slabv2.Slab{}
-	reader, err := base64ToReader(slabBase64)
+
+	reader, err := self.slabCompressor.StringBase64ToReader(slabBase64)
 	if err != nil {
 		return nil, err
 	}
@@ -41,7 +54,7 @@ func Decode(slabBase64 string) (*slabv2.Slab, error) {
 	// Assets
 	i := int16(0)
 	for i = 0; i < assetCount; i++ {
-		asset, err := decodeAsset(reader)
+		asset, err := self.decodeAsset(reader)
 		if err != nil {
 			return nil, err
 		}
@@ -59,7 +72,7 @@ func Decode(slabBase64 string) (*slabv2.Slab, error) {
 
 		j := int16(0)
 		for j = 0; j < layoutsCount; j++ {
-			bounds, err := decodeBounds(reader)
+			bounds, err := self.decodeBounds(reader)
 			if err != nil {
 				return nil, err
 			}
@@ -70,27 +83,7 @@ func Decode(slabBase64 string) (*slabv2.Slab, error) {
 	return slab, nil
 }
 
-func base64ToReader(stringBase64 string) (*bufio.Reader, error) {
-	compressedBytes, err := base64.StdEncoding.DecodeString(stringBase64)
-	if err != nil {
-		return nil, err
-	}
-
-	var buffer bytes.Buffer
-	err = gzipper.Uncompress(&buffer, compressedBytes)
-	if err != nil {
-		return nil, err
-	}
-
-	bufferBytes := buffer.Bytes()
-
-	reader := bytes.NewReader(bufferBytes)
-	bufieReader := bufio.NewReader(reader)
-
-	return bufieReader, nil
-}
-
-func decodeBounds(reader *bufio.Reader) (*slabv2.Bounds, error) {
+func (self *decoderV2) decodeBounds(reader *bufio.Reader) (*slabv2.Bounds, error) {
 	centerX, err := byteparser.BufferToInt16(reader)
 	if err != nil {
 		return nil, err
@@ -121,7 +114,7 @@ func decodeBounds(reader *bufio.Reader) (*slabv2.Bounds, error) {
 	}, nil
 }
 
-func decodeAsset(reader *bufio.Reader) (*slabv2.Asset, error) {
+func (self *decoderV2) decodeAsset(reader *bufio.Reader) (*slabv2.Asset, error) {
 	asset := &slabv2.Asset{}
 
 	// Id

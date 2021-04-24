@@ -1,14 +1,29 @@
-package slabencoder2
+package slabdecoderv2
 
 import (
 	"bytes"
 	"encoding/base64"
 	"github.com/johnfercher/taleslab/internal/byteparser"
 	"github.com/johnfercher/taleslab/internal/gzipper"
-	"github.com/johnfercher/taleslab/pkg/slabv2"
+	"github.com/johnfercher/taleslab/pkg/slab/slabv2"
+	"github.com/johnfercher/taleslab/pkg/slabcompressor"
 )
 
-func Encode(slab *slabv2.Slab) (string, error) {
+type EncoderV2 interface {
+	Encode(slab *slabv2.Slab) (string, error)
+}
+
+type encodeV2 struct {
+	slabCompressor slabcompressor.SlabCompressor
+}
+
+func NewEncoderV2(slabCompressor slabcompressor.SlabCompressor) *encodeV2 {
+	return &encodeV2{
+		slabCompressor: slabCompressor,
+	}
+}
+
+func (self *encodeV2) Encode(slab *slabv2.Slab) (string, error) {
 	slabByteArray := []byte{}
 
 	// Magic Hex
@@ -31,7 +46,7 @@ func Encode(slab *slabv2.Slab) (string, error) {
 	slabByteArray = append(slabByteArray, assetsCount...)
 
 	// Assets
-	assetsBytes, err := encodeAssets(slab)
+	assetsBytes, err := self.encodeAssets(slab)
 	if err != nil {
 		return "", err
 	}
@@ -42,7 +57,7 @@ func Encode(slab *slabv2.Slab) (string, error) {
 	slabByteArray = append(slabByteArray, 0, 0)
 
 	// Assets.Layouts
-	layoutsBytes, err := encodeAssetLayouts(slab)
+	layoutsBytes, err := self.encodeAssetLayouts(slab)
 	if err != nil {
 		return "", err
 	}
@@ -65,7 +80,7 @@ func Encode(slab *slabv2.Slab) (string, error) {
 	return slabBase64, nil
 }
 
-func encodeAssets(slab *slabv2.Slab) ([]byte, error) {
+func (self *encodeV2) encodeAssets(slab *slabv2.Slab) ([]byte, error) {
 	assetsArray := []byte{}
 
 	// For
@@ -91,7 +106,7 @@ func encodeAssets(slab *slabv2.Slab) ([]byte, error) {
 	return assetsArray, nil
 }
 
-func encodeAssetLayouts(slab *slabv2.Slab) ([]byte, error) {
+func (self *encodeV2) encodeAssetLayouts(slab *slabv2.Slab) ([]byte, error) {
 	layoutsArray := []byte{}
 
 	// For
