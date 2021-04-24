@@ -23,8 +23,6 @@ func main() {
 
 	fmt.Println(string(slabJsonBytes))
 
-	//slab.Assets[0].Layouts[0].Rotation = 704
-
 	slabBase64, err := slabencoder2.Encode(slab)
 	if err != nil {
 		log.Fatalln(err)

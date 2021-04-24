@@ -10,14 +10,14 @@ import (
 
 func main() {
 	test := [][]byte{
-		{0, 6},
+		{215, 163, 176, 63},
 	}
 
 	for _, value := range test {
 		reader := bytes.NewReader(value)
 		bufReader := bufio.NewReader(reader)
 
-		value, err := byteparser.BufferToInt16(bufReader)
+		value, err := byteparser.BufferToFloat32(bufReader)
 		if err != nil {
 			log.Fatalln(err)
 		}
