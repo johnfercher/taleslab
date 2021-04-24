@@ -13,8 +13,8 @@ type AssetInfo struct {
 }
 
 type AssetLoaderV2 interface {
-	GetConstructors() ([]AssetInfo, error)
-	GetOrnaments() ([]AssetInfo, error)
+	GetConstructors() (map[string]AssetInfo, error)
+	GetOrnaments() (map[string]AssetInfo, error)
 }
 
 type assetLoaderV2 struct {
@@ -24,7 +24,7 @@ func NewAssetLoaderV2() *assetLoaderV2 {
 	return &assetLoaderV2{}
 }
 
-func (self *assetLoaderV2) GetConstructors() ([]AssetInfo, error) {
+func (self *assetLoaderV2) GetConstructors() (map[string]AssetInfo, error) {
 	bytes, err := ioutil.ReadFile("./config/assets/constructors_v2.json")
 	if err != nil {
 		return nil, err
@@ -37,10 +37,20 @@ func (self *assetLoaderV2) GetConstructors() ([]AssetInfo, error) {
 		return nil, err
 	}
 
-	return assetInfos, nil
+	for i := 0; i < len(assetInfos); i++ {
+		assetInfos[i].Type = "constructors_v2"
+	}
+
+	assetMap := make(map[string]AssetInfo)
+
+	for _, assetinfo := range assetInfos {
+		assetMap[assetinfo.Name] = assetinfo
+	}
+
+	return assetMap, nil
 }
 
-func (self *assetLoaderV2) GetOrnaments() ([]AssetInfo, error) {
+func (self *assetLoaderV2) GetOrnaments() (map[string]AssetInfo, error) {
 	bytes, err := ioutil.ReadFile("./config/assets/ornaments_v2.json")
 	if err != nil {
 		return nil, err
@@ -53,5 +63,15 @@ func (self *assetLoaderV2) GetOrnaments() ([]AssetInfo, error) {
 		return nil, err
 	}
 
-	return assetInfos, nil
+	for i := 0; i < len(assetInfos); i++ {
+		assetInfos[i].Type = "ornaments_v2"
+	}
+
+	assetMap := make(map[string]AssetInfo)
+
+	for _, assetinfo := range assetInfos {
+		assetMap[assetinfo.Name] = assetinfo
+	}
+
+	return assetMap, nil
 }
