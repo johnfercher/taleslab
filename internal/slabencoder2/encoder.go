@@ -3,8 +3,6 @@ package slabencoder2
 import (
 	"bytes"
 	"encoding/base64"
-	"encoding/hex"
-	"fmt"
 	"github.com/johnfercher/taleslab/internal/byteparser"
 	"github.com/johnfercher/taleslab/internal/gzipper"
 	"github.com/johnfercher/taleslab/pkg/slabv2"
@@ -14,13 +12,7 @@ func Encode(slab *slabv2.Slab) (string, error) {
 	slabByteArray := []byte{}
 
 	// Magic Hex
-	for _, magicHex := range slab.MagicHex {
-		byte, err := hex.DecodeString(magicHex)
-		if err != nil {
-			return "", err
-		}
-		slabByteArray = append(slabByteArray, byte...)
-	}
+	slabByteArray = append(slabByteArray, slab.MagicBytes...)
 
 	// Version
 	version, err := byteparser.BytesFromInt16(slab.Version)
@@ -60,8 +52,6 @@ func Encode(slab *slabv2.Slab) (string, error) {
 	// End of Structure 2
 	slabByteArray = append(slabByteArray, 0, 0)
 
-	fmt.Println(slabByteArray)
-
 	var buffer bytes.Buffer
 	err = gzipper.Compress(&buffer, slabByteArray)
 	if err != nil {
@@ -80,7 +70,7 @@ func encodeAssets(slab *slabv2.Slab) ([]byte, error) {
 
 	// For
 	for _, asset := range slab.Assets {
-		// Uuid
+		// Id
 		for _, assetIdHex := range asset.Id {
 			byte, err := byteparser.BytesFromByte(assetIdHex)
 			if err != nil {
@@ -115,14 +105,6 @@ func encodeAssetLayouts(slab *slabv2.Slab) ([]byte, error) {
 
 			layoutsArray = append(layoutsArray, centerX...)
 
-			// Center Y
-			centerY, err := byteparser.BytesFromInt16(layout.Coordinates.Y)
-			if err != nil {
-				return nil, err
-			}
-
-			layoutsArray = append(layoutsArray, centerY...)
-
 			// Center Z
 			centerZ, err := byteparser.BytesFromInt16(layout.Coordinates.Z)
 			if err != nil {
@@ -130,6 +112,14 @@ func encodeAssetLayouts(slab *slabv2.Slab) ([]byte, error) {
 			}
 
 			layoutsArray = append(layoutsArray, centerZ...)
+
+			// Center Y
+			centerY, err := byteparser.BytesFromInt16(layout.Coordinates.Y)
+			if err != nil {
+				return nil, err
+			}
+
+			layoutsArray = append(layoutsArray, centerY...)
 
 			// Rotation
 			rotation, err := byteparser.BytesFromInt16(layout.Rotation)
