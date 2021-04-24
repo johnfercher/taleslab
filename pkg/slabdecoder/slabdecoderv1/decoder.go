@@ -1,17 +1,30 @@
-package slabdecoder
+package slabdecoderv1
 
 import (
 	"bufio"
-	"bytes"
-	"encoding/base64"
 	"github.com/johnfercher/taleslab/internal/byteparser"
-	"github.com/johnfercher/taleslab/internal/gzipper"
-	"github.com/johnfercher/taleslab/pkg/slabv1"
+	"github.com/johnfercher/taleslab/pkg/slab/slabv1"
+	"github.com/johnfercher/taleslab/pkg/slabcompressor"
 )
 
-func Decode(slabBase64 string) (*slabv1.Slab, error) {
+type DecoderV1 interface {
+	Decode(slabBase64 string) (*slabv1.Slab, error)
+}
+
+type decoderV1 struct {
+	slabCompressor slabcompressor.SlabCompressor
+}
+
+func NewDecoderV1(slabCompressor slabcompressor.SlabCompressor) *decoderV1 {
+	return &decoderV1{
+		slabCompressor: slabCompressor,
+	}
+}
+
+func (self *decoderV1) Decode(slabBase64 string) (*slabv1.Slab, error) {
 	slab := &slabv1.Slab{}
-	reader, err := base64ToReader(slabBase64)
+
+	reader, err := self.slabCompressor.StringBase64ToReader(slabBase64)
 	if err != nil {
 		return nil, err
 	}
@@ -41,7 +54,7 @@ func Decode(slabBase64 string) (*slabv1.Slab, error) {
 	// Assets
 	i := int16(0)
 	for i = 0; i < assetCount; i++ {
-		asset, err := decodeAsset(reader)
+		asset, err := self.decodeAsset(reader)
 		if err != nil {
 			return nil, err
 		}
@@ -56,7 +69,7 @@ func Decode(slabBase64 string) (*slabv1.Slab, error) {
 
 		j := int16(0)
 		for j = 0; j < layoutsCount; j++ {
-			bounds, err := decodeBounds(reader)
+			bounds, err := self.decodeBounds(reader)
 			if err != nil {
 				return nil, err
 			}
@@ -65,7 +78,7 @@ func Decode(slabBase64 string) (*slabv1.Slab, error) {
 	}
 
 	// Bounds
-	bounds, err := decodeBounds(reader)
+	bounds, err := self.decodeBounds(reader)
 	if err != nil {
 		return nil, err
 	}
@@ -75,27 +88,7 @@ func Decode(slabBase64 string) (*slabv1.Slab, error) {
 	return slab, nil
 }
 
-func base64ToReader(stringBase64 string) (*bufio.Reader, error) {
-	compressedBytes, err := base64.StdEncoding.DecodeString(stringBase64)
-	if err != nil {
-		return nil, err
-	}
-
-	var buffer bytes.Buffer
-	err = gzipper.Uncompress(&buffer, compressedBytes)
-	if err != nil {
-		return nil, err
-	}
-
-	bufferBytes := buffer.Bytes()
-
-	reader := bytes.NewReader(bufferBytes)
-	bufieReader := bufio.NewReader(reader)
-
-	return bufieReader, nil
-}
-
-func decodeBounds(reader *bufio.Reader) (*slabv1.Bounds, error) {
+func (self *decoderV1) decodeBounds(reader *bufio.Reader) (*slabv1.Bounds, error) {
 	centerX, err := byteparser.BufferToFloat32(reader)
 	if err != nil {
 		return nil, err
@@ -149,7 +142,7 @@ func decodeBounds(reader *bufio.Reader) (*slabv1.Bounds, error) {
 	}, nil
 }
 
-func decodeAsset(reader *bufio.Reader) (*slabv1.Asset, error) {
+func (self *decoderV1) decodeAsset(reader *bufio.Reader) (*slabv1.Asset, error) {
 	asset := &slabv1.Asset{}
 
 	// Id
