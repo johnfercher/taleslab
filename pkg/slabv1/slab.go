@@ -1,7 +1,7 @@
 package slabv1
 
 type Slab struct {
-	MagicHex    []byte   `json:"magic_hex"`
+	MagicBytes  []byte   `json:"magic_bytes"`
 	Version     int16    `json:"version"`
 	AssetsCount int16    `json:"assets_count"`
 	Assets      []*Asset `json:"assets"`

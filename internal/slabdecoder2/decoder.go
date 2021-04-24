@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"bytes"
 	"encoding/base64"
-	"fmt"
 	"github.com/johnfercher/taleslab/internal/byteparser"
 	"github.com/johnfercher/taleslab/internal/gzipper"
 	"github.com/johnfercher/taleslab/pkg/slabv2"
@@ -17,15 +16,13 @@ func Decode(slabBase64 string) (*slabv2.Slab, error) {
 		return nil, err
 	}
 
-	// Magic Hex
-	for i := 0; i < 4; i++ {
-		magicHex, err := byteparser.BufferToByte(reader)
-		if err != nil {
-			return nil, err
-		}
-
-		slab.MagicHex = append(slab.MagicHex, magicHex)
+	// Magic Bytes
+	magicBytes, err := byteparser.BufferToBytes(reader, 4)
+	if err != nil {
+		return nil, err
 	}
+
+	slab.MagicBytes = append(slab.MagicBytes, magicBytes...)
 
 	// Version
 	version, err := byteparser.BufferToInt16(reader)
@@ -53,8 +50,7 @@ func Decode(slabBase64 string) (*slabv2.Slab, error) {
 	}
 
 	// TODO: understand why this
-	toSkip, _ := byteparser.BufferToInt16(reader)
-	fmt.Println(toSkip)
+	_, _ = byteparser.BufferToInt16(reader)
 
 	// Assets.Layouts
 	i = int16(0)
@@ -87,14 +83,6 @@ func base64ToReader(stringBase64 string) (*bufio.Reader, error) {
 	}
 
 	bufferBytes := buffer.Bytes()
-
-	for _, bufferByte := range bufferBytes {
-		fmt.Printf("0x%X ", bufferByte)
-	}
-
-	fmt.Println("")
-
-	fmt.Println(bufferBytes)
 
 	reader := bytes.NewReader(bufferBytes)
 	bufieReader := bufio.NewReader(reader)
@@ -137,14 +125,12 @@ func decodeAsset(reader *bufio.Reader) (*slabv2.Asset, error) {
 	asset := &slabv2.Asset{}
 
 	// Id
-	for i := 0; i < 18; i++ {
-		hex, err := byteparser.BufferToByte(reader)
-		if err != nil {
-			return nil, err
-		}
-
-		asset.Id = append(asset.Id, hex)
+	idBytes, err := byteparser.BufferToBytes(reader, 18)
+	if err != nil {
+		return nil, err
 	}
+
+	asset.Id = append(asset.Id, idBytes...)
 
 	// Count
 	count, err := byteparser.BufferToInt16(reader)

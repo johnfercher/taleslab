@@ -3,7 +3,6 @@ package slabencoder
 import (
 	"bytes"
 	"encoding/base64"
-	"fmt"
 	"github.com/johnfercher/taleslab/internal/byteparser"
 	"github.com/johnfercher/taleslab/internal/gzipper"
 	"github.com/johnfercher/taleslab/pkg/slabv1"
@@ -12,14 +11,8 @@ import (
 func Encode(slab *slabv1.Slab) (string, error) {
 	slabByteArray := []byte{}
 
-	// Magic Hex
-	for _, magicHex := range slab.MagicHex {
-		byte, err := byteparser.BytesFromByte(magicHex)
-		if err != nil {
-			return "", err
-		}
-		slabByteArray = append(slabByteArray, byte...)
-	}
+	// Magic Bytes
+	slabByteArray = append(slabByteArray, slab.MagicBytes...)
 
 	// Version
 	version, err := byteparser.BytesFromInt16(slab.Version)
@@ -61,8 +54,6 @@ func Encode(slab *slabv1.Slab) (string, error) {
 
 	slabByteArray = append(slabByteArray, boundsBytes...)
 
-	fmt.Println(slabByteArray)
-
 	var buffer bytes.Buffer
 	err = gzipper.Compress(&buffer, slabByteArray)
 	if err != nil {
@@ -82,13 +73,7 @@ func encodeAssets(slab *slabv1.Slab) ([]byte, error) {
 	// For
 	for _, asset := range slab.Assets {
 		// Id
-		for _, assetIdHex := range asset.Id {
-			byte, err := byteparser.BytesFromByte(assetIdHex)
-			if err != nil {
-				return nil, err
-			}
-			assetsArray = append(assetsArray, byte...)
-		}
+		assetsArray = append(assetsArray, asset.Id...)
 
 		// Count
 		layoutsCount, err := byteparser.BytesFromInt16(asset.LayoutsCount)

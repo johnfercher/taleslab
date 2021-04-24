@@ -27,7 +27,7 @@ H4sIAAAAAAAE/2yLoQqCMRSFz5YsAwXfwmgQLXdVBGWYfQqbab7FmsFoMcuqdbBkFwSRPYGIkzv/8Zf/
 **Json**
 ```json
 {
-  "magic_hex": "zvrO0Q==",
+  "magic_bytes": "zvrO0Q==",
   "version": 1,
   "assets_count": 2,
   "assets": [{
