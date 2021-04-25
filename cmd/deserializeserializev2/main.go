@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	original := "H4sIAAAAAAAAC03QIQjCUBSF4fsWTAqCacnkkmnJ9CyKYcmkybRk0mQSHpgEg0EEQRDWTCaTTYvpgbA0k8lkM81ieH/YKed+8Vyb24cnSkSqyU39NofOqrfTmZ4GobiY2HPH0LWJcBuHOMA+rmDBX+X8di1PbPEVn/ER7/EaL/AMj/EI93EXt3AT13ENl3DO3g/DXzjFd3zBJ5zgLV7iOZ7gGA9whDXm4aaBfVyWQv6/IWqusAEAAA=="
+	original := "H4sIAAAAAAAAC1XRIQjCQBTG8TfD0pKmpaUlDbJkkgtrJosWbSYxmGzCwCQybGIwmQQRk8kym5YDQYtBMJlWtC2J3r/4wn1wv3fvhdOZPufEEpHWvLeZxK9wfU1P90ZcDsRUZFu/TByTUjCpXJORh/t4CQ/wpblOVgzcmlA75u/xA37ENX7Bb/gDf+Ip/sYzXNhfxUO8htd538TbeAfv4n18gA/xET7Gp/gMX8hfKZt+h/484OIe7uNFnI9Qle/5ARwqTauwAQAA"
 
 	slabCompressor := slabcompressor.New()
 	decoder := slabdecoderv2.NewDecoderV2(slabCompressor)

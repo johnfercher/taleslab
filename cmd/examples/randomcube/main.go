@@ -1,13 +1,13 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/johnfercher/taleslab/pkg/assetloaderv2"
 	slab2 "github.com/johnfercher/taleslab/pkg/slab"
 	"github.com/johnfercher/taleslab/pkg/slab/slabv2"
 	"github.com/johnfercher/taleslab/pkg/slabdecoder"
 	"log"
-	"math/rand"
 )
 
 func main() {
@@ -27,38 +27,55 @@ func main() {
 		AssetsCount: 1,
 		Assets: []*slabv2.Asset{
 			{
-				Id: constructors[0].Id,
+				Id: constructors["nature_1"].Id,
 			},
 		},
 	}
 
-	xSize := 10
-	ySize := 10
-	zSize := 10
+	xSize := 120
+	ySize := 50
+	//zSize := 10
 
 	for i := xSize; i > 0; i-- {
 		for j := ySize; j > 0; j-- {
-			for k := zSize; k > 0; k-- {
-				if rand.Int()%2 == 0 {
-					layout := &slabv2.Bounds{
-						Coordinates: &slabv2.Vector3d{
-							X: int16(slabv2.GainX * i),
-							Y: int16(slabv2.GainY * j),
-							Z: int16(slabv2.GainZ * k),
-						},
-						Rotation: 0,
-					}
-
-					slab.Assets[0].Layouts = append(slab.Assets[0].Layouts, layout)
-					slab.Assets[0].LayoutsCount++
-				}
+			//for k := zSize; k > 0; k-- {
+			//if rand.Int()%2 == 0 {
+			layout := &slabv2.Bounds{
+				Coordinates: &slabv2.Vector3d{
+					X: uint16((i - 1) * slabv2.GainX),
+					Y: uint16(j - 1),
+					Z: 0,
+				},
+				Rotation: 0,
 			}
+
+			/*if j > 41 {
+				layout.Rotation = 1
+			}*/
+
+			slab.Assets[0].Layouts = append(slab.Assets[0].Layouts, layout)
+			slab.Assets[0].LayoutsCount++
+			//}
+			//}
 		}
 	}
 
-	base64, err := encoder.Encode(&slab2.Aggregator{
+	fmt.Println(slab.Assets[0].LayoutsCount)
+	fmt.Println(len(slab.Assets[0].Layouts))
+
+	aggs := &slab2.Aggregator{
 		SlabV2: slab,
-	})
+	}
+
+	bytesJson, err := json.Marshal(aggs)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	jsonString := string(bytesJson)
+	fmt.Println(jsonString)
+
+	base64, err := encoder.Encode(aggs)
 
 	if err != nil {
 		log.Fatal(err)

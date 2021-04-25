@@ -1,6 +1,6 @@
 package slabdecoderv2
 
-func decodeY(y uint16) uint16 {
+func DecodeY(y uint16) uint16 {
 	result1 := y / 1600
 	remain1 := y % 1600
 
@@ -9,6 +9,6 @@ func decodeY(y uint16) uint16 {
 	return result1 + (41 * result2)
 }
 
-func encodeY(y uint16) uint16 {
+func EncodeY(y uint16) uint16 {
 	return y * 1600
 }

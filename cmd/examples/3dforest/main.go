@@ -92,11 +92,11 @@ func appendGroundToSlab(constructors map[string]assetloaderv2.AssetInfo, slab *s
 			Id: constructors["nature"].Id,
 		})
 
-	slab.AssetsCount++
+	/*slab.AssetsCount++
 	slab.Assets = append(slab.Assets,
 		&slabv2.Asset{
 			Id: constructors["nature_with_stones"].Id,
-		})
+		})*/
 
 	for i, array := range gridHeights {
 		for j, element := range array {
