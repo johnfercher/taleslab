@@ -3,6 +3,7 @@ package slabdecoderv2
 import (
 	"bytes"
 	"encoding/base64"
+	"fmt"
 	"github.com/johnfercher/taleslab/internal/byteparser"
 	"github.com/johnfercher/taleslab/internal/gzipper"
 	"github.com/johnfercher/taleslab/pkg/slab/slabv2"
@@ -113,7 +114,7 @@ func (self *encodeV2) encodeAssetLayouts(slab *slabv2.Slab) ([]byte, error) {
 	for _, asset := range slab.Assets {
 		for _, layout := range asset.Layouts {
 			// Center X
-			centerX, err := byteparser.BytesFromInt16(layout.Coordinates.X)
+			centerX, err := byteparser.BytesFromUint16(layout.Coordinates.X)
 			if err != nil {
 				return nil, err
 			}
@@ -121,7 +122,7 @@ func (self *encodeV2) encodeAssetLayouts(slab *slabv2.Slab) ([]byte, error) {
 			layoutsArray = append(layoutsArray, centerX...)
 
 			// Center Z
-			centerZ, err := byteparser.BytesFromInt16(layout.Coordinates.Z)
+			centerZ, err := byteparser.BytesFromUint16(layout.Coordinates.Z)
 			if err != nil {
 				return nil, err
 			}
@@ -129,7 +130,11 @@ func (self *encodeV2) encodeAssetLayouts(slab *slabv2.Slab) ([]byte, error) {
 			layoutsArray = append(layoutsArray, centerZ...)
 
 			// Center Y
-			centerY, err := byteparser.BytesFromInt16(layout.Coordinates.Y)
+			yEncoded := encodeY(layout.Coordinates.Y)
+
+			fmt.Printf("[ENCODE: %d, %d]\n", layout.Coordinates.Y, yEncoded)
+
+			centerY, err := byteparser.BytesFromUint16(yEncoded)
 			if err != nil {
 				return nil, err
 			}

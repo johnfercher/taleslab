@@ -85,20 +85,23 @@ func (self *decoderV2) Decode(slabBase64 string) (*slabv2.Slab, error) {
 }
 
 func (self *decoderV2) decodeBounds(reader *bufio.Reader) (*slabv2.Bounds, error) {
-	centerX, err := byteparser.BufferToInt16(reader)
+	centerX, err := byteparser.BufferToUint16(reader)
 	if err != nil {
 		return nil, err
 	}
 
-	centerZ, err := byteparser.BufferToInt16(reader)
+	centerZ, err := byteparser.BufferToUint16(reader)
 	if err != nil {
 		return nil, err
 	}
 
-	centerY, err := byteparser.BufferToInt16(reader)
+	oldY, err := byteparser.BufferToUint16(reader)
 	if err != nil {
 		return nil, err
 	}
+
+	centerY := decodeY(oldY)
+	fmt.Printf("[DECODE: %d, %d]\n", oldY, centerY)
 
 	rotation, err := byteparser.BufferToInt16(reader)
 	if err != nil {
