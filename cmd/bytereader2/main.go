@@ -5,25 +5,13 @@ import (
 	"bytes"
 	"fmt"
 	"github.com/johnfercher/taleslab/internal/byteparser"
+	"github.com/johnfercher/taleslab/pkg/slabdecoder/slabdecoderv2"
 	"log"
 )
 
 func main() {
 	test := [][]byte{
-		{175, 0},
-		{192, 168},
-		{128, 162},
-		{64, 156},
-		{150, 0},
-		{192, 143},
-		{128, 137},
-	}
-
-	for _, testx := range test {
-		for _, testy := range testx {
-			fmt.Printf("%b ", testy)
-		}
-		fmt.Println()
+		{128, 56},
 	}
 
 	for _, value := range test {
@@ -35,6 +23,6 @@ func main() {
 			log.Fatalln(err)
 		}
 
-		fmt.Println(value)
+		fmt.Println(slabdecoderv2.DecodeY(value))
 	}
 }

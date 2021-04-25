@@ -1,10 +1,7 @@
 package slabdecoderv2
 
 import (
-	"bytes"
-	"encoding/base64"
 	"github.com/johnfercher/taleslab/internal/byteparser"
-	"github.com/johnfercher/taleslab/internal/gzipper"
 	"github.com/johnfercher/taleslab/pkg/slab/slabv2"
 	"github.com/johnfercher/taleslab/pkg/slabcompressor"
 )
@@ -67,15 +64,10 @@ func (self *encodeV2) Encode(slab *slabv2.Slab) (string, error) {
 	// End of Structure 2
 	slabByteArray = append(slabByteArray, 0, 0)
 
-	var buffer bytes.Buffer
-	err = gzipper.Compress(&buffer, slabByteArray)
+	slabBase64, err := self.slabCompressor.ByteToStringBase64(slabByteArray)
 	if err != nil {
 		return "", err
 	}
-
-	slabByteArrayCompressed := buffer.Bytes()
-
-	slabBase64 := base64.StdEncoding.EncodeToString(slabByteArrayCompressed)
 
 	return slabBase64, nil
 }
@@ -113,7 +105,7 @@ func (self *encodeV2) encodeAssetLayouts(slab *slabv2.Slab) ([]byte, error) {
 	for _, asset := range slab.Assets {
 		for _, layout := range asset.Layouts {
 			// Center X
-			centerX, err := byteparser.BytesFromInt16(layout.Coordinates.X)
+			centerX, err := byteparser.BytesFromUint16(layout.Coordinates.X)
 			if err != nil {
 				return nil, err
 			}
@@ -121,7 +113,7 @@ func (self *encodeV2) encodeAssetLayouts(slab *slabv2.Slab) ([]byte, error) {
 			layoutsArray = append(layoutsArray, centerX...)
 
 			// Center Z
-			centerZ, err := byteparser.BytesFromInt16(layout.Coordinates.Z)
+			centerZ, err := byteparser.BytesFromUint16(layout.Coordinates.Z)
 			if err != nil {
 				return nil, err
 			}
@@ -129,7 +121,11 @@ func (self *encodeV2) encodeAssetLayouts(slab *slabv2.Slab) ([]byte, error) {
 			layoutsArray = append(layoutsArray, centerZ...)
 
 			// Center Y
-			centerY, err := byteparser.BytesFromInt16(layout.Coordinates.Y)
+			yEncoded := EncodeY(layout.Coordinates.Y)
+
+			//fmt.Printf("[ENCODE: %d, %d]\n", layout.Coordinates.Y, yEncoded)
+
+			centerY, err := byteparser.BytesFromUint16(yEncoded)
 			if err != nil {
 				return nil, err
 			}
@@ -137,7 +133,7 @@ func (self *encodeV2) encodeAssetLayouts(slab *slabv2.Slab) ([]byte, error) {
 			layoutsArray = append(layoutsArray, centerY...)
 
 			// Rotation
-			rotation, err := byteparser.BytesFromInt16(layout.Rotation)
+			rotation, err := byteparser.BytesFromUint16(layout.Rotation)
 			if err != nil {
 				return nil, err
 			}

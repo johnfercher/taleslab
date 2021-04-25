@@ -27,7 +27,7 @@ func main() {
 		AssetsCount: 1,
 		Assets: []*slabv2.Asset{
 			{
-				Id: constructors[0].Id,
+				Id: constructors["nature"].Id,
 			},
 		},
 	}
@@ -59,10 +59,10 @@ func main() {
 	fmt.Println(base64)
 }
 
-func fix(value float64, fixValue float64) int16 {
+func fix(value float64, fixValue float64) uint16 {
 	division := value / fixValue
 
 	divisionRounded := math.Round(division)
 
-	return int16(divisionRounded * fixValue)
+	return uint16(divisionRounded * fixValue)
 }

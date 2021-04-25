@@ -18,10 +18,10 @@ func main() {
 		log.Fatalln(err)
 	}
 
-	ornaments, err := loader.GetOrnaments()
+	/*ornaments, err := loader.GetOrnaments()
 	if err != nil {
 		log.Fatalln(err)
-	}
+	}*/
 
 	builder := slabdecoder.NewSlabEncoderBuilder()
 	encoder := builder.Build()
@@ -31,13 +31,16 @@ func main() {
 		Version:    2,
 	}
 
-	gridHeights := generateGridHeights(20, 20)
-	gridStones := generateGridStones(20, 20)
-	gridTrees := generateGridTrees(20, 20, gridStones)
+	x := 1
+	y := 25
+
+	gridHeights := generateGridHeights(x, y)
+	//gridStones := generateGridStones(x, y)
+	//gridTrees := generateGridTrees(x, y, gridStones)
 
 	appendGroundToSlab(constructors, slabGenerated, gridHeights)
-	appendStonesToSlab(ornaments, slabGenerated, gridHeights, gridStones)
-	appendTreesToSlab(ornaments, slabGenerated, gridHeights, gridTrees)
+	//appendStonesToSlab(ornaments, slabGenerated, gridHeights, gridStones)
+	//appendTreesToSlab(ornaments, slabGenerated, gridHeights, gridTrees)
 
 	base64, err := encoder.Encode(&slab.Aggregator{
 		SlabV2: slabGenerated,
@@ -89,24 +92,24 @@ func appendGroundToSlab(constructors map[string]assetloaderv2.AssetInfo, slab *s
 			Id: constructors["nature"].Id,
 		})
 
-	slab.AssetsCount++
+	/*slab.AssetsCount++
 	slab.Assets = append(slab.Assets,
 		&slabv2.Asset{
 			Id: constructors["nature_with_stones"].Id,
-		})
+		})*/
 
 	for i, array := range gridHeights {
 		for j, element := range array {
-			useNormalGround := rand.Int()%2 == 0
+			//useNormalGround := rand.Int()%2 == 0
 
-			if useNormalGround {
-				addLayout(slab.Assets[0], i, j, element)
-			} else {
-				addLayout(slab.Assets[1], i, j, element)
-			}
+			//if useNormalGround {
+			addLayout(slab.Assets[0], i, j, element)
+			//} else {
+			//addLayout(slab.Assets[1], i, j, element)
+			//}
 
-			addLayout(slab.Assets[0], i, j, element-1)
-			addLayout(slab.Assets[0], i, j, element-2)
+			//addLayout(slab.Assets[0], i, j, element-1)
+			//addLayout(slab.Assets[0], i, j, element-2)
 		}
 	}
 }
@@ -260,9 +263,9 @@ func generateGridTrees(x, y int, gridStones [][]bool) [][]bool {
 func addLayout(asset *slabv2.Asset, x, y, z int) {
 	layout := &slabv2.Bounds{
 		Coordinates: &slabv2.Vector3d{
-			X: int16(slabv2.GainX * x),
-			Y: int16(slabv2.GainY * y),
-			Z: int16(slabv2.GainZ * z),
+			X: uint16(slabv2.GainX * x),
+			Y: uint16(slabv2.GainY * y),
+			Z: uint16(slabv2.GainZ * z),
 		},
 		Rotation: 0,
 	}

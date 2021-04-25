@@ -73,6 +73,17 @@ func BytesFromInt16(value int16) ([]byte, error) {
 	return buf.Bytes(), nil
 }
 
+func BytesFromUint16(value uint16) ([]byte, error) {
+	buf := new(bytes.Buffer)
+
+	err := binary.Write(buf, binary.LittleEndian, value)
+	if err != nil {
+		return nil, err
+	}
+
+	return buf.Bytes(), nil
+}
+
 func BufferToInt16(buf *bufio.Reader) (int16, error) {
 	packetBytes := make([]byte, 2)
 

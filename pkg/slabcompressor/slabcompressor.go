@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"bytes"
 	"encoding/base64"
-	"fmt"
 	"github.com/johnfercher/taleslab/internal/gzipper"
 )
 
@@ -21,6 +20,9 @@ func New() *slabCompressor {
 }
 
 func (self *slabCompressor) ByteToStringBase64(byteArray []byte) (string, error) {
+	//test := fmt.Sprintf("%v", byteArray)
+	//fmt.Printf("WRITE: ByteArray %s Write Size: %d\n", test, len(byteArray))
+
 	var buffer bytes.Buffer
 	err := gzipper.Compress(&buffer, byteArray)
 	if err != nil {
@@ -47,7 +49,9 @@ func (self *slabCompressor) StringBase64ToReader(stringBase64 string) (*bufio.Re
 
 	bufferBytes := buffer.Bytes()
 
-	fmt.Println(bufferBytes)
+	//test := fmt.Sprintf("%v", bufferBytes)
+
+	//fmt.Printf("READ: ByteArray %s Size: %d\n", test, len(bufferBytes))
 
 	reader := bytes.NewReader(bufferBytes)
 	bufieReader := bufio.NewReader(reader)

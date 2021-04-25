@@ -26,7 +26,7 @@ func main() {
 		AssetsCount: 1,
 		Assets: []*slabv2.Asset{
 			{
-				Id: constructors[0].Id,
+				Id: constructors["nature"].Id,
 			},
 		},
 	}
@@ -40,9 +40,9 @@ func main() {
 			for j := ySize - k; j > k; j-- {
 				layout := &slabv2.Bounds{
 					Coordinates: &slabv2.Vector3d{
-						X: int16(slabv2.GainX * i),
-						Y: int16(slabv2.GainY * j),
-						Z: int16(slabv2.GainZ * k),
+						X: uint16(slabv2.GainX * i),
+						Y: uint16(slabv2.GainY * j),
+						Z: uint16(slabv2.GainZ * k),
 					},
 					Rotation: 0,
 				}
