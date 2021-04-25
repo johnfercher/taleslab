@@ -39,7 +39,7 @@ func main() {
 		AssetsCount: 1,
 		Assets: []*slab2.Asset{
 			{
-				Id: constructors["nature_1"].Id,
+				Id: constructors["ground_nature_small"].Id,
 			},
 		},
 	}
@@ -86,5 +86,4 @@ func fix(value float64, fixValue uint16) uint16 {
 
 	return top
 }
-
 ```

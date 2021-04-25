@@ -1,17 +1,29 @@
 [
   {
     "id": "AAAQosMB+5SfRIxHmT7aPnEm",
-    "name": "nature",
-    "dimension": "2x2"
+    "name": "ground_nature_big",
+    "dimensions": {
+      "width": 2,
+      "length": 2,
+      "height": 2
+    }
   },
   {
     "id": "AAAN0RE5KxQzT5/qXToQxTeB",
-    "name": "nature_with_stones",
-    "dimension": "2x2"
+    "name": "ground_nature_with_stones_big",
+    "dimensions": {
+      "width": 2,
+      "length": 2,
+      "height": 2
+    }
   },
   {
     "id": "AABcmGyti43yRKvV7cneVo0w",
-    "name": "nature_1",
-    "dimension": "1x1"
+    "name": "ground_nature_small",
+    "dimensions": {
+      "width": 1,
+      "length": 1,
+      "height": 2
+    }
   }
 ]

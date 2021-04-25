@@ -6,10 +6,16 @@ import (
 )
 
 type AssetInfo struct {
-	Id        []byte `json:"id"`
-	Dimension string `json:"dimension"`
-	Name      string `json:"name"`
-	Type      string `json:"type"`
+	Id         []byte      `json:"id"`
+	Dimensions *Dimensions `json:"dimensions"`
+	Name       string      `json:"name"`
+	Type       string      `json:"type"`
+}
+
+type Dimensions struct {
+	Width  uint8 `json:"width"`
+	Length uint8 `json:"length"`
+	Height uint8 `json:"height"`
 }
 
 type AssetLoader interface {

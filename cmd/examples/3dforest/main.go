@@ -55,7 +55,7 @@ func appendStonesToSlab(ornaments map[string]assetloader.AssetInfo, generatedSla
 	generatedSlab.AssetsCount++
 	generatedSlab.Assets = append(generatedSlab.Assets,
 		&slab.Asset{
-			Id: ornaments["big_stone"].Id,
+			Id: ornaments["stone_big"].Id,
 		})
 
 	for i, array := range gridHeights {
@@ -71,7 +71,7 @@ func appendTreesToSlab(ornaments map[string]assetloader.AssetInfo, generatedSlab
 	generatedSlab.AssetsCount++
 	generatedSlab.Assets = append(generatedSlab.Assets,
 		&slab.Asset{
-			Id: ornaments["pine_tree"].Id,
+			Id: ornaments["pine_tree_big"].Id,
 		})
 
 	for i, array := range gridHeights {
@@ -87,7 +87,7 @@ func appendGroundToSlab(constructors map[string]assetloader.AssetInfo, generated
 	generatedSlab.AssetsCount++
 	generatedSlab.Assets = append(generatedSlab.Assets,
 		&slab.Asset{
-			Id: constructors["nature_1"].Id,
+			Id: constructors["ground_nature_small"].Id,
 		})
 
 	for i, array := range gridHeights {

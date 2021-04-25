@@ -38,7 +38,7 @@ func main() {
 		AssetsCount: 1,
 		Assets: []*slab2.Asset{
 			{
-				Id: constructors["nature_1"].Id,
+				Id: constructors["ground_nature_small"].Id,
 			},
 		},
 	}
@@ -73,5 +73,4 @@ func main() {
 
 	fmt.Println(base64)
 }
-
 ```
