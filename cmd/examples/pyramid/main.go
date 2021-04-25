@@ -26,7 +26,7 @@ func main() {
 		AssetsCount: 1,
 		Assets: []*slab2.Asset{
 			{
-				Id: constructors["nature"].Id,
+				Id: constructors["nature_1"].Id,
 			},
 		},
 	}
@@ -40,9 +40,9 @@ func main() {
 			for j := ySize - k; j > k; j-- {
 				layout := &slab2.Bounds{
 					Coordinates: &slab2.Vector3d{
-						X: uint16(slab2.GainX * i),
-						Y: uint16(slab2.GainY * j),
-						Z: uint16(slab2.GainZ * k),
+						X: uint16(i),
+						Y: uint16(j),
+						Z: uint16(k),
 					},
 					Rotation: 0,
 				}

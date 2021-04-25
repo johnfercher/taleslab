@@ -27,7 +27,7 @@ func main() {
 		AssetsCount: 1,
 		Assets: []*slab2.Asset{
 			{
-				Id: constructors["nature"].Id,
+				Id: constructors["nature_1"].Id,
 			},
 		},
 	}
@@ -35,10 +35,19 @@ func main() {
 	radius := 5.0
 
 	for i := 0.0; i < 2.0*3.14; i += 0.2 {
+		cos := math.Cos(i)
+		sin := math.Sin(i)
+
+		xRounded := fix(radius*cos, uint16(1))
+		yRounded := fix(radius*sin, uint16(1))
+
+		xPositiveTranslated := uint16(radius) + xRounded
+		yPositiveTranslated := uint16(radius) + yRounded
+
 		layout := &slab2.Bounds{
 			Coordinates: &slab2.Vector3d{
-				X: 1000 + fix(slab2.GainX*radius*math.Cos(i), slab2.GainX),
-				Y: 16000 + fix(slab2.GainY*radius*math.Sin(i), slab2.GainY),
+				X: xPositiveTranslated,
+				Y: yPositiveTranslated,
 				Z: 0,
 			},
 			Rotation: 0,
@@ -57,10 +66,11 @@ func main() {
 	fmt.Println(base64)
 }
 
-func fix(value float64, fixValue float64) uint16 {
-	division := value / fixValue
+func fix(value float64, fixValue uint16) uint16 {
+	division := value / float64(fixValue)
 
 	divisionRounded := math.Round(division)
+	top := uint16(divisionRounded * float64(fixValue))
 
-	return uint16(divisionRounded * fixValue)
+	return top
 }

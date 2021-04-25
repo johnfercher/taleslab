@@ -5,7 +5,7 @@
 
 **Base64**
 ```bash
-H4sIAAAAAAAE/zTWv2ojVxvH8SPrzxxJtnG7nZoNqnMBZopADLmAuFSRC0gghRrDtIYULoKZVAHdgFUKXKZRtUxgi5AunZqA6qRZPuc5qj5orfN8f17eN8mn/z79eZVGKaW73R+j/3/9/Ztfvv3t/u/7n776eZJSn3PTPYfpKaWhic/0eTNvZ+k1FX2vfH6qn3/0Ln7e57b8nH5OPx+a+Dm9p5/Tz3P9Of2cfk4/Xy+2026XinaUz8/181N4+V76wa74/ma+Ld+n79P36fv0/T7H9+k+fZ++T9+n7w9NfJ++T9+n79P36fu5fp++T9+n79P36fvtLO7T9+n79H36Pn3/vNhP0lsq+nsqn1/r5+fQO3/uHS/vuu/9/cX79WJf3tN7ek/v6T29p/ebebynPr2n9/Se3tN7et/neE/v6T29p/f0nt7T+6GJ9/Se3tN7ek/v6T29z/U9vaf39J7e03t6T+/bWfTpPb2n9/Se3tN7er+dxnt6T+/pPb2n9/Se3h+Wp3H3nor+d1A+7+rn19Adf+4O3aE7vNxJ3/nfS9w7L07lHt2je3SP7tE9ukf36N663qN9dI/u0T26R/foHt2je5t57KN7dI/u0T26R/foHt2je32Oe3SP7tE9ukf36B7do3t0b2jiHt2je3SP7tE9ukf36B7dy/Ue3aN7dI/u0T26R/foHt1rZ7GP7tE9ukf36B7do3t0j+5tp3GP7tE9ukf36B7do3t0j+7tJ3GP7tE9ukf36B7do3t0j+5116txOqai/5+Uz2/18y5015+7S3fpLt2lu7zc7e79/yvuH5arcp/u0326T/fpPt2n+3Sf7tP98yLu0366T/fpPt2n+3Sf7tN9uk/31/U+3af7dJ/u0326T/fpPt2n+3R/M4/9dJ/u0326T/fpPt2n+3Sf7tP9Psd9uk/36T7dp/t0n+7TfbpP9+n+0MR9uk/36T7dp/t0n+7TfbpP9+l+rvfpPt2n+3Sf7tN9uk/36T7dp/vtLPbTfbpP9+k+3af7dJ/u0326T/e307hP9+k+3af7dJ/u0326T/fpPt3fT+I+3af7dJ/u0326T/fpPt2n+3T/NI77dJ/u0326T/fpPt2n+3Sf7tP9h5vHq+5zKvrnUPn8Xj+/hTr+XIc61KEOdahDHV466Wv/PIted/1YetSjHvWoRz3qUY961KMe9ah3WEaPfj/qUY961KMe9ahHPepRj3rUOy+iRz3qUY961KMe9ahHPepRj3rUW9ce9ahHPepRj3rUox71qEc96lFvM4/fj3rUox71qEc96lGPetSjHvWo1+foUY961KMe9ahHPepRj3rUox71hiZ61KMe9ahHPepRj3rUox71qEe9XHvUox71qEc96lGPetSjHvWoR712Fr8f9ahHPepRj3rUox71qEc96lFvO40e9ahHPepRj3rUox71qEc96lFvP4ke9ahHPepRj3rUox71qEc96lHvNI4e9ahHPepRj3rUox71qEc96lFvVXvUox71qEc96lGPetSjHvWoR72725dR+icV/XuifD7Wz++hrj/XpS51qUtd6lKXutTlpdt99O+f6D/cvJQ+9alPfepTn/rUpz71qU996lOf+t119On3pz71qU996lOf+tSnPvWpT33qU/+wjD71qU996lOf+tSnPvWpT33qU5/61D8vok996lOf+tSnPvWpT33qU5/61Kc+9de1T33qU5/61Kc+9alPfepTn/rUpz71N/P4/alPfepTn/rUpz71qU996lOf+tSnfp+jT33qU5/61Kc+9alPfepTn/rUpz71hyb61Kc+9alPfepTn/rUpz71qU996lM/1z71qU996lOf+tSnPvWpT33qU5/61G9n8ftTn/rUpz71qU996lOf+tSnPvWpT/3tNPrUpz71qU996lOf+tSnPvWpT33qU38/iT71qU996lOf+tSnPvWpT33qU5/61D+No0996lOf+tSnPvWpT33qU5/61Kc+9Ve1T33qU5/61Kc+9alPfepTn/rUpz71H6/i96c+9alPfepTn/rUpz71qU996lOf+n/dHlP3byr674Dy+XP9fAzt8Od20A7aQTtoB+2gHbSDdtAO2sHLjvTBf2/EnrvbY9lDe2gP7aE9tIf20B7aQ3toD+2hPbSH9tAe2vNwE3vo74f20B7aQ3toD+2hPbSH9tAe2kN7aA/toT20p7uOPbSH9tAe2kN7aA/toT20h/bQHtpDe2gP7aE9tOewjD20h/bQHtpDe2gP7aE9tIf20B7aQ3toD+2hPbTnvIg9tIf20B7aQ3toD+2hPbSH9tAe2kN7aA/toT20Z1330B7aQ3toD+2hPbSH9tAe2kN7aA/toT20h/bQns08/n5oD+2hPbSH9tAe2kN7aA/toT20h/bQHtpDe2hPn2MP7aE9tIf20B7aQ3toD+2hPbSH9tAe2kN7aA/tGZrYQ3toD+2hPbSH9tAe2kN7aA/toT20h/bQHtpDe3LdQ3toD+2hPbSH9tAe2kN7aA/toT20h/bQHtpDe9pZ/P3QHtpDe2gP7aE9tIf20B7aQ3toD+2hPbSH9tCe7TT20B7aQ3toD+2hPbSH9tAe2kN7aA/toT20h/bQnv0k9tAe2kN7aA/toT20h/bQHtpDe2gP7aE9tIf20J7TOPbQHtpDe2gP7aE9tIf20B7aQ3toD+2hPbSH9tCeVd1De2gP7aE9tIf20B7aQ3toD+2hPbSH9tAe2kN7Hq/i74f20B7aQ3toD+2hPbSH9tAe2kN7aA/toT20h/a8jGIP7aE9tIf20B7aQ3toD+2hPbSH9tAe2kN72H1M6WV0TOlDSil9CQAA///gy5r9wCMAAA==
+H4sIAAAAAAAE/zTWL48kVRfH8dtdVT0jVm3aoCiDYgVBoUiJdZTBQAtwKLICQUjLFuXIJi15AeMISb2AFi0bMwkC10GXwZBRqM3nnlPqk32m7vn+dnj+Pf///Ne2bEop3/327o9f3//39ve///3zn2/ef/ZzW8rYPj5c34anL0tZmvgz/Xluh135qlR958/rvz584V38fGyH+nP6Of18aeLn9J5+Tj+f8uf0c/o5/XzfHbvh61K1w599R99x/a58bmd8P7fH+j19T9/T9/T9mN/Tffqevqfv6fulifv0PX1P39P39P2U39P39D19T9/T931+T9/T9/Q9fU/fH7u5PX1bqn5P/uwdvaN39I7ru+unfq/xft/N9T29p/f0nt7Te3o/t/Ge+vSe3tN7ek/v6f2Y7+k9vaf39J7e03t6vzTRp/f0nt7Te3pP7+n9lO/pPb2n9/Se3tN7et/ne3pP7+k9vaf39J7eX7axn97Te3pP7+k9vaf3925prt+Xqn8f+LM7dIfu0B26Q3e43jl94t9Hce/YLfUe3aN7dI/u0T26R/fo3j7v0T66R/foHt2je3SP7tG9uY19dI/u0T26R/foHt2je3RvzHt0j+7RPbpH9+ge3aN7dG9pYh/do3t0j+7RPbpH9+ge3ZvyHt2je3SP7tE9ukf36B7d6/Me3aN7dI/u0T26R/foHt27bOPvS/foHt2je3SP7tE9ukf3DnmP7tE9ukf36B7do3t0j+4Nu74pP5Sq/5z4s7t0l+7SXbpLd+ku3eV6d/jYf+7i/r3r6326T/fpPt2n+3Sf7tN9uk/3j3mf9tN9uk/36T7dp/t0n+7Tfbq/z/t0n+7TfbpP9+k+3af7dJ/u0/25jd8P3af7dJ/u0326T/fpPt2n+3R/zPt0n+7TfbpP9+k+3af7dJ/u0/2lif10n+7TfbpP9+k+3af7dJ/u0/0p79N9uk/36T7dp/t0n+7TfbpP9/u8T/fpPt2n+3Sf7tN9uk/36T7dv2zj90P36T7dp/t0n+7TfbpP9+k+3T/kfbpP9+k+3af7dJ/u0326T/fp/ssm9tN9uk/36T7dp/t0n+7TfbpP9592h+3wY6n67yF/1qEOdahDHepQhzrUoQ7XTvnIf89Fb9gdao961KMe9ahHPepRj3rUox717l306O9HPepRj3rUox71qEc96lGPesfsUY961KMe9ahHPepRj3rUox719tmjHvWoRz3qUY961KMe9ahHPerNbfw+qUc96lGPetSjHvWoRz3qUY96Y/aoRz3qUY961KMe9ahHPepRj3pLE38/6lGPetSjHvWoRz3qUY961KPelD3qUY961KMe9ahHPepRj3rUo16fPepRj3rUox71qEc96lGPetSj3mUbv0/qUY961KMe9ahHPepRj3rUo94he9SjHvWoRz3qUY961KMe9ahHvZdN/P2oRz3qUY961KMe9ahHPepRj3rn7FGPetSjHvWoRz3qUY961KMe9R4fzpvTT6Xqfyf8WZe61KUudalLXepSl7rUpS7X7vW1/12K/tPuXPvUpz71qU996lOf+tSnPvWpT33qD9mnvz/1qU996lOf+tSnPvWpT33qU5/69y7+/tSnPvWpT33qU5/61Kc+9alPfepT/5h96lOf+tSnPvWpT33qU5/61Kc+9am/zz71qU996lOf+tSnPvWpT33qU5/61J/b+P1Tn/rUpz71qU996lOf+tSnPvWpT/0x+9SnPvWpT33qU5/61Kc+9alPfepTf2ni70996lOf+tSnPvWpT33qU5/61Kc+9afsU5/61Kc+9alPfepTn/rUpz71qU/9PvvUpz71qU996lOf+tSnPvWpT33qU/+yjd8/9alPfepTn/rUpz71qU996lOf+tQ/ZJ/61Kc+9alPfepTn/rUpz71qU996r9s4u9PfepTn/rUpz71qU996lOf+tSnPvXP2ac+9alPfepTn/rUpz71qU996lOf+m+yT33qU5/61Kc+9alPfepTn/rUpz713z3cyvWXUvX/A/zZDtpBO2gH7aAdtIN20A7aQTtoB+2gHVx3nF75/yGx5/HhVvfQHtpDe2gP7aE9tIf20B7aQ3toD+2hPbSH9jztYg/9fmgP7aE9tIf20B7aQ3toD+2hPbSH9tAe2kN7htxDe2gP7aE9tIf20B7aQ3toD+2hPbSH9tAe2kN77l38fmgP7aE9tIf20B7aQ3toD+2hPbSH9tAe2kN7aM8x99Ae2kN7aA/toT20h/bQHtpDe2gP7aE9tIf20J597qE9tIf20B7aQ3toD+2hPbSH9tAe2kN7aA/toT1zG/+8aA/toT20h/bQHtpDe2gP7aE9tIf20B7aQ3toz5h7aA/toT20h/bQHtpDe2gP7aE9tIf20B7aQ3toz9LE74f20B7aQ3toD+2hPbSH9tAe2kN7aA/toT20h/ZMuYf20B7aQ3toD+2hPbSH9tAe2kN7aA/toT20h/b0uYf20B7aQ3toD+2hPbSH9tAe2kN7aA/toT20h/ZctvHPi/bQHtpDe2gP7aE9tIf20B7aQ3toD+2hPbSH9hxyD+2hPbSH9tAe2kN7aA/toT20h/bQHtpDe2gP7XnZxO+H9tAe2kN7aA/toT20h/bQHtpDe2gP7aE9tIf2nHMP7aE9tIf20B7aQ3toD+2hPbSH9tAe2kN7aA/teZN7aA/toT20h/bQHtpDe2gP7aE9tIf20B7aQ3toz63EPy/aQ3toD+2hPbSH9tAe2kN7aA/toT20h/bw+rqUW7mV06tSSvkQAAD//z1XeMDAIwAA
 ```
 
 **[Code](../../cmd/examples/pyramid/main.go)**
@@ -14,31 +14,31 @@ package main
 
 import (
 	"fmt"
-	"github.com/johnfercher/taleslab/pkg/assetloaderv2"
+	"github.com/johnfercher/taleslab/pkg/assetloader"
 	slab2 "github.com/johnfercher/taleslab/pkg/slab"
-	"github.com/johnfercher/taleslab/pkg/slab/slabv2"
+	"github.com/johnfercher/taleslab/pkg/slabcompressor"
 	"github.com/johnfercher/taleslab/pkg/slabdecoder"
 	"log"
 )
 
 func main() {
-	loader := assetloaderv2.NewAssetLoaderV2()
+	loader := assetloader.NewAssetLoader()
 
 	constructors, err := loader.GetConstructors()
 	if err != nil {
 		log.Fatalln(err)
 	}
 
-	builder := slabdecoder.NewSlabEncoderBuilder()
-	encoder := builder.Build()
+	compressor := slabcompressor.New()
+	encoder := slabdecoder.NewEncoder(compressor)
 
-	slab := &slabv2.Slab{
+	slab := &slab2.Slab{
 		MagicBytes:  slab2.MagicBytes,
 		Version:     2,
 		AssetsCount: 1,
-		Assets: []*slabv2.Asset{
+		Assets: []*slab2.Asset{
 			{
-				Id: constructors[0].Id,
+				Id: constructors["nature_1"].Id,
 			},
 		},
 	}
@@ -48,13 +48,13 @@ func main() {
 	zSize := 20
 
 	for k := zSize; k > 0; k-- {
-		for i := xSize-k; i > k; i-- {
-			for j := ySize-k; j > k; j-- {
-				layout := &slabv2.Bounds{
-					Coordinates: &slabv2.Vector3d{
-						X: int16(slabv2.GainX * i),
-						Y: int16(slabv2.GainY * j),
-						Z: int16(slabv2.GainZ * k),
+		for i := xSize - k; i > k; i-- {
+			for j := ySize - k; j > k; j-- {
+				layout := &slab2.Bounds{
+					Coordinates: &slab2.Vector3d{
+						X: uint16(i),
+						Y: uint16(j),
+						Z: uint16(k),
 					},
 					Rotation: 0,
 				}
@@ -65,9 +65,7 @@ func main() {
 		}
 	}
 
-	base64, err := encoder.Encode(&slab2.Aggregator{
-		SlabV2: slab,
-	})
+	base64, err := encoder.Encode(slab)
 
 	if err != nil {
 		log.Fatal(err)
@@ -75,4 +73,5 @@ func main() {
 
 	fmt.Println(base64)
 }
+
 ```

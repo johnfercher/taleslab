@@ -42,9 +42,9 @@ func main() {
 				if rand.Int()%2 == 0 {
 					layout := &slab2.Bounds{
 						Coordinates: &slab2.Vector3d{
-							X: uint16((i - 1) * slab2.GainX),
+							X: uint16(i - 1),
 							Y: uint16(j - 1),
-							Z: uint16((k - 1) * slab2.GainZ),
+							Z: uint16(k - 1),
 						},
 						Rotation: uint16((j - 1) / 41),
 					}
@@ -55,14 +55,6 @@ func main() {
 			}
 		}
 	}
-
-	//bytesJson, err := json.Marshal(aggs)
-	//if err != nil {
-	//	log.Fatal(err)
-	//}
-	//
-	//jsonString := string(bytesJson)
-	//fmt.Println(jsonString)
 
 	base64, err := encoder.Encode(slab)
 
