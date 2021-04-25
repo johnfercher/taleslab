@@ -2,7 +2,6 @@ package slabdecoder
 
 import (
 	"bufio"
-	"fmt"
 	"github.com/johnfercher/taleslab/internal/byteparser"
 	"github.com/johnfercher/taleslab/pkg/slab"
 	"github.com/johnfercher/taleslab/pkg/slabcompressor"
@@ -95,13 +94,10 @@ func (self *decoder) decodeBounds(reader *bufio.Reader) (*slab.Bounds, error) {
 		return nil, err
 	}
 
-	oldY, err := byteparser.BufferToUint16(reader)
+	centerY, err := byteparser.BufferToUint16(reader)
 	if err != nil {
 		return nil, err
 	}
-
-	centerY := DecodeY(oldY)
-	//fmt.Printf("[DECODE: %d, %d]\n", oldY, centerY)
 
 	rotation, err := byteparser.BufferToUint16(reader)
 	if err != nil {
@@ -110,9 +106,9 @@ func (self *decoder) decodeBounds(reader *bufio.Reader) (*slab.Bounds, error) {
 
 	return &slab.Bounds{
 		Coordinates: &slab.Vector3d{
-			X: centerX,
-			Y: centerY,
-			Z: centerZ,
+			X: DecodeX(centerX),
+			Y: DecodeY(centerY),
+			Z: DecodeZ(centerZ),
 		},
 		Rotation: rotation,
 	}, nil
@@ -126,8 +122,6 @@ func (self *decoder) decodeAsset(reader *bufio.Reader) (*slab.Asset, error) {
 	if err != nil {
 		return nil, err
 	}
-
-	fmt.Println(idBytes)
 
 	asset.Id = append(asset.Id, idBytes...)
 

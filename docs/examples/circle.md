@@ -5,7 +5,7 @@
 
 **Base64**
 ```bash
-H4sIAAAAAAAE/0SPrQ0CQRCFvz1+FnECe+4MFHAFbBAkiCsACqAAcBiSLQCBwKBIqIAeMKjLYamAGsCQmdkLT+yXTWbee9N8mmeGA8bXu/ueLvPD4hxeYTstgdZDDEZqY1zCyANrmA0hbv7cDYA93PrGd89YJq4y+x+d7T0wn44i8VfV+iL5qgqdixMjBeaTo74dRZoHlk/qA9pP5rR3nu4ojOIr91JB6yEGgF8AAAD//ynsjnYgAQAA
+H4sIAAAAAAAE/0SPIa7CQBRFTztJ1VffVbUGBYKgUKSCNRAEEskiRuBIEyR7IOwAUQmmCQKLrsEQFIrcedNwzEnTN/e+137aW0oCrA6b065+zY/35/WxqMcl0DmoCrMfmJshbB0wgVL/pz+fU/AzWEa/E/veR4+iL4DerbGc3kL5Qn1C/YGcMNf8m/0flpMRcnsL9Qn1C+0jtJ/mwt6Z3aEc3aNc3UsOnYOqAPgGAAD//8hkvoYgAQAA
 ```
 
 **[Code](../../cmd/examples/circle/main.go)**
@@ -14,32 +14,32 @@ package main
 
 import (
 	"fmt"
-	"github.com/johnfercher/taleslab/pkg/assetloaderv2"
+	"github.com/johnfercher/taleslab/pkg/assetloader"
 	slab2 "github.com/johnfercher/taleslab/pkg/slab"
-	"github.com/johnfercher/taleslab/pkg/slab/slabv2"
+	"github.com/johnfercher/taleslab/pkg/slabcompressor"
 	"github.com/johnfercher/taleslab/pkg/slabdecoder"
 	"log"
 	"math"
 )
 
 func main() {
-	loader := assetloaderv2.NewAssetLoaderV2()
+	loader := assetloader.NewAssetLoader()
 
 	constructors, err := loader.GetConstructors()
 	if err != nil {
 		log.Fatalln(err)
 	}
 
-	builder := slabdecoder.NewSlabEncoderBuilder()
-	encoder := builder.Build()
+	compressor := slabcompressor.New()
+	encoder := slabdecoder.NewEncoder(compressor)
 
-	slab := &slabv2.Slab{
+	slab := &slab2.Slab{
 		MagicBytes:  slab2.MagicBytes,
 		Version:     2,
 		AssetsCount: 1,
-		Assets: []*slabv2.Asset{
+		Assets: []*slab2.Asset{
 			{
-				Id: constructors[0].Id,
+				Id: constructors["nature_1"].Id,
 			},
 		},
 	}
@@ -47,10 +47,19 @@ func main() {
 	radius := 5.0
 
 	for i := 0.0; i < 2.0*3.14; i += 0.2 {
-		layout := &slabv2.Bounds{
-			Coordinates: &slabv2.Vector3d{
-				X: 1000 + fix(slabv2.GainX*radius*math.Cos(i), slabv2.GainX),
-				Y: 16000 + fix(slabv2.GainY*radius*math.Sin(i), slabv2.GainY),
+		cos := math.Cos(i)
+		sin := math.Sin(i)
+
+		xRounded := fix(radius*cos, uint16(1))
+		yRounded := fix(radius*sin, uint16(1))
+
+		xPositiveTranslated := uint16(radius) + xRounded
+		yPositiveTranslated := uint16(radius) + yRounded
+
+		layout := &slab2.Bounds{
+			Coordinates: &slab2.Vector3d{
+				X: xPositiveTranslated,
+				Y: yPositiveTranslated,
 				Z: 0,
 			},
 			Rotation: 0,
@@ -60,9 +69,7 @@ func main() {
 		slab.Assets[0].LayoutsCount++
 	}
 
-	base64, err := encoder.Encode(&slab2.Aggregator{
-		SlabV2: slab,
-	})
+	base64, err := encoder.Encode(slab)
 
 	if err != nil {
 		log.Fatal(err)
@@ -71,11 +78,13 @@ func main() {
 	fmt.Println(base64)
 }
 
-func fix(value float64, fixValue float64) int16 {
-	division := value / fixValue
+func fix(value float64, fixValue uint16) uint16 {
+	division := value / float64(fixValue)
 
 	divisionRounded := math.Round(division)
+	top := uint16(divisionRounded * float64(fixValue))
 
-	return int16(divisionRounded * fixValue)
+	return top
 }
+
 ```

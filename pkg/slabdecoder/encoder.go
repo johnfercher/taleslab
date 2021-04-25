@@ -105,7 +105,7 @@ func (self *encode) encodeAssetLayouts(slab *slab.Slab) ([]byte, error) {
 	for _, asset := range slab.Assets {
 		for _, layout := range asset.Layouts {
 			// Center X
-			centerX, err := byteparser.BytesFromUint16(layout.Coordinates.X)
+			centerX, err := byteparser.BytesFromUint16(EncodeX(layout.Coordinates.X))
 			if err != nil {
 				return nil, err
 			}
@@ -113,7 +113,7 @@ func (self *encode) encodeAssetLayouts(slab *slab.Slab) ([]byte, error) {
 			layoutsArray = append(layoutsArray, centerX...)
 
 			// Center Z
-			centerZ, err := byteparser.BytesFromUint16(layout.Coordinates.Z)
+			centerZ, err := byteparser.BytesFromUint16(EncodeZ(layout.Coordinates.Z))
 			if err != nil {
 				return nil, err
 			}
@@ -121,11 +121,7 @@ func (self *encode) encodeAssetLayouts(slab *slab.Slab) ([]byte, error) {
 			layoutsArray = append(layoutsArray, centerZ...)
 
 			// Center Y
-			yEncoded := EncodeY(layout.Coordinates.Y)
-
-			//fmt.Printf("[ENCODE: %d, %d]\n", layout.Coordinates.Y, yEncoded)
-
-			centerY, err := byteparser.BytesFromUint16(yEncoded)
+			centerY, err := byteparser.BytesFromUint16(EncodeY(layout.Coordinates.Y))
 			if err != nil {
 				return nil, err
 			}

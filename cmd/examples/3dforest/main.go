@@ -31,9 +31,12 @@ func main() {
 		Version:    2,
 	}
 
-	gridHeights := generateGridHeights(20, 20)
-	gridStones := generateGridStones(20, 20)
-	gridTrees := generateGridTrees(20, 20, gridStones)
+	x := 50
+	y := 50
+
+	gridHeights := generateGridHeights(x, y)
+	gridStones := generateGridStones(x, y)
+	gridTrees := generateGridTrees(x, y, gridStones)
 
 	appendGroundToSlab(constructors, slabGenerated, gridHeights)
 	appendStonesToSlab(ornaments, slabGenerated, gridHeights, gridStones)
@@ -48,7 +51,7 @@ func main() {
 	fmt.Println(base64)
 }
 
-func appendStonesToSlab(ornaments map[string]assetloader.AssetInfo, generatedSlab *slab.Slab, gridHeights [][]int, gridStones [][]bool) {
+func appendStonesToSlab(ornaments map[string]assetloader.AssetInfo, generatedSlab *slab.Slab, gridHeights [][]uint16, gridStones [][]bool) {
 	generatedSlab.AssetsCount++
 	generatedSlab.Assets = append(generatedSlab.Assets,
 		&slab.Asset{
@@ -58,13 +61,13 @@ func appendStonesToSlab(ornaments map[string]assetloader.AssetInfo, generatedSla
 	for i, array := range gridHeights {
 		for j, element := range array {
 			if gridStones[i][j] {
-				addLayout(generatedSlab.Assets[2], i, j, element)
+				addLayout(generatedSlab.Assets[1], uint16(i), uint16(j), element)
 			}
 		}
 	}
 }
 
-func appendTreesToSlab(ornaments map[string]assetloader.AssetInfo, generatedSlab *slab.Slab, gridHeights [][]int, gridTrees [][]bool) {
+func appendTreesToSlab(ornaments map[string]assetloader.AssetInfo, generatedSlab *slab.Slab, gridHeights [][]uint16, gridTrees [][]bool) {
 	generatedSlab.AssetsCount++
 	generatedSlab.Assets = append(generatedSlab.Assets,
 		&slab.Asset{
@@ -74,48 +77,35 @@ func appendTreesToSlab(ornaments map[string]assetloader.AssetInfo, generatedSlab
 	for i, array := range gridHeights {
 		for j, element := range array {
 			if gridTrees[i][j] {
-				addLayout(generatedSlab.Assets[3], i, j, element+1)
+				addLayout(generatedSlab.Assets[2], uint16(i), uint16(j), element+1)
 			}
 		}
 	}
 }
 
-func appendGroundToSlab(constructors map[string]assetloader.AssetInfo, generatedSlab *slab.Slab, gridHeights [][]int) {
+func appendGroundToSlab(constructors map[string]assetloader.AssetInfo, generatedSlab *slab.Slab, gridHeights [][]uint16) {
 	generatedSlab.AssetsCount++
 	generatedSlab.Assets = append(generatedSlab.Assets,
 		&slab.Asset{
-			Id: constructors["nature"].Id,
-		})
-
-	generatedSlab.AssetsCount++
-	generatedSlab.Assets = append(generatedSlab.Assets,
-		&slab.Asset{
-			Id: constructors["nature_with_stones"].Id,
+			Id: constructors["nature_1"].Id,
 		})
 
 	for i, array := range gridHeights {
 		for j, element := range array {
-			useNormalGround := rand.Int()%2 == 0
-
-			if useNormalGround {
-				addLayout(generatedSlab.Assets[0], i, j, element)
-			} else {
-				addLayout(generatedSlab.Assets[1], i, j, element)
-			}
-
-			addLayout(generatedSlab.Assets[0], i, j, element-1)
-			addLayout(generatedSlab.Assets[0], i, j, element-2)
+			addLayout(generatedSlab.Assets[0], uint16(i), uint16(j), element)
+			addLayout(generatedSlab.Assets[0], uint16(i), uint16(j), element-1)
+			addLayout(generatedSlab.Assets[0], uint16(i), uint16(j), element-2)
 		}
 	}
 }
 
-func generateGridHeights(x, y int) [][]int {
+func generateGridHeights(x, y int) [][]uint16 {
 	base := 7.0
-	mainValue := 3
-	groundHeight := [][]int{}
+	mainValue := uint16(3)
+	groundHeight := [][]uint16{}
 
 	for i := 0; i < x; i++ {
-		array := []int{}
+		array := []uint16{}
 		for j := 0; j < y; j++ {
 			array = append(array, mainValue)
 		}
@@ -139,18 +129,18 @@ func generateGridHeights(x, y int) [][]int {
 
 			keepAvgHeight := rand.Int()%2 == 0
 			if keepAvgHeight {
-				groundHeight[i][j] = int(avgHeight)
+				groundHeight[i][j] = uint16(avgHeight)
 				continue
 			}
 
 			increaseHeight := rand.Int()%3 != 0
 			if increaseHeight {
-				groundHeight[i][j] = int(avgHeight) + 1
+				groundHeight[i][j] = uint16(avgHeight) + 1
 				continue
 			}
 
 			if int(avgHeight)-1 > 3 {
-				groundHeight[i][j] = int(avgHeight) - 1
+				groundHeight[i][j] = uint16(avgHeight) - 1
 			}
 
 			continue
@@ -255,14 +245,14 @@ func generateGridTrees(x, y int, gridStones [][]bool) [][]bool {
 	return groundStones
 }
 
-func addLayout(asset *slab.Asset, x, y, z int) {
+func addLayout(asset *slab.Asset, x, y, z uint16) {
 	layout := &slab.Bounds{
 		Coordinates: &slab.Vector3d{
-			X: uint16(slab.GainX * x),
-			Y: uint16(slab.GainY * y),
-			Z: uint16(slab.GainZ * z),
+			X: x,
+			Y: y,
+			Z: z,
 		},
-		Rotation: 0,
+		Rotation: y / 41,
 	}
 
 	asset.Layouts = append(asset.Layouts, layout)
