@@ -103,7 +103,7 @@ func (self *decoderV2) decodeBounds(reader *bufio.Reader) (*slabv2.Bounds, error
 	centerY := DecodeY(oldY)
 	//fmt.Printf("[DECODE: %d, %d]\n", oldY, centerY)
 
-	rotation, err := byteparser.BufferToInt16(reader)
+	rotation, err := byteparser.BufferToUint16(reader)
 	if err != nil {
 		return nil, err
 	}

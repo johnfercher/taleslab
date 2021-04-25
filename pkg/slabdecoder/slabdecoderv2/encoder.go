@@ -133,7 +133,7 @@ func (self *encodeV2) encodeAssetLayouts(slab *slabv2.Slab) ([]byte, error) {
 			layoutsArray = append(layoutsArray, centerY...)
 
 			// Rotation
-			rotation, err := byteparser.BytesFromInt16(layout.Rotation)
+			rotation, err := byteparser.BytesFromUint16(layout.Rotation)
 			if err != nil {
 				return nil, err
 			}

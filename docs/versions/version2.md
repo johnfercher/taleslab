@@ -93,4 +93,28 @@ H4sIAAAAAAAACzv369xFJgYmBgaG7pL+4F2SeZ7t9wUSuyZLlDACxXYovn/klGjqOCNyUuOKTWF/QOr6
 | 1536 | {0,6}->{0,0} | 360->0 |
 
 ### Conversion
-Degress = float32(ByteArray As Int16) / 1536.0 * 360.0
+```
+Degrees = float32(ByteArray As Int16) / 1536.0 * 360.0
+```
+
+### Generating slabs larger than 41 tiles on the Y axis
+
+When generating slabs larger than 41 tiles on the Y axis, the rotation of the tile is taken into account. 
+
+The algorithm used is the following:
+
+``` 
+Rotation = (Ny - 1) / 41  
+```
+Where Ny is the Y axis value of the Nth tile relative to the origin.
+
+Ex:
+
+``` 
+For a line of 1x50 blocks of 1x1 grass:
+- Blocks 0 ~ 40 will have a rotation equal to => [0,384,768,1152] + 0
+- Blocks 41 ~ 49 will have a rotation equal to => [0,384,768,1152] + 1
+Note: The values inside the brackets are the possible base rotations for the 1x1 grass tile.
+Other values may apply to other blocks.
+```
+ 
