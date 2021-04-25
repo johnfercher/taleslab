@@ -1,4 +1,4 @@
-package slabv2
+package slab
 
 type Bounds struct {
 	Coordinates *Vector3d `json:"coordinates"`

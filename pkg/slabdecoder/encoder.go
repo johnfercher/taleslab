@@ -1,26 +1,26 @@
-package slabdecoderv2
+package slabdecoder
 
 import (
 	"github.com/johnfercher/taleslab/internal/byteparser"
-	"github.com/johnfercher/taleslab/pkg/slab/slabv2"
+	"github.com/johnfercher/taleslab/pkg/slab"
 	"github.com/johnfercher/taleslab/pkg/slabcompressor"
 )
 
-type EncoderV2 interface {
-	Encode(slab *slabv2.Slab) (string, error)
+type Encoder interface {
+	Encode(slab *slab.Slab) (string, error)
 }
 
-type encodeV2 struct {
+type encode struct {
 	slabCompressor slabcompressor.SlabCompressor
 }
 
-func NewEncoderV2(slabCompressor slabcompressor.SlabCompressor) *encodeV2 {
-	return &encodeV2{
+func NewEncoder(slabCompressor slabcompressor.SlabCompressor) *encode {
+	return &encode{
 		slabCompressor: slabCompressor,
 	}
 }
 
-func (self *encodeV2) Encode(slab *slabv2.Slab) (string, error) {
+func (self *encode) Encode(slab *slab.Slab) (string, error) {
 	slabByteArray := []byte{}
 
 	// Magic Hex
@@ -72,7 +72,7 @@ func (self *encodeV2) Encode(slab *slabv2.Slab) (string, error) {
 	return slabBase64, nil
 }
 
-func (self *encodeV2) encodeAssets(slab *slabv2.Slab) ([]byte, error) {
+func (self *encode) encodeAssets(slab *slab.Slab) ([]byte, error) {
 	assetsArray := []byte{}
 
 	// For
@@ -98,7 +98,7 @@ func (self *encodeV2) encodeAssets(slab *slabv2.Slab) ([]byte, error) {
 	return assetsArray, nil
 }
 
-func (self *encodeV2) encodeAssetLayouts(slab *slabv2.Slab) ([]byte, error) {
+func (self *encode) encodeAssetLayouts(slab *slab.Slab) ([]byte, error) {
 	layoutsArray := []byte{}
 
 	// For

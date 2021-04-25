@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/johnfercher/taleslab/pkg/slabcompressor"
-	"github.com/johnfercher/taleslab/pkg/slabdecoder/slabdecoderv2"
+	"github.com/johnfercher/taleslab/pkg/slabdecoder"
 	"log"
 )
 
@@ -12,8 +12,8 @@ func main() {
 	original := "H4sIAAAAAAAACzv369xFJgZGBgaGmBk5a7t7P7msvvr25L2wXgOQGAIAAPn3NnkoAAAA"
 
 	slabCompressor := slabcompressor.New()
-	decoder := slabdecoderv2.NewDecoderV2(slabCompressor)
-	encoder := slabdecoderv2.NewEncoderV2(slabCompressor)
+	decoder := slabdecoder.NewDecoder(slabCompressor)
+	encoder := slabdecoder.NewEncoder(slabCompressor)
 
 	slab, err := decoder.Decode(original)
 	if err != nil {

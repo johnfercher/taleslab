@@ -1,4 +1,4 @@
-package slabv2
+package slab
 
 const (
 	GainX = 100.0

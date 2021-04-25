@@ -1,4 +1,4 @@
-package slabdecoderv2
+package slabdecoder
 
 func DecodeY(y uint16) uint16 {
 	result1 := y / 1600

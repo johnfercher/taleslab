@@ -2,29 +2,29 @@ package main
 
 import (
 	"fmt"
-	"github.com/johnfercher/taleslab/pkg/assetloaderv2"
+	"github.com/johnfercher/taleslab/pkg/assetloader"
 	slab2 "github.com/johnfercher/taleslab/pkg/slab"
-	"github.com/johnfercher/taleslab/pkg/slab/slabv2"
+	"github.com/johnfercher/taleslab/pkg/slabcompressor"
 	"github.com/johnfercher/taleslab/pkg/slabdecoder"
 	"log"
 )
 
 func main() {
-	loader := assetloaderv2.NewAssetLoaderV2()
+	loader := assetloader.NewAssetLoader()
 
 	constructors, err := loader.GetConstructors()
 	if err != nil {
 		log.Fatalln(err)
 	}
 
-	builder := slabdecoder.NewSlabEncoderBuilder()
-	encoder := builder.Build()
+	compressor := slabcompressor.New()
+	encoder := slabdecoder.NewEncoder(compressor)
 
-	slab := &slabv2.Slab{
+	slab := &slab2.Slab{
 		MagicBytes:  slab2.MagicBytes,
 		Version:     2,
 		AssetsCount: 1,
-		Assets: []*slabv2.Asset{
+		Assets: []*slab2.Asset{
 			{
 				Id: constructors["nature"].Id,
 			},
@@ -38,11 +38,11 @@ func main() {
 	for k := zSize; k > 0; k-- {
 		for i := xSize - k; i > k; i-- {
 			for j := ySize - k; j > k; j-- {
-				layout := &slabv2.Bounds{
-					Coordinates: &slabv2.Vector3d{
-						X: uint16(slabv2.GainX * i),
-						Y: uint16(slabv2.GainY * j),
-						Z: uint16(slabv2.GainZ * k),
+				layout := &slab2.Bounds{
+					Coordinates: &slab2.Vector3d{
+						X: uint16(slab2.GainX * i),
+						Y: uint16(slab2.GainY * j),
+						Z: uint16(slab2.GainZ * k),
 					},
 					Rotation: 0,
 				}
@@ -53,9 +53,7 @@ func main() {
 		}
 	}
 
-	base64, err := encoder.Encode(&slab2.Aggregator{
-		SlabV2: slab,
-	})
+	base64, err := encoder.Encode(slab)
 
 	if err != nil {
 		log.Fatal(err)

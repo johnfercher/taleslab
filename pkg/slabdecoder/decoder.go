@@ -1,28 +1,29 @@
-package slabdecoderv1
+package slabdecoder
 
 import (
 	"bufio"
+	"fmt"
 	"github.com/johnfercher/taleslab/internal/byteparser"
-	"github.com/johnfercher/taleslab/pkg/slab/slabv1"
+	"github.com/johnfercher/taleslab/pkg/slab"
 	"github.com/johnfercher/taleslab/pkg/slabcompressor"
 )
 
-type DecoderV1 interface {
-	Decode(slabBase64 string) (*slabv1.Slab, error)
+type Decoder interface {
+	Decode(slabBase64 string) (*slab.Slab, error)
 }
 
-type decoderV1 struct {
+type decoder struct {
 	slabCompressor slabcompressor.SlabCompressor
 }
 
-func NewDecoderV1(slabCompressor slabcompressor.SlabCompressor) *decoderV1 {
-	return &decoderV1{
+func NewDecoder(slabCompressor slabcompressor.SlabCompressor) *decoder {
+	return &decoder{
 		slabCompressor: slabCompressor,
 	}
 }
 
-func (self *decoderV1) Decode(slabBase64 string) (*slabv1.Slab, error) {
-	slab := &slabv1.Slab{}
+func (self *decoder) Decode(slabBase64 string) (*slab.Slab, error) {
+	slab := &slab.Slab{}
 
 	reader, err := self.slabCompressor.StringBase64ToReader(slabBase64)
 	if err != nil {
@@ -62,6 +63,9 @@ func (self *decoderV1) Decode(slabBase64 string) (*slabv1.Slab, error) {
 		slab.Assets = append(slab.Assets, asset)
 	}
 
+	// TODO: understand why this
+	_, _ = byteparser.BufferToInt16(reader)
+
 	// Assets.Layouts
 	i = int16(0)
 	for i = 0; i < assetCount; i++ {
@@ -77,79 +81,53 @@ func (self *decoderV1) Decode(slabBase64 string) (*slabv1.Slab, error) {
 		}
 	}
 
-	// Bounds
-	bounds, err := self.decodeBounds(reader)
-	if err != nil {
-		return nil, err
-	}
-
-	slab.Bounds = bounds
-
 	return slab, nil
 }
 
-func (self *decoderV1) decodeBounds(reader *bufio.Reader) (*slabv1.Bounds, error) {
-	centerX, err := byteparser.BufferToFloat32(reader)
+func (self *decoder) decodeBounds(reader *bufio.Reader) (*slab.Bounds, error) {
+	centerX, err := byteparser.BufferToUint16(reader)
 	if err != nil {
 		return nil, err
 	}
 
-	centerY, err := byteparser.BufferToFloat32(reader)
+	centerZ, err := byteparser.BufferToUint16(reader)
 	if err != nil {
 		return nil, err
 	}
 
-	centerZ, err := byteparser.BufferToFloat32(reader)
+	oldY, err := byteparser.BufferToUint16(reader)
 	if err != nil {
 		return nil, err
 	}
 
-	extentsX, err := byteparser.BufferToFloat32(reader)
+	centerY := DecodeY(oldY)
+	//fmt.Printf("[DECODE: %d, %d]\n", oldY, centerY)
+
+	rotation, err := byteparser.BufferToUint16(reader)
 	if err != nil {
 		return nil, err
 	}
 
-	extentsY, err := byteparser.BufferToFloat32(reader)
-	if err != nil {
-		return nil, err
-	}
-
-	extentsZ, err := byteparser.BufferToFloat32(reader)
-	if err != nil {
-		return nil, err
-	}
-
-	rotation, err := byteparser.BufferToInt8(reader)
-	if err != nil {
-		return nil, err
-	}
-
-	// TODO: understand why this
-	_, _ = byteparser.BufferToBytes(reader, 3)
-
-	return &slabv1.Bounds{
-		Center: &slabv1.Vector3f{
+	return &slab.Bounds{
+		Coordinates: &slab.Vector3d{
 			X: centerX,
 			Y: centerY,
 			Z: centerZ,
-		},
-		Extents: &slabv1.Vector3f{
-			X: extentsX,
-			Y: extentsY,
-			Z: extentsZ,
 		},
 		Rotation: rotation,
 	}, nil
 }
 
-func (self *decoderV1) decodeAsset(reader *bufio.Reader) (*slabv1.Asset, error) {
-	asset := &slabv1.Asset{}
+func (self *decoder) decodeAsset(reader *bufio.Reader) (*slab.Asset, error) {
+	asset := &slab.Asset{}
 
 	// Id
-	idBytes, err := byteparser.BufferToBytes(reader, 16)
+	idBytes, err := byteparser.BufferToBytes(reader, 18)
 	if err != nil {
 		return nil, err
 	}
+
+	fmt.Println(idBytes)
 
 	asset.Id = append(asset.Id, idBytes...)
 
@@ -159,9 +137,6 @@ func (self *decoderV1) decodeAsset(reader *bufio.Reader) (*slabv1.Asset, error) 
 		return nil, err
 	}
 	asset.LayoutsCount = count
-
-	// End of Structure 2
-	_, _ = byteparser.BufferToBytes(reader, 2)
 
 	return asset, nil
 }
