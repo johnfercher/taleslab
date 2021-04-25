@@ -8,8 +8,6 @@ import (
 	"github.com/johnfercher/taleslab/pkg/slabcompressor"
 	"github.com/johnfercher/taleslab/pkg/slabdecoder"
 	"log"
-	"math/rand"
-	"time"
 )
 
 func main() {
@@ -38,12 +36,12 @@ func main() {
 
 	world := generateGround(worldX, worldY)
 
-	gridStones := gridhelper.GenerateRandomGridPositions(worldX, worldY, 83)
-	gridTrees := gridhelper.GenerateExclusiveRandomGrid(worldX, worldY, 11, gridStones)
+	gridStones := gridhelper.GenerateRandomGridPositions(worldX, worldY, 223)
+	gridCactus := gridhelper.GenerateExclusiveRandomGrid(worldX, worldY, 113, gridStones)
 
 	appendGroundToSlab(constructors, slabGenerated, world)
 	appendStonesToSlab(ornaments, slabGenerated, world, gridStones)
-	appendTreesToSlab(ornaments, slabGenerated, world, gridTrees)
+	appendCactusToSlab(ornaments, slabGenerated, world, gridCactus)
 
 	base64, err := encoder.Encode(slabGenerated)
 
@@ -55,31 +53,7 @@ func main() {
 }
 
 func generateGround(worldX, worldY int) [][]uint16 {
-	world := gridhelper.TerrainGenerator(worldX, worldY, 2.0, 2.0, 5.0)
-
-	rand.Seed(time.Now().UnixNano())
-
-	iCount := rand.Intn(6) + 3
-
-	rand.Seed(time.Now().UnixNano())
-	jCount := rand.Intn(6) + 3
-
-	for i := 0; i < iCount; i++ {
-		for j := 0; j < jCount; j++ {
-			rand.Seed(time.Now().UnixNano())
-			mountainX := rand.Intn(30) + 15
-
-			rand.Seed(time.Now().UnixNano())
-			mountainY := rand.Intn(30) + 15
-
-			rand.Seed(time.Now().UnixNano())
-			gain := float64(rand.Intn(10.0) + 10.0)
-
-			mountain := gridhelper.MountainGenerator(mountainX, mountainY, gain)
-			world = gridhelper.BuildTerrain(world, mountain)
-		}
-	}
-
+	world := gridhelper.TerrainGenerator(worldX, worldY, 3.0, 3.0, 5.0)
 	return world
 }
 func appendStonesToSlab(ornaments map[string]assetloader.AssetInfo, generatedSlab *slab.Slab, gridHeights [][]uint16, gridStones [][]bool) {
@@ -98,11 +72,11 @@ func appendStonesToSlab(ornaments map[string]assetloader.AssetInfo, generatedSla
 	}
 }
 
-func appendTreesToSlab(ornaments map[string]assetloader.AssetInfo, generatedSlab *slab.Slab, gridHeights [][]uint16, gridTrees [][]bool) {
+func appendCactusToSlab(ornaments map[string]assetloader.AssetInfo, generatedSlab *slab.Slab, gridHeights [][]uint16, gridTrees [][]bool) {
 	generatedSlab.AssetsCount++
 	generatedSlab.Assets = append(generatedSlab.Assets,
 		&slab.Asset{
-			Id: ornaments["pine_tree_big"].Id,
+			Id: ornaments["cactus_small"].Id,
 		})
 
 	for i, array := range gridHeights {
@@ -118,7 +92,7 @@ func appendGroundToSlab(constructors map[string]assetloader.AssetInfo, generated
 	generatedSlab.AssetsCount++
 	generatedSlab.Assets = append(generatedSlab.Assets,
 		&slab.Asset{
-			Id: constructors["ground_nature_small"].Id,
+			Id: constructors["ground_sand_small"].Id,
 		})
 
 	for i, array := range gridHeights {
