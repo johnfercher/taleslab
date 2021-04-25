@@ -2,19 +2,40 @@ package gridhelper
 
 import (
 	"math/rand"
+	"time"
 )
 
-func GenerateRandomGridPositions(x, y, randomBias int) [][]bool {
-	defaultValue := false
-	groundSpots := [][]bool{}
+func GenerateUintGrid(x, y int, defaultValue uint16) [][]uint16 {
+	unitGrid := [][]uint16{}
+
+	for i := 0; i < x; i++ {
+		array := []uint16{}
+		for j := 0; j < y; j++ {
+			array = append(array, defaultValue)
+		}
+		unitGrid = append(unitGrid, array)
+	}
+
+	return unitGrid
+}
+
+func GenerateBoolGrid(x, y int, defaultValue bool) [][]bool {
+	boolGrid := [][]bool{}
 
 	for i := 0; i < x; i++ {
 		array := []bool{}
 		for j := 0; j < y; j++ {
 			array = append(array, defaultValue)
 		}
-		groundSpots = append(groundSpots, array)
+		boolGrid = append(boolGrid, array)
 	}
+
+	return boolGrid
+}
+
+func GenerateRandomGridPositions(x, y, randomBias int) [][]bool {
+	defaultValue := false
+	groundSpots := GenerateBoolGrid(x, y, defaultValue)
 
 	for i := 0; i < x; i++ {
 		for j := 0; j < y; j++ {
@@ -39,7 +60,7 @@ func GenerateRandomGridPositions(x, y, randomBias int) [][]bool {
 
 func GenerateExclusiveRandomGrid(x, y, randomBias int, unavailableSpots [][]bool) [][]bool {
 	defaultValue := false
-	groundSpots := [][]bool{}
+	groundSpots := GenerateBoolGrid(x, y, defaultValue)
 
 	for i := 0; i < x; i++ {
 		array := []bool{}
@@ -80,12 +101,19 @@ func BuildTerrain(world [][]uint16, asset [][]uint16) [][]uint16 {
 	assetXMax := len(asset)
 	assetYMax := len(asset[0])
 
-	randomXPosition := rand.Int() % (xMax - assetXMax)
-	randomYPosition := rand.Int() % (yMax - assetYMax)
+	rand.Seed(time.Now().UnixNano())
 
-	for i := randomXPosition; i < randomXPosition+assetXMax; i++ {
-		for j := randomYPosition; j < randomYPosition+assetYMax; j++ {
-			world[i][j] = asset[randomXPosition-i][randomYPosition-j]
+	randomXPosition := rand.Intn(xMax - assetXMax)
+	randomYPosition := rand.Intn(yMax - assetYMax)
+
+	for i := 0; i < assetXMax; i++ {
+		for j := 0; j < assetYMax; j++ {
+			assetValue := asset[i][j]
+			worldValue := world[i+randomXPosition][j+randomYPosition]
+
+			if assetValue > worldValue {
+				world[i+randomXPosition][j+randomYPosition] = assetValue
+			}
 		}
 	}
 

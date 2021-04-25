@@ -2,12 +2,16 @@ package gridhelper
 
 import (
 	"fmt"
+	"math/rand"
 	"testing"
+	"time"
 )
 
 func TestBuildTerrain(t *testing.T) {
-	x := 10
-	y := 10
+	rand.Seed(time.Now().Unix())
+
+	x := 20
+	y := 20
 
 	world := [][]uint16{}
 
@@ -19,7 +23,14 @@ func TestBuildTerrain(t *testing.T) {
 		world = append(world, array)
 	}
 
-	mountain := MountainGenerator(3, 3, 2, 2, 20)
+	mountain := MountainGenerator(6, 6, 30)
+
+	for i := 0; i < len(mountain); i++ {
+		for j := 0; j < len(mountain[0]); j++ {
+			fmt.Printf("%d\t", mountain[i][j])
+		}
+		println()
+	}
 
 	world = BuildTerrain(world, mountain)
 
@@ -29,5 +40,4 @@ func TestBuildTerrain(t *testing.T) {
 		}
 		println()
 	}
-
 }

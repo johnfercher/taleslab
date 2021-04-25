@@ -8,6 +8,8 @@ import (
 	"github.com/johnfercher/taleslab/pkg/slabcompressor"
 	"github.com/johnfercher/taleslab/pkg/slabdecoder"
 	"log"
+	"math/rand"
+	"time"
 )
 
 func main() {
@@ -31,16 +33,17 @@ func main() {
 		Version:    2,
 	}
 
-	x := 50
-	y := 50
+	worldX := 80
+	worldY := 80
 
-	gridHeights := gridhelper.MountainGenerator(x, y, 2.0, 2.0, 20.0)
-	gridStones := gridhelper.GenerateRandomGridPositions(x, y, 83)
-	gridTrees := gridhelper.GenerateExclusiveRandomGrid(x, y, 11, gridStones)
+	world := generateGround(worldX, worldY)
 
-	appendGroundToSlab(constructors, slabGenerated, gridHeights)
-	appendStonesToSlab(ornaments, slabGenerated, gridHeights, gridStones)
-	appendTreesToSlab(ornaments, slabGenerated, gridHeights, gridTrees)
+	gridStones := gridhelper.GenerateRandomGridPositions(worldX, worldY, 83)
+	gridTrees := gridhelper.GenerateExclusiveRandomGrid(worldX, worldY, 11, gridStones)
+
+	appendGroundToSlab(constructors, slabGenerated, world)
+	appendStonesToSlab(ornaments, slabGenerated, world, gridStones)
+	appendTreesToSlab(ornaments, slabGenerated, world, gridTrees)
 
 	base64, err := encoder.Encode(slabGenerated)
 
@@ -51,6 +54,28 @@ func main() {
 	fmt.Println(base64)
 }
 
+func generateGround(worldX, worldY int) [][]uint16 {
+	world := gridhelper.TerrainGenerator(worldX, worldY, 2.0, 2.0, 5.0)
+
+	rand.Seed(time.Now().UnixNano())
+
+	iCount := rand.Intn(2) + 2
+	jCount := rand.Intn(2) + 2
+
+	for i := 0; i < iCount; i++ {
+		for j := 0; j < jCount; j++ {
+			mountainX := 15 + (i+1)*3
+			mountainY := 15 + (j+1)*3
+
+			gain := float64(rand.Intn(10.0) + 15.0)
+
+			mountain := gridhelper.MountainGenerator(mountainX, mountainY, gain)
+			world = gridhelper.BuildTerrain(world, mountain)
+		}
+	}
+
+	return world
+}
 func appendStonesToSlab(ornaments map[string]assetloader.AssetInfo, generatedSlab *slab.Slab, gridHeights [][]uint16, gridStones [][]bool) {
 	generatedSlab.AssetsCount++
 	generatedSlab.Assets = append(generatedSlab.Assets,
@@ -92,9 +117,28 @@ func appendGroundToSlab(constructors map[string]assetloader.AssetInfo, generated
 
 	for i, array := range gridHeights {
 		for j, element := range array {
-			addLayout(generatedSlab.Assets[0], uint16(i), uint16(j), element)
-			addLayout(generatedSlab.Assets[0], uint16(i), uint16(j), element-1)
-			addLayout(generatedSlab.Assets[0], uint16(i), uint16(j), element-2)
+			minValue := element
+
+			if i > 0 && gridHeights[i-1][j] < minValue {
+				minValue = gridHeights[i-1][j]
+			}
+
+			if i < len(gridHeights)-1 && gridHeights[i+1][j] < minValue {
+				minValue = gridHeights[i+1][j]
+			}
+
+			if j > 0 && gridHeights[i][j-1] < minValue {
+				minValue = gridHeights[i][j-1]
+			}
+
+			if j < len(gridHeights[i])-1 && gridHeights[i][j+1] < minValue {
+				minValue = gridHeights[i][j+1]
+			}
+
+			// Use the minimum neighborhood height to fill empty spaces
+			for k := minValue; k <= element; k++ {
+				addLayout(generatedSlab.Assets[0], uint16(i), uint16(j), k)
+			}
 		}
 	}
 }
