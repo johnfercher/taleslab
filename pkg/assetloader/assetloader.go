@@ -1,4 +1,4 @@
-package assetloaderv2
+package assetloader
 
 import (
 	"encoding/json"
@@ -12,20 +12,20 @@ type AssetInfo struct {
 	Type      string `json:"type"`
 }
 
-type AssetLoaderV2 interface {
+type AssetLoader interface {
 	GetConstructors() (map[string]AssetInfo, error)
 	GetOrnaments() (map[string]AssetInfo, error)
 }
 
-type assetLoaderV2 struct {
+type assetLoader struct {
 }
 
-func NewAssetLoaderV2() *assetLoaderV2 {
-	return &assetLoaderV2{}
+func NewAssetLoader() *assetLoader {
+	return &assetLoader{}
 }
 
-func (self *assetLoaderV2) GetConstructors() (map[string]AssetInfo, error) {
-	bytes, err := ioutil.ReadFile("./config/assets/constructors_v2.json")
+func (self *assetLoader) GetConstructors() (map[string]AssetInfo, error) {
+	bytes, err := ioutil.ReadFile("./config/assets/constructors.json")
 	if err != nil {
 		return nil, err
 	}
@@ -38,7 +38,7 @@ func (self *assetLoaderV2) GetConstructors() (map[string]AssetInfo, error) {
 	}
 
 	for i := 0; i < len(assetInfos); i++ {
-		assetInfos[i].Type = "constructors_v2"
+		assetInfos[i].Type = "constructors"
 	}
 
 	assetMap := make(map[string]AssetInfo)
@@ -50,8 +50,8 @@ func (self *assetLoaderV2) GetConstructors() (map[string]AssetInfo, error) {
 	return assetMap, nil
 }
 
-func (self *assetLoaderV2) GetOrnaments() (map[string]AssetInfo, error) {
-	bytes, err := ioutil.ReadFile("./config/assets/ornaments_v2.json")
+func (self *assetLoader) GetOrnaments() (map[string]AssetInfo, error) {
+	bytes, err := ioutil.ReadFile("./config/assets/ornaments.json")
 	if err != nil {
 		return nil, err
 	}
@@ -64,7 +64,7 @@ func (self *assetLoaderV2) GetOrnaments() (map[string]AssetInfo, error) {
 	}
 
 	for i := 0; i < len(assetInfos); i++ {
-		assetInfos[i].Type = "ornaments_v2"
+		assetInfos[i].Type = "ornaments"
 	}
 
 	assetMap := make(map[string]AssetInfo)

@@ -1,4 +1,4 @@
-package slabv1
+package slab
 
 type Asset struct {
 	Id           []byte    `json:"id"`

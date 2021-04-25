@@ -5,7 +5,7 @@ import (
 	"bytes"
 	"fmt"
 	"github.com/johnfercher/taleslab/internal/byteparser"
-	"github.com/johnfercher/taleslab/pkg/slabdecoder/slabdecoderv2"
+	"github.com/johnfercher/taleslab/pkg/slabdecoder"
 	"log"
 )
 
@@ -23,6 +23,6 @@ func main() {
 			log.Fatalln(err)
 		}
 
-		fmt.Println(slabdecoderv2.DecodeY(value))
+		fmt.Println(slabdecoder.DecodeY(value))
 	}
 }

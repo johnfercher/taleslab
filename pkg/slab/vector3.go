@@ -1,4 +1,4 @@
-package slabv2
+package slab
 
 type Vector3d struct {
 	X uint16 `json:"x"`
