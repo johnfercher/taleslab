@@ -72,3 +72,22 @@ func GenerateExclusiveRandomGrid(x, y, randomBias int, unavailableSpots [][]bool
 	}
 	return groundSpots
 }
+
+func BuildTerrain(world [][]uint16, asset [][]uint16) [][]uint16 {
+	xMax := len(world)
+	yMax := len(world[0])
+
+	assetXMax := len(asset)
+	assetYMax := len(asset[0])
+
+	randomXPosition := rand.Int() % (xMax - assetXMax)
+	randomYPosition := rand.Int() % (yMax - assetYMax)
+
+	for i := randomXPosition; i < randomXPosition+assetXMax; i++ {
+		for j := randomYPosition; j < randomYPosition+assetYMax; j++ {
+			world[i][j] = asset[randomXPosition-i][randomYPosition-j]
+		}
+	}
+
+	return world
+}
