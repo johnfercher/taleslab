@@ -33,8 +33,8 @@ func main() {
 		Version:    2,
 	}
 
-	worldX := 80
-	worldY := 80
+	worldX := 70
+	worldY := 70
 
 	world := generateGround(worldX, worldY)
 
@@ -59,15 +59,21 @@ func generateGround(worldX, worldY int) [][]uint16 {
 
 	rand.Seed(time.Now().UnixNano())
 
-	iCount := rand.Intn(2) + 2
-	jCount := rand.Intn(2) + 2
+	iCount := rand.Intn(6) + 3
+
+	rand.Seed(time.Now().UnixNano())
+	jCount := rand.Intn(6) + 3
 
 	for i := 0; i < iCount; i++ {
 		for j := 0; j < jCount; j++ {
-			mountainX := 15 + (i+1)*3
-			mountainY := 15 + (j+1)*3
+			rand.Seed(time.Now().UnixNano())
+			mountainX := rand.Intn(30) + 15
 
-			gain := float64(rand.Intn(10.0) + 15.0)
+			rand.Seed(time.Now().UnixNano())
+			mountainY := rand.Intn(30) + 15
+
+			rand.Seed(time.Now().UnixNano())
+			gain := float64(rand.Intn(10.0) + 10.0)
 
 			mountain := gridhelper.MountainGenerator(mountainX, mountainY, gain)
 			world = gridhelper.BuildTerrain(world, mountain)
