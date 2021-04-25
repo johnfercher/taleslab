@@ -1,37 +1,65 @@
 [
     {
       "id": "AACRYh1DNktSTIna2zN6DGBz",
-      "name": "dead_tree",
-      "dimension": "1x1"
+      "name": "dead_tree_big",
+      "dimensions": {
+        "width": 2,
+        "length": 2,
+        "height": 2
+      }
     },
     {
       "id": "AACmti5NH3hdToBfG7WRV5Nl",
-      "name": "small_coconut_tree",
-      "dimension": "1x1"
+      "name": "coconut_tree_small",
+      "dimensions": {
+        "width": 2,
+        "length": 2,
+        "height": 2
+      }
     },
     {
       "id": "AABx/so+p7uARbfEaUtHMDsv",
-      "name": "coconut_tree",
-      "dimension": "1x1"
+      "name": "coconut_tree_big",
+      "dimensions": {
+        "width": 2,
+        "length": 2,
+        "height": 2
+      }
     },
     {
       "id": "AABFOYg/A21LSqG7URITw7na",
-      "name": "pine_tree",
-      "dimension": "1x1"
+      "name": "pine_tree_big",
+      "dimensions": {
+        "width": 2,
+        "length": 2,
+        "height": 2
+      }
     },
     {
       "id": "AADRajctsM4UQLRvIIBdDc94",
-      "name": "ice_pine_tree",
-      "dimension": "1x1"
+      "name": "ice_pine_tree_big",
+      "dimensions": {
+        "width": 2,
+        "length": 2,
+        "height": 2
+      }
     },
     {
       "id": "AABKUWVmd8+rTK08RXqSSmjZ",
-      "name": "rectangle_bush",
-      "dimension": "1x1"
+      "name": "rectangle_bush_small",
+      "dimensions": {
+        "width": 2,
+        "length": 1,
+        "height": 2
+      }
     },
     {
       "id": "AAAnlx5Fc7wsRoxGUSaH5uFw",
-      "name": "big_stone",
-      "dimension": "2x2"
+      "name": "stone_big",
+      "dimensions": {
+        "width": 2,
+        "length": 2,
+        "height": 2
+      }
     }
 ]
