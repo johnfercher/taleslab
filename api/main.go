@@ -9,6 +9,7 @@ import (
 	"github.com/johnfercher/taleslab/pkg/slabcompressor"
 	"github.com/johnfercher/taleslab/pkg/slabdecoder"
 	"net/http"
+	"os"
 )
 
 func main() {
@@ -30,7 +31,14 @@ func main() {
 	router := mux.NewRouter()
 	router.Handle("/api/generate/forest", generateForestEndpoint)
 
-	err := http.ListenAndServe(":80", router)
+	http.Handle("/", router)
+
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "5000"
+	}
+
+	err := http.ListenAndServe(":" + port, router)
 	if err != nil {
 		print(err.Error())
 		return
