@@ -11,24 +11,22 @@ import (
 	"github.com/johnfercher/taleslab/pkg/slab"
 	"github.com/johnfercher/taleslab/pkg/slabdecoder"
 	"log"
-	"math/rand"
 	"net/http"
-	"time"
 )
 
-type forestService struct {
+type desertService struct {
 	loader  assetloader.AssetLoader
 	encoder slabdecoder.Encoder
 }
 
-func NewForestService(encoder slabdecoder.Encoder) *forestService {
-	return &forestService{
+func NewDesertService(encoder slabdecoder.Encoder) *desertService {
+	return &desertService{
 		encoder: encoder,
 		loader:  assetloader.NewAssetLoader(),
 	}
 }
 
-func (self *forestService) GenerateForest(ctx context.Context, forest *entities.Forest) (contracts.Slab, apierror.ApiError) {
+func (self *desertService) GenerateForest(ctx context.Context, forest *entities.Forest) (contracts.Slab, apierror.ApiError) {
 	constructors, err := self.loader.GetConstructors()
 	if err != nil {
 		log.Fatalln(err)
@@ -51,7 +49,7 @@ func (self *forestService) GenerateForest(ctx context.Context, forest *entities.
 
 	self.appendGroundToSlab(constructors, slabGenerated, world, forest)
 	self.appendStonesToSlab(ornaments, slabGenerated, world, gridStones)
-	self.appendTreesToSlab(ornaments, slabGenerated, world, gridTrees)
+	self.appendCactusToSlab(ornaments, slabGenerated, world, gridTrees)
 
 	base64, err := self.encoder.Encode(slabGenerated)
 
@@ -71,31 +69,8 @@ func (self *forestService) GenerateForest(ctx context.Context, forest *entities.
 	return slabContract, nil
 }
 
-func (self *forestService) generateGround(forest *entities.Forest) [][]uint16 {
-	world := gridhelper.TerrainGenerator(forest.X, forest.Y, 2.0, 2.0, forest.TerrainComplexity)
-
-	rand.Seed(time.Now().UnixNano())
-
-	iCount := rand.Intn(forest.Mountains.RandComplexity) + forest.Mountains.MinComplexity
-
-	rand.Seed(time.Now().UnixNano())
-	jCount := rand.Intn(forest.Mountains.RandComplexity) + forest.Mountains.MinComplexity
-
-	for i := 0; i < iCount; i++ {
-		for j := 0; j < jCount; j++ {
-			rand.Seed(time.Now().UnixNano())
-			mountainX := rand.Intn(forest.Mountains.RandX) + forest.Mountains.MinX
-
-			rand.Seed(time.Now().UnixNano())
-			mountainY := rand.Intn(forest.Mountains.RandY) + forest.Mountains.MinY
-
-			rand.Seed(time.Now().UnixNano())
-			gain := float64(rand.Intn(forest.Mountains.RandHeight) + forest.Mountains.MinHeight)
-
-			generatedMountain := gridhelper.MountainGenerator(mountainX, mountainY, gain)
-			world = gridhelper.BuildTerrain(world, generatedMountain)
-		}
-	}
+func (self *desertService) generateGround(forest *entities.Forest) [][]uint16 {
+	world := gridhelper.TerrainGenerator(forest.X, forest.Y, 3.0, 3.0, forest.TerrainComplexity)
 
 	if forest.HasRiver {
 		world = gridhelper.DigRiver(world)
@@ -103,7 +78,7 @@ func (self *forestService) generateGround(forest *entities.Forest) [][]uint16 {
 
 	return world
 }
-func (self *forestService) appendStonesToSlab(ornaments map[string]assetloader.AssetInfo, generatedSlab *slab.Slab, gridHeights [][]uint16, gridStones [][]bool) {
+func (self *desertService) appendStonesToSlab(ornaments map[string]assetloader.AssetInfo, generatedSlab *slab.Slab, gridHeights [][]uint16, gridStones [][]bool) {
 	generatedSlab.AssetsCount++
 	generatedSlab.Assets = append(generatedSlab.Assets,
 		&slab.Asset{
@@ -119,11 +94,11 @@ func (self *forestService) appendStonesToSlab(ornaments map[string]assetloader.A
 	}
 }
 
-func (self *forestService) appendTreesToSlab(ornaments map[string]assetloader.AssetInfo, generatedSlab *slab.Slab, gridHeights [][]uint16, gridTrees [][]bool) {
+func (self *desertService) appendCactusToSlab(ornaments map[string]assetloader.AssetInfo, generatedSlab *slab.Slab, gridHeights [][]uint16, gridTrees [][]bool) {
 	generatedSlab.AssetsCount++
 	generatedSlab.Assets = append(generatedSlab.Assets,
 		&slab.Asset{
-			Id: ornaments["pine_tree_big"].Id,
+			Id: ornaments["cactus_small"].Id,
 		})
 
 	for i, array := range gridHeights {
@@ -135,11 +110,11 @@ func (self *forestService) appendTreesToSlab(ornaments map[string]assetloader.As
 	}
 }
 
-func (self *forestService) appendGroundToSlab(constructors map[string]assetloader.AssetInfo, generatedSlab *slab.Slab, gridHeights [][]uint16, forest *entities.Forest) {
+func (self *desertService) appendGroundToSlab(constructors map[string]assetloader.AssetInfo, generatedSlab *slab.Slab, gridHeights [][]uint16, forest *entities.Forest) {
 	generatedSlab.AssetsCount++
 	generatedSlab.Assets = append(generatedSlab.Assets,
 		&slab.Asset{
-			Id: constructors["ground_nature_small"].Id,
+			Id: constructors["ground_sand_small"].Id,
 		})
 
 	for i, array := range gridHeights {
@@ -174,7 +149,7 @@ func (self *forestService) appendGroundToSlab(constructors map[string]assetloade
 	}
 }
 
-func (self *forestService) addLayout(asset *slab.Asset, x, y, z uint16) {
+func (self *desertService) addLayout(asset *slab.Asset, x, y, z uint16) {
 	layout := &slab.Bounds{
 		Coordinates: &slab.Vector3d{
 			X: x,
