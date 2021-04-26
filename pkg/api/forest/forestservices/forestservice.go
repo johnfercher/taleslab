@@ -34,7 +34,7 @@ func (self *forestService) GenerateForest(ctx context.Context, forest *entities.
 		log.Fatalln(err)
 	}
 
-	ornaments, err := self.loader.GetOrnaments()
+	ornaments, err := self.loader.GetProps()
 	if err != nil {
 		log.Fatalln(err)
 	}

@@ -20,7 +20,7 @@ type Dimensions struct {
 
 type AssetLoader interface {
 	GetConstructors() (map[string]AssetInfo, error)
-	GetOrnaments() (map[string]AssetInfo, error)
+	GetProps() (map[string]AssetInfo, error)
 }
 
 type assetLoader struct {
@@ -56,7 +56,7 @@ func (self *assetLoader) GetConstructors() (map[string]AssetInfo, error) {
 	return assetMap, nil
 }
 
-func (self *assetLoader) GetOrnaments() (map[string]AssetInfo, error) {
+func (self *assetLoader) GetProps() (map[string]AssetInfo, error) {
 	bytes, err := ioutil.ReadFile("./config/assets/ornaments.json")
 	if err != nil {
 		return nil, err
