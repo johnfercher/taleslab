@@ -45,3 +45,8 @@ The Version 1 serialization/deserialization is based on
 and [https://github.com/creadth/Creadth.Talespire.DungeonGenerator](https://github.com/creadth/Creadth.Talespire.DungeonGenerator)
 
 [Version 1: Documentation](docs/versions/version1.md)
+
+## Api 
+We now have an api that can be used to generate slabs according to your inputs. 
+
+You can find the docs [Here](docs/api/api.md)
