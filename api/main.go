@@ -1,3 +1,22 @@
+//	Package classification TaleSlab
+//
+//	This is an API designed to generate TaleSpire slabs dinamically
+//
+//
+//	Terms Of Service:
+//
+//		Schemes: https, http
+//		Host: taleslab.herokuapp.com
+//		Version: 1.0.0
+//
+//		Consumes:
+//		- application/json
+//
+//		Produces:
+//		- application/json
+//
+//swagger:meta
+//go:generate swagger generate spec -o ../taleslab.json
 package main
 
 import (
@@ -8,6 +27,7 @@ import (
 	"github.com/johnfercher/taleslab/pkg/api/taleslab/taleslabservices"
 	"github.com/johnfercher/taleslab/pkg/slabcompressor"
 	"github.com/johnfercher/taleslab/pkg/slabdecoder"
+	"github.com/robertbakker/swaggerui"
 	"net/http"
 	"os"
 )
@@ -29,7 +49,31 @@ func main() {
 	)
 
 	router := mux.NewRouter()
+	// swagger:operation POST /api/generate/map map
+	// ---
+	// summary: Generate a new map, based on the input parameters
+	// description: The biome you select will change the ground tile and tree type.
+	// produces:
+	// - application/json
+	// parameters:
+	// - name: body
+	//   description: Input parameters for map generation
+	//   in: body
+	//   required: true
+	//   schema:
+	//     "$ref": "#/definitions/Map"
+	// responses:
+	//   "200":
+	//     "$ref": "#/responses/mapRes"
+	//   "400":
+	//     "$ref": "#/responses/errRes"
+	//   "404":
+	//     "$ref": "#/responses/errRes"
 	router.Handle("/api/generate/map", generateMapEndpoint)
+
+	router.PathPrefix("/swagger/").Handler(http.StripPrefix("/swagger/", swaggerui.SwaggerFileHandler("taleslab.json")))
+
+	router.Handle("/", http.HandlerFunc(redirectToSwagger))
 
 	http.Handle("/", router)
 
@@ -44,4 +88,9 @@ func main() {
 		return
 	}
 
+}
+
+func redirectToSwagger(w http.ResponseWriter, r *http.Request) {
+
+	http.Redirect(w, r, "/swagger/", 301)
 }

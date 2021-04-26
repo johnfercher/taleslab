@@ -1,0 +1,285 @@
+{
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "schemes": [
+    "https",
+    "http"
+  ],
+  "swagger": "2.0",
+  "info": {
+    "description": "This is an API designed to generate TaleSpire slabs dinamically",
+    "title": "TaleSlab",
+    "version": "1.0.0"
+  },
+  "host": "taleslab.herokuapp.com",
+  "paths": {
+    "/api/generate/map": {
+      "post": {
+        "description": "The biome you select will change the ground tile and tree type.",
+        "produces": [
+          "application/json"
+        ],
+        "summary": "Generate a new map, based on the input parameters",
+        "operationId": "map",
+        "parameters": [
+          {
+            "description": "Input parameters for map generation",
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Map"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/mapRes"
+          },
+          "400": {
+            "$ref": "#/responses/errRes"
+          },
+          "404": {
+            "$ref": "#/responses/errRes"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Biome": {
+      "description": "Biome request model\nexample: forest",
+      "type": "string",
+      "x-go-package": "github.com/johnfercher/taleslab/pkg/api/domain/entities"
+    },
+    "Ground": {
+      "type": "object",
+      "required": [
+        "width",
+        "length",
+        "terrain_complexity",
+        "force_base_land"
+      ],
+      "properties": {
+        "force_base_land": {
+          "description": "Forces all 0 height tiles to have ground tiles",
+          "type": "boolean",
+          "x-go-name": "ForceBaseLand",
+          "example": false
+        },
+        "length": {
+          "description": "World map length",
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Length",
+          "example": 70
+        },
+        "terrain_complexity": {
+          "description": "Defines how \"wavy\" the base terrain will be",
+          "type": "number",
+          "format": "double",
+          "x-go-name": "TerrainComplexity",
+          "example": 5
+        },
+        "width": {
+          "description": "World map width",
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Width",
+          "example": 70
+        }
+      },
+      "x-go-package": "github.com/johnfercher/taleslab/pkg/api/domain/entities"
+    },
+    "Map": {
+      "description": "Map request model",
+      "type": "object",
+      "required": [
+        "ground",
+        "mountains",
+        "river",
+        "props"
+      ],
+      "properties": {
+        "biome": {
+          "$ref": "#/definitions/Biome"
+        },
+        "ground": {
+          "$ref": "#/definitions/Ground"
+        },
+        "mountains": {
+          "$ref": "#/definitions/Mountains"
+        },
+        "props": {
+          "$ref": "#/definitions/Props"
+        },
+        "river": {
+          "$ref": "#/definitions/River"
+        }
+      },
+      "x-go-package": "github.com/johnfercher/taleslab/pkg/api/domain/entities"
+    },
+    "MapResponse": {
+      "description": "MapResponse response model",
+      "type": "object",
+      "properties": {
+        "code": {
+          "description": "Code to insert in the game",
+          "type": "string",
+          "x-go-name": "Code"
+        },
+        "size": {
+          "description": "Size of the base64 string",
+          "type": "string",
+          "x-go-name": "Size"
+        },
+        "slab_version": {
+          "description": "Version of the TaleSpire Slab",
+          "type": "string",
+          "x-go-name": "SlabVersion"
+        }
+      },
+      "x-go-package": "github.com/johnfercher/taleslab/pkg/api/contracts"
+    },
+    "Mountains": {
+      "type": "object",
+      "required": [
+        "min_x",
+        "rand_x",
+        "min_y",
+        "rand_y",
+        "min_complexity",
+        "rand_complexity",
+        "min_height",
+        "rand_height"
+      ],
+      "properties": {
+        "min_complexity": {
+          "description": "Minimum amount of mountains on the map",
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "MinComplexity",
+          "example": 3
+        },
+        "min_height": {
+          "description": "Defines the minimum height of the mountains on the map",
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "MinHeight",
+          "example": 10
+        },
+        "min_x": {
+          "description": "Defines the minimum width of the mountains in the map",
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "MinX",
+          "example": 15
+        },
+        "min_y": {
+          "description": "Defines the minimum length of the mountains in the map",
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "MinY",
+          "example": 15
+        },
+        "rand_complexity": {
+          "description": "Defines a maximum value to be added to the amount of mountains on the map",
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "RandComplexity",
+          "example": 6
+        },
+        "rand_height": {
+          "description": "Defines a maximum value to be added to the minimum height of the mountains on the map",
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "RandHeight",
+          "example": 10
+        },
+        "rand_x": {
+          "description": "Defines a maximum value to be added to the minimum width",
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "RandX",
+          "example": 30
+        },
+        "rand_y": {
+          "description": "Defines a maximum value to be added to the minimum length",
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "RandY",
+          "example": 30
+        }
+      },
+      "x-go-package": "github.com/johnfercher/taleslab/pkg/api/domain/entities"
+    },
+    "Props": {
+      "type": "object",
+      "required": [
+        "tree_density",
+        "props_density"
+      ],
+      "properties": {
+        "props_density": {
+          "description": "Density of props on the map ( i.e rocks )",
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "PropsDensity",
+          "example": 83
+        },
+        "tree_density": {
+          "description": "Density of trees on the map",
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "TreeDensity",
+          "example": 11
+        }
+      },
+      "x-go-package": "github.com/johnfercher/taleslab/pkg/api/domain/entities"
+    },
+    "River": {
+      "type": "object",
+      "required": [
+        "has_river"
+      ],
+      "properties": {
+        "has_river": {
+          "description": "Defines if there will be a river on the map",
+          "type": "boolean",
+          "x-go-name": "HasRiver",
+          "example": true
+        }
+      },
+      "x-go-package": "github.com/johnfercher/taleslab/pkg/api/domain/entities"
+    }
+  },
+  "responses": {
+    "errRes": {
+      "description": "ApiError response model",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "Error": {
+            "description": "Error message",
+            "type": "string"
+          },
+          "ErrorStatusCode": {
+            "description": "Http Status Code",
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      }
+    },
+    "mapRes": {
+      "description": "",
+      "schema": {
+        "$ref": "#/definitions/MapResponse"
+      }
+    }
+  }
+}

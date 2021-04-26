@@ -8,5 +8,5 @@ import (
 )
 
 type MapService interface {
-	Generate(ctx context.Context, inputMap *entities.Map) (*contracts.Map, apierror.ApiError)
+	Generate(ctx context.Context, inputMap *entities.Map) (*contracts.MapResponse, apierror.ApiError)
 }
