@@ -80,6 +80,8 @@ func generateGround(worldX, worldY int) [][]uint16 {
 		}
 	}
 
+	world = gridhelper.DigRiver(world)
+
 	return world
 }
 func appendStonesToSlab(ornaments map[string]assetloader.AssetInfo, generatedSlab *slab.Slab, gridHeights [][]uint16, gridStones [][]bool) {
@@ -107,7 +109,7 @@ func appendTreesToSlab(ornaments map[string]assetloader.AssetInfo, generatedSlab
 
 	for i, array := range gridHeights {
 		for j, element := range array {
-			if gridTrees[i][j] {
+			if gridTrees[i][j] && gridHeights[i][j] > 0 {
 				addLayout(generatedSlab.Assets[2], uint16(i), uint16(j), element+1)
 			}
 		}
@@ -123,6 +125,10 @@ func appendGroundToSlab(constructors map[string]assetloader.AssetInfo, generated
 
 	for i, array := range gridHeights {
 		for j, element := range array {
+			if element == 0 {
+				continue
+			}
+
 			minValue := element
 
 			if i > 0 && gridHeights[i-1][j] < minValue {

@@ -1,7 +1,6 @@
 package gridhelper
 
 import (
-	"fmt"
 	"math/rand"
 	"testing"
 	"time"
@@ -23,21 +22,13 @@ func TestBuildTerrain(t *testing.T) {
 		world = append(world, array)
 	}
 
+	Print(world)
+
 	mountain := MountainGenerator(6, 6, 30)
 
-	for i := 0; i < len(mountain); i++ {
-		for j := 0; j < len(mountain[0]); j++ {
-			fmt.Printf("%d\t", mountain[i][j])
-		}
-		println()
-	}
+	Print(mountain)
 
 	world = BuildTerrain(world, mountain)
 
-	for i := 0; i < x; i++ {
-		for j := 0; j < y; j++ {
-			fmt.Printf("%d\t", world[i][j])
-		}
-		println()
-	}
+	Print(world)
 }
