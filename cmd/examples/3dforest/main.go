@@ -18,12 +18,17 @@ func main() {
 	forestService := forestservices.NewForestService(encoder)
 
 	forest := &entities.Forest{
-		X:                 70,
-		Y:                 70,
-		TerrainComplexity: 5,
-		OrnamentDensity:   83,
-		TreeDensity:       11,
-		Mountains: &entities.Mountain{
+		Ground: &entities.Ground{
+			Width:             70,
+			Length:            70,
+			TerrainComplexity: 5,
+			ForceBaseLand:     false,
+		},
+		Props: &entities.Props{
+			PropsDensity: 83,
+			TreeDensity:  11,
+		},
+		Mountains: &entities.Mountains{
 			MinX:           15,
 			RandX:          30,
 			MinY:           15,
@@ -33,7 +38,9 @@ func main() {
 			MinHeight:      10,
 			RandHeight:     10,
 		},
-		HasRiver: true,
+		River: &entities.River{
+			HasRiver: true,
+		},
 	}
 
 	slab, err := forestService.GenerateForest(ctx, forest)

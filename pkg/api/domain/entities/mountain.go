@@ -1,6 +1,6 @@
 package entities
 
-type Mountain struct {
+type Mountains struct {
 	MinX           int `json:"min_x"`
 	RandX          int `json:"rand_x"`
 	RandY          int `json:"rand_y"`
