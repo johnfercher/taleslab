@@ -30,7 +30,7 @@ func main() {
 	router := mux.NewRouter()
 	router.Handle("/api/generate/forest", generateForestEndpoint)
 
-	err := http.ListenAndServe(":8080", router)
+	err := http.ListenAndServe(":80", router)
 	if err != nil {
 		print(err.Error())
 		return
