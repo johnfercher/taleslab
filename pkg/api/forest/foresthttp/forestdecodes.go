@@ -40,11 +40,11 @@ func validateForestRequest(ctx context.Context, forest *entities.Forest) error {
 
 	errMessages := []string{}
 
-	if forest.Mountains.MinX+forest.Mountains.RandX > forest.X {
+	if forest.Mountains.MinX+forest.Mountains.RandX > forest.Ground.Width {
 		errMessages = append(errMessages, "The mountain X size is larger than the world X size.")
 	}
 
-	if forest.Mountains.MinY+forest.Mountains.RandY > forest.Y {
+	if forest.Mountains.MinY+forest.Mountains.RandY > forest.Ground.Width {
 		errMessages = append(errMessages, "The mountain X size is larger than the world Y size.")
 	}
 
