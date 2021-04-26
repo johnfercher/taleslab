@@ -2,6 +2,7 @@ package gridhelper
 
 import (
 	"fmt"
+	"github.com/johnfercher/taleslab/pkg/api/domain/entities"
 	"math/rand"
 	"time"
 )
@@ -34,13 +35,13 @@ func GenerateBoolGrid(x, y int, defaultValue bool) [][]bool {
 	return boolGrid
 }
 
-func GenerateRandomGridPositions(x, y, randomBias int) [][]bool {
+func GenerateRandomGridPositions(forest *entities.Forest) [][]bool {
 	defaultValue := false
-	groundSpots := GenerateBoolGrid(x, y, defaultValue)
+	groundSpots := GenerateBoolGrid(forest.Ground.Width, forest.Ground.Length, defaultValue)
 
-	for i := 0; i < x; i++ {
-		for j := 0; j < y; j++ {
-			if i == 0 || i == x-1 || j == 0 || j == y-1 {
+	for i := 0; i < forest.Ground.Width; i++ {
+		for j := 0; j < forest.Ground.Length; j++ {
+			if i == 0 || i == forest.Ground.Width-1 || j == 0 || j == forest.Ground.Length-1 {
 				continue
 			}
 
@@ -52,15 +53,18 @@ func GenerateRandomGridPositions(x, y, randomBias int) [][]bool {
 				continue
 			}
 
-			groundSpots[i][j] = rand.Int()%randomBias == 0
+			groundSpots[i][j] = rand.Int()%forest.Props.PropsDensity == 0
 		}
 	}
 
 	return groundSpots
 }
 
-func GenerateExclusiveRandomGrid(x, y, randomBias int, unavailableSpots [][]bool) [][]bool {
+func GenerateExclusiveRandomGrid(forest *entities.Forest, unavailableSpots [][]bool) [][]bool {
 	defaultValue := false
+	x := forest.Ground.Width
+	y := forest.Ground.Length
+
 	groundSpots := GenerateBoolGrid(x, y, defaultValue)
 
 	for i := 0; i < x; i++ {
@@ -89,7 +93,7 @@ func GenerateExclusiveRandomGrid(x, y, randomBias int, unavailableSpots [][]bool
 				continue
 			}
 
-			groundSpots[i][j] = rand.Int()%randomBias == 0
+			groundSpots[i][j] = rand.Int()%forest.Props.TreeDensity == 0
 		}
 	}
 	return groundSpots

@@ -46,8 +46,8 @@ func (self *forestService) GenerateForest(ctx context.Context, forest *entities.
 
 	world := self.generateGround(forest)
 
-	gridStones := gridhelper.GenerateRandomGridPositions(forest.X, forest.Y, forest.OrnamentDensity)
-	gridTrees := gridhelper.GenerateExclusiveRandomGrid(forest.X, forest.Y, forest.TreeDensity, gridStones)
+	gridStones := gridhelper.GenerateRandomGridPositions(forest)
+	gridTrees := gridhelper.GenerateExclusiveRandomGrid(forest, gridStones)
 
 	self.appendGroundToSlab(constructors, slabGenerated, world, forest)
 	self.appendStonesToSlab(ornaments, slabGenerated, world, gridStones)
@@ -72,7 +72,7 @@ func (self *forestService) GenerateForest(ctx context.Context, forest *entities.
 }
 
 func (self *forestService) generateGround(forest *entities.Forest) [][]uint16 {
-	world := gridhelper.TerrainGenerator(forest.X, forest.Y, 2.0, 2.0, forest.TerrainComplexity)
+	world := gridhelper.TerrainGenerator(forest.Ground.Width, forest.Ground.Length, 2.0, 2.0, forest.Ground.TerrainComplexity)
 
 	rand.Seed(time.Now().UnixNano())
 
@@ -97,7 +97,7 @@ func (self *forestService) generateGround(forest *entities.Forest) [][]uint16 {
 		}
 	}
 
-	if forest.HasRiver {
+	if forest.River.HasRiver {
 		world = gridhelper.DigRiver(world)
 	}
 
@@ -144,7 +144,7 @@ func (self *forestService) appendGroundToSlab(constructors map[string]assetloade
 
 	for i, array := range gridHeights {
 		for j, element := range array {
-			if !forest.ForceBaseLand && element == 0 {
+			if !forest.Ground.ForceBaseLand && element == 0 {
 				continue
 			}
 

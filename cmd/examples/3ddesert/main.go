@@ -18,12 +18,17 @@ func main() {
 	desertService := forestservices.NewDesertService(encoder)
 
 	forest := &entities.Forest{
-		X:                 70,
-		Y:                 70,
-		TerrainComplexity: 5,
-		OrnamentDensity:   223,
-		TreeDensity:       113,
-		Mountains: &entities.Mountain{
+		Ground: &entities.Ground{
+			Width:             70,
+			Length:            70,
+			TerrainComplexity: 5,
+			ForceBaseLand:     true,
+		},
+		Props: &entities.Props{
+			PropsDensity: 223,
+			TreeDensity:  113,
+		},
+		Mountains: &entities.Mountains{
 			MinX:           15,
 			RandX:          30,
 			MinY:           15,
@@ -33,8 +38,9 @@ func main() {
 			MinHeight:      10,
 			RandHeight:     10,
 		},
-		HasRiver:      true,
-		ForceBaseLand: true,
+		River: &entities.River{
+			HasRiver: true,
+		},
 	}
 
 	slab, err := desertService.GenerateForest(ctx, forest)
