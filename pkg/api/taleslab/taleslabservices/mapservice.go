@@ -22,7 +22,7 @@ func NewMapService(encoder slabdecoder.Encoder) *mapService {
 	}
 }
 
-func (self *mapService) Generate(ctx context.Context, inputMap *entities.Map) (*contracts.Map, apierror.ApiError) {
+func (self *mapService) Generate(ctx context.Context, inputMap *entities.Map) (*contracts.MapResponse, apierror.ApiError) {
 	builder := New(self.loader, self.encoder).
 		SetBiome(inputMap.Biome).
 		SetMountains(inputMap.Mountains).
@@ -38,7 +38,7 @@ func (self *mapService) Generate(ctx context.Context, inputMap *entities.Map) (*
 	size := float64(len(base64) / 1024)
 	sizeStr := fmt.Sprintf("%f Kb", size)
 
-	return &contracts.Map{
+	return &contracts.MapResponse{
 		SlabVersion: "v2",
 		Size:        sizeStr,
 		Code:        base64,

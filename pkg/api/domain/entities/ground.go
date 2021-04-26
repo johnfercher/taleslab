@@ -1,8 +1,21 @@
 package entities
 
+// swagger:model
 type Ground struct {
-	Width             int     `json:"width"`
-	Length            int     `json:"length"`
+	// World map width
+	// required: true
+	// example: 70
+	Width int `json:"width"`
+	// World map length
+	// required: true
+	// example: 70
+	Length int `json:"length"`
+	// Defines how "wavy" the base terrain will be
+	// required: true
+	// example: 5
 	TerrainComplexity float64 `json:"terrain_complexity"`
-	ForceBaseLand     bool    `json:"force_base_land"`
+	// Forces all 0 height tiles to have ground tiles
+	// required: true
+	// example: false
+	ForceBaseLand bool `json:"force_base_land"`
 }

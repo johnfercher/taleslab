@@ -6,8 +6,12 @@ import (
 	"github.com/johnfercher/taleslab/internal/api/apilogger"
 )
 
+// ApiError response model
+// swagger:response errRes
 type ApiError interface {
+	// Http Status Code
 	ErrorStatusCode() int
+	// Error message
 	Error() string
 }
 
