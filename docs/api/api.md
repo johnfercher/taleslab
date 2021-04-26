@@ -2,27 +2,36 @@
 
 ## Available endpoints: 
 
-### Generate Forest: 
+### Generate Map: 
 #### Request
 ```
-[POST] /api/generate/forest
+[POST] /api/generate/map
 
 {
-	"X": 50,
-	"y": 50,
-	"terrain_complexity": 5,
-	"ornament_density": 58,
-	"tree_density": 89,
-	"mountains":{
-		"min_x": 15,
-		"rand_x": 30,
-		"min_y": 15,
-		"rand_y": 30,
-		"min_complexity": 3,
-		"rand_complexity": 6,
-		"min_height": 10,
-		"rand_height": 10
-	}
+    "biome":"forest",
+    "ground": {
+        "width": 70,
+        "length": 70,
+        "terrain_complexity": 5,
+        "force_base_land": false
+    },
+    "props": {
+        "tree_density": 11,
+        "props_density": 83
+    },
+    "mountains":{
+        "min_x": 15,
+        "rand_x": 30,
+        "min_y": 15,
+        "rand_y": 30,
+        "min_complexity": 3,
+        "rand_complexity": 6,
+        "min_height": 10,
+        "rand_height": 10
+    },
+    "river": {
+        "has_river": true
+    }
 }
 ```
 #### Response

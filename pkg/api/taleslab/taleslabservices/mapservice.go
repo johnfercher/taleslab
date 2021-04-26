@@ -1,4 +1,4 @@
-package forestservices
+package taleslabservices
 
 import (
 	"context"
@@ -10,25 +10,25 @@ import (
 	"github.com/johnfercher/taleslab/pkg/slabdecoder"
 )
 
-type mapGenerator struct {
+type mapService struct {
 	loader  assetloader.AssetLoader
 	encoder slabdecoder.Encoder
 }
 
-func NewMapGenerator(encoder slabdecoder.Encoder) *mapGenerator {
-	return &mapGenerator{
+func NewMapService(encoder slabdecoder.Encoder) *mapService {
+	return &mapService{
 		encoder: encoder,
 		loader:  assetloader.NewAssetLoader(),
 	}
 }
 
-func (self *mapGenerator) Generate(ctx context.Context, forest *entities.Map) (*contracts.Map, apierror.ApiError) {
+func (self *mapService) Generate(ctx context.Context, inputMap *entities.Map) (*contracts.Map, apierror.ApiError) {
 	builder := New(self.loader, self.encoder).
-		SetBiome(forest.Biome).
-		SetMountains(forest.Mountains).
-		SetGround(forest.Ground).
-		SetProps(forest.Props).
-		SetRiver(forest.River)
+		SetBiome(inputMap.Biome).
+		SetMountains(inputMap.Mountains).
+		SetGround(inputMap.Ground).
+		SetProps(inputMap.Props).
+		SetRiver(inputMap.River)
 
 	base64, err := builder.Build()
 	if err != nil {

@@ -1,4 +1,4 @@
-package forestservices
+package taleslabservices
 
 import (
 	"github.com/johnfercher/taleslab/internal/api/apierror"
@@ -14,7 +14,7 @@ import (
 	"time"
 )
 
-type slabBuilder struct {
+type mapbuilder struct {
 	loader       assetloader.AssetLoader
 	encoder      slabdecoder.Encoder
 	biome        entities.Biome
@@ -30,15 +30,15 @@ type slabBuilder struct {
 	stoneBlock  string
 }
 
-func New(loader assetloader.AssetLoader, encoder slabdecoder.Encoder) *slabBuilder {
-	return &slabBuilder{
+func New(loader assetloader.AssetLoader, encoder slabdecoder.Encoder) *mapbuilder {
+	return &mapbuilder{
 		loader:  loader,
 		encoder: encoder,
 		biome:   entities.ForestBiome,
 	}
 }
 
-func (self *slabBuilder) SetBiome(biome entities.Biome) services.SlabBuilder {
+func (self *mapbuilder) SetBiome(biome entities.Biome) services.MapBuilder {
 	self.biome = biome
 
 	switch self.biome {
@@ -57,12 +57,12 @@ func (self *slabBuilder) SetBiome(biome entities.Biome) services.SlabBuilder {
 	return self
 }
 
-func (self *slabBuilder) SetGround(ground *entities.Ground) services.SlabBuilder {
+func (self *mapbuilder) SetGround(ground *entities.Ground) services.MapBuilder {
 	self.ground = ground
 	return self
 }
 
-func (self *slabBuilder) SetMountains(mountains *entities.Mountains) services.SlabBuilder {
+func (self *mapbuilder) SetMountains(mountains *entities.Mountains) services.MapBuilder {
 	if mountains == nil {
 		return self
 	}
@@ -93,7 +93,7 @@ func (self *slabBuilder) SetMountains(mountains *entities.Mountains) services.Sl
 	return self
 }
 
-func (self *slabBuilder) SetRiver(river *entities.River) services.SlabBuilder {
+func (self *mapbuilder) SetRiver(river *entities.River) services.MapBuilder {
 	if river != nil {
 		self.hasRiver = river.HasRiver
 	}
@@ -101,12 +101,12 @@ func (self *slabBuilder) SetRiver(river *entities.River) services.SlabBuilder {
 	return self
 }
 
-func (self *slabBuilder) SetProps(props *entities.Props) services.SlabBuilder {
+func (self *mapbuilder) SetProps(props *entities.Props) services.MapBuilder {
 	self.props = props
 	return self
 }
 
-func (self *slabBuilder) Build() (string, apierror.ApiError) {
+func (self *mapbuilder) Build() (string, apierror.ApiError) {
 	constructors, err := self.loader.GetConstructors()
 	if err != nil {
 		log.Fatalln(err)
@@ -161,7 +161,7 @@ func (self *slabBuilder) Build() (string, apierror.ApiError) {
 	return base64, nil
 }
 
-func (self *slabBuilder) appendGroundToSlab(constructors map[string]assetloader.AssetInfo, generatedSlab *slab.Slab, gridHeights [][]uint16) {
+func (self *mapbuilder) appendGroundToSlab(constructors map[string]assetloader.AssetInfo, generatedSlab *slab.Slab, gridHeights [][]uint16) {
 	generatedSlab.AssetsCount++
 	generatedSlab.Assets = append(generatedSlab.Assets,
 		&slab.Asset{
@@ -200,7 +200,7 @@ func (self *slabBuilder) appendGroundToSlab(constructors map[string]assetloader.
 	}
 }
 
-func (self *slabBuilder) appendStonesToSlab(generatedSlab *slab.Slab, gridHeights [][]uint16, gridStones [][]bool) {
+func (self *mapbuilder) appendStonesToSlab(generatedSlab *slab.Slab, gridHeights [][]uint16, gridStones [][]bool) {
 	generatedSlab.AssetsCount++
 	generatedSlab.Assets = append(generatedSlab.Assets,
 		&slab.Asset{
@@ -216,7 +216,7 @@ func (self *slabBuilder) appendStonesToSlab(generatedSlab *slab.Slab, gridHeight
 	}
 }
 
-func (self *slabBuilder) appendTreesToSlab(generatedSlab *slab.Slab, gridHeights [][]uint16, gridTrees [][]bool) {
+func (self *mapbuilder) appendTreesToSlab(generatedSlab *slab.Slab, gridHeights [][]uint16, gridTrees [][]bool) {
 	generatedSlab.AssetsCount++
 	generatedSlab.Assets = append(generatedSlab.Assets,
 		&slab.Asset{
@@ -232,7 +232,7 @@ func (self *slabBuilder) appendTreesToSlab(generatedSlab *slab.Slab, gridHeights
 	}
 }
 
-func (self *slabBuilder) addLayout(asset *slab.Asset, x, y, z uint16) {
+func (self *mapbuilder) addLayout(asset *slab.Asset, x, y, z uint16) {
 	layout := &slab.Bounds{
 		Coordinates: &slab.Vector3d{
 			X: x,

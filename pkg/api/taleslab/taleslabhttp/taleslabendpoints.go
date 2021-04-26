@@ -1,4 +1,4 @@
-package foresthttp
+package taleslabhttp
 
 import (
 	"context"
@@ -7,9 +7,9 @@ import (
 	"github.com/johnfercher/taleslab/pkg/api/domain/services"
 )
 
-func MakeGenerateForest(service services.ForestService) endpoint.Endpoint {
+func MakeGenerateMap(service services.MapService) endpoint.Endpoint {
 	return func(ctx context.Context, request interface{}) (interface{}, error) {
-		forest := request.(*entities.Map)
-		return service.Generate(ctx, forest)
+		inputMap := request.(*entities.Map)
+		return service.Generate(ctx, inputMap)
 	}
 }

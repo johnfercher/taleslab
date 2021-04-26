@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/johnfercher/taleslab/pkg/api/domain/entities"
-	"github.com/johnfercher/taleslab/pkg/api/forest/forestservices"
+	"github.com/johnfercher/taleslab/pkg/api/taleslab/taleslabservices"
 	"github.com/johnfercher/taleslab/pkg/slabcompressor"
 	"github.com/johnfercher/taleslab/pkg/slabdecoder"
 	"log"
@@ -15,9 +15,9 @@ func main() {
 
 	compressor := slabcompressor.New()
 	encoder := slabdecoder.NewEncoder(compressor)
-	mapGenerator := forestservices.NewMapGenerator(encoder)
+	mapGenerator := taleslabservices.NewMapService(encoder)
 
-	forest := &entities.Map{
+	inputMap := &entities.Map{
 		Biome: entities.DesertBiome,
 		Ground: &entities.Ground{
 			Width:             70,
@@ -44,7 +44,7 @@ func main() {
 		},
 	}
 
-	slab, err := mapGenerator.Generate(ctx, forest)
+	slab, err := mapGenerator.Generate(ctx, inputMap)
 	if err != nil {
 		log.Fatal(err)
 	}

@@ -7,6 +7,6 @@ import (
 	"github.com/johnfercher/taleslab/pkg/api/domain/entities"
 )
 
-type ForestService interface {
-	Generate(ctx context.Context, forest *entities.Map) (*contracts.Map, apierror.ApiError)
+type MapService interface {
+	Generate(ctx context.Context, inputMap *entities.Map) (*contracts.Map, apierror.ApiError)
 }
