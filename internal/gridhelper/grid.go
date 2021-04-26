@@ -1,6 +1,7 @@
 package gridhelper
 
 import (
+	"fmt"
 	"math/rand"
 	"time"
 )
@@ -118,4 +119,13 @@ func BuildTerrain(world [][]uint16, asset [][]uint16) [][]uint16 {
 	}
 
 	return world
+}
+
+func Print(grid [][]uint16) {
+	for i := 0; i < len(grid); i++ {
+		for j := 0; j < len(grid[i]); j++ {
+			fmt.Printf("%d\t", grid[i][j])
+		}
+		fmt.Println()
+	}
 }
