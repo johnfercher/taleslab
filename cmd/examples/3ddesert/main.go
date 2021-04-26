@@ -15,9 +15,10 @@ func main() {
 
 	compressor := slabcompressor.New()
 	encoder := slabdecoder.NewEncoder(compressor)
-	desertService := forestservices.NewDesertService(encoder)
+	mapGenerator := forestservices.NewMapGenerator(encoder)
 
-	forest := &entities.Forest{
+	forest := &entities.Map{
+		Biome: entities.DesertBiome,
 		Ground: &entities.Ground{
 			Width:             70,
 			Length:            70,
@@ -39,11 +40,11 @@ func main() {
 			RandHeight:     10,
 		},
 		River: &entities.River{
-			HasRiver: true,
+			HasRiver: false,
 		},
 	}
 
-	slab, err := desertService.GenerateForest(ctx, forest)
+	slab, err := mapGenerator.Generate(ctx, forest)
 	if err != nil {
 		log.Fatal(err)
 	}

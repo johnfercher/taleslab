@@ -9,7 +9,7 @@ import (
 
 func MakeGenerateForest(service services.ForestService) endpoint.Endpoint {
 	return func(ctx context.Context, request interface{}) (interface{}, error) {
-		forest := request.(*entities.Forest)
-		return service.GenerateForest(ctx, forest)
+		forest := request.(*entities.Map)
+		return service.Generate(ctx, forest)
 	}
 }
