@@ -16,7 +16,7 @@ func main() {
 
 	encoder := slabdecoder.NewEncoder(slabcompressor.New())
 
-	forestService := forestservices.NewForestService(encoder)
+	forestService := forestservices.NewMapGenerator(encoder)
 
 	serverOptions := []httptransport.ServerOption{
 		httptransport.ServerErrorEncoder(apiencodes.EncodeError),
@@ -38,7 +38,7 @@ func main() {
 		port = "5000"
 	}
 
-	err := http.ListenAndServe(":" + port, router)
+	err := http.ListenAndServe(":"+port, router)
 	if err != nil {
 		print(err.Error())
 		return

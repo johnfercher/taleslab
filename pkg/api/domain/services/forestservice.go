@@ -8,5 +8,5 @@ import (
 )
 
 type ForestService interface {
-	GenerateForest(ctx context.Context, contact *entities.Forest) (contracts.Slab, apierror.ApiError)
+	Generate(ctx context.Context, forest *entities.Map) (*contracts.Map, apierror.ApiError)
 }

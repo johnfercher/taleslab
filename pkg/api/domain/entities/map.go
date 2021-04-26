@@ -7,7 +7,7 @@ const (
 	DesertBiome Biome = "desert"
 )
 
-type Forest struct {
+type Map struct {
 	Biome     Biome      `json:"biome"`
 	Ground    *Ground    `json:"ground,omitempty"`
 	Mountains *Mountains `json:"mountains,omitempty"`
