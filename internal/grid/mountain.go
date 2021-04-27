@@ -1,4 +1,4 @@
-package gridhelper
+package grid
 
 import (
 	"math"
@@ -6,13 +6,13 @@ import (
 	"time"
 )
 
-func TerrainGenerator(x, y int, xFrequency, yFrequency, gain float64) [][]uint16 {
-	groundHeight := [][]uint16{}
+func TerrainGenerator(x, y int, xFrequency, yFrequency, gain float64, forceBaseLand bool) [][]Element {
+	groundHeight := [][]Element{}
 
 	for i := 0; i < x; i++ {
-		array := []uint16{}
+		array := []Element{}
 		for j := 0; j < y; j++ {
-			array = append(array, uint16(0))
+			array = append(array, Element{Height: 0, ElementType: GroundType})
 		}
 		groundHeight = append(groundHeight, array)
 	}
@@ -39,23 +39,28 @@ func TerrainGenerator(x, y int, xFrequency, yFrequency, gain float64) [][]uint16
 
 			heightAvg := uint16((xHeight + yHeight) / 2.0)
 
-			groundHeight[i][j] = heightAvg
+			groundHeight[i][j].Height = heightAvg
+
+			// Remove Ground
+			if !forceBaseLand && heightAvg == 0 {
+				groundHeight[i][j].ElementType = NoneType
+			}
 		}
 	}
 
 	return groundHeight
 }
 
-func MountainGenerator(x, y int, gain float64) [][]uint16 {
+func MountainGenerator(x, y int, gain float64) [][]Element {
 	xFrequency := 2.0
 	yFrequency := 2.0
 
-	groundHeight := [][]uint16{}
+	groundHeight := [][]Element{}
 
 	for i := 0; i < x; i++ {
-		array := []uint16{}
+		array := []Element{}
 		for j := 0; j < y; j++ {
-			array = append(array, uint16(0))
+			array = append(array, Element{0, MountainType})
 		}
 		groundHeight = append(groundHeight, array)
 	}
@@ -77,9 +82,9 @@ func MountainGenerator(x, y int, gain float64) [][]uint16 {
 			heightAvg := uint16((xHeight + yHeight) / 2.0)
 
 			if heightAvg > uint16(gain) {
-				groundHeight[i][j] = heightAvg - uint16(gain)
+				groundHeight[i][j].Height = heightAvg - uint16(gain)
 			} else {
-				groundHeight[i][j] = 0
+				groundHeight[i][j].Height = 0
 			}
 		}
 	}

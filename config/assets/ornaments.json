@@ -6,7 +6,8 @@
       "width": 2,
       "length": 2,
       "height": 1
-    }
+    },
+    "offset_z": 1
   },
   {
     "id": "AACmti5NH3hdToBfG7WRV5Nl",
@@ -15,7 +16,8 @@
       "width": 2,
       "length": 2,
       "height": 1
-    }
+    },
+    "offset_z": 1
   },
   {
     "id": "AABx/so+p7uARbfEaUtHMDsv",
@@ -24,16 +26,18 @@
       "width": 2,
       "length": 2,
       "height": 1
-    }
+    },
+    "offset_z": 1
   },
   {
     "id": "AABFOYg/A21LSqG7URITw7na",
     "name": "pine_tree_big",
     "dimensions": {
-      "width": 2,
-      "length": 2,
+      "width": 1,
+      "length": 1,
       "height": 1
-    }
+    },
+    "offset_z": 1
   },
   {
     "id": "AADRajctsM4UQLRvIIBdDc94",
@@ -42,7 +46,8 @@
       "width": 2,
       "length": 2,
       "height": 1
-    }
+    },
+    "offset_z": 1
   },
   {
     "id": "AABKUWVmd8+rTK08RXqSSmjZ",
@@ -51,16 +56,18 @@
       "width": 2,
       "length": 1,
       "height": 1
-    }
+    },
+    "offset_z": 1
   },
   {
     "id": "AAAnlx5Fc7wsRoxGUSaH5uFw",
     "name": "stone_big",
     "dimensions": {
-      "width": 2,
-      "length": 2,
+      "width": 1,
+      "length": 1,
       "height": 1
-    }
+    },
+    "offset_z": 0
   },
   {
     "id": "AACqkMRY08wIQIfzE5Nbik8c",
@@ -69,6 +76,7 @@
       "width": 1,
       "length": 1,
       "height": 1
-    }
+    },
+    "offset_z": 1
   }
 ]

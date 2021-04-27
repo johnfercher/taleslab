@@ -29,16 +29,6 @@ func main() {
 			PropsDensity: 223,
 			TreeDensity:  113,
 		},
-		Mountains: &entities.Mountains{
-			MinX:           15,
-			RandX:          30,
-			MinY:           15,
-			RandY:          30,
-			MinComplexity:  3,
-			RandComplexity: 6,
-			MinHeight:      10,
-			RandHeight:     10,
-		},
 		River: &entities.River{
 			HasRiver: false,
 		},

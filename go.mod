@@ -4,14 +4,13 @@ go 1.16
 
 require (
 	github.com/elazarl/go-bindata-assetfs v1.0.1 // indirect
-	github.com/felixge/httpsnoop v1.0.2 // indirect
 	github.com/go-kit/kit v0.10.0
-	github.com/go-openapi/analysis v0.20.1 // indirect
-	github.com/go-openapi/runtime v0.19.28 // indirect
-	github.com/go-swagger/go-swagger v0.27.0 // indirect
 	github.com/gorilla/mux v1.7.3
-	github.com/pelletier/go-toml v1.9.0 // indirect
-	github.com/robertbakker/swaggerui v0.0.0-20180516211811-2fc4dad5e58a // indirect
-	golang.org/x/net v0.0.0-20210423184538-5f58ad60dda6 // indirect
-	golang.org/x/sys v0.0.0-20210426080607-c94f62235c83 // indirect
+	github.com/kr/text v0.2.0 // indirect
+	github.com/niemeyer/pretty v0.0.0-20200227124842-a10e7caefd8e // indirect
+	github.com/robertbakker/swaggerui v0.0.0-20180516211811-2fc4dad5e58a
+	github.com/stretchr/testify v1.7.0
+	gopkg.in/check.v1 v1.0.0-20200227125254-8fa46927fb4f // indirect
+	gopkg.in/yaml.v2 v2.4.0 // indirect
+	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b // indirect
 )
