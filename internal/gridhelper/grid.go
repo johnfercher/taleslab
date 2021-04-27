@@ -98,6 +98,39 @@ func GenerateExclusiveRandomGrid(width, length, treeDensity int, unavailableSpot
 	return groundSpots
 }
 
+//func GenerateExclusiveRandomCompositeGrid(width, length, spotWidth, spotLength, treeDensity int, unavailableSpots [][]bool) [][]bool {
+//	defaultValue := false
+//	x := width
+//	y := length
+//
+//	groundSpots := GenerateBoolGrid(x, y, defaultValue)
+//
+//	for i := 0; i < x; i++ {
+//		for j := 0; j < y; j++ {
+//
+//			unavailableArea := false
+//
+//			for ci := 0; ci < spotWidth; ci++{
+//				if unavailableArea {
+//
+//				}
+//				for cj := 0; cj < spotLength; cj++{
+//					if unavailableArea {
+//						break
+//					}
+//					if unavailableSpots[ci][cj]{
+//						unavailableArea = true
+//						break
+//					}
+//				}
+//			}
+//
+//			groundSpots[i][j] = rand.Int()%treeDensity == 0
+//		}
+//	}
+//	return groundSpots
+//}
+
 func BuildTerrain(world [][]uint16, asset [][]uint16) [][]uint16 {
 	xMax := len(world)
 	yMax := len(world[0])
@@ -132,3 +165,14 @@ func Print(grid [][]uint16) {
 		fmt.Println()
 	}
 }
+
+//
+//func cleanMatrixArea(startingX, startingY, spotWidth, spotLength int,baseMatrix [][]bool, defaultValue bool ) [][]bool {
+//
+//	for i := startingX; i < startingX - spotWidth; i--{
+//		for j := startingY; j < startingY - spotLength; j--{
+//			baseMatrix[i][j] = defaultValue
+//		}
+//	}
+//	return baseMatrix
+//}

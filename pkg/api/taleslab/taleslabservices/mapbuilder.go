@@ -20,7 +20,7 @@ type mapbuilder struct {
 	biome        entities.Biome
 	props        *entities.Props
 	ground       *entities.Ground
-	mountains    [][][]uint16
+	mountains    *entities.Mountains
 	hasRiver     bool
 	propsInfo    map[string]assetloader.AssetInfo
 	constructors map[string]assetloader.AssetInfo
@@ -66,30 +66,7 @@ func (self *mapbuilder) SetMountains(mountains *entities.Mountains) services.Map
 	if mountains == nil {
 		return self
 	}
-
-	rand.Seed(time.Now().UnixNano())
-
-	iCount := rand.Intn(mountains.RandComplexity) + mountains.MinComplexity
-
-	rand.Seed(time.Now().UnixNano())
-	jCount := rand.Intn(mountains.RandComplexity) + mountains.MinComplexity
-
-	for i := 0; i < iCount; i++ {
-		for j := 0; j < jCount; j++ {
-			rand.Seed(time.Now().UnixNano())
-			mountainX := rand.Intn(mountains.RandX) + mountains.MinX
-
-			rand.Seed(time.Now().UnixNano())
-			mountainY := rand.Intn(mountains.RandY) + mountains.MinY
-
-			rand.Seed(time.Now().UnixNano())
-			gain := float64(rand.Intn(mountains.RandHeight) + mountains.MinHeight)
-
-			generatedMountain := gridhelper.MountainGenerator(mountainX, mountainY, gain)
-			self.mountains = append(self.mountains, generatedMountain)
-		}
-	}
-
+	self.mountains = mountains
 	return self
 }
 
@@ -130,10 +107,14 @@ func (self *mapbuilder) Build() (string, apierror.ApiError) {
 		return "", apierror.New(400, "Ground must be provided")
 	}
 
-	world := gridhelper.TerrainGenerator(self.ground.Width, self.ground.Length, 2.0, 2.0, self.ground.TerrainComplexity)
+	gridWidth := self.ground.Width   /// int(self.constructors[self.groundBlock].Dimensions.Width)
+	gridLength := self.ground.Length /// int(self.constructors[self.groundBlock].Dimensions.Length)
+
+	world := gridhelper.TerrainGenerator(gridWidth, gridLength, 2.0, 2.0, self.ground.TerrainComplexity)
 
 	if self.mountains != nil {
-		for _, mountain := range self.mountains {
+		mountains := self.generateMountainsGrid()
+		for _, mountain := range mountains {
 			world = gridhelper.BuildTerrain(world, mountain)
 		}
 	}
@@ -165,7 +146,8 @@ func (self *mapbuilder) appendGroundToSlab(constructors map[string]assetloader.A
 	generatedSlab.AssetsCount++
 	generatedSlab.Assets = append(generatedSlab.Assets,
 		&slab.Asset{
-			Id: constructors[self.groundBlock].Id,
+			Id:         constructors[self.groundBlock].Id,
+			Dimensions: constructors[self.groundBlock].Dimensions,
 		})
 
 	for i, array := range gridHeights {
@@ -204,7 +186,8 @@ func (self *mapbuilder) appendStonesToSlab(generatedSlab *slab.Slab, gridHeights
 	generatedSlab.AssetsCount++
 	generatedSlab.Assets = append(generatedSlab.Assets,
 		&slab.Asset{
-			Id: self.propsInfo[self.stoneBlock].Id,
+			Id:         self.propsInfo[self.stoneBlock].Id,
+			Dimensions: self.constructors[self.groundBlock].Dimensions,
 		})
 
 	for i, array := range gridHeights {
@@ -220,7 +203,8 @@ func (self *mapbuilder) appendTreesToSlab(generatedSlab *slab.Slab, gridHeights 
 	generatedSlab.AssetsCount++
 	generatedSlab.Assets = append(generatedSlab.Assets,
 		&slab.Asset{
-			Id: self.propsInfo[self.treeBlock].Id,
+			Id:         self.propsInfo[self.treeBlock].Id,
+			Dimensions: self.constructors[self.groundBlock].Dimensions,
 		})
 
 	for i, array := range gridHeights {
@@ -232,14 +216,49 @@ func (self *mapbuilder) appendTreesToSlab(generatedSlab *slab.Slab, gridHeights 
 	}
 }
 
+func (self *mapbuilder) generateMountainsGrid() [][][]uint16 {
+	mountainsGrid := [][][]uint16{}
+
+	rand.Seed(time.Now().UnixNano())
+
+	iCount := rand.Intn(self.mountains.RandComplexity) + self.mountains.MinComplexity
+
+	rand.Seed(time.Now().UnixNano())
+	jCount := rand.Intn(self.mountains.RandComplexity) + self.mountains.MinComplexity
+
+	for i := 0; i < iCount; i++ {
+		for j := 0; j < jCount; j++ {
+			rand.Seed(time.Now().UnixNano())
+			//scaleWidth := int(self.constructors[self.groundBlock].Dimensions.Width)
+			//scaleLength := int(self.constructors[self.groundBlock].Dimensions.Length)
+
+			balancedWidth := self.mountains.MinX                 /// scaleWidth
+			balancedRandWidth := rand.Intn(self.mountains.RandX) /// scaleWidth
+			mountainX := balancedWidth + balancedRandWidth
+
+			balancedLength := self.mountains.MinY                 /// scaleLength
+			balancedRandLength := rand.Intn(self.mountains.RandY) /// scaleLength
+			mountainY := balancedLength + balancedRandLength
+
+			rand.Seed(time.Now().UnixNano())
+			//gainMultiplier := scaleWidth
+			gain := float64(rand.Intn(self.mountains.RandHeight) + self.mountains.MinHeight) //* float64(gainMultiplier)
+
+			generatedMountain := gridhelper.MountainGenerator(mountainX, mountainY, gain)
+			mountainsGrid = append(mountainsGrid, generatedMountain)
+		}
+	}
+	return mountainsGrid
+}
+
 func (self *mapbuilder) addLayout(asset *slab.Asset, x, y, z uint16) {
 	layout := &slab.Bounds{
 		Coordinates: &slab.Vector3d{
-			X: x,
-			Y: y,
-			Z: z,
+			X: x * uint16(asset.Dimensions.Width),
+			Y: y * uint16(asset.Dimensions.Length),
+			Z: z * uint16(asset.Dimensions.Height),
 		},
-		Rotation: y / 41,
+		Rotation: y * uint16(asset.Dimensions.Length) / 41,
 	}
 
 	asset.Layouts = append(asset.Layouts, layout)
