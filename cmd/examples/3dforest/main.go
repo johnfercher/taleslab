@@ -40,7 +40,7 @@ func main() {
 			RandHeight:     10,
 		},
 		River: &entities.River{
-			HasRiver: true,
+			HasRiver: false,
 		},
 	}
 
