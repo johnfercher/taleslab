@@ -107,8 +107,8 @@ func (self *mapbuilder) Build() (string, apierror.ApiError) {
 		return "", apierror.New(400, "Ground must be provided")
 	}
 
-	gridWidth := self.ground.Width   /// int(self.constructors[self.groundBlock].Dimensions.Width)
-	gridLength := self.ground.Length /// int(self.constructors[self.groundBlock].Dimensions.Length)
+	gridWidth := self.ground.Width
+	gridLength := self.ground.Length
 
 	world := gridhelper.TerrainGenerator(gridWidth, gridLength, 2.0, 2.0, self.ground.TerrainComplexity)
 
@@ -229,20 +229,17 @@ func (self *mapbuilder) generateMountainsGrid() [][][]uint16 {
 	for i := 0; i < iCount; i++ {
 		for j := 0; j < jCount; j++ {
 			rand.Seed(time.Now().UnixNano())
-			//scaleWidth := int(self.constructors[self.groundBlock].Dimensions.Width)
-			//scaleLength := int(self.constructors[self.groundBlock].Dimensions.Length)
 
-			balancedWidth := self.mountains.MinX                 /// scaleWidth
-			balancedRandWidth := rand.Intn(self.mountains.RandX) /// scaleWidth
+			balancedWidth := self.mountains.MinX
+			balancedRandWidth := rand.Intn(self.mountains.RandX)
 			mountainX := balancedWidth + balancedRandWidth
 
-			balancedLength := self.mountains.MinY                 /// scaleLength
-			balancedRandLength := rand.Intn(self.mountains.RandY) /// scaleLength
+			balancedLength := self.mountains.MinY
+			balancedRandLength := rand.Intn(self.mountains.RandY)
 			mountainY := balancedLength + balancedRandLength
 
 			rand.Seed(time.Now().UnixNano())
-			//gainMultiplier := scaleWidth
-			gain := float64(rand.Intn(self.mountains.RandHeight) + self.mountains.MinHeight) //* float64(gainMultiplier)
+			gain := float64(rand.Intn(self.mountains.RandHeight) + self.mountains.MinHeight)
 
 			generatedMountain := gridhelper.MountainGenerator(mountainX, mountainY, gain)
 			mountainsGrid = append(mountainsGrid, generatedMountain)
