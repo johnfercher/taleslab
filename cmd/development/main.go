@@ -3,17 +3,17 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/johnfercher/taleslab/pkg/slabcompressor"
-	"github.com/johnfercher/taleslab/pkg/slabdecoder"
+	"github.com/johnfercher/taleslab/internal/bytecompressor"
+	"github.com/johnfercher/taleslab/pkg/talespire/talespirecoder"
 	"log"
 )
 
 func main() {
-	original := "H4sIAAAAAAAACzv369xFJgZGBgaGVROORFw+w+HQ/ll4cnSXvwxIDAEA6LpdlygAAAA="
+	original := "H4sIAAAAAAAACzv369xFJgZGBgYGM7svKkterPRr2LzPiCVuewxIDAEAFNBznigAAAA="
 
-	slabCompressor := slabcompressor.New()
-	decoder := slabdecoder.NewDecoder(slabCompressor)
-	encoder := slabdecoder.NewEncoder(slabCompressor)
+	byteCompressor := bytecompressor.New()
+	decoder := talespirecoder.NewDecoder(byteCompressor)
+	encoder := talespirecoder.NewEncoder(byteCompressor)
 
 	slab, err := decoder.Decode(original)
 	if err != nil {

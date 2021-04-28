@@ -3,8 +3,18 @@
     "id": "AACRYh1DNktSTIna2zN6DGBz",
     "name": "dead_tree_big",
     "dimensions": {
-      "width": 2,
-      "length": 2,
+      "width": 1,
+      "length": 1,
+      "height": 1
+    },
+    "offset_z": 1
+  },
+  {
+    "id": "AAA2PvQkpOipToCzvjIEXrdc",
+    "name": "snow_dead_tree_big",
+    "dimensions": {
+      "width": 1,
+      "length": 1,
       "height": 1
     },
     "offset_z": 1
@@ -40,16 +50,6 @@
     "offset_z": 1
   },
   {
-    "id": "AADRajctsM4UQLRvIIBdDc94",
-    "name": "ice_pine_tree_big",
-    "dimensions": {
-      "width": 2,
-      "length": 2,
-      "height": 1
-    },
-    "offset_z": 1
-  },
-  {
     "id": "AABKUWVmd8+rTK08RXqSSmjZ",
     "name": "rectangle_bush_small",
     "dimensions": {
@@ -72,6 +72,26 @@
   {
     "id": "AACqkMRY08wIQIfzE5Nbik8c",
     "name": "cactus_small",
+    "dimensions": {
+      "width": 1,
+      "length": 1,
+      "height": 1
+    },
+    "offset_z": 1
+  },
+  {
+    "id": "AADRajctsM4UQLRvIIBdDc94",
+    "name": "snow_pine_tree_big",
+    "dimensions": {
+      "width": 1,
+      "length": 1,
+      "height": 1
+    },
+    "offset_z": 1
+  },
+  {
+    "id": "AAARJRcHr4t+QLI4id+zGDho",
+    "name": "snow_stone_small",
     "dimensions": {
       "width": 1,
       "length": 1,

@@ -18,7 +18,7 @@ func main() {
 	mapService := taleslabservices.NewMapService(encoder)
 
 	inputMap := &entities.Map{
-		Biome: entities.ForestBiome,
+		Biome: entities.TundraBiome,
 		Ground: &entities.Ground{
 			Width:             70,
 			Length:            70,

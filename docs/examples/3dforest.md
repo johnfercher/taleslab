@@ -15,18 +15,18 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/johnfercher/taleslab/pkg/api/domain/entities"
-	"github.com/johnfercher/taleslab/pkg/api/taleslab/taleslabservices"
-	"github.com/johnfercher/taleslab/pkg/slabcompressor"
-	"github.com/johnfercher/taleslab/pkg/slabdecoder"
+	"github.com/johnfercher/taleslab/internal/bytecompressor"
+	"github.com/johnfercher/taleslab/pkg/taleslab/domain/entities"
+	"github.com/johnfercher/taleslab/pkg/taleslab/taleslab/taleslabservices"
+	"github.com/johnfercher/taleslab/pkg/talespire/talespirecoder"
 	"log"
 )
 
 func main() {
 	ctx := context.TODO()
 
-	compressor := slabcompressor.New()
-	encoder := slabdecoder.NewEncoder(compressor)
+	compressor := bytecompressor.New()
+	encoder := talespirecoder.NewEncoder(compressor)
 	mapService := taleslabservices.NewMapService(encoder)
 
 	inputMap := &entities.Map{
@@ -35,19 +35,18 @@ func main() {
 			Width:             70,
 			Length:            70,
 			TerrainComplexity: 5,
-			ForceBaseLand:     false,
 		},
 		Props: &entities.Props{
 			PropsDensity: 83,
 			TreeDensity:  11,
 		},
 		Mountains: &entities.Mountains{
-			MinX:           15,
-			RandX:          30,
-			MinY:           15,
-			RandY:          30,
-			MinComplexity:  3,
-			RandComplexity: 6,
+			MinX:           30,
+			RandX:          5,
+			MinY:           30,
+			RandY:          5,
+			MinComplexity:  5,
+			RandComplexity: 2,
 			MinHeight:      10,
 			RandHeight:     10,
 		},
@@ -63,5 +62,4 @@ func main() {
 
 	fmt.Println(slab.Code)
 }
-
 ```

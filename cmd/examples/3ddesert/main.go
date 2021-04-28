@@ -3,18 +3,18 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/johnfercher/taleslab/pkg/api/domain/entities"
-	"github.com/johnfercher/taleslab/pkg/api/taleslab/taleslabservices"
-	"github.com/johnfercher/taleslab/pkg/slabcompressor"
-	"github.com/johnfercher/taleslab/pkg/slabdecoder"
+	"github.com/johnfercher/taleslab/internal/bytecompressor"
+	"github.com/johnfercher/taleslab/pkg/taleslab/domain/entities"
+	"github.com/johnfercher/taleslab/pkg/taleslab/taleslab/taleslabservices"
+	"github.com/johnfercher/taleslab/pkg/talespire/talespirecoder"
 	"log"
 )
 
 func main() {
 	ctx := context.TODO()
 
-	compressor := slabcompressor.New()
-	encoder := slabdecoder.NewEncoder(compressor)
+	compressor := bytecompressor.New()
+	encoder := talespirecoder.NewEncoder(compressor)
 	mapGenerator := taleslabservices.NewMapService(encoder)
 
 	inputMap := &entities.Map{
