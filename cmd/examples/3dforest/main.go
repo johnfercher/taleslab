@@ -23,24 +23,23 @@ func main() {
 			Width:             70,
 			Length:            70,
 			TerrainComplexity: 5,
-			ForceBaseLand:     false,
 		},
 		Props: &entities.Props{
 			PropsDensity: 83,
 			TreeDensity:  11,
 		},
 		Mountains: &entities.Mountains{
-			MinX:           15,
-			RandX:          30,
-			MinY:           15,
-			RandY:          30,
-			MinComplexity:  3,
-			RandComplexity: 6,
+			MinX:           30,
+			RandX:          5,
+			MinY:           30,
+			RandY:          5,
+			MinComplexity:  5,
+			RandComplexity: 2,
 			MinHeight:      10,
 			RandHeight:     10,
 		},
 		River: &entities.River{
-			HasRiver: false,
+			HasRiver: true,
 		},
 	}
 
