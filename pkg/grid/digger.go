@@ -33,3 +33,27 @@ func DigRiver(grid [][]Element) [][]Element {
 
 	return grid
 }
+
+func DigCanyon(grid [][]Element) [][]Element {
+	yFrequency := 2.0
+
+	y := len(grid[0])
+
+	gain := 3.0
+	offset := 5
+
+	for j := 0; j < y; j++ {
+		yNormalizedValue := float64(float64(j)/(float64(y)/(yFrequency)) + (math.Pi))
+
+		randomX := uint16(gain*math.Sin(yNormalizedValue*math.Pi)) + uint16(offset)
+
+		for x := 0; x < int(randomX); x++ {
+			grid[x][j] = Element{
+				Height:      1,
+				ElementType: BaseGroundType,
+			}
+		}
+	}
+
+	return grid
+}

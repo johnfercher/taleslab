@@ -80,6 +80,16 @@
     "offset_z": 1
   },
   {
+    "id": "AAARjg+kQ5G2RbgdLXi4G5F9",
+    "name": "cactus_big",
+    "dimensions": {
+      "width": 1,
+      "length": 1,
+      "height": 1
+    },
+    "offset_z": 1
+  },
+  {
     "id": "AADRajctsM4UQLRvIIBdDc94",
     "name": "snow_pine_tree_big",
     "dimensions": {
@@ -98,5 +108,15 @@
       "height": 1
     },
     "offset_z": 1
+  },
+  {
+    "id": "AABFmpqn8jt1R5jIVZylIRUy",
+    "name": "big_stone_wall",
+    "dimensions": {
+      "width": 1,
+      "length": 1,
+      "height": 2
+    },
+    "offset_z": 0
   }
 ]
