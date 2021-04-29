@@ -5,10 +5,10 @@ import (
 	"github.com/johnfercher/taleslab/pkg/assetloader"
 	"github.com/johnfercher/taleslab/pkg/grid"
 	"github.com/johnfercher/taleslab/pkg/mappers"
+	"github.com/johnfercher/taleslab/pkg/math"
 	"github.com/johnfercher/taleslab/pkg/taleslab/domain/entities"
 	"github.com/johnfercher/taleslab/pkg/taleslab/domain/services"
 	"github.com/johnfercher/taleslab/pkg/talespire/talespirecoder"
-	"github.com/johnfercher/taleslab/pkg/vector"
 	"log"
 	"math/rand"
 	"net/http"
@@ -213,17 +213,16 @@ func (self *mapBuilder) appendConstructionSlab(constructors map[string]assetload
 			}
 
 			if element.Height-minValue.Height > 1 && minValue.ElementType == grid.BaseGroundType {
-				if vector.Distance(lastStoneWallX, lastStoneWallY, i, j) > 2 {
+				if math.Distance(lastStoneWallX, lastStoneWallY, i, j) > 2 {
 					lastStoneWallX = i
 					lastStoneWallY = j
 
 					for k := int(element.Height); k >= int(minValue.Height); k-- {
-						rotation := uint16(384)
-						rand.Seed(time.Now().UnixNano())
-						if rand.Int()%2 == 0 {
-							rotation = 1152
-						}
-						self.addLayout(stoneWall, uint16(i)+1, uint16(j), uint16(k)/3.0, rotation)
+						rotation := math.GetRandomSoftlyRotation(true, 2, "rotation")
+						randomDistanceY := math.GetRandomSoftlyDistance(2, "y")
+						randomDistanceX := math.GetRandomSoftlyDistance(2, "x")
+
+						self.addLayout(stoneWall, uint16(i)+randomDistanceX, uint16(j)+randomDistanceY, uint16(k)/3.0, rotation)
 					}
 				}
 			} else {
