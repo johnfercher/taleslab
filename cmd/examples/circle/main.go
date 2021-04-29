@@ -2,10 +2,11 @@ package main
 
 import (
 	"fmt"
+	"github.com/johnfercher/taleslab/internal/bytecompressor"
 	"github.com/johnfercher/taleslab/pkg/assetloader"
-	slab2 "github.com/johnfercher/taleslab/pkg/slab"
-	"github.com/johnfercher/taleslab/pkg/slabcompressor"
-	"github.com/johnfercher/taleslab/pkg/slabdecoder"
+	"github.com/johnfercher/taleslab/pkg/mappers"
+	"github.com/johnfercher/taleslab/pkg/taleslab/domain/entities"
+	"github.com/johnfercher/taleslab/pkg/talespire/talespirecoder"
 	"log"
 	"math"
 )
@@ -18,19 +19,15 @@ func main() {
 		log.Fatalln(err)
 	}
 
-	compressor := slabcompressor.New()
-	encoder := slabdecoder.NewEncoder(compressor)
+	compressor := bytecompressor.New()
+	encoder := talespirecoder.NewEncoder(compressor)
 
-	slab := &slab2.Slab{
-		MagicBytes:  slab2.MagicBytes,
-		Version:     2,
-		AssetsCount: 1,
-		Assets: []*slab2.Asset{
-			{
-				Id: constructors["ground_nature_small"].Id,
-			},
-		},
-	}
+	slab := entities.NewSlab()
+
+	asset := constructors["ground_nature_small"]
+	slab.AddAsset(&entities.Asset{
+		Id: asset.Id,
+	})
 
 	radius := 5.0
 
@@ -44,8 +41,8 @@ func main() {
 		xPositiveTranslated := uint16(radius) + xRounded
 		yPositiveTranslated := uint16(radius) + yRounded
 
-		layout := &slab2.Bounds{
-			Coordinates: &slab2.Vector3d{
+		layout := &entities.Bounds{
+			Coordinates: &entities.Vector3d{
 				X: xPositiveTranslated,
 				Y: yPositiveTranslated,
 				Z: 0,
@@ -53,11 +50,12 @@ func main() {
 			Rotation: 0,
 		}
 
-		slab.Assets[0].Layouts = append(slab.Assets[0].Layouts, layout)
-		slab.Assets[0].LayoutsCount++
+		slab.AddLayoutToAsset(asset.Id, layout)
 	}
 
-	base64, err := encoder.Encode(slab)
+	taleSpireSlab := mappers.TaleSpireSlabFromEntity(slab)
+
+	base64, err := encoder.Encode(taleSpireSlab)
 
 	if err != nil {
 		log.Fatal(err)

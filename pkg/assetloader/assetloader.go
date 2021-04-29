@@ -8,7 +8,7 @@ import (
 type AssetInfo struct {
 	Id         []byte      `json:"id"`
 	Dimensions *Dimensions `json:"dimensions"`
-	OffsetZ    uint8       `json:"offset_z"`
+	OffsetZ    uint16      `json:"offset_z"`
 	Name       string      `json:"name"`
 	Type       string      `json:"type"`
 }

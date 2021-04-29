@@ -15,18 +15,18 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/johnfercher/taleslab/pkg/api/domain/entities"
-	"github.com/johnfercher/taleslab/pkg/api/taleslab/taleslabservices"
-	"github.com/johnfercher/taleslab/pkg/slabcompressor"
-	"github.com/johnfercher/taleslab/pkg/slabdecoder"
+	"github.com/johnfercher/taleslab/internal/bytecompressor"
+	"github.com/johnfercher/taleslab/pkg/taleslab/domain/entities"
+	"github.com/johnfercher/taleslab/pkg/taleslab/taleslab/taleslabservices"
+	"github.com/johnfercher/taleslab/pkg/talespire/talespirecoder"
 	"log"
 )
 
 func main() {
 	ctx := context.TODO()
 
-	compressor := slabcompressor.New()
-	encoder := slabdecoder.NewEncoder(compressor)
+	compressor := bytecompressor.New()
+	encoder := talespirecoder.NewEncoder(compressor)
 	mapGenerator := taleslabservices.NewMapService(encoder)
 
 	inputMap := &entities.Map{
@@ -41,16 +41,6 @@ func main() {
 			PropsDensity: 223,
 			TreeDensity:  113,
 		},
-		Mountains: &entities.Mountains{
-			MinX:           15,
-			RandX:          30,
-			MinY:           15,
-			RandY:          30,
-			MinComplexity:  3,
-			RandComplexity: 6,
-			MinHeight:      10,
-			RandHeight:     10,
-		},
 		River: &entities.River{
 			HasRiver: false,
 		},
@@ -63,5 +53,4 @@ func main() {
 
 	fmt.Println(slab.Code)
 }
-
 ```

@@ -54,7 +54,7 @@
     "Biome": {
       "description": "Biome request model\nexample: forest",
       "type": "string",
-      "x-go-package": "github.com/johnfercher/taleslab/pkg/api/domain/entities"
+      "x-go-package": "github.com/johnfercher/taleslab/pkg/taleslab/domain/entities"
     },
     "Ground": {
       "type": "object",
@@ -93,7 +93,7 @@
           "example": 70
         }
       },
-      "x-go-package": "github.com/johnfercher/taleslab/pkg/api/domain/entities"
+      "x-go-package": "github.com/johnfercher/taleslab/pkg/taleslab/domain/entities"
     },
     "Map": {
       "description": "Map request model",
@@ -121,7 +121,7 @@
           "$ref": "#/definitions/River"
         }
       },
-      "x-go-package": "github.com/johnfercher/taleslab/pkg/api/domain/entities"
+      "x-go-package": "github.com/johnfercher/taleslab/pkg/taleslab/domain/entities"
     },
     "MapResponse": {
       "description": "MapResponse response model",
@@ -143,7 +143,7 @@
           "x-go-name": "SlabVersion"
         }
       },
-      "x-go-package": "github.com/johnfercher/taleslab/pkg/api/contracts"
+      "x-go-package": "github.com/johnfercher/taleslab/pkg/taleslab/contracts"
     },
     "Mountains": {
       "type": "object",
@@ -215,7 +215,7 @@
           "example": 30
         }
       },
-      "x-go-package": "github.com/johnfercher/taleslab/pkg/api/domain/entities"
+      "x-go-package": "github.com/johnfercher/taleslab/pkg/taleslab/domain/entities"
     },
     "Props": {
       "type": "object",
@@ -239,7 +239,7 @@
           "example": 11
         }
       },
-      "x-go-package": "github.com/johnfercher/taleslab/pkg/api/domain/entities"
+      "x-go-package": "github.com/johnfercher/taleslab/pkg/taleslab/domain/entities"
     },
     "River": {
       "type": "object",
@@ -254,7 +254,7 @@
           "example": true
         }
       },
-      "x-go-package": "github.com/johnfercher/taleslab/pkg/api/domain/entities"
+      "x-go-package": "github.com/johnfercher/taleslab/pkg/taleslab/domain/entities"
     }
   },
   "responses": {

@@ -23,10 +23,10 @@ import (
 	httptransport "github.com/go-kit/kit/transport/http"
 	"github.com/gorilla/mux"
 	"github.com/johnfercher/taleslab/internal/api/apiencodes"
-	"github.com/johnfercher/taleslab/pkg/api/taleslab/taleslabhttp"
-	"github.com/johnfercher/taleslab/pkg/api/taleslab/taleslabservices"
-	"github.com/johnfercher/taleslab/pkg/slabcompressor"
-	"github.com/johnfercher/taleslab/pkg/slabdecoder"
+	"github.com/johnfercher/taleslab/internal/bytecompressor"
+	"github.com/johnfercher/taleslab/pkg/taleslab/taleslab/taleslabhttp"
+	"github.com/johnfercher/taleslab/pkg/taleslab/taleslab/taleslabservices"
+	"github.com/johnfercher/taleslab/pkg/talespire/talespirecoder"
 	"github.com/robertbakker/swaggerui"
 	"net/http"
 	"os"
@@ -34,15 +34,15 @@ import (
 
 func main() {
 
-	encoder := slabdecoder.NewEncoder(slabcompressor.New())
-
-	mapservice := taleslabservices.NewMapService(encoder)
+	byteCompressor := bytecompressor.New()
+	encoder := talespirecoder.NewEncoder(byteCompressor)
+	mapService := taleslabservices.NewMapService(encoder)
 
 	serverOptions := []httptransport.ServerOption{
 		httptransport.ServerErrorEncoder(apiencodes.EncodeError),
 	}
 
-	generateMapEndpoint := httptransport.NewServer(apiencodes.LogRequest(taleslabhttp.MakeGenerateMap(mapservice)),
+	generateMapEndpoint := httptransport.NewServer(apiencodes.LogRequest(taleslabhttp.MakeGenerateMap(mapService)),
 		taleslabhttp.DecodeMapRequest,
 		apiencodes.EncodeResponse,
 		serverOptions...,
