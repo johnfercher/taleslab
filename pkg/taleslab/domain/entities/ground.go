@@ -14,6 +14,10 @@ type Ground struct {
 	// required: true
 	// example: 5
 	TerrainComplexity float64 `json:"terrain_complexity"`
+	// Defines the minimum height
+	// false: true
+	// example: 5
+	MinHeight uint16 `json:"min_height"`
 	// Forces all 0 height tiles to have ground tiles
 	// required: true
 	// example: false

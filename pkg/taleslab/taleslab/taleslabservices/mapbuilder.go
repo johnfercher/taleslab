@@ -5,6 +5,7 @@ import (
 	"github.com/johnfercher/taleslab/pkg/assetloader"
 	"github.com/johnfercher/taleslab/pkg/grid"
 	"github.com/johnfercher/taleslab/pkg/mappers"
+	"github.com/johnfercher/taleslab/pkg/math"
 	"github.com/johnfercher/taleslab/pkg/taleslab/domain/entities"
 	"github.com/johnfercher/taleslab/pkg/taleslab/domain/services"
 	"github.com/johnfercher/taleslab/pkg/talespire/talespirecoder"
@@ -15,16 +16,18 @@ import (
 )
 
 type mapBuilder struct {
-	loader       assetloader.AssetLoader
-	encoder      talespirecoder.Encoder
-	biome        entities.Biome
-	props        *entities.Props
-	ground       *entities.Ground
-	mountains    *entities.Mountains
-	hasRiver     bool
+	loader    assetloader.AssetLoader
+	encoder   talespirecoder.Encoder
+	biome     entities.Biome
+	props     *entities.Props
+	ground    *entities.Ground
+	mountains *entities.Mountains
+	river     *entities.River
+	canyon    *entities.Canyon
+
 	propsInfo    map[string]assetloader.AssetInfo
 	constructors map[string]assetloader.AssetInfo
-	// TODO: Improve
+	stoneWallKey string
 	groundBlocks map[grid.ElementType][]string
 	propBlocks   map[grid.ElementType][]string
 }
@@ -46,20 +49,26 @@ func (self *mapBuilder) SetBiome(biome entities.Biome) services.MapBuilder {
 	case entities.DesertBiome:
 		self.groundBlocks[grid.GroundType] = []string{"ground_sand_small"}
 		self.groundBlocks[grid.MountainType] = []string{"ground_sand_small"}
-		self.propBlocks[grid.TreeType] = []string{"cactus_small"}
+		self.groundBlocks[grid.BaseGroundType] = []string{"ground_sand_small"}
+		self.propBlocks[grid.TreeType] = []string{"cactus_small", "cactus_big"}
 		self.propBlocks[grid.StoneType] = []string{"stone_big"}
+		self.stoneWallKey = "big_stone_wall"
 		break
 	case entities.TundraBiome:
 		self.groundBlocks[grid.GroundType] = []string{"ground_snow_small"}
 		self.groundBlocks[grid.MountainType] = []string{"ground_snow_small"}
+		self.groundBlocks[grid.BaseGroundType] = []string{"ground_snow_small"}
 		self.propBlocks[grid.TreeType] = []string{"snow_pine_tree_big", "snow_pine_tree_big", "dead_tree_big"}
 		self.propBlocks[grid.StoneType] = []string{"snow_stone_small"}
+		self.stoneWallKey = "big_snow_stone_wall"
 		break
 	default:
 		self.groundBlocks[grid.GroundType] = []string{"ground_nature_small"}
 		self.groundBlocks[grid.MountainType] = []string{"ground_nature_small"}
+		self.groundBlocks[grid.BaseGroundType] = []string{"ground_sand_small"}
 		self.propBlocks[grid.TreeType] = []string{"pine_tree_big"}
 		self.propBlocks[grid.StoneType] = []string{"stone_big"}
+		self.stoneWallKey = "big_stone_wall"
 		break
 	}
 
@@ -81,7 +90,15 @@ func (self *mapBuilder) SetMountains(mountains *entities.Mountains) services.Map
 
 func (self *mapBuilder) SetRiver(river *entities.River) services.MapBuilder {
 	if river != nil {
-		self.hasRiver = river.HasRiver
+		self.river = river
+	}
+
+	return self
+}
+
+func (self *mapBuilder) SetCanyon(canyon *entities.Canyon) services.MapBuilder {
+	if canyon != nil {
+		self.canyon = canyon
 	}
 
 	return self
@@ -114,16 +131,22 @@ func (self *mapBuilder) Build() (string, apierror.ApiError) {
 	}
 
 	world := grid.TerrainGenerator(self.ground.Width, self.ground.Length, 2.0, 2.0,
-		self.ground.TerrainComplexity, self.ground.ForceBaseLand)
+		self.ground.TerrainComplexity, self.ground.MinHeight, self.ground.ForceBaseLand)
 
 	if self.mountains != nil {
-		mountains := self.generateMountainsGrid()
+		mountains := self.generateMountainsGrid(self.ground.MinHeight)
 		for _, mountain := range mountains {
 			world = grid.BuildTerrain(world, mountain)
 		}
 	}
 
-	if self.hasRiver {
+	if self.canyon != nil && self.canyon.HasCanyon {
+		world = grid.DigCanyon(world, self.canyon.CanyonOffset)
+	}
+
+	grid.PrintHeights(world)
+
+	if self.river != nil && self.river.HasRiver {
 		world = grid.DigRiver(world)
 	}
 
@@ -163,10 +186,18 @@ func (self *mapBuilder) appendConstructionSlab(constructors map[string]assetload
 	elementMax := len(self.groundBlocks[elementType])
 	elementRand := rand.Intn(elementMax)
 
-	asset := &entities.Asset{
+	assetGround := &entities.Asset{
 		Id:         constructors[self.groundBlocks[elementType][elementRand]].Id,
 		Dimensions: constructors[self.groundBlocks[elementType][elementRand]].Dimensions,
 	}
+
+	stoneWall := &entities.Asset{
+		Id:         self.propsInfo[self.stoneWallKey].Id,
+		Dimensions: self.propsInfo[self.stoneWallKey].Dimensions,
+	}
+
+	lastStoneWallX := -4
+	lastStoneWallY := -4
 
 	for i, array := range gridHeights {
 		for j, element := range array {
@@ -192,14 +223,31 @@ func (self *mapBuilder) appendConstructionSlab(constructors map[string]assetload
 				minValue = gridHeights[i][j+1]
 			}
 
-			// Use the minimum neighborhood height to fill empty spaces
-			for k := minValue.Height; k <= element.Height; k++ {
-				self.addLayout(asset, uint16(i), uint16(j), k, 768)
+			if element.Height-minValue.Height > 1 && (minValue.ElementType == grid.BaseGroundType) {
+				if math.Distance(lastStoneWallX, lastStoneWallY, i, j) > 2 {
+					lastStoneWallX = i
+					lastStoneWallY = j
+
+					for k := int(element.Height); k >= int(minValue.Height); k-- {
+						rotation := math.GetRandomRotation(minValue.ElementType == grid.BaseGroundType, 2, "rotation")
+						randomDistanceY := math.GetRandomValue(2, "y")
+						randomDistanceX := math.GetRandomValue(2, "x")
+
+						self.addLayout(stoneWall, uint16(i)+randomDistanceX, uint16(j)+randomDistanceY, uint16(k)/3.0, rotation)
+					}
+				}
+			} else {
+				// Use the minimum neighborhood height to fill empty spaces
+				for k := minValue.Height; k <= element.Height; k++ {
+					self.addLayout(assetGround, uint16(i), uint16(j), k, 768)
+				}
 			}
+
 		}
 	}
 
-	generatedSlab.AddAsset(asset)
+	generatedSlab.AddAsset(assetGround)
+	generatedSlab.AddAsset(stoneWall)
 }
 
 func (self *mapBuilder) appendPropsToSlab(gridProps [][]grid.Element, elementType grid.ElementType, generatedSlab *entities.Slab, gridHeights [][]grid.Element) {
@@ -220,7 +268,7 @@ func (self *mapBuilder) appendPropsToSlab(gridProps [][]grid.Element, elementTyp
 		for j, element := range array {
 			rand.Seed(time.Now().UnixNano())
 
-			elementRand := rand.Intn(elementMax)
+			elementRand := math.GetRandomValue(elementMax, "trees")
 			elementKey := elementKeys[elementRand]
 			prop := self.propsInfo[elementKey]
 			offsetZ := prop.OffsetZ
@@ -236,7 +284,7 @@ func (self *mapBuilder) appendPropsToSlab(gridProps [][]grid.Element, elementTyp
 	}
 }
 
-func (self *mapBuilder) generateMountainsGrid() [][][]grid.Element {
+func (self *mapBuilder) generateMountainsGrid(minHeight uint16) [][][]grid.Element {
 	mountainsGrid := [][][]grid.Element{}
 
 	rand.Seed(time.Now().UnixNano())
@@ -263,7 +311,7 @@ func (self *mapBuilder) generateMountainsGrid() [][][]grid.Element {
 			rand.Seed(time.Now().UnixNano())
 			gain := float64(rand.Intn(self.mountains.RandHeight) + self.mountains.MinHeight)
 
-			generatedMountain := grid.MountainGenerator(mountainX, mountainY, gain)
+			generatedMountain := grid.MountainGenerator(mountainX, mountainY, gain, minHeight)
 			mountainsGrid = append(mountainsGrid, generatedMountain)
 		}
 	}

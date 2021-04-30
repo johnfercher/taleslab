@@ -13,16 +13,17 @@ const (
 // Map request model
 // swagger:model
 type Map struct {
-
 	// Base Biome type (Desert, Forest, Tundra)
 	// required: false
 	Biome Biome `json:"biome,omitempty"`
 	// required: true
 	Ground *Ground `json:"ground,omitempty"`
-	// required: true
+	// required: false
 	Mountains *Mountains `json:"mountains,omitempty"`
-	// required: true
+	// required: false
 	River *River `json:"river,omitempty"`
+	// required: false
+	Canyon *Canyon `json:"canyon,omitempty"`
 	// required: true
 	Props *Props `json:"props,omitempty"`
 }

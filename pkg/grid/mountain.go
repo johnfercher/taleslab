@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-func TerrainGenerator(x, y int, xFrequency, yFrequency, gain float64, forceBaseLand bool) [][]Element {
+func TerrainGenerator(x, y int, xFrequency, yFrequency, gain float64, minHeight uint16, forceBaseLand bool) [][]Element {
 	groundHeight := [][]Element{}
 
 	for i := 0; i < x; i++ {
@@ -39,7 +39,7 @@ func TerrainGenerator(x, y int, xFrequency, yFrequency, gain float64, forceBaseL
 
 			heightAvg := uint16((xHeight + yHeight) / 2.0)
 
-			groundHeight[i][j].Height = heightAvg
+			groundHeight[i][j].Height = heightAvg + minHeight
 
 			// Remove Ground
 			if !forceBaseLand && heightAvg == 0 {
@@ -51,7 +51,7 @@ func TerrainGenerator(x, y int, xFrequency, yFrequency, gain float64, forceBaseL
 	return groundHeight
 }
 
-func MountainGenerator(x, y int, gain float64) [][]Element {
+func MountainGenerator(x, y int, gain float64, minHeight uint16) [][]Element {
 	xFrequency := 2.0
 	yFrequency := 2.0
 
@@ -82,7 +82,7 @@ func MountainGenerator(x, y int, gain float64) [][]Element {
 			heightAvg := uint16((xHeight + yHeight) / 2.0)
 
 			if heightAvg > uint16(gain) {
-				groundHeight[i][j].Height = heightAvg - uint16(gain)
+				groundHeight[i][j].Height = heightAvg - uint16(gain) + minHeight
 			} else {
 				groundHeight[i][j].Height = 0
 			}
