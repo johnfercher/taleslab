@@ -9,6 +9,7 @@ const (
 	TemperateForestBiomeType BiomeType = "temperate_forest"
 	DesertBiomeType          BiomeType = "desert"
 	TundraBiomeType          BiomeType = "tundra"
+	BeachBiomeType           BiomeType = "beach"
 )
 
 // Map request model

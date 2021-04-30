@@ -22,7 +22,7 @@ func main() {
 	mapService := taleslabservices.NewMapService(biomeLoader, encoder)
 
 	inputMap := &entities.Map{
-		Biome: entities.TemperateForestBiomeType,
+		Biome: entities.BeachBiomeType,
 		Ground: &entities.Ground{
 			Width:             70,
 			Length:            70,
@@ -31,7 +31,7 @@ func main() {
 			ForceBaseLand:     true,
 		},
 		Props: &entities.Props{
-			PropsDensity: 83,
+			StoneDensity: 83,
 			TreeDensity:  11,
 		},
 		Mountains: &entities.Mountains{

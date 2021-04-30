@@ -29,8 +29,9 @@ func main() {
 			TerrainComplexity: 5,
 		},
 		Props: &entities.Props{
-			PropsDensity: 83,
+			StoneDensity: 150,
 			TreeDensity:  11,
+			MiscDensity:  25,
 		},
 		Mountains: &entities.Mountains{
 			MinX:           30,

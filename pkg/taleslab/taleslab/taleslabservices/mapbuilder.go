@@ -102,7 +102,7 @@ func (self *mapBuilder) Build() (string, apierror.ApiError) {
 	if self.props != nil {
 		propsGrid = grid.GenerateElementGrid(self.ground.Width, self.ground.Length, grid.Element{ElementType: grid.NoneType})
 
-		propsGrid = grid.RandomlyFillEmptyGridSlots(world, propsGrid, self.props.PropsDensity, grid.StoneType, func(element grid.Element) bool {
+		propsGrid = grid.RandomlyFillEmptyGridSlots(world, propsGrid, self.props.StoneDensity, grid.StoneType, func(element grid.Element) bool {
 			return element.ElementType != grid.NoneType
 		})
 
@@ -110,9 +110,11 @@ func (self *mapBuilder) Build() (string, apierror.ApiError) {
 			return element.ElementType == grid.GroundType || element.ElementType == grid.MountainType
 		})
 
-		propsGrid = grid.RandomlyFillEmptyGridSlots(world, propsGrid, self.props.PropsDensity, grid.MiscType, func(element grid.Element) bool {
-			return element.ElementType != grid.NoneType
-		})
+		if self.props.MiscDensity != 0 {
+			propsGrid = grid.RandomlyFillEmptyGridSlots(world, propsGrid, self.props.MiscDensity, grid.MiscType, func(element grid.Element) bool {
+				return element.ElementType != grid.NoneType
+			})
+		}
 	}
 
 	groundBlocks := self.biomeLoader.GetConstructorKeys()
@@ -195,7 +197,7 @@ func (self *mapBuilder) appendConstructionSlab(elementType grid.ElementType, gen
 					lastStoneWallY = j
 
 					for k := int(element.Height); k >= int(minValue.Height); k-- {
-						rotation := math.GetRandomRotation(minValue.ElementType == grid.BaseGroundType, 2, "rotation")
+						rotation := math.GetRandomRotation(minValue.ElementType == grid.BaseGroundType, 2, "stone_wall_rotation")
 						randomDistanceY := math.GetRandomValue(2, "y")
 						randomDistanceX := math.GetRandomValue(2, "x")
 
@@ -240,10 +242,11 @@ func (self *mapBuilder) appendPropsToSlab(elementType grid.ElementType, generate
 	for i, array := range gridHeights {
 		for j, element := range array {
 			rand.Seed(time.Now().UnixNano())
-			elementRand := math.GetRandomValue(elementMax, "trees")
+			elementRand := math.GetRandomValue(elementMax, "props")
 
 			if gridProps[i][j].ElementType == elementType {
-				self.addLayout(assets[elementRand], uint16(i), uint16(j), element.Height+assets[elementRand].OffsetZ, 768)
+				rotation := math.GetRandomRotation(true, 5, "props")
+				self.addLayout(assets[elementRand], uint16(i), uint16(j), element.Height+assets[elementRand].OffsetZ, rotation)
 			}
 		}
 	}

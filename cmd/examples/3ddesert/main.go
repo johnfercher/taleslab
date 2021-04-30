@@ -30,8 +30,9 @@ func main() {
 			ForceBaseLand:     true,
 		},
 		Props: &entities.Props{
-			PropsDensity: 223,
-			TreeDensity:  113,
+			StoneDensity: 300,
+			TreeDensity:  180,
+			MiscDensity:  350,
 		},
 		River: &entities.River{
 			HasRiver: false,

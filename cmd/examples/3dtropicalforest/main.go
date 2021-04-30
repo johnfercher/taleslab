@@ -31,8 +31,9 @@ func main() {
 			ForceBaseLand:     true,
 		},
 		Props: &entities.Props{
-			PropsDensity: 83,
+			StoneDensity: 150,
 			TreeDensity:  11,
+			MiscDensity:  11,
 		},
 		Mountains: &entities.Mountains{
 			MinX:           30,
