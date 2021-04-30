@@ -15,18 +15,22 @@ func Distance(x1, y1, x2, y2 int) uint16 {
 
 var lastRotation = make(map[string]uint16)
 
-func GetRandomSoftlyRotation(verticalX bool, ticksOfFreedom int, key string) uint16 {
+func GetRandomRotation(verticalX bool, ticksOfFreedom int, key string) uint16 {
 	value90 := 384
 	value270 := 1152
 	minTick := 64
 	value := 0
 
+	if !verticalX {
+		value += value90
+	}
+
 	rand.Seed(time.Now().UnixNano())
 
 	if rand.Intn(100)%2 == 0 {
-		value = value90
+		value += value90
 	} else {
-		value = value270
+		value += value270
 	}
 
 	randomValue := rand.Intn(ticksOfFreedom) * minTick
@@ -39,7 +43,7 @@ func GetRandomSoftlyRotation(verticalX bool, ticksOfFreedom int, key string) uin
 	}
 
 	if uint16(value) == lastRotation[key] {
-		return GetRandomSoftlyRotation(verticalX, ticksOfFreedom, key)
+		return GetRandomRotation(verticalX, ticksOfFreedom, key)
 	}
 
 	lastRotation[key] = uint16(value)
@@ -48,11 +52,16 @@ func GetRandomSoftlyRotation(verticalX bool, ticksOfFreedom int, key string) uin
 
 var lastDistance = make(map[string]uint16)
 
-func GetRandomSoftlyDistance(maxDistance int, key string) uint16 {
-	randomValue := rand.Intn(maxDistance)
+func GetRandomValue(maxRand int, key string) uint16 {
+	return getRandom(maxRand, key, 0)
+}
 
-	if uint16(randomValue) == lastDistance[key] {
-		return GetRandomSoftlyDistance(maxDistance, key)
+func getRandom(maxRand int, key string, depth uint) uint16 {
+	randomValue := rand.Intn(maxRand)
+	depth++
+
+	if uint16(randomValue) == lastDistance[key] && depth < 10 {
+		return getRandom(maxRand, key, depth)
 	}
 
 	lastDistance[key] = uint16(randomValue)

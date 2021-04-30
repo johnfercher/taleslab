@@ -16,13 +16,15 @@ import (
 )
 
 type mapBuilder struct {
-	loader       assetloader.AssetLoader
-	encoder      talespirecoder.Encoder
-	biome        entities.Biome
-	props        *entities.Props
-	ground       *entities.Ground
-	mountains    *entities.Mountains
-	hasRiver     bool
+	loader    assetloader.AssetLoader
+	encoder   talespirecoder.Encoder
+	biome     entities.Biome
+	props     *entities.Props
+	ground    *entities.Ground
+	mountains *entities.Mountains
+	river     *entities.River
+	canyon    *entities.Canyon
+
 	propsInfo    map[string]assetloader.AssetInfo
 	constructors map[string]assetloader.AssetInfo
 	stoneWallKey string
@@ -50,6 +52,7 @@ func (self *mapBuilder) SetBiome(biome entities.Biome) services.MapBuilder {
 		self.groundBlocks[grid.BaseGroundType] = []string{"ground_sand_small"}
 		self.propBlocks[grid.TreeType] = []string{"cactus_small", "cactus_big"}
 		self.propBlocks[grid.StoneType] = []string{"stone_big"}
+		self.stoneWallKey = "big_stone_wall"
 		break
 	case entities.TundraBiome:
 		self.groundBlocks[grid.GroundType] = []string{"ground_snow_small"}
@@ -57,6 +60,7 @@ func (self *mapBuilder) SetBiome(biome entities.Biome) services.MapBuilder {
 		self.groundBlocks[grid.BaseGroundType] = []string{"ground_snow_small"}
 		self.propBlocks[grid.TreeType] = []string{"snow_pine_tree_big", "snow_pine_tree_big", "dead_tree_big"}
 		self.propBlocks[grid.StoneType] = []string{"snow_stone_small"}
+		self.stoneWallKey = "big_snow_stone_wall"
 		break
 	default:
 		self.groundBlocks[grid.GroundType] = []string{"ground_nature_small"}
@@ -64,10 +68,9 @@ func (self *mapBuilder) SetBiome(biome entities.Biome) services.MapBuilder {
 		self.groundBlocks[grid.BaseGroundType] = []string{"ground_sand_small"}
 		self.propBlocks[grid.TreeType] = []string{"pine_tree_big"}
 		self.propBlocks[grid.StoneType] = []string{"stone_big"}
+		self.stoneWallKey = "big_stone_wall"
 		break
 	}
-
-	self.stoneWallKey = "big_stone_wall"
 
 	return self
 }
@@ -87,7 +90,15 @@ func (self *mapBuilder) SetMountains(mountains *entities.Mountains) services.Map
 
 func (self *mapBuilder) SetRiver(river *entities.River) services.MapBuilder {
 	if river != nil {
-		self.hasRiver = river.HasRiver
+		self.river = river
+	}
+
+	return self
+}
+
+func (self *mapBuilder) SetCanyon(canyon *entities.Canyon) services.MapBuilder {
+	if canyon != nil {
+		self.canyon = canyon
 	}
 
 	return self
@@ -129,13 +140,13 @@ func (self *mapBuilder) Build() (string, apierror.ApiError) {
 		}
 	}
 
-	if self.ground.HasCanyon {
-		world = grid.DigCanyon(world)
+	if self.canyon != nil && self.canyon.HasCanyon {
+		world = grid.DigCanyon(world, self.canyon.CanyonOffset)
 	}
 
 	grid.PrintHeights(world)
 
-	if self.hasRiver {
+	if self.river != nil && self.river.HasRiver {
 		world = grid.DigRiver(world)
 	}
 
@@ -212,15 +223,15 @@ func (self *mapBuilder) appendConstructionSlab(constructors map[string]assetload
 				minValue = gridHeights[i][j+1]
 			}
 
-			if element.Height-minValue.Height > 1 && minValue.ElementType == grid.BaseGroundType {
+			if element.Height-minValue.Height > 1 && (minValue.ElementType == grid.BaseGroundType) {
 				if math.Distance(lastStoneWallX, lastStoneWallY, i, j) > 2 {
 					lastStoneWallX = i
 					lastStoneWallY = j
 
 					for k := int(element.Height); k >= int(minValue.Height); k-- {
-						rotation := math.GetRandomSoftlyRotation(true, 2, "rotation")
-						randomDistanceY := math.GetRandomSoftlyDistance(2, "y")
-						randomDistanceX := math.GetRandomSoftlyDistance(2, "x")
+						rotation := math.GetRandomRotation(minValue.ElementType == grid.BaseGroundType, 2, "rotation")
+						randomDistanceY := math.GetRandomValue(2, "y")
+						randomDistanceX := math.GetRandomValue(2, "x")
 
 						self.addLayout(stoneWall, uint16(i)+randomDistanceX, uint16(j)+randomDistanceY, uint16(k)/3.0, rotation)
 					}
@@ -257,7 +268,7 @@ func (self *mapBuilder) appendPropsToSlab(gridProps [][]grid.Element, elementTyp
 		for j, element := range array {
 			rand.Seed(time.Now().UnixNano())
 
-			elementRand := rand.Intn(elementMax)
+			elementRand := math.GetRandomValue(elementMax, "trees")
 			elementKey := elementKeys[elementRand]
 			prop := self.propsInfo[elementKey]
 			offsetZ := prop.OffsetZ

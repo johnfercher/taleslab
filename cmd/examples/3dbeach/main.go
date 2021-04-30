@@ -25,7 +25,6 @@ func main() {
 			TerrainComplexity: 5,
 			MinHeight:         5,
 			ForceBaseLand:     true,
-			HasCanyon:         true,
 		},
 		Props: &entities.Props{
 			PropsDensity: 83,
@@ -43,6 +42,10 @@ func main() {
 		},
 		River: &entities.River{
 			HasRiver: true,
+		},
+		Canyon: &entities.Canyon{
+			HasCanyon:    true,
+			CanyonOffset: 10,
 		},
 	}
 

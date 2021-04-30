@@ -10,6 +10,7 @@ type MapBuilder interface {
 	SetGround(ground *entities.Ground) MapBuilder
 	SetMountains(mountains *entities.Mountains) MapBuilder
 	SetRiver(river *entities.River) MapBuilder
+	SetCanyon(canyon *entities.Canyon) MapBuilder
 	SetProps(props *entities.Props) MapBuilder
 	Build() (string, apierror.ApiError)
 }

@@ -56,6 +56,25 @@
       "type": "string",
       "x-go-package": "github.com/johnfercher/taleslab/pkg/taleslab/domain/entities"
     },
+    "Canyon": {
+      "type": "object",
+      "properties": {
+        "canyon_offset": {
+          "description": "Move the Canyon",
+          "type": "integer",
+          "format": "uint64",
+          "x-go-name": "CanyonOffset",
+          "example": 10
+        },
+        "has_canyon": {
+          "description": "Turn on a Canyon",
+          "type": "boolean",
+          "x-go-name": "HasCanyon",
+          "example": true
+        }
+      },
+      "x-go-package": "github.com/johnfercher/taleslab/pkg/taleslab/domain/entities"
+    },
     "Ground": {
       "type": "object",
       "required": [
@@ -77,6 +96,13 @@
           "format": "int64",
           "x-go-name": "Length",
           "example": 70
+        },
+        "min_height": {
+          "description": "Defines the minimum height\nfalse: true",
+          "type": "integer",
+          "format": "uint16",
+          "x-go-name": "MinHeight",
+          "example": 5
         },
         "terrain_complexity": {
           "description": "Defines how \"wavy\" the base terrain will be",
@@ -100,13 +126,14 @@
       "type": "object",
       "required": [
         "ground",
-        "mountains",
-        "river",
         "props"
       ],
       "properties": {
         "biome": {
           "$ref": "#/definitions/Biome"
+        },
+        "canyon": {
+          "$ref": "#/definitions/Canyon"
         },
         "ground": {
           "$ref": "#/definitions/Ground"

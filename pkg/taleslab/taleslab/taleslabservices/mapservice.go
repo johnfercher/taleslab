@@ -28,7 +28,8 @@ func (self *mapService) Generate(ctx context.Context, inputMap *entities.Map) (*
 		SetMountains(inputMap.Mountains).
 		SetGround(inputMap.Ground).
 		SetProps(inputMap.Props).
-		SetRiver(inputMap.River)
+		SetRiver(inputMap.River).
+		SetCanyon(inputMap.Canyon)
 
 	base64, err := builder.Build()
 	if err != nil {

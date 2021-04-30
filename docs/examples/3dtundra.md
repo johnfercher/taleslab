@@ -62,4 +62,5 @@ func main() {
 
 	fmt.Println(slab.Code)
 }
+
 ```

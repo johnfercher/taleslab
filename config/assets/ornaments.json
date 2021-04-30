@@ -118,5 +118,15 @@
       "height": 2
     },
     "offset_z": 0
+  },
+  {
+    "id": "AAAU/uamaE8rSoQl49hdBEQY",
+    "name": "big_snow_stone_wall",
+    "dimensions": {
+      "width": 1,
+      "length": 1,
+      "height": 2
+    },
+    "offset_z": 0
   }
 ]
