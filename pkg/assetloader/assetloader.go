@@ -3,6 +3,7 @@ package assetloader
 import (
 	"encoding/json"
 	"io/ioutil"
+	"log"
 )
 
 type AssetInfo struct {
@@ -20,28 +21,41 @@ type Dimensions struct {
 }
 
 type AssetLoader interface {
-	GetConstructors() (map[string]AssetInfo, error)
-	GetProps() (map[string]AssetInfo, error)
+	GetConstructor(id string) AssetInfo
+	GetProp(id string) AssetInfo
 }
 
 type assetLoader struct {
+	constructors map[string]AssetInfo
+	props        map[string]AssetInfo
 }
 
 func NewAssetLoader() *assetLoader {
-	return &assetLoader{}
+	assetLoader := &assetLoader{}
+	assetLoader.loadProps()
+	assetLoader.loadConstructors()
+	return assetLoader
 }
 
-func (self *assetLoader) GetConstructors() (map[string]AssetInfo, error) {
+func (self *assetLoader) GetConstructor(id string) AssetInfo {
+	return self.constructors[id]
+}
+
+func (self *assetLoader) GetProp(id string) AssetInfo {
+	return self.props[id]
+}
+
+func (self *assetLoader) loadConstructors() {
 	bytes, err := ioutil.ReadFile("./config/assets/constructors.json")
 	if err != nil {
-		return nil, err
+		log.Fatal(err.Error())
 	}
 
 	assetInfos := []AssetInfo{}
 
 	err = json.Unmarshal(bytes, &assetInfos)
 	if err != nil {
-		return nil, err
+		log.Fatal(err.Error())
 	}
 
 	for i := 0; i < len(assetInfos); i++ {
@@ -54,20 +68,20 @@ func (self *assetLoader) GetConstructors() (map[string]AssetInfo, error) {
 		assetMap[assetinfo.Name] = assetinfo
 	}
 
-	return assetMap, nil
+	self.constructors = assetMap
 }
 
-func (self *assetLoader) GetProps() (map[string]AssetInfo, error) {
+func (self *assetLoader) loadProps() {
 	bytes, err := ioutil.ReadFile("./config/assets/ornaments.json")
 	if err != nil {
-		return nil, err
+		log.Fatal(err.Error())
 	}
 
 	assetInfos := []AssetInfo{}
 
 	err = json.Unmarshal(bytes, &assetInfos)
 	if err != nil {
-		return nil, err
+		log.Fatal(err.Error())
 	}
 
 	for i := 0; i < len(assetInfos); i++ {
@@ -80,5 +94,5 @@ func (self *assetLoader) GetProps() (map[string]AssetInfo, error) {
 		assetMap[assetinfo.Name] = assetinfo
 	}
 
-	return assetMap, nil
+	self.props = assetMap
 }

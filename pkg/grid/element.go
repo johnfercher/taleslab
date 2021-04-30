@@ -1,15 +1,16 @@
 package grid
 
-type ElementType byte
+type ElementType string
 
 const (
-	NoneType       ElementType = 0
-	GroundType     ElementType = 1
-	MountainType   ElementType = 2
-	TreeType       ElementType = 3
-	StoneType      ElementType = 4
-	RiverType      ElementType = 5
-	BaseGroundType ElementType = 6
+	NoneType       ElementType = "none_type"
+	GroundType     ElementType = "ground_type"
+	MountainType   ElementType = "mountain_type"
+	TreeType       ElementType = "tree_type"
+	StoneType      ElementType = "stone_type"
+	RiverType      ElementType = "river_type"
+	BaseGroundType ElementType = "base_ground_type"
+	StoneWallType  ElementType = "stone_wall_type"
 )
 
 type Element struct {

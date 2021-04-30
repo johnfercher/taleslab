@@ -51,8 +51,8 @@
     }
   },
   "definitions": {
-    "Biome": {
-      "description": "Biome request model\nexample: forest",
+    "BiomeType": {
+      "description": "BiomeType request model\nexample: temperate_forest",
       "type": "string",
       "x-go-package": "github.com/johnfercher/taleslab/pkg/taleslab/domain/entities"
     },
@@ -129,8 +129,8 @@
         "props"
       ],
       "properties": {
-        "biome": {
-          "$ref": "#/definitions/Biome"
+        "biome_type": {
+          "$ref": "#/definitions/BiomeType"
         },
         "canyon": {
           "$ref": "#/definitions/Canyon"

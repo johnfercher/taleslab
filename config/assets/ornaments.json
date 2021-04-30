@@ -117,7 +117,7 @@
       "length": 1,
       "height": 2
     },
-    "offset_z": 0
+    "offset_z": 1
   },
   {
     "id": "AAAU/uamaE8rSoQl49hdBEQY",
@@ -126,6 +126,36 @@
       "width": 1,
       "length": 1,
       "height": 2
+    },
+    "offset_z": 1
+  },
+  {
+    "id": "AAAQ3anAt5b+Ro/znUYYTxBv",
+    "name": "one_big_tree",
+    "dimensions": {
+      "width": 1,
+      "length": 1,
+      "height": 1
+    },
+    "offset_z": 0
+  },
+  {
+    "id": "AACcAjwU1jQhSKXTdkNxFLfg",
+    "name": "two_big_tree",
+    "dimensions": {
+      "width": 1,
+      "length": 1,
+      "height": 1
+    },
+    "offset_z": 0
+  },
+  {
+    "id": "AACfRu3izmugTYI6dtwEnYy/",
+    "name": "three_big_tree",
+    "dimensions": {
+      "width": 1,
+      "length": 1,
+      "height": 1
     },
     "offset_z": 0
   }

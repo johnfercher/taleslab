@@ -4,26 +4,26 @@ import (
 	"context"
 	"fmt"
 	"github.com/johnfercher/taleslab/internal/api/apierror"
-	"github.com/johnfercher/taleslab/pkg/assetloader"
+	"github.com/johnfercher/taleslab/pkg/biomeloader"
 	"github.com/johnfercher/taleslab/pkg/taleslab/contracts"
 	"github.com/johnfercher/taleslab/pkg/taleslab/domain/entities"
 	"github.com/johnfercher/taleslab/pkg/talespire/talespirecoder"
 )
 
 type mapService struct {
-	loader  assetloader.AssetLoader
-	encoder talespirecoder.Encoder
+	biomeLoader biomeloader.BiomeLoader
+	encoder     talespirecoder.Encoder
 }
 
-func NewMapService(encoder talespirecoder.Encoder) *mapService {
+func NewMapService(biomeLoader biomeloader.BiomeLoader, encoder talespirecoder.Encoder) *mapService {
 	return &mapService{
-		encoder: encoder,
-		loader:  assetloader.NewAssetLoader(),
+		biomeLoader: biomeLoader,
+		encoder:     encoder,
 	}
 }
 
 func (self *mapService) Generate(ctx context.Context, inputMap *entities.Map) (*contracts.MapResponse, apierror.ApiError) {
-	builder := New(self.loader, self.encoder).
+	builder := New(self.biomeLoader, self.encoder).
 		SetBiome(inputMap.Biome).
 		SetMountains(inputMap.Mountains).
 		SetGround(inputMap.Ground).

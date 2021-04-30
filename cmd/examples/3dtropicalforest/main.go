@@ -18,23 +18,38 @@ func main() {
 	compressor := bytecompressor.New()
 	encoder := talespirecoder.NewEncoder(compressor)
 	assetLoader := assetloader.NewAssetLoader()
-	biomeLoader := biomeloader.NewBiomeLoader()
-	mapService := taleslabservices.NewMapService(assetLoader, biomeLoader, encoder)
+	biomeLoader := biomeloader.NewBiomeLoader(assetLoader)
+	mapService := taleslabservices.NewMapService(biomeLoader, encoder)
 
 	inputMap := &entities.Map{
-		Biome: entities.DesertBiomeType,
+		Biome: entities.TropicalForestBiomeType,
 		Ground: &entities.Ground{
 			Width:             70,
 			Length:            70,
 			TerrainComplexity: 5,
+			MinHeight:         5,
 			ForceBaseLand:     true,
 		},
 		Props: &entities.Props{
-			PropsDensity: 223,
-			TreeDensity:  113,
+			PropsDensity: 83,
+			TreeDensity:  11,
+		},
+		Mountains: &entities.Mountains{
+			MinX:           30,
+			RandX:          5,
+			MinY:           30,
+			RandY:          5,
+			MinComplexity:  5,
+			RandComplexity: 2,
+			MinHeight:      10,
+			RandHeight:     10,
 		},
 		River: &entities.River{
-			HasRiver: false,
+			HasRiver: true,
+		},
+		Canyon: &entities.Canyon{
+			HasCanyon:    true,
+			CanyonOffset: 10,
 		},
 	}
 
