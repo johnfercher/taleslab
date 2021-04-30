@@ -45,7 +45,7 @@ func main() {
 			RandHeight:     10,
 		},
 		River: &entities.River{
-			HasRiver: true,
+			HasRiver: false,
 		},
 		Canyon: &entities.Canyon{
 			HasCanyon:    true,
@@ -59,4 +59,5 @@ func main() {
 	}
 
 	fmt.Println(slab.Code)
+	fmt.Println(slab.Size)
 }

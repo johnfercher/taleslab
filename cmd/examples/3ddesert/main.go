@@ -24,8 +24,8 @@ func main() {
 	inputMap := &entities.Map{
 		Biome: entities.DesertBiomeType,
 		Ground: &entities.Ground{
-			Width:             70,
-			Length:            70,
+			Width:             100,
+			Length:            100,
 			TerrainComplexity: 5,
 			ForceBaseLand:     true,
 		},
@@ -44,4 +44,5 @@ func main() {
 	}
 
 	fmt.Println(slab.Code)
+	fmt.Println(slab.Size)
 }

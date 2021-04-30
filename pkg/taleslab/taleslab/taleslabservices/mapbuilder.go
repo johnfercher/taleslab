@@ -109,6 +109,10 @@ func (self *mapBuilder) Build() (string, apierror.ApiError) {
 		propsGrid = grid.RandomlyFillEmptyGridSlots(world, propsGrid, self.props.TreeDensity, grid.TreeType, func(element grid.Element) bool {
 			return element.ElementType == grid.GroundType || element.ElementType == grid.MountainType
 		})
+
+		propsGrid = grid.RandomlyFillEmptyGridSlots(world, propsGrid, self.props.PropsDensity, grid.MiscType, func(element grid.Element) bool {
+			return element.ElementType != grid.NoneType
+		})
 	}
 
 	groundBlocks := self.biomeLoader.GetConstructorKeys()

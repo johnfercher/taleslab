@@ -53,4 +53,5 @@ func main() {
 	}
 
 	fmt.Println(slab.Code)
+	fmt.Println(slab.Size)
 }

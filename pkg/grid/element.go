@@ -11,6 +11,7 @@ const (
 	RiverType      ElementType = "river_type"
 	BaseGroundType ElementType = "base_ground_type"
 	StoneWallType  ElementType = "stone_wall_type"
+	MiscType       ElementType = "misc_type"
 )
 
 type Element struct {

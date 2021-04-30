@@ -21,7 +21,8 @@
     },
     "prop_blocks": {
       "tree_type": ["cactus_small", "cactus_big"],
-      "stone_type": ["stone_big"]
+      "stone_type": ["stone_big"],
+      "misc_type": ["bull_skull", "down_rib", "up_rib"]
     },
     "stone_wall": "big_stone_wall"
   },
