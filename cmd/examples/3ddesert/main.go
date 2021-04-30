@@ -18,8 +18,8 @@ func main() {
 	compressor := bytecompressor.New()
 	encoder := talespirecoder.NewEncoder(compressor)
 	assetLoader := assetloader.NewAssetLoader()
-	biomeLoader := biomeloader.NewBiomeLoader()
-	mapService := taleslabservices.NewMapService(assetLoader, biomeLoader, encoder)
+	biomeLoader := biomeloader.NewBiomeLoader(assetLoader)
+	mapService := taleslabservices.NewMapService(biomeLoader, encoder)
 
 	inputMap := &entities.Map{
 		Biome: entities.DesertBiomeType,
