@@ -1,5 +1,5 @@
 # TaleSlab
-TaleSpire Slab Generator
+TaleSpire Slab Generator: https://taleslab.herokuapp.com/swagger/
 
 ## Generated Examples
 **Printscreen**

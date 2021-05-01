@@ -1,5 +1,7 @@
 package entities
 
+import validation "github.com/go-ozzo/ozzo-validation"
+
 // swagger:model
 type Ground struct {
 	// World map width
@@ -17,9 +19,20 @@ type Ground struct {
 	// Defines the minimum height
 	// false: true
 	// example: 5
-	MinHeight uint16 `json:"min_height"`
+	MinHeight int `json:"min_height"`
 	// Forces all 0 height tiles to have ground tiles
 	// required: true
 	// example: false
 	ForceBaseLand bool `json:"force_base_land"`
+}
+
+func (self Ground) Validate() error {
+	validate := validation.ValidateStruct(&self,
+		validation.Field(&self.Width, validation.Required, validation.Min(10), validation.Max(70)),
+		validation.Field(&self.Length, validation.Required, validation.Min(10), validation.Max(70)),
+		validation.Field(&self.TerrainComplexity, validation.Required, validation.Max(10.0)),
+		validation.Field(&self.MinHeight, validation.Min(0)),
+	)
+
+	return validate
 }

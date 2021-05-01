@@ -37,11 +37,11 @@ func taleSpireAssetFromEntity(entity *entities.Asset) *talespirecontracts.Asset 
 func taleSpireBoundsFromEntity(entity *entities.Bounds) *talespirecontracts.Bounds {
 	taleSpire := &talespirecontracts.Bounds{
 		Coordinates: &talespirecontracts.Vector3d{
-			X: entity.Coordinates.X,
-			Y: entity.Coordinates.Y,
-			Z: entity.Coordinates.Z,
+			X: uint16(entity.Coordinates.X),
+			Y: uint16(entity.Coordinates.Y),
+			Z: uint16(entity.Coordinates.Z),
 		},
-		Rotation: entity.Rotation,
+		Rotation: uint16(entity.Rotation),
 	}
 
 	return taleSpire
@@ -75,11 +75,11 @@ func entityAssetFromTaleSpire(taleSpire *talespirecontracts.Asset) *entities.Ass
 func entityBoundsFromTaleSpire(taleSpire *talespirecontracts.Bounds) *entities.Bounds {
 	entity := &entities.Bounds{
 		Coordinates: &entities.Vector3d{
-			X: taleSpire.Coordinates.X,
-			Y: taleSpire.Coordinates.Y,
-			Z: taleSpire.Coordinates.Z,
+			X: int(taleSpire.Coordinates.X),
+			Y: int(taleSpire.Coordinates.Y),
+			Z: int(taleSpire.Coordinates.Z),
 		},
-		Rotation: taleSpire.Rotation,
+		Rotation: int(taleSpire.Rotation),
 	}
 
 	return entity

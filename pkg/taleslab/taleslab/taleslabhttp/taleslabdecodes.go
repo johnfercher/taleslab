@@ -16,11 +16,19 @@ func DecodeMapRequest(ctx context.Context, r *http.Request) (request interface{}
 		apierror.Log(ctx, err)
 		return nil, err
 	}
+
 	inputMap := &entities.Map{}
 	err = json.Unmarshal(bytes, inputMap)
 	if err != nil {
 		apiErr := apierror.New(http.StatusBadRequest, err.Error())
 		apierror.Log(ctx, apiErr)
+		return nil, apiErr
+	}
+
+	err = inputMap.Validate()
+	if err != nil {
+		apiErr := apierror.New(http.StatusBadRequest, "There is some validations errors").
+			SetCauses(err)
 		return nil, apiErr
 	}
 

@@ -15,6 +15,6 @@ const (
 )
 
 type Element struct {
-	Height      uint16
+	Height      int
 	ElementType ElementType
 }

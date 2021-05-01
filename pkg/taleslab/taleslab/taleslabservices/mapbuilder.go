@@ -91,7 +91,7 @@ func (self *mapBuilder) Build() (string, apierror.ApiError) {
 		world = grid.DigCanyon(world, self.canyon.CanyonOffset)
 	}
 
-	grid.PrintHeights(world)
+	//grid.PrintHeights(world)
 
 	if self.river != nil && self.river.HasRiver {
 		world = grid.DigRiver(world)
@@ -201,7 +201,7 @@ func (self *mapBuilder) appendConstructionSlab(elementType grid.ElementType, gen
 						randomDistanceY := math.GetRandomValue(2, "y")
 						randomDistanceX := math.GetRandomValue(2, "x")
 
-						self.addLayout(stoneWall, uint16(i)+randomDistanceX, uint16(j)+randomDistanceY, (uint16(k)+stoneWall.OffsetZ)/3.0, rotation)
+						self.addLayout(stoneWall, i+randomDistanceX, j+randomDistanceY, int(k+stoneWall.OffsetZ)/3.0, rotation)
 					}
 				}
 			} else {
@@ -209,7 +209,7 @@ func (self *mapBuilder) appendConstructionSlab(elementType grid.ElementType, gen
 
 				// Use the minimum neighborhood height to fill empty spaces
 				for k := minValue.Height; k <= element.Height; k++ {
-					self.addLayout(assets[elementRand], uint16(i), uint16(j), k+assets[elementRand].OffsetZ, 768)
+					self.addLayout(assets[elementRand], i, j, k+assets[elementRand].OffsetZ, 768)
 				}
 			}
 
@@ -246,7 +246,7 @@ func (self *mapBuilder) appendPropsToSlab(elementType grid.ElementType, generate
 
 			if gridProps[i][j].ElementType == elementType {
 				rotation := math.GetRandomRotation(true, 5, "props")
-				self.addLayout(assets[elementRand], uint16(i), uint16(j), element.Height+assets[elementRand].OffsetZ, rotation)
+				self.addLayout(assets[elementRand], i, j, element.Height+assets[elementRand].OffsetZ, rotation)
 			}
 		}
 	}
@@ -256,7 +256,7 @@ func (self *mapBuilder) appendPropsToSlab(elementType grid.ElementType, generate
 	}
 }
 
-func (self *mapBuilder) generateMountainsGrid(minHeight uint16) [][][]grid.Element {
+func (self *mapBuilder) generateMountainsGrid(minHeight int) [][][]grid.Element {
 	mountainsGrid := [][][]grid.Element{}
 
 	rand.Seed(time.Now().UnixNano())
@@ -290,14 +290,14 @@ func (self *mapBuilder) generateMountainsGrid(minHeight uint16) [][][]grid.Eleme
 	return mountainsGrid
 }
 
-func (self *mapBuilder) addLayout(asset *entities.Asset, x, y, z, rotation uint16) {
+func (self *mapBuilder) addLayout(asset *entities.Asset, x, y, z, rotation int) {
 	layout := &entities.Bounds{
 		Coordinates: &entities.Vector3d{
-			X: x * uint16(asset.Dimensions.Width),
-			Y: y * uint16(asset.Dimensions.Length),
-			Z: z * uint16(asset.Dimensions.Height),
+			X: x * asset.Dimensions.Width,
+			Y: y * asset.Dimensions.Length,
+			Z: z * asset.Dimensions.Height,
 		},
-		Rotation: rotation + (y * uint16(asset.Dimensions.Length) / 41),
+		Rotation: rotation + (y * asset.Dimensions.Length / 41),
 	}
 
 	asset.Layouts = append(asset.Layouts, layout)

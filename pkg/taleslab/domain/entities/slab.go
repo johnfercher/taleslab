@@ -24,18 +24,18 @@ type Asset struct {
 	Layouts    []*Bounds               `json:"layouts"`
 	Name       string                  `json:"name"`
 	Dimensions *assetloader.Dimensions `json:"dimensions"`
-	OffsetZ    uint16                  `json:"offset_z"`
+	OffsetZ    int                     `json:"offset_z"`
 }
 
 type Bounds struct {
 	Coordinates *Vector3d `json:"coordinates"`
-	Rotation    uint16    `json:"rotation"`
+	Rotation    int       `json:"rotation"`
 }
 
 type Vector3d struct {
-	X uint16 `json:"x"`
-	Y uint16 `json:"y"`
-	Z uint16 `json:"z"`
+	X int `json:"x"`
+	Y int `json:"y"`
+	Z int `json:"z"`
 }
 
 func (self *Slab) AddAsset(asset *Asset) {
