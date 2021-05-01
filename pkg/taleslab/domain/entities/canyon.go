@@ -20,6 +20,6 @@ func (self Canyon) Validate() error {
 	}
 
 	return validation.ValidateStruct(&self,
-		validation.Field(&self.CanyonOffset, validation.Required, validation.Min(10)),
+		validation.Field(&self.CanyonOffset, validation.Required, validation.Min(5)),
 	)
 }
