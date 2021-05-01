@@ -68,7 +68,8 @@ func TestAssetLoader_GetProps(t *testing.T) {
 
 	// Assert
 	assert.NotNil(t, props)
-	assert.Equal(t, len(rawProps), len(props), "repeated ornaments")
+	assert.Equal(t, len(rawProps), len(props), "different quantity array loaded x map returned")
+	assert.Equal(t, len(getMappedProps()), len(props), "different quantity mappeds x map returned")
 
 	for i := 0; i < len(rawProps); i++ {
 		for j := 0; j < len(rawProps); j++ {
@@ -89,7 +90,8 @@ func TestAssetLoader_GetConstructors(t *testing.T) {
 
 	// Assert
 	assert.NotNil(t, constructors)
-	assert.Equal(t, len(rawConstructors), len(constructors), "repeated constructors")
+	assert.Equal(t, len(rawConstructors), len(constructors), "different quantity array loaded x map returned")
+	assert.Equal(t, len(getMappedConstructors()), len(constructors), "different quantity mappeds x map returned")
 
 	for i := 0; i < len(rawConstructors); i++ {
 		for j := 0; j < len(rawConstructors); j++ {
@@ -98,5 +100,83 @@ func TestAssetLoader_GetConstructors(t *testing.T) {
 				assert.NotEqual(t, rawConstructors[i].Name, rawConstructors[j].Name, fmt.Sprintf("repeated constructors names, id %s", rawConstructors[i].Id))
 			}
 		}
+	}
+}
+
+func TestAssetLoader_GetProp(t *testing.T) {
+	// Arrange
+	mappedProps := getMappedProps()
+	sut, _ := NewAssetLoader()
+
+	// Act & Assert
+	for mappedPropKey, _ := range mappedProps {
+		assert.NotNil(t, sut.GetProp(mappedPropKey), fmt.Sprintf("ornament not loaded %s", mappedPropKey))
+	}
+
+	for loadedPropKey, _ := range sut.GetProps() {
+		assert.NotNil(t, mappedProps[loadedPropKey], fmt.Sprintf("ornament not mapped %s", loadedPropKey))
+	}
+}
+
+func TestAssetLoader_GetConstructor(t *testing.T) {
+	// Arrange
+	mappedConstructors := getMappedConstructors()
+	sut, _ := NewAssetLoader()
+
+	// Act & Assert
+	for mappedConstructorKey, _ := range mappedConstructors {
+		assert.NotNil(t, sut.GetConstructor(mappedConstructorKey), fmt.Sprintf("constructor not loaded %s", mappedConstructorKey))
+	}
+
+	for loadConstructorKey, _ := range sut.GetConstructors() {
+		assert.NotNil(t, mappedConstructors[loadConstructorKey], fmt.Sprintf("constructor not mapped %s", loadConstructorKey))
+	}
+}
+
+func getMappedProps() map[string]bool {
+	return map[string]bool{
+		"ead_tree_big":           true,
+		"snow_dead_tree_big":     true,
+		"coconut_tree_small":     true,
+		"coconut_tree_big":       true,
+		"pine_tree_big":          true,
+		"rectangle_bush_small":   true,
+		"stone_big":              true,
+		"cactus_small":           true,
+		"cactus_big":             true,
+		"snow_pine_tree_big":     true,
+		"snow_stone_big":         true,
+		"snow_stone_small":       true,
+		"big_stone_wall":         true,
+		"big_snow_stone_wall":    true,
+		"one_big_tree":           true,
+		"two_big_tree":           true,
+		"three_big_tree":         true,
+		"bull_skull":             true,
+		"down_rib":               true,
+		"up_rib":                 true,
+		"rose":                   true,
+		"floor_bush":             true,
+		"small_fern":             true,
+		"big_fern":               true,
+		"big_leaves_bug":         true,
+		"small_leaves_bug":       true,
+		"many_ground_red_leaves": true,
+		"few_ground_red_leaves":  true,
+		"small_dead_bush":        true,
+		"big_dead_bush":          true,
+	}
+}
+
+func getMappedConstructors() map[string]bool {
+	return map[string]bool{
+		"ground_nature_big":             true,
+		"ground_nature_with_stones_big": true,
+		"ground_nature_small":           true,
+		"ground_sand_small":             true,
+		"ground_snow_small":             true,
+		"mud_small":                     true,
+		"mud_with_feather_small":        true,
+		"clay_with_feather_small":       true,
 	}
 }
