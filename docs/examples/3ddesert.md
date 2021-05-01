@@ -36,14 +36,15 @@ func main() {
 	inputMap := &entities.Map{
 		Biome: entities.DesertBiomeType,
 		Ground: &entities.Ground{
-			Width:             70,
-			Length:            70,
+			Width:             100,
+			Length:            100,
 			TerrainComplexity: 5,
 			ForceBaseLand:     true,
 		},
 		Props: &entities.Props{
-			PropsDensity: 223,
-			TreeDensity:  113,
+			StoneDensity: 300,
+			TreeDensity:  180,
+			MiscDensity:  350,
 		},
 		River: &entities.River{
 			HasRiver: false,
@@ -56,5 +57,6 @@ func main() {
 	}
 
 	fmt.Println(slab.Code)
+	fmt.Println(slab.Size)
 }
 ```

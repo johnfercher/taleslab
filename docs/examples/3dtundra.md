@@ -41,8 +41,9 @@ func main() {
 			TerrainComplexity: 5,
 		},
 		Props: &entities.Props{
-			PropsDensity: 83,
+			StoneDensity: 100,
 			TreeDensity:  11,
+			MiscDensity:  15,
 		},
 		Mountains: &entities.Mountains{
 			MinX:           30,
@@ -65,5 +66,6 @@ func main() {
 	}
 
 	fmt.Println(slab.Code)
+	fmt.Println(slab.Size)
 }
 ```

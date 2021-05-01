@@ -19,7 +19,6 @@ More examples:
 * [Pyramid](./docs/examples/pyramid.md)
 
 
-
 ## Slab Versions
 
 TaleSpire have two versions of slab code. The Version 1 is the main supported one, which have some 

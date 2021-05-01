@@ -16,6 +16,8 @@ import (
 	"context"
 	"fmt"
 	"github.com/johnfercher/taleslab/internal/bytecompressor"
+	"github.com/johnfercher/taleslab/pkg/assetloader"
+	"github.com/johnfercher/taleslab/pkg/biomeloader"
 	"github.com/johnfercher/taleslab/pkg/taleslab/domain/entities"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslab/taleslabservices"
 	"github.com/johnfercher/taleslab/pkg/talespire/talespirecoder"
@@ -27,18 +29,21 @@ func main() {
 
 	compressor := bytecompressor.New()
 	encoder := talespirecoder.NewEncoder(compressor)
-	mapService := taleslabservices.NewMapService(encoder)
+	assetLoader := assetloader.NewAssetLoader()
+	biomeLoader := biomeloader.NewBiomeLoader(assetLoader)
+	mapService := taleslabservices.NewMapService(biomeLoader, encoder)
 
 	inputMap := &entities.Map{
-		Biome: entities.ForestBiome,
+		Biome: entities.TemperateForestBiomeType,
 		Ground: &entities.Ground{
 			Width:             70,
 			Length:            70,
 			TerrainComplexity: 5,
 		},
 		Props: &entities.Props{
-			PropsDensity: 83,
+			StoneDensity: 150,
 			TreeDensity:  11,
+			MiscDensity:  25,
 		},
 		Mountains: &entities.Mountains{
 			MinX:           30,
@@ -61,5 +66,6 @@ func main() {
 	}
 
 	fmt.Println(slab.Code)
+	fmt.Println(slab.Size)
 }
 ```
