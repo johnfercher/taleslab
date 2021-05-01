@@ -6,8 +6,12 @@ type Props struct {
 	// required: true
 	// example: 11
 	TreeDensity int `json:"tree_density"`
-	// Density of props on the map ( i.e rocks )
-	// required: true
+	// Density of stones on the map
+	// required: false
 	// example: 83
-	PropsDensity int `json:"props_density"`
+	StoneDensity int `json:"stone_density"`
+	// Density of misc on the map
+	// required: false
+	// example: 83
+	MiscDensity int `json:"misc_density"`
 }

@@ -11,13 +11,12 @@ TaleSpire Slab Generator
 ```
 
 More examples:
-* [3D Forest](./docs/examples/3dforest.md)
+* [3D Temperate Forest](docs/examples/3dtemperateforest.md)
 * [3D Desert](./docs/examples/3ddesert.md)
 * [3D Tundra](./docs/examples/3dtundra.md)
 * [Circle](./docs/examples/circle.md)
 * [Random Cube](./docs/examples/randomcube.md)
 * [Pyramid](./docs/examples/pyramid.md)
-
 
 
 ## Slab Versions

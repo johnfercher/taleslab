@@ -6,7 +6,7 @@ import (
 )
 
 type MapBuilder interface {
-	SetBiome(biome entities.Biome) MapBuilder
+	SetBiome(biome entities.BiomeType) MapBuilder
 	SetGround(ground *entities.Ground) MapBuilder
 	SetMountains(mountains *entities.Mountains) MapBuilder
 	SetRiver(river *entities.River) MapBuilder

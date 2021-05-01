@@ -1,21 +1,23 @@
 package entities
 
-// Biome request model
-// example: forest
-type Biome string
+// BiomeType request model
+// example: temperate_forest
+type BiomeType string
 
 const (
-	ForestBiome Biome = "forest"
-	DesertBiome Biome = "desert"
-	TundraBiome Biome = "tundra"
+	TropicalForestBiomeType  BiomeType = "tropical_forest"
+	TemperateForestBiomeType BiomeType = "temperate_forest"
+	DesertBiomeType          BiomeType = "desert"
+	TundraBiomeType          BiomeType = "tundra"
+	BeachBiomeType           BiomeType = "beach"
 )
 
 // Map request model
 // swagger:model
 type Map struct {
-	// Base Biome type (Desert, Forest, Tundra)
+	// Base Biome type (desert, tropical_forest, temperate_forest, tundra)
 	// required: false
-	Biome Biome `json:"biome,omitempty"`
+	Biome BiomeType `json:"biome_type,omitempty"`
 	// required: true
 	Ground *Ground `json:"ground,omitempty"`
 	// required: false

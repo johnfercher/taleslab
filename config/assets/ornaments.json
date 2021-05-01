@@ -101,13 +101,23 @@
   },
   {
     "id": "AAARJRcHr4t+QLI4id+zGDho",
+    "name": "snow_stone_big",
+    "dimensions": {
+      "width": 1,
+      "length": 1,
+      "height": 1
+    },
+    "offset_z": 0
+  },
+  {
+    "id": "AADx6doYNYkNRJUM5uNetnm2",
     "name": "snow_stone_small",
     "dimensions": {
       "width": 1,
       "length": 1,
       "height": 1
     },
-    "offset_z": 1
+    "offset_z": 0
   },
   {
     "id": "AABFmpqn8jt1R5jIVZylIRUy",
@@ -117,7 +127,7 @@
       "length": 1,
       "height": 2
     },
-    "offset_z": 0
+    "offset_z": 1
   },
   {
     "id": "AAAU/uamaE8rSoQl49hdBEQY",
@@ -127,6 +137,176 @@
       "length": 1,
       "height": 2
     },
+    "offset_z": 1
+  },
+  {
+    "id": "AAAQ3anAt5b+Ro/znUYYTxBv",
+    "name": "one_big_tree",
+    "dimensions": {
+      "width": 1,
+      "length": 1,
+      "height": 1
+    },
     "offset_z": 0
+  },
+  {
+    "id": "AACcAjwU1jQhSKXTdkNxFLfg",
+    "name": "two_big_tree",
+    "dimensions": {
+      "width": 1,
+      "length": 1,
+      "height": 1
+    },
+    "offset_z": 0
+  },
+  {
+    "id": "AACfRu3izmugTYI6dtwEnYy/",
+    "name": "three_big_tree",
+    "dimensions": {
+      "width": 1,
+      "length": 1,
+      "height": 1
+    },
+    "offset_z": 0
+  },
+  {
+    "id": "AAA4on1Ypd2hT7gWtBrE3+CY",
+    "name": "bull_skull",
+    "dimensions": {
+      "width": 1,
+      "length": 1,
+      "height": 1
+    },
+    "offset_z": 1
+  },
+  {
+    "id": "AAA4on1Ypd2hT7gWtBrE3+CY",
+    "name": "down_rib",
+    "dimensions": {
+      "width": 1,
+      "length": 1,
+      "height": 1
+    },
+    "offset_z": 1
+  },
+  {
+    "id": "AAA4on1Ypd2hT7gWtBrE3+CY",
+    "name": "down_rib",
+    "dimensions": {
+      "width": 1,
+      "length": 1,
+      "height": 1
+    },
+    "offset_z": 1
+  },
+  {
+    "id": "AACaLWW2rAnQTY1vMuJ9ooCD",
+    "name": "up_rib",
+    "dimensions": {
+      "width": 1,
+      "length": 1,
+      "height": 1
+    },
+    "offset_z": 1
+  },
+  {
+    "id": "AABQuEvA+8AhRpmAU8s5Nfcv",
+    "name": "rose",
+    "dimensions": {
+      "width": 1,
+      "length": 1,
+      "height": 1
+    },
+    "offset_z": 1
+  },
+  {
+    "id": "AAAIOC3zVokjQbNZEdaPly/A",
+    "name": "floor_bush",
+    "dimensions": {
+      "width": 1,
+      "length": 1,
+      "height": 1
+    },
+    "offset_z": 1
+  },
+  {
+    "id": "AAC1Zp5rjCvPTKTgU6yw2KJz",
+    "name": "small_fern",
+    "dimensions": {
+      "width": 1,
+      "length": 1,
+      "height": 1
+    },
+    "offset_z": 1
+  },
+  {
+    "id": "AADaF63n2XvRR74zRrDBvGN/",
+    "name": "big_fern",
+    "dimensions": {
+      "width": 1,
+      "length": 1,
+      "height": 1
+    },
+    "offset_z": 1
+  },
+  {
+    "id": "AACedzSWj20BQbVSrxeNVRtf",
+    "name": "big_leaves_bug",
+    "dimensions": {
+      "width": 1,
+      "length": 1,
+      "height": 1
+    },
+    "offset_z": 1
+  },
+  {
+    "id": "AACGiOFNUejbQakHQr71MvH1",
+    "name": "small_leaves_bug",
+    "dimensions": {
+      "width": 1,
+      "length": 1,
+      "height": 1
+    },
+    "offset_z": 1
+  },
+  {
+    "id": "AABP4pHjkm2dTpUAEonXOVVO",
+    "name": "many_ground_red_leaves",
+    "dimensions": {
+      "width": 1,
+      "length": 1,
+      "height": 1
+    },
+    "offset_z": 1
+  },
+  {
+    "id": "AAD9JuulRG0BQY1IOK4zWARa",
+    "name": "few_ground_red_leaves",
+    "dimensions": {
+      "width": 1,
+      "length": 1,
+      "height": 1
+    },
+    "offset_z": 1
+  },
+  {
+    "id": "AAAHf6rDfCGZT4HGYTdjdpLH",
+    "name": "small_dead_bush",
+    "dimensions": {
+      "width": 1,
+      "length": 1,
+      "height": 1
+    },
+    "offset_z": 1
+  },
+  {
+    "id": "AADRZmFbx5jTRoPmBArWIxYh",
+    "name": "big_dead_bush",
+    "dimensions": {
+      "width": 1,
+      "length": 1,
+      "height": 1
+    },
+    "offset_z": 1
   }
 ]

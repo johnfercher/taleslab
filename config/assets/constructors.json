@@ -43,5 +43,32 @@
       "length": 1,
       "height": 1
     }
+  },
+  {
+    "id": "AACZBz9QUraBTbIC1Ec8rs7k",
+    "name": "mud_small",
+    "dimensions": {
+      "width": 1,
+      "length": 1,
+      "height": 1
+    }
+  },
+  {
+    "id": "AAAaD4bc6+sdSaddi4fOUagI",
+    "name": "mud_with_feather_small",
+    "dimensions": {
+      "width": 1,
+      "length": 1,
+      "height": 1
+    }
+  },
+  {
+    "id": "AADnL/G9po90RIeOflhHo0QH",
+    "name": "clay_with_feather_small",
+    "dimensions": {
+      "width": 1,
+      "length": 1,
+      "height": 1
+    }
   }
 ]

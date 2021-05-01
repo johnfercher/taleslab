@@ -14,17 +14,12 @@ import (
 func main() {
 	loader := assetloader.NewAssetLoader()
 
-	constructors, err := loader.GetConstructors()
-	if err != nil {
-		log.Fatalln(err)
-	}
-
 	compressor := bytecompressor.New()
 	encoder := talespirecoder.NewEncoder(compressor)
 
 	slab := entities.NewSlab()
 
-	asset := constructors["ground_nature_small"]
+	asset := loader.GetConstructor("ground_nature_small")
 	slab.AddAsset(&entities.Asset{
 		Id: asset.Id,
 	})

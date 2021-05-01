@@ -24,6 +24,8 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/johnfercher/taleslab/internal/api/apiencodes"
 	"github.com/johnfercher/taleslab/internal/bytecompressor"
+	"github.com/johnfercher/taleslab/pkg/assetloader"
+	"github.com/johnfercher/taleslab/pkg/biomeloader"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslab/taleslabhttp"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslab/taleslabservices"
 	"github.com/johnfercher/taleslab/pkg/talespire/talespirecoder"
@@ -36,7 +38,9 @@ func main() {
 
 	byteCompressor := bytecompressor.New()
 	encoder := talespirecoder.NewEncoder(byteCompressor)
-	mapService := taleslabservices.NewMapService(encoder)
+	assetLoader := assetloader.NewAssetLoader()
+	biomeLoader := biomeloader.NewBiomeLoader(assetLoader)
+	mapService := taleslabservices.NewMapService(biomeLoader, encoder)
 
 	serverOptions := []httptransport.ServerOption{
 		httptransport.ServerErrorEncoder(apiencodes.EncodeError),
@@ -91,6 +95,5 @@ func main() {
 }
 
 func redirectToSwagger(w http.ResponseWriter, r *http.Request) {
-
 	http.Redirect(w, r, "/swagger/", 301)
 }

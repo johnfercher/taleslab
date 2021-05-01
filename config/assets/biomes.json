@@ -1,0 +1,72 @@
+[
+  {
+    "biome_type": "tropical_forest",
+    "ground_blocks": {
+      "ground_type": ["mud_small", "mud_with_feather_small", "clay_with_feather_small", "ground_nature_small"],
+      "mountain_type": ["mud_small", "mud_with_feather_small", "clay_with_feather_small", "ground_nature_small"],
+      "base_ground_type": ["mud_small", "mud_with_feather_small", "clay_with_feather_small", "ground_nature_small"]
+    },
+    "prop_blocks": {
+      "tree_type": ["one_big_tree", "two_big_tree", "three_big_tree"],
+      "stone_type": ["stone_big"],
+      "misc_type": ["small_leaves_bug", "big_leaves_bug", "floor_bush"]
+    },
+    "stone_wall": "big_stone_wall"
+  },
+  {
+    "biome_type": "desert",
+    "ground_blocks": {
+      "ground_type": ["ground_sand_small"],
+      "mountain_type": ["ground_sand_small"],
+      "base_ground_type": ["ground_sand_small"]
+    },
+    "prop_blocks": {
+      "tree_type": ["cactus_small", "cactus_big"],
+      "stone_type": ["stone_big"],
+      "misc_type": ["bull_skull", "down_rib", "up_rib"]
+    },
+    "stone_wall": "big_stone_wall"
+  },
+  {
+    "biome_type": "tundra",
+    "ground_blocks": {
+      "ground_type": ["ground_snow_small"],
+      "mountain_type": ["ground_snow_small"],
+      "base_ground_type": ["ground_snow_small"]
+    },
+    "prop_blocks": {
+      "tree_type": ["snow_pine_tree_big", "snow_pine_tree_big", "dead_tree_big"],
+      "stone_type": ["snow_stone_small"],
+      "misc_type": ["small_dead_bush", "big_dead_bush"]
+    },
+    "stone_wall": "big_snow_stone_wall"
+  },
+  {
+    "biome_type": "temperate_forest",
+    "ground_blocks": {
+      "ground_type": ["ground_nature_small"],
+      "mountain_type": ["ground_nature_small"],
+      "base_ground_type": ["ground_nature_small"]
+    },
+    "prop_blocks": {
+      "tree_type": ["pine_tree_big"],
+      "stone_type": ["stone_big"],
+      "misc_type": ["rose", "floor_bush", "small_fern", "big_fern"]
+    },
+    "stone_wall": "big_stone_wall"
+  },
+  {
+    "biome_type": "beach",
+    "ground_blocks": {
+      "ground_type": ["ground_nature_small"],
+      "mountain_type": ["ground_nature_small"],
+      "base_ground_type": ["ground_sand_small"]
+    },
+    "prop_blocks": {
+      "tree_type": ["pine_tree_big"],
+      "stone_type": ["stone_big"],
+      "misc_type": ["rose", "floor_bush", "small_fern", "big_fern"]
+    },
+    "stone_wall": "big_stone_wall"
+  }
+]

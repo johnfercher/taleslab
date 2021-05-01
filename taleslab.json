@@ -51,8 +51,8 @@
     }
   },
   "definitions": {
-    "Biome": {
-      "description": "Biome request model\nexample: forest",
+    "BiomeType": {
+      "description": "BiomeType request model\nexample: temperate_forest",
       "type": "string",
       "x-go-package": "github.com/johnfercher/taleslab/pkg/taleslab/domain/entities"
     },
@@ -129,8 +129,8 @@
         "props"
       ],
       "properties": {
-        "biome": {
-          "$ref": "#/definitions/Biome"
+        "biome_type": {
+          "$ref": "#/definitions/BiomeType"
         },
         "canyon": {
           "$ref": "#/definitions/Canyon"
@@ -247,15 +247,21 @@
     "Props": {
       "type": "object",
       "required": [
-        "tree_density",
-        "props_density"
+        "tree_density"
       ],
       "properties": {
-        "props_density": {
-          "description": "Density of props on the map ( i.e rocks )",
+        "misc_density": {
+          "description": "Density of misc on the map",
           "type": "integer",
           "format": "int64",
-          "x-go-name": "PropsDensity",
+          "x-go-name": "MiscDensity",
+          "example": 83
+        },
+        "stone_density": {
+          "description": "Density of stones on the map",
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "StoneDensity",
           "example": 83
         },
         "tree_density": {

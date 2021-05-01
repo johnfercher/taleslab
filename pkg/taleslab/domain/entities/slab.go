@@ -20,9 +20,11 @@ type Slab struct {
 }
 
 type Asset struct {
-	Id         []byte    `json:"id"`
-	Layouts    []*Bounds `json:"layouts"`
-	Dimensions *assetloader.Dimensions
+	Id         []byte                  `json:"id"`
+	Layouts    []*Bounds               `json:"layouts"`
+	Name       string                  `json:"name"`
+	Dimensions *assetloader.Dimensions `json:"dimensions"`
+	OffsetZ    uint16                  `json:"offset_z"`
 }
 
 type Bounds struct {
