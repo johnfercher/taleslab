@@ -1,7 +1,7 @@
 # TaleSlab
 
 [![GoDoc](https://godoc.org/github.com/johnfercher/taleslab?status.svg)](https://godoc.org/github.com/johnfercher/taleslab)
-[![Travis](https://travis-ci.com/johnfercher/taleslab.svg?branch=master)][travis]
+[![Travis](https://travis-ci.com/johnfercher/taleslab.svg?branch=main)][travis]
 [![Codecov](https://img.shields.io/codecov/c/github/johnfercher/taleslab)](https://codecov.io/gh/johnfercher/taleslab)
 [![Go Report Card](https://goreportcard.com/badge/github.com/johnfercher/taleslab)](https://goreportcard.com/report/github.com/johnfercher/taleslab)
 

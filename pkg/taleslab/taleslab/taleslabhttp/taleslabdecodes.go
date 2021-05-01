@@ -27,7 +27,7 @@ func DecodeMapRequest(ctx context.Context, r *http.Request) (request interface{}
 
 	err = inputMap.Validate()
 	if err != nil {
-		apiErr := apierror.New(http.StatusBadRequest, "There is some validations errors").
+		apiErr := apierror.New(http.StatusBadRequest, "There are some validations errors").
 			SetCauses(err)
 		return nil, apiErr
 	}
