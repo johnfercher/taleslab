@@ -1,4 +1,10 @@
 # TaleSlab
+
+[![GoDoc](https://godoc.org/github.com/johnfercher/taleslab?status.svg)](https://godoc.org/github.com/johnfercher/taleslab)
+[![Travis](https://travis-ci.com/johnfercher/taleslab.svg?branch=master)][travis]
+[![Codecov](https://img.shields.io/codecov/c/github/johnfercher/taleslab)](https://codecov.io/gh/johnfercher/taleslab)
+[![Go Report Card](https://goreportcard.com/badge/github.com/johnfercher/taleslab)](https://goreportcard.com/report/github.com/johnfercher/taleslab)
+
 TaleSpire Slab Generator: https://taleslab.herokuapp.com/swagger/
 
 ## Generated Examples
@@ -50,3 +56,5 @@ and [https://github.com/creadth/Creadth.Talespire.DungeonGenerator](https://gith
 We now have an api that can be used to generate slabs according to your inputs. 
 
 You can find the docs [Here](docs/api/api.md)
+
+[travis]: https://travis-ci.com/johnfercher/taleslab
