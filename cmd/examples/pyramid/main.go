@@ -11,7 +11,10 @@ import (
 )
 
 func main() {
-	loader := assetloader.NewAssetLoader()
+	loader, err := assetloader.NewAssetLoader()
+	if err != nil {
+		log.Fatal(err.Error())
+	}
 
 	compressor := bytecompressor.New()
 	encoder := talespirecoder.NewEncoder(compressor)
@@ -33,9 +36,9 @@ func main() {
 			for j := ySize - k; j > k; j-- {
 				layout := &entities.Bounds{
 					Coordinates: &entities.Vector3d{
-						X: uint16(i),
-						Y: uint16(j),
-						Z: uint16(k),
+						X: i,
+						Y: j,
+						Z: k,
 					},
 					Rotation: 0,
 				}

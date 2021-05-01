@@ -62,7 +62,7 @@
         "canyon_offset": {
           "description": "Move the Canyon",
           "type": "integer",
-          "format": "uint64",
+          "format": "int64",
           "x-go-name": "CanyonOffset",
           "example": 10
         },
@@ -100,7 +100,7 @@
         "min_height": {
           "description": "Defines the minimum height\nfalse: true",
           "type": "integer",
-          "format": "uint16",
+          "format": "int64",
           "x-go-name": "MinHeight",
           "example": 5
         },
@@ -309,7 +309,7 @@
       }
     },
     "mapRes": {
-      "description": "",
+      "description": "Response from API",
       "schema": {
         "$ref": "#/definitions/MapResponse"
       }

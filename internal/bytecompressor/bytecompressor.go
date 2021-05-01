@@ -57,19 +57,35 @@ func (self *byteCompressor) BufferFromBase64(stringBase64 string) (*bufio.Reader
 func (self *byteCompressor) uncompress(w io.Writer, data []byte) error {
 	// Write gzipped data to the client
 	gr, err := gzip.NewReader(bytes.NewBuffer(data))
+	if err != nil {
+		return err
+	}
 	defer gr.Close()
+
 	data, err = ioutil.ReadAll(gr)
 	if err != nil {
 		return err
 	}
-	w.Write(data)
+	_, err = w.Write(data)
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
 
 func (self *byteCompressor) compress(w io.Writer, data []byte) error {
 	// Write gzipped data to the client
 	gw, err := gzip.NewWriterLevel(w, gzip.BestSpeed)
+	if err != nil {
+		return err
+	}
 	defer gw.Close()
-	gw.Write(data)
-	return err
+
+	_, err = gw.Write(data)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

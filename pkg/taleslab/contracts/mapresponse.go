@@ -10,7 +10,9 @@ type MapResponse struct {
 	Code string `json:"code"`
 }
 
+// Response from API
 // swagger:response mapRes
+// nolint:deadcode,unused
 type swaggMapRes struct {
 	// in: body
 	Map MapResponse

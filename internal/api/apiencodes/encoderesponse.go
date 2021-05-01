@@ -34,8 +34,6 @@ func EncodeError(ctx context.Context, err error, w http.ResponseWriter) {
 
 	w.WriteHeader(httpStatus)
 	_ = json.NewEncoder(w).Encode(unknownError)
-
-	return
 }
 
 func LogResponse(ctx context.Context, response interface{}) {
@@ -47,6 +45,7 @@ func LogResponse(ctx context.Context, response interface{}) {
 
 	if len(responseBytes) > 5000 {
 		apilogger.Info(ctx, "Response larger than 5Kb")
+		return
 	}
 
 	apilogger.Info(ctx, fmt.Sprintf("Response returned: %s", responseBytes))

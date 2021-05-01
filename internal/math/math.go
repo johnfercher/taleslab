@@ -13,9 +13,9 @@ func Distance(x1, y1, x2, y2 int) uint16 {
 	return c
 }
 
-var lastRotation = make(map[string]uint16)
+var lastRotation = make(map[string]int)
 
-func GetRandomRotation(verticalX bool, ticksOfFreedom int, key string) uint16 {
+func GetRandomRotation(verticalX bool, ticksOfFreedom int, key string) int {
 	value90 := 384
 	value270 := 1152
 	minTick := 64
@@ -42,28 +42,28 @@ func GetRandomRotation(verticalX bool, ticksOfFreedom int, key string) uint16 {
 		value -= randomValue
 	}
 
-	if uint16(value) == lastRotation[key] {
+	if value == lastRotation[key] {
 		return GetRandomRotation(verticalX, ticksOfFreedom, key)
 	}
 
-	lastRotation[key] = uint16(value)
-	return uint16(value)
+	lastRotation[key] = value
+	return value
 }
 
-var lastDistance = make(map[string]uint16)
+var lastDistance = make(map[string]int)
 
-func GetRandomValue(maxRand int, key string) uint16 {
+func GetRandomValue(maxRand int, key string) int {
 	return getRandom(maxRand, key, 0)
 }
 
-func getRandom(maxRand int, key string, depth uint) uint16 {
+func getRandom(maxRand int, key string, depth uint) int {
 	randomValue := rand.Intn(maxRand)
 	depth++
 
-	if uint16(randomValue) == lastDistance[key] && depth < 10 {
+	if randomValue == lastDistance[key] && depth < 10 {
 		return getRandom(maxRand, key, depth)
 	}
 
-	lastDistance[key] = uint16(randomValue)
-	return uint16(randomValue)
+	lastDistance[key] = randomValue
+	return randomValue
 }

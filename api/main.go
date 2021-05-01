@@ -30,6 +30,7 @@ import (
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslab/taleslabservices"
 	"github.com/johnfercher/taleslab/pkg/talespire/talespirecoder"
 	"github.com/robertbakker/swaggerui"
+	"log"
 	"net/http"
 	"os"
 )
@@ -38,7 +39,12 @@ func main() {
 
 	byteCompressor := bytecompressor.New()
 	encoder := talespirecoder.NewEncoder(byteCompressor)
-	assetLoader := assetloader.NewAssetLoader()
+
+	assetLoader, err := assetloader.NewAssetLoader()
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
 	biomeLoader := biomeloader.NewBiomeLoader(assetLoader)
 	mapService := taleslabservices.NewMapService(biomeLoader, encoder)
 
@@ -86,7 +92,7 @@ func main() {
 		port = "5000"
 	}
 
-	err := http.ListenAndServe(":"+port, router)
+	err = http.ListenAndServe(":"+port, router)
 	if err != nil {
 		print(err.Error())
 		return

@@ -13,6 +13,8 @@ type ApiError interface {
 	ErrorStatusCode() int
 	// Error message
 	Error() string
+	// Set causes
+	SetCauses(interface{}) ApiError
 }
 
 func New(httpStatusCode int, message string) *apiError {
@@ -23,8 +25,9 @@ func New(httpStatusCode int, message string) *apiError {
 }
 
 type apiError struct {
-	Message  string `json:"message"`
-	HttpCode int    `json:"http_code"`
+	Message  string      `json:"message"`
+	HttpCode int         `json:"http_code"`
+	Causes   interface{} `json:"causes"`
 }
 
 func (self apiError) ErrorStatusCode() int {
@@ -33,6 +36,11 @@ func (self apiError) ErrorStatusCode() int {
 
 func (self apiError) Error() string {
 	return self.Message
+}
+
+func (self apiError) SetCauses(causes interface{}) ApiError {
+	self.Causes = causes
+	return self
 }
 
 func Log(ctx context.Context, err ApiError) {

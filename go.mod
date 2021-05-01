@@ -3,8 +3,10 @@ module github.com/johnfercher/taleslab
 go 1.16
 
 require (
+	github.com/asaskevich/govalidator v0.0.0-20210307081110-f21760c49a8d // indirect
 	github.com/elazarl/go-bindata-assetfs v1.0.1 // indirect
 	github.com/go-kit/kit v0.10.0
+	github.com/go-ozzo/ozzo-validation v3.6.0+incompatible
 	github.com/gorilla/mux v1.7.3
 	github.com/kr/text v0.2.0 // indirect
 	github.com/niemeyer/pretty v0.0.0-20200227124842-a10e7caefd8e // indirect

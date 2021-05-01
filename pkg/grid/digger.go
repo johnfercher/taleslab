@@ -34,7 +34,7 @@ func DigRiver(grid [][]Element) [][]Element {
 	return grid
 }
 
-func DigCanyon(grid [][]Element, offset uint) [][]Element {
+func DigCanyon(grid [][]Element, offset int) [][]Element {
 	yFrequency := 2.0
 
 	y := len(grid[0])
