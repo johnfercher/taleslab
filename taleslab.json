@@ -51,11 +51,6 @@
     }
   },
   "definitions": {
-    "BiomeType": {
-      "description": "BiomeType request model\nexample: temperate_forest",
-      "type": "string",
-      "x-go-package": "github.com/johnfercher/taleslab/pkg/taleslab/domain/entities"
-    },
     "Canyon": {
       "type": "object",
       "properties": {
@@ -130,7 +125,10 @@
       ],
       "properties": {
         "biome_type": {
-          "$ref": "#/definitions/BiomeType"
+          "description": "Biome type (desert, tropical_forest, temperate_forest, tundra)",
+          "type": "string",
+          "x-go-name": "Biome",
+          "example": "temperate_forest"
         },
         "canyon": {
           "$ref": "#/definitions/Canyon"

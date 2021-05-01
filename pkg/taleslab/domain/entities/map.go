@@ -6,7 +6,7 @@ import (
 )
 
 // BiomeType request model
-// example: temperate_forest
+//swagger:type string
 type BiomeType string
 
 const (
@@ -46,8 +46,9 @@ func ValidateBiomeType(value interface{}) error {
 // Map request model
 // swagger:model
 type Map struct {
-	// Base Biome type (desert, tropical_forest, temperate_forest, tundra)
+	// Biome type (desert, tropical_forest, temperate_forest, tundra)
 	// required: false
+	// example: temperate_forest
 	Biome BiomeType `json:"biome_type,omitempty"`
 	// required: true
 	Ground *Ground `json:"ground,omitempty"`
