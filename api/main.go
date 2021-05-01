@@ -36,6 +36,7 @@ import (
 )
 
 func main() {
+
 	byteCompressor := bytecompressor.New()
 	encoder := talespirecoder.NewEncoder(byteCompressor)
 
