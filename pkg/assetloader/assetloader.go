@@ -3,7 +3,6 @@ package assetloader
 import (
 	"encoding/json"
 	"io/ioutil"
-	"log"
 )
 
 type AssetInfo struct {
@@ -23,6 +22,8 @@ type Dimensions struct {
 type AssetLoader interface {
 	GetConstructor(id string) AssetInfo
 	GetProp(id string) AssetInfo
+	GetConstructors() map[string]AssetInfo
+	GetProps() map[string]AssetInfo
 }
 
 type assetLoader struct {
@@ -30,32 +31,49 @@ type assetLoader struct {
 	props        map[string]AssetInfo
 }
 
-func NewAssetLoader() *assetLoader {
+func NewAssetLoader() (*assetLoader, error) {
 	assetLoader := &assetLoader{}
-	assetLoader.loadProps()
-	assetLoader.loadConstructors()
-	return assetLoader
+
+	err := assetLoader.loadProps()
+	if err != nil {
+		return nil, err
+	}
+
+	err = assetLoader.loadConstructors()
+	if err != nil {
+		return nil, err
+	}
+
+	return assetLoader, nil
 }
 
 func (self *assetLoader) GetConstructor(id string) AssetInfo {
 	return self.constructors[id]
 }
 
+func (self *assetLoader) GetConstructors() map[string]AssetInfo {
+	return self.constructors
+}
+
 func (self *assetLoader) GetProp(id string) AssetInfo {
 	return self.props[id]
 }
 
-func (self *assetLoader) loadConstructors() {
+func (self *assetLoader) GetProps() map[string]AssetInfo {
+	return self.props
+}
+
+func (self *assetLoader) loadConstructors() error {
 	bytes, err := ioutil.ReadFile("./config/assets/constructors.json")
 	if err != nil {
-		log.Fatal(err.Error())
+		return err
 	}
 
 	assetInfos := []AssetInfo{}
 
 	err = json.Unmarshal(bytes, &assetInfos)
 	if err != nil {
-		log.Fatal(err.Error())
+		return err
 	}
 
 	for i := 0; i < len(assetInfos); i++ {
@@ -69,19 +87,21 @@ func (self *assetLoader) loadConstructors() {
 	}
 
 	self.constructors = assetMap
+
+	return nil
 }
 
-func (self *assetLoader) loadProps() {
+func (self *assetLoader) loadProps() error {
 	bytes, err := ioutil.ReadFile("./config/assets/ornaments.json")
 	if err != nil {
-		log.Fatal(err.Error())
+		return err
 	}
 
 	assetInfos := []AssetInfo{}
 
 	err = json.Unmarshal(bytes, &assetInfos)
 	if err != nil {
-		log.Fatal(err.Error())
+		return err
 	}
 
 	for i := 0; i < len(assetInfos); i++ {
@@ -95,4 +115,6 @@ func (self *assetLoader) loadProps() {
 	}
 
 	self.props = assetMap
+
+	return nil
 }

@@ -2,10 +2,10 @@ package taleslabservices
 
 import (
 	"github.com/johnfercher/taleslab/internal/api/apierror"
+	"github.com/johnfercher/taleslab/internal/math"
 	"github.com/johnfercher/taleslab/pkg/biomeloader"
 	"github.com/johnfercher/taleslab/pkg/grid"
 	"github.com/johnfercher/taleslab/pkg/mappers"
-	"github.com/johnfercher/taleslab/pkg/math"
 	"github.com/johnfercher/taleslab/pkg/taleslab/domain/entities"
 	"github.com/johnfercher/taleslab/pkg/taleslab/domain/services"
 	"github.com/johnfercher/taleslab/pkg/talespire/talespirecoder"

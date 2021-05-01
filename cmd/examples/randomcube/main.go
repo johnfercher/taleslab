@@ -12,7 +12,10 @@ import (
 )
 
 func main() {
-	loader := assetloader.NewAssetLoader()
+	loader, err := assetloader.NewAssetLoader()
+	if err != nil {
+		log.Fatal(err.Error())
+	}
 
 	compressor := bytecompressor.New()
 	encoder := talespirecoder.NewEncoder(compressor)
@@ -35,11 +38,11 @@ func main() {
 				if rand.Int()%2 == 0 {
 					layout := &entities.Bounds{
 						Coordinates: &entities.Vector3d{
-							X: uint16(i - 1),
-							Y: uint16(j - 1),
-							Z: uint16(k - 1),
+							X: i - 1,
+							Y: j - 1,
+							Z: k - 1,
 						},
-						Rotation: uint16((j - 1) / 41),
+						Rotation: (j - 1) / 41,
 					}
 
 					slab.AddLayoutToAsset(constructor.Id, layout)

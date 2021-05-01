@@ -6,7 +6,7 @@ func TestMountainGenerator(t *testing.T) {
 	x := 50
 	y := 50
 
-	mountain := MountainGenerator(x, y, 5.0)
+	mountain := MountainGenerator(x, y, 5.0, 5)
 
 	PrintTypes(mountain)
 }

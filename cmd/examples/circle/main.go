@@ -12,7 +12,10 @@ import (
 )
 
 func main() {
-	loader := assetloader.NewAssetLoader()
+	loader, err := assetloader.NewAssetLoader()
+	if err != nil {
+		log.Fatal(err.Error())
+	}
 
 	compressor := bytecompressor.New()
 	encoder := talespirecoder.NewEncoder(compressor)
@@ -24,17 +27,17 @@ func main() {
 		Id: asset.Id,
 	})
 
-	radius := 5.0
+	radius := 5
 
 	for i := 0.0; i < 2.0*3.14; i += 0.2 {
 		cos := math.Cos(i)
 		sin := math.Sin(i)
 
-		xRounded := fix(radius*cos, uint16(1))
-		yRounded := fix(radius*sin, uint16(1))
+		xRounded := fix(float64(radius)*cos, 1)
+		yRounded := fix(float64(radius)*sin, 1)
 
-		xPositiveTranslated := uint16(radius) + xRounded
-		yPositiveTranslated := uint16(radius) + yRounded
+		xPositiveTranslated := radius + xRounded
+		yPositiveTranslated := radius + yRounded
 
 		layout := &entities.Bounds{
 			Coordinates: &entities.Vector3d{
@@ -59,11 +62,11 @@ func main() {
 	fmt.Println(base64)
 }
 
-func fix(value float64, fixValue uint16) uint16 {
+func fix(value float64, fixValue int) int {
 	division := value / float64(fixValue)
 
 	divisionRounded := math.Round(division)
-	top := uint16(divisionRounded * float64(fixValue))
+	top := int(divisionRounded * float64(fixValue))
 
 	return top
 }

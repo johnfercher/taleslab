@@ -17,7 +17,12 @@ func main() {
 
 	compressor := bytecompressor.New()
 	encoder := talespirecoder.NewEncoder(compressor)
-	assetLoader := assetloader.NewAssetLoader()
+
+	assetLoader, err := assetloader.NewAssetLoader()
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
 	biomeLoader := biomeloader.NewBiomeLoader(assetLoader)
 	mapService := taleslabservices.NewMapService(biomeLoader, encoder)
 

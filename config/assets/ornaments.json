@@ -190,16 +190,6 @@
     "offset_z": 1
   },
   {
-    "id": "AAA4on1Ypd2hT7gWtBrE3+CY",
-    "name": "down_rib",
-    "dimensions": {
-      "width": 1,
-      "length": 1,
-      "height": 1
-    },
-    "offset_z": 1
-  },
-  {
     "id": "AACaLWW2rAnQTY1vMuJ9ooCD",
     "name": "up_rib",
     "dimensions": {

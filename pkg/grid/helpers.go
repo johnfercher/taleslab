@@ -106,7 +106,7 @@ func Copy(gridOriginal [][]Element) [][]Element {
 func Print(grid [][]Element) {
 	for i := 0; i < len(grid); i++ {
 		for j := 0; j < len(grid[i]); j++ {
-			fmt.Printf("(%d, %d)\t", grid[i][j].ElementType, grid[i][j].Height)
+			fmt.Printf("(%s, %d)\t", grid[i][j].ElementType, grid[i][j].Height)
 		}
 		fmt.Println()
 	}
@@ -116,7 +116,7 @@ func Print(grid [][]Element) {
 func PrintTypes(grid [][]Element) {
 	for i := 0; i < len(grid); i++ {
 		for j := 0; j < len(grid[i]); j++ {
-			fmt.Printf("%d\t", grid[i][j].ElementType)
+			fmt.Printf("%s\t", grid[i][j].ElementType)
 		}
 		fmt.Println()
 	}
