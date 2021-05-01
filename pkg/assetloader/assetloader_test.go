@@ -25,8 +25,15 @@ func init() {
 		AppBaseDir = path.Join(base, "src/github.com/johnfercher/taleslab")
 	}
 
-	os.Chdir(AppBaseDir)
-	_, _ = os.Getwd()
+	err := os.Chdir(AppBaseDir)
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
+	_, err = os.Getwd()
+	if err != nil {
+		log.Fatal(err.Error())
+	}
 
 	ornamentBytes, err := ioutil.ReadFile("./config/assets/ornaments.json")
 	if err != nil {
@@ -109,11 +116,11 @@ func TestAssetLoader_GetProp(t *testing.T) {
 	sut, _ := NewAssetLoader()
 
 	// Act & Assert
-	for mappedPropKey, _ := range mappedProps {
+	for mappedPropKey := range mappedProps {
 		assert.NotNil(t, sut.GetProp(mappedPropKey), fmt.Sprintf("ornament not loaded %s", mappedPropKey))
 	}
 
-	for loadedPropKey, _ := range sut.GetProps() {
+	for loadedPropKey := range sut.GetProps() {
 		assert.NotNil(t, mappedProps[loadedPropKey], fmt.Sprintf("ornament not mapped %s", loadedPropKey))
 	}
 }
@@ -124,11 +131,11 @@ func TestAssetLoader_GetConstructor(t *testing.T) {
 	sut, _ := NewAssetLoader()
 
 	// Act & Assert
-	for mappedConstructorKey, _ := range mappedConstructors {
+	for mappedConstructorKey := range mappedConstructors {
 		assert.NotNil(t, sut.GetConstructor(mappedConstructorKey), fmt.Sprintf("constructor not loaded %s", mappedConstructorKey))
 	}
 
-	for loadConstructorKey, _ := range sut.GetConstructors() {
+	for loadConstructorKey := range sut.GetConstructors() {
 		assert.NotNil(t, mappedConstructors[loadConstructorKey], fmt.Sprintf("constructor not mapped %s", loadConstructorKey))
 	}
 }

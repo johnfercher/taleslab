@@ -14,28 +14,28 @@ func NewSlab() *Slab {
 }
 
 type Slab struct {
-	MagicBytes []byte            `json:"magic_bytes"`
-	Version    int16             `json:"version"`
-	assets     map[string]*Asset `json:"assets"`
+	MagicBytes []byte
+	Version    int16
+	assets     map[string]*Asset
 }
 
 type Asset struct {
-	Id         []byte                  `json:"id"`
-	Layouts    []*Bounds               `json:"layouts"`
-	Name       string                  `json:"name"`
-	Dimensions *assetloader.Dimensions `json:"dimensions"`
-	OffsetZ    int                     `json:"offset_z"`
+	Id         []byte
+	Layouts    []*Bounds
+	Name       string
+	Dimensions *assetloader.Dimensions
+	OffsetZ    int
 }
 
 type Bounds struct {
-	Coordinates *Vector3d `json:"coordinates"`
-	Rotation    int       `json:"rotation"`
+	Coordinates *Vector3d
+	Rotation    int
 }
 
 type Vector3d struct {
-	X int `json:"x"`
-	Y int `json:"y"`
-	Z int `json:"z"`
+	X int
+	Y int
+	Z int
 }
 
 func (self *Slab) AddAsset(asset *Asset) {

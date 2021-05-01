@@ -75,7 +75,9 @@ func (self Map) Validate() error {
 	return err
 }
 
+// Request from API
 // swagger:parameters Map
+// nolint:deadcode,unused
 type swaggMapReq struct {
 	//in: body
 	Map Map

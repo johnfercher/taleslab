@@ -66,7 +66,6 @@ func (self *decoder) Decode(slabBase64 string) (*talespirecontracts.Slab, error)
 	_, _ = byteparser.BufferToInt16(reader)
 
 	// assets.Layouts
-	i = int16(0)
 	for i = 0; i < assetCount; i++ {
 		layoutsCount := slab.Assets[i].LayoutsCount
 

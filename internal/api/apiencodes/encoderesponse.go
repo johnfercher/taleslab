@@ -34,8 +34,6 @@ func EncodeError(ctx context.Context, err error, w http.ResponseWriter) {
 
 	w.WriteHeader(httpStatus)
 	_ = json.NewEncoder(w).Encode(unknownError)
-
-	return
 }
 
 func LogResponse(ctx context.Context, response interface{}) {

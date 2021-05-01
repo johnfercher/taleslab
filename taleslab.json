@@ -309,7 +309,7 @@
       }
     },
     "mapRes": {
-      "description": "",
+      "description": "Response from API",
       "schema": {
         "$ref": "#/definitions/MapResponse"
       }

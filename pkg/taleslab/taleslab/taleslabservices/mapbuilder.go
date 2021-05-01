@@ -120,11 +120,11 @@ func (self *mapBuilder) Build() (string, apierror.ApiError) {
 	groundBlocks := self.biomeLoader.GetConstructorKeys()
 	propKeys := self.biomeLoader.GetPropKeys()
 
-	for key, _ := range groundBlocks {
+	for key := range groundBlocks {
 		self.appendConstructionSlab(key, slabGenerated, world)
 	}
 
-	for key, _ := range propKeys {
+	for key := range propKeys {
 		self.appendPropsToSlab(key, slabGenerated, world, propsGrid)
 	}
 
