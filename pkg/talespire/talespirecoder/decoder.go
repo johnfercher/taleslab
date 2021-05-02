@@ -15,9 +15,9 @@ type decoder struct {
 	slabCompressor bytecompressor.ByteCompressor
 }
 
-func NewDecoder(slabCompressor bytecompressor.ByteCompressor) *decoder {
+func NewDecoder(byteCompressor bytecompressor.ByteCompressor) *decoder {
 	return &decoder{
-		slabCompressor: slabCompressor,
+		slabCompressor: byteCompressor,
 	}
 }
 
@@ -44,14 +44,14 @@ func (self *decoder) Decode(slabBase64 string) (*talespirecontracts.Slab, error)
 	}
 	slab.Version = version
 
-	// assets Count
+	// Assets Count
 	assetCount, err := byteparser.BufferToInt16(reader)
 	if err != nil {
 		return nil, err
 	}
 	slab.AssetsCount = assetCount
 
-	// assets
+	// Assets
 	i := int16(0)
 	for i = 0; i < assetCount; i++ {
 		asset, err := self.decodeAsset(reader)
@@ -65,7 +65,7 @@ func (self *decoder) Decode(slabBase64 string) (*talespirecontracts.Slab, error)
 	// TODO: understand why this
 	_, _ = byteparser.BufferToInt16(reader)
 
-	// assets.Layouts
+	// Assets.Layouts
 	for i = 0; i < assetCount; i++ {
 		layoutsCount := slab.Assets[i].LayoutsCount
 
