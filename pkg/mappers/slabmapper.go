@@ -48,10 +48,7 @@ func taleSpireBoundsFromEntity(entity *entities.Bounds) *talespirecontracts.Boun
 }
 
 func EntitySlabFromTaleSpire(taleSpire *talespirecontracts.Slab) *entities.Slab {
-	entity := &entities.Slab{
-		MagicBytes: taleSpire.MagicBytes,
-		Version:    taleSpire.Version,
-	}
+	entity := entities.NewSlab()
 
 	for _, asset := range taleSpire.Assets {
 		entity.AddAsset(entityAssetFromTaleSpire(asset))

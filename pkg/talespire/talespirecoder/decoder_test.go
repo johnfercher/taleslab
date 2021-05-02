@@ -22,7 +22,7 @@ func TestNewDecoder(t *testing.T) {
 
 func TestDecoder_Decode_WhenCannotDecompress(t *testing.T) {
 	// Arrange
-	b64 := "H4sIAAAAAAAACzv369xFJgZGBgYGHbvyWP1TLj4dF35uWb5+fRRIDAEA7YI+iCgAAAA="
+	b64 := mocks.CreateBase64Slab()
 	errToReturn := errors.New("cannot_decompress")
 
 	byteCompressor := &mocks.ByteCompressor{}
@@ -43,7 +43,7 @@ func TestDecoder_Decode_WhenCannotDecompress(t *testing.T) {
 
 func TestDecoder_Decode_IntegrationHappy(t *testing.T) {
 	// Arrange
-	b64 := "H4sIAAAAAAAACzv369xFJgZGBgYGHbvyWP1TLj4dF35uWb5+fRRIDAEA7YI+iCgAAAA="
+	b64 := mocks.CreateBase64Slab()
 
 	byteCompressor := bytecompressor.New()
 
