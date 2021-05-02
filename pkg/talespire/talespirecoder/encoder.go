@@ -10,17 +10,17 @@ type Encoder interface {
 	Encode(slab *talespirecontracts.Slab) (string, error)
 }
 
-type encode struct {
+type encoder struct {
 	slabCompressor bytecompressor.ByteCompressor
 }
 
-func NewEncoder(slabCompressor bytecompressor.ByteCompressor) *encode {
-	return &encode{
-		slabCompressor: slabCompressor,
+func NewEncoder(byteCompressor bytecompressor.ByteCompressor) *encoder {
+	return &encoder{
+		slabCompressor: byteCompressor,
 	}
 }
 
-func (self *encode) Encode(slab *talespirecontracts.Slab) (string, error) {
+func (self *encoder) Encode(slab *talespirecontracts.Slab) (string, error) {
 	slabByteArray := []byte{}
 
 	// Magic Hex
@@ -72,7 +72,7 @@ func (self *encode) Encode(slab *talespirecontracts.Slab) (string, error) {
 	return slabBase64, nil
 }
 
-func (self *encode) encodeAssets(slab *talespirecontracts.Slab) ([]byte, error) {
+func (self *encoder) encodeAssets(slab *talespirecontracts.Slab) ([]byte, error) {
 	assetsArray := []byte{}
 
 	// For
@@ -98,7 +98,7 @@ func (self *encode) encodeAssets(slab *talespirecontracts.Slab) ([]byte, error) 
 	return assetsArray, nil
 }
 
-func (self *encode) encodeAssetLayouts(slab *talespirecontracts.Slab) ([]byte, error) {
+func (self *encoder) encodeAssetLayouts(slab *talespirecontracts.Slab) ([]byte, error) {
 	layoutsArray := []byte{}
 
 	// For
