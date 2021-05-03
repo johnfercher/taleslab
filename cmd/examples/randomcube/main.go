@@ -1,6 +1,5 @@
 package main
 
-/*
 import (
 	"fmt"
 	"github.com/johnfercher/taleslab/internal/bytecompressor"
@@ -26,7 +25,7 @@ func main() {
 	constructor := loader.GetConstructor("ground_nature_small")
 
 	slab.AddAsset(&entities.Asset{
-		Id: constructor.Id,
+		Id: constructor.AssertParts[0].Id,
 	})
 
 	xSize := 50
@@ -46,7 +45,7 @@ func main() {
 						Rotation: (j - 1) / 41,
 					}
 
-					slab.AddLayoutToAsset(constructor.Id, layout)
+					slab.AddLayoutToAsset(constructor.AssertParts[0].Id, layout)
 				}
 			}
 		}
@@ -62,4 +61,3 @@ func main() {
 
 	fmt.Println(base64)
 }
-*/
