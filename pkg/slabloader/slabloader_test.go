@@ -31,12 +31,12 @@ func init() {
 func TestSlabLoader_GetSlabs(t *testing.T) {
 	byteCompressor := bytecompressor.New()
 	decoder := talespirecoder.NewDecoder(byteCompressor)
-	slabLoader := NewSlabLoader(decoder)
-
-	slab, err := slabLoader.GetSlabs()
+	slabLoader, err := NewSlabLoader(decoder)
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	slab := slabLoader.GetSlabs()
 
 	fmt.Println(slab["general_store"])
 }

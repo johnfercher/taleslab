@@ -10,23 +10,40 @@ import (
 )
 
 type SlabLoader interface {
-	GetSlabs() (map[string]*entities.Slab, error)
+	GetSlabs() map[string]*entities.Slab
+	GetSlabById(id string) *entities.Slab
 }
 
 type slabLoader struct {
 	decoder talespirecoder.Decoder
+	slabs   map[string]*entities.Slab
 }
 
-func NewSlabLoader(decoder talespirecoder.Decoder) *slabLoader {
-	return &slabLoader{
+func NewSlabLoader(decoder talespirecoder.Decoder) (*slabLoader, error) {
+	slabLoader := &slabLoader{
 		decoder: decoder,
 	}
-}
 
-func (self *slabLoader) GetSlabs() (map[string]*entities.Slab, error) {
-	bytes, err := ioutil.ReadFile("./config/assets/slabs.csv")
+	err := slabLoader.loadSlabs()
 	if err != nil {
 		return nil, err
+	}
+
+	return slabLoader, nil
+}
+
+func (self *slabLoader) GetSlabs() map[string]*entities.Slab {
+	return self.slabs
+}
+
+func (self *slabLoader) GetSlabById(id string) *entities.Slab {
+	return self.slabs[id]
+}
+
+func (self *slabLoader) loadSlabs() error {
+	bytes, err := ioutil.ReadFile("./config/assets/slabs.csv")
+	if err != nil {
+		return err
 	}
 
 	stringFile := string(bytes)
@@ -37,7 +54,7 @@ func (self *slabLoader) GetSlabs() (map[string]*entities.Slab, error) {
 		elements := strings.SplitN(line, ",", 4)
 		slab, err := self.decoder.Decode(elements[3])
 		if err != nil {
-			return nil, err
+			return err
 		}
 		taleSpireSlabs[elements[1]] = slab
 	}
@@ -47,5 +64,5 @@ func (self *slabLoader) GetSlabs() (map[string]*entities.Slab, error) {
 		slabs[key] = mappers.EntitySlabFromTaleSpire(taleSpireSlab)
 	}
 
-	return slabs, nil
+	return nil
 }

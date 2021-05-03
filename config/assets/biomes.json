@@ -49,7 +49,7 @@
       "base_ground_type": ["ground_nature_small"]
     },
     "prop_blocks": {
-      "tree_type": ["pine_tree_big"],
+      "tree_type": ["two_floor_pines"],
       "stone_type": ["stone_big"],
       "misc_type": ["rose", "floor_bush", "small_fern", "big_fern"]
     },

@@ -142,7 +142,7 @@ func TestAssetLoader_GetConstructor(t *testing.T) {
 
 func getMappedProps() map[string]bool {
 	return map[string]bool{
-		"ead_tree_big":           true,
+		"dead_tree_big":          true,
 		"snow_dead_tree_big":     true,
 		"coconut_tree_small":     true,
 		"coconut_tree_big":       true,

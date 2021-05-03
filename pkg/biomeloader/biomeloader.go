@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"github.com/johnfercher/taleslab/pkg/assetloader"
 	"github.com/johnfercher/taleslab/pkg/grid"
+	"github.com/johnfercher/taleslab/pkg/slabloader"
 	"github.com/johnfercher/taleslab/pkg/taleslab/domain/entities"
 	"io/ioutil"
 	"log"
@@ -21,22 +22,24 @@ type BiomeLoader interface {
 	GetBiome() entities.BiomeType
 	GetConstructorKeys() map[grid.ElementType][]string
 	GetConstructorAssets(elementType grid.ElementType) []string
-	GetConstructor(id string) assetloader.AssetInfo
+	GetConstructor(id string) *assetloader.AssetInfo
 	GetPropKeys() map[grid.ElementType][]string
 	GetPropAssets(elementType grid.ElementType) []string
-	GetProp(id string) assetloader.AssetInfo
+	GetProp(id string) *assetloader.AssetInfo
 	GetStoneWall() string
 }
 
 type biomeLoader struct {
 	biomeType   entities.BiomeType
 	assetLoader assetloader.AssetLoader
+	slabLoader  slabloader.SlabLoader
 	biomes      map[entities.BiomeType]Biome
 }
 
-func NewBiomeLoader(assetLoader assetloader.AssetLoader) *biomeLoader {
+func NewBiomeLoader(assetLoader assetloader.AssetLoader, slabLoader slabloader.SlabLoader) *biomeLoader {
 	biomeLoader := &biomeLoader{
 		assetLoader: assetLoader,
+		slabLoader:  slabLoader,
 	}
 
 	biomeLoader.loadBiomes()
@@ -53,7 +56,7 @@ func (self *biomeLoader) GetConstructorAssets(elementType grid.ElementType) []st
 	return self.biomes[self.biomeType].GroundBlocks[elementType]
 }
 
-func (self *biomeLoader) GetConstructor(id string) assetloader.AssetInfo {
+func (self *biomeLoader) GetConstructor(id string) *assetloader.AssetInfo {
 	return self.assetLoader.GetConstructor(id)
 }
 
@@ -65,7 +68,7 @@ func (self *biomeLoader) GetPropAssets(elementType grid.ElementType) []string {
 	return self.biomes[self.biomeType].PropBlocks[elementType]
 }
 
-func (self *biomeLoader) GetProp(id string) assetloader.AssetInfo {
+func (self *biomeLoader) GetProp(id string) *assetloader.AssetInfo {
 	return self.assetLoader.GetProp(id)
 }
 

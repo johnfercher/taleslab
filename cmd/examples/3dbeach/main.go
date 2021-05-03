@@ -6,6 +6,7 @@ import (
 	"github.com/johnfercher/taleslab/internal/bytecompressor"
 	"github.com/johnfercher/taleslab/pkg/assetloader"
 	"github.com/johnfercher/taleslab/pkg/biomeloader"
+	"github.com/johnfercher/taleslab/pkg/slabloader"
 	"github.com/johnfercher/taleslab/pkg/taleslab/domain/entities"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslab/taleslabservices"
 	"github.com/johnfercher/taleslab/pkg/talespire/talespirecoder"
@@ -17,13 +18,19 @@ func main() {
 
 	compressor := bytecompressor.New()
 	encoder := talespirecoder.NewEncoder(compressor)
+	decoder := talespirecoder.NewDecoder(compressor)
 
 	assetLoader, err := assetloader.NewAssetLoader()
 	if err != nil {
 		log.Fatal(err.Error())
 	}
 
-	biomeLoader := biomeloader.NewBiomeLoader(assetLoader)
+	slabLoader, err := slabloader.NewSlabLoader(decoder)
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
+	biomeLoader := biomeloader.NewBiomeLoader(assetLoader, slabLoader)
 	mapService := taleslabservices.NewMapService(biomeLoader, encoder)
 
 	inputMap := &entities.Map{
