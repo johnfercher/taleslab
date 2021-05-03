@@ -35,7 +35,7 @@ func main() {
 		},
 		Props: &entities.Props{
 			StoneDensity: 100,
-			TreeDensity:  11,
+			TreeDensity:  15,
 			MiscDensity:  15,
 		},
 		Mountains: &entities.Mountains{

@@ -1,74 +1,114 @@
 [
   {
-    "id": "AAAQosMB+5SfRIxHmT7aPnEm",
-    "name": "ground_nature_big",
-    "dimensions": {
-      "width": 2,
-      "length": 2,
-      "height": 1
-    }
+    "id": "ground_nature_big",
+    "asset_parts": [
+      {
+        "id": "AAAQosMB+5SfRIxHmT7aPnEm",
+        "name": "ground_nature_big",
+        "dimensions": {
+          "width": 2,
+          "length": 2,
+          "height": 1
+        }
+      }
+    ]
   },
   {
-    "id": "AAAN0RE5KxQzT5/qXToQxTeB",
-    "name": "ground_nature_with_stones_big",
-    "dimensions": {
-      "width": 2,
-      "length": 2,
-      "height": 1
-    }
+    "id": "ground_nature_with_stones_big",
+    "asset_parts": [
+      {
+        "id": "AAAN0RE5KxQzT5/qXToQxTeB",
+        "name": "ground_nature_with_stones_big",
+        "dimensions": {
+          "width": 2,
+          "length": 2,
+          "height": 1
+        }
+      }
+    ]
   },
   {
-    "id": "AABcmGyti43yRKvV7cneVo0w",
-    "name": "ground_nature_small",
-    "dimensions": {
-      "width": 1,
-      "length": 1,
-      "height": 1
-    }
+    "id": "ground_nature_small",
+    "asset_parts": [
+      {
+        "id": "AABcmGyti43yRKvV7cneVo0w",
+        "name": "ground_nature_small",
+        "dimensions": {
+          "width": 1,
+          "length": 1,
+          "height": 1
+        }
+      }
+    ]
   },
   {
-    "id": "AAAfVCM3LUzfRp7UXbr/8RRv",
-    "name": "ground_sand_small",
-    "dimensions": {
-      "width": 1,
-      "length": 1,
-      "height": 1
-    }
+    "id": "ground_sand_small",
+    "asset_parts": [
+      {
+        "id": "AAAfVCM3LUzfRp7UXbr/8RRv",
+        "name": "ground_sand_small",
+        "dimensions": {
+          "width": 1,
+          "length": 1,
+          "height": 1
+        }
+      }
+    ]
   },
   {
-    "id": "AAAfhxObOOMlRbm+N/iHBQno",
-    "name": "ground_snow_small",
-    "dimensions": {
-      "width": 1,
-      "length": 1,
-      "height": 1
-    }
+    "id": "ground_snow_small",
+    "asset_parts": [
+      {
+        "id": "AAAfhxObOOMlRbm+N/iHBQno",
+        "name": "ground_snow_small",
+        "dimensions": {
+          "width": 1,
+          "length": 1,
+          "height": 1
+        }
+      }
+    ]
   },
   {
-    "id": "AACZBz9QUraBTbIC1Ec8rs7k",
-    "name": "mud_small",
-    "dimensions": {
-      "width": 1,
-      "length": 1,
-      "height": 1
-    }
+    "id": "mud_small",
+    "asset_parts": [
+      {
+        "id": "AACZBz9QUraBTbIC1Ec8rs7k",
+        "name": "mud_small",
+        "dimensions": {
+          "width": 1,
+          "length": 1,
+          "height": 1
+        }
+      }
+    ]
   },
   {
-    "id": "AAAaD4bc6+sdSaddi4fOUagI",
-    "name": "mud_with_feather_small",
-    "dimensions": {
-      "width": 1,
-      "length": 1,
-      "height": 1
-    }
+    "id": "mud_with_feather_small",
+    "asset_parts": [
+      {
+        "id": "AAAaD4bc6+sdSaddi4fOUagI",
+        "name": "mud_with_feather_small",
+        "dimensions": {
+          "width": 1,
+          "length": 1,
+          "height": 1
+        }
+      }
+    ]
   },
   {
-    "id": "AADnL/G9po90RIeOflhHo0QH",
-    "name": "clay_with_feather_small",
-    "dimensions": {
-      "width": 1,
-      "length": 1,
-      "height": 1
-    }
+    "id": "clay_with_feather_small",
+    "asset_parts": [
+      {
+        "id": "AADnL/G9po90RIeOflhHo0QH",
+        "name": "clay_with_feather_small",
+        "dimensions": {
+          "width": 1,
+          "length": 1,
+          "height": 1
+        }
+      }
+    ]
   }
 ]

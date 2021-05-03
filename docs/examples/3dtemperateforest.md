@@ -1,7 +1,7 @@
-# 3D Forest
+# 3D Temperate Forest
 
 **Printscreen**
-![version_size](../../docs/images/3dforest.png)
+![version_size](../images/3dtemperateforest.png)
 
 **Base64**
 ```bash
@@ -29,7 +29,12 @@ func main() {
 
 	compressor := bytecompressor.New()
 	encoder := talespirecoder.NewEncoder(compressor)
-	assetLoader := assetloader.NewAssetLoader()
+
+	assetLoader, err := assetloader.NewAssetLoader()
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
 	biomeLoader := biomeloader.NewBiomeLoader(assetLoader)
 	mapService := taleslabservices.NewMapService(biomeLoader, encoder)
 
@@ -42,7 +47,7 @@ func main() {
 		},
 		Props: &entities.Props{
 			StoneDensity: 150,
-			TreeDensity:  11,
+			TreeDensity:  15,
 			MiscDensity:  25,
 		},
 		Mountains: &entities.Mountains{

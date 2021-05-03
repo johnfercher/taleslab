@@ -35,7 +35,7 @@
       "base_ground_type": ["ground_snow_small"]
     },
     "prop_blocks": {
-      "tree_type": ["snow_pine_tree_big", "snow_pine_tree_big", "dead_tree_big"],
+      "tree_type": ["snow_two_floor_pine_tree_with_trunk", "snow_two_floor_pine_tree","snow_pine_tree_big", "dead_tree_big"],
       "stone_type": ["snow_stone_small"],
       "misc_type": ["small_dead_bush", "big_dead_bush"]
     },
@@ -49,7 +49,7 @@
       "base_ground_type": ["ground_nature_small"]
     },
     "prop_blocks": {
-      "tree_type": ["pine_tree_big"],
+      "tree_type": ["pine_tree_big","two_floor_pine_tree" ,"two_floor_pine_tree_with_trunk"],
       "stone_type": ["stone_big"],
       "misc_type": ["rose", "floor_bush", "small_fern", "big_fern"]
     },

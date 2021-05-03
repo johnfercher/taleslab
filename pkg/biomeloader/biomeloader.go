@@ -21,10 +21,10 @@ type BiomeLoader interface {
 	GetBiome() entities.BiomeType
 	GetConstructorKeys() map[grid.ElementType][]string
 	GetConstructorAssets(elementType grid.ElementType) []string
-	GetConstructor(id string) assetloader.AssetInfo
+	GetConstructor(id string) *assetloader.AssetInfo
 	GetPropKeys() map[grid.ElementType][]string
 	GetPropAssets(elementType grid.ElementType) []string
-	GetProp(id string) assetloader.AssetInfo
+	GetProp(id string) *assetloader.AssetInfo
 	GetStoneWall() string
 }
 
@@ -53,7 +53,7 @@ func (self *biomeLoader) GetConstructorAssets(elementType grid.ElementType) []st
 	return self.biomes[self.biomeType].GroundBlocks[elementType]
 }
 
-func (self *biomeLoader) GetConstructor(id string) assetloader.AssetInfo {
+func (self *biomeLoader) GetConstructor(id string) *assetloader.AssetInfo {
 	return self.assetLoader.GetConstructor(id)
 }
 
@@ -65,7 +65,7 @@ func (self *biomeLoader) GetPropAssets(elementType grid.ElementType) []string {
 	return self.biomes[self.biomeType].PropBlocks[elementType]
 }
 
-func (self *biomeLoader) GetProp(id string) assetloader.AssetInfo {
+func (self *biomeLoader) GetProp(id string) *assetloader.AssetInfo {
 	return self.assetLoader.GetProp(id)
 }
 

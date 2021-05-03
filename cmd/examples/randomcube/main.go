@@ -1,5 +1,6 @@
 package main
 
+/*
 import (
 	"fmt"
 	"github.com/johnfercher/taleslab/internal/bytecompressor"
@@ -61,3 +62,4 @@ func main() {
 
 	fmt.Println(base64)
 }
+*/

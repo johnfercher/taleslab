@@ -1,5 +1,6 @@
 package main
 
+/*
 import (
 	"fmt"
 	"github.com/johnfercher/taleslab/internal/bytecompressor"
@@ -70,3 +71,4 @@ func fix(value float64, fixValue int) int {
 
 	return top
 }
+*/
