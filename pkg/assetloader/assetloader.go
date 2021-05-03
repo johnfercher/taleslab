@@ -6,11 +6,16 @@ import (
 )
 
 type AssetInfo struct {
+	Id          string       `json:"id"`
+	AssertParts []*AssetPart `json:"asset_parts"`
+	Type        string       `json:"type"`
+}
+
+type AssetPart struct {
 	Id         []byte      `json:"id"`
 	Dimensions *Dimensions `json:"dimensions"`
 	OffsetZ    int         `json:"offset_z"`
 	Name       string      `json:"name"`
-	Type       string      `json:"type"`
 }
 
 type Dimensions struct {
@@ -20,15 +25,15 @@ type Dimensions struct {
 }
 
 type AssetLoader interface {
-	GetConstructor(id string) AssetInfo
-	GetProp(id string) AssetInfo
-	GetConstructors() map[string]AssetInfo
-	GetProps() map[string]AssetInfo
+	GetConstructor(id string) *AssetInfo
+	GetProp(id string) *AssetInfo
+	GetConstructors() map[string]*AssetInfo
+	GetProps() map[string]*AssetInfo
 }
 
 type assetLoader struct {
-	constructors map[string]AssetInfo
-	props        map[string]AssetInfo
+	constructors map[string]*AssetInfo
+	props        map[string]*AssetInfo
 }
 
 func NewAssetLoader() (*assetLoader, error) {
@@ -47,19 +52,19 @@ func NewAssetLoader() (*assetLoader, error) {
 	return assetLoader, nil
 }
 
-func (self *assetLoader) GetConstructor(id string) AssetInfo {
+func (self *assetLoader) GetConstructor(id string) *AssetInfo {
 	return self.constructors[id]
 }
 
-func (self *assetLoader) GetConstructors() map[string]AssetInfo {
+func (self *assetLoader) GetConstructors() map[string]*AssetInfo {
 	return self.constructors
 }
 
-func (self *assetLoader) GetProp(id string) AssetInfo {
+func (self *assetLoader) GetProp(id string) *AssetInfo {
 	return self.props[id]
 }
 
-func (self *assetLoader) GetProps() map[string]AssetInfo {
+func (self *assetLoader) GetProps() map[string]*AssetInfo {
 	return self.props
 }
 
@@ -69,7 +74,7 @@ func (self *assetLoader) loadConstructors() error {
 		return err
 	}
 
-	assetInfos := []AssetInfo{}
+	assetInfos := []*AssetInfo{}
 
 	err = json.Unmarshal(bytes, &assetInfos)
 	if err != nil {
@@ -80,10 +85,10 @@ func (self *assetLoader) loadConstructors() error {
 		assetInfos[i].Type = "constructors"
 	}
 
-	assetMap := make(map[string]AssetInfo)
+	assetMap := make(map[string]*AssetInfo)
 
 	for _, assetinfo := range assetInfos {
-		assetMap[assetinfo.Name] = assetinfo
+		assetMap[assetinfo.Id] = assetinfo
 	}
 
 	self.constructors = assetMap
@@ -97,7 +102,7 @@ func (self *assetLoader) loadProps() error {
 		return err
 	}
 
-	assetInfos := []AssetInfo{}
+	assetInfos := []*AssetInfo{}
 
 	err = json.Unmarshal(bytes, &assetInfos)
 	if err != nil {
@@ -108,10 +113,10 @@ func (self *assetLoader) loadProps() error {
 		assetInfos[i].Type = "ornaments"
 	}
 
-	assetMap := make(map[string]AssetInfo)
+	assetMap := make(map[string]*AssetInfo)
 
 	for _, assetinfo := range assetInfos {
-		assetMap[assetinfo.Name] = assetinfo
+		assetMap[assetinfo.Id] = assetinfo
 	}
 
 	self.props = assetMap

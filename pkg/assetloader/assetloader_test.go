@@ -81,8 +81,8 @@ func TestAssetLoader_GetProps(t *testing.T) {
 	for i := 0; i < len(rawProps); i++ {
 		for j := 0; j < len(rawProps); j++ {
 			if i != j {
-				assert.NotEqual(t, rawProps[i].Id, rawProps[j].Id, fmt.Sprintf("repeated ornaments ids, name: %s", rawProps[i].Name))
-				assert.NotEqual(t, rawProps[i].Name, rawProps[j].Name, fmt.Sprintf("repeated ornaments names, id %s", rawProps[i].Id))
+				assert.NotEqual(t, rawProps[i].Id, rawProps[j].Id, fmt.Sprintf("repeated ornaments ids, name: %s", rawProps[i].Id))
+				assert.NotEqual(t, rawProps[i].Id, rawProps[j].Id, fmt.Sprintf("repeated ornaments names, id %s", rawProps[i].Id))
 			}
 		}
 	}
@@ -103,8 +103,8 @@ func TestAssetLoader_GetConstructors(t *testing.T) {
 	for i := 0; i < len(rawConstructors); i++ {
 		for j := 0; j < len(rawConstructors); j++ {
 			if i != j {
-				assert.NotEqual(t, rawConstructors[i].Id, rawConstructors[j].Id, fmt.Sprintf("repeated constructors ids, name: %s", rawConstructors[i].Name))
-				assert.NotEqual(t, rawConstructors[i].Name, rawConstructors[j].Name, fmt.Sprintf("repeated constructors names, id %s", rawConstructors[i].Id))
+				assert.NotEqual(t, rawConstructors[i].Id, rawConstructors[j].Id, fmt.Sprintf("repeated constructors ids, name: %s", rawConstructors[i].Id))
+				assert.NotEqual(t, rawConstructors[i].Id, rawConstructors[j].Id, fmt.Sprintf("repeated constructors names, id %s", rawConstructors[i].Id))
 			}
 		}
 	}
@@ -142,36 +142,41 @@ func TestAssetLoader_GetConstructor(t *testing.T) {
 
 func getMappedProps() map[string]bool {
 	return map[string]bool{
-		"ead_tree_big":           true,
-		"snow_dead_tree_big":     true,
-		"coconut_tree_small":     true,
-		"coconut_tree_big":       true,
-		"pine_tree_big":          true,
-		"rectangle_bush_small":   true,
-		"stone_big":              true,
-		"cactus_small":           true,
-		"cactus_big":             true,
-		"snow_pine_tree_big":     true,
-		"snow_stone_big":         true,
-		"snow_stone_small":       true,
-		"big_stone_wall":         true,
-		"big_snow_stone_wall":    true,
-		"one_big_tree":           true,
-		"two_big_tree":           true,
-		"three_big_tree":         true,
-		"bull_skull":             true,
-		"down_rib":               true,
-		"up_rib":                 true,
-		"rose":                   true,
-		"floor_bush":             true,
-		"small_fern":             true,
-		"big_fern":               true,
-		"big_leaves_bug":         true,
-		"small_leaves_bug":       true,
-		"many_ground_red_leaves": true,
-		"few_ground_red_leaves":  true,
-		"small_dead_bush":        true,
-		"big_dead_bush":          true,
+		"dead_tree_big":                       true,
+		"snow_dead_tree_big":                  true,
+		"coconut_tree_small":                  true,
+		"coconut_tree_big":                    true,
+		"pine_tree_big":                       true,
+		"rectangle_bush_small":                true,
+		"stone_big":                           true,
+		"cactus_small":                        true,
+		"cactus_big":                          true,
+		"snow_pine_tree_big":                  true,
+		"snow_stone_big":                      true,
+		"snow_stone_small":                    true,
+		"big_stone_wall":                      true,
+		"big_snow_stone_wall":                 true,
+		"one_big_tree":                        true,
+		"two_big_tree":                        true,
+		"three_big_tree":                      true,
+		"bull_skull":                          true,
+		"down_rib":                            true,
+		"up_rib":                              true,
+		"rose":                                true,
+		"floor_bush":                          true,
+		"small_fern":                          true,
+		"big_fern":                            true,
+		"big_leaves_bug":                      true,
+		"small_leaves_bug":                    true,
+		"many_ground_red_leaves":              true,
+		"few_ground_red_leaves":               true,
+		"small_dead_bush":                     true,
+		"big_dead_bush":                       true,
+		"tree_trunk":                          true,
+		"two_floor_pine_tree":                 true,
+		"two_floor_pine_tree_with_trunk":      true,
+		"snow_two_floor_pine_tree":            true,
+		"snow_two_floor_pine_tree_with_trunk": true,
 	}
 }
 

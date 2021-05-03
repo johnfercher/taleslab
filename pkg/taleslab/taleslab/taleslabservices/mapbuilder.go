@@ -146,10 +146,10 @@ func (self *mapBuilder) appendConstructionSlab(elementType grid.ElementType, gen
 	for _, elementKey := range self.biomeLoader.GetConstructorAssets(elementType) {
 		prop := self.biomeLoader.GetConstructor(elementKey)
 		asset := &entities.Asset{
-			Id:         prop.Id,
-			Name:       prop.Name,
-			Dimensions: prop.Dimensions,
-			OffsetZ:    prop.OffsetZ,
+			Id:         prop.AssertParts[0].Id,
+			Name:       prop.AssertParts[0].Name,
+			Dimensions: prop.AssertParts[0].Dimensions,
+			OffsetZ:    prop.AssertParts[0].OffsetZ,
 		}
 
 		assets = append(assets, asset)
@@ -158,10 +158,10 @@ func (self *mapBuilder) appendConstructionSlab(elementType grid.ElementType, gen
 	stoneWallProp := self.biomeLoader.GetProp(self.biomeLoader.GetStoneWall())
 
 	stoneWall := &entities.Asset{
-		Id:         stoneWallProp.Id,
-		Name:       stoneWallProp.Name,
-		Dimensions: stoneWallProp.Dimensions,
-		OffsetZ:    stoneWallProp.OffsetZ,
+		Id:         stoneWallProp.AssertParts[0].Id,
+		Name:       stoneWallProp.AssertParts[0].Name,
+		Dimensions: stoneWallProp.AssertParts[0].Dimensions,
+		OffsetZ:    stoneWallProp.AssertParts[0].OffsetZ,
 	}
 
 	lastStoneWallX := -4
@@ -224,35 +224,28 @@ func (self *mapBuilder) appendConstructionSlab(elementType grid.ElementType, gen
 }
 
 func (self *mapBuilder) appendPropsToSlab(elementType grid.ElementType, generatedSlab *entities.Slab, gridHeights [][]grid.Element, gridProps [][]grid.Element) {
-	assets := []*entities.Asset{}
-	elementMax := len(self.biomeLoader.GetPropAssets(elementType))
-
-	for _, elementKey := range self.biomeLoader.GetPropAssets(elementType) {
-		prop := self.biomeLoader.GetProp(elementKey)
-		asset := &entities.Asset{
-			Id:         prop.Id,
-			Name:       prop.Name,
-			Dimensions: prop.Dimensions,
-			OffsetZ:    prop.OffsetZ,
-		}
-
-		assets = append(assets, asset)
-	}
-
 	for i, array := range gridHeights {
 		for j, element := range array {
-			rand.Seed(time.Now().UnixNano())
-			elementRand := math.GetRandomValue(elementMax, "props")
-
 			if gridProps[i][j].ElementType == elementType {
-				rotation := math.GetRandomRotation(true, 5, "props")
-				self.addLayout(assets[elementRand], i, j, element.Height+assets[elementRand].OffsetZ, rotation)
+				elementsKeys := self.biomeLoader.GetPropAssets(elementType)
+				elementKey := elementsKeys[math.GetRandomValue(len(elementsKeys), "props")]
+				prop := self.biomeLoader.GetProp(elementKey)
+
+				for id, assetPart := range prop.AssertParts {
+					asset := &entities.Asset{
+						Id:         prop.AssertParts[id].Id,
+						Name:       prop.AssertParts[id].Name,
+						Dimensions: prop.AssertParts[id].Dimensions,
+						OffsetZ:    prop.AssertParts[id].OffsetZ,
+					}
+
+					rotation := math.GetRandomRotation(true, 5, "props")
+					self.addLayout(asset, i, j, element.Height+assetPart.OffsetZ, rotation)
+
+					generatedSlab.AddAsset(asset)
+				}
 			}
 		}
-	}
-
-	for _, asset := range assets {
-		generatedSlab.AddAsset(asset)
 	}
 }
 

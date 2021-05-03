@@ -29,7 +29,12 @@ func main() {
 
 	compressor := bytecompressor.New()
 	encoder := talespirecoder.NewEncoder(compressor)
-	assetLoader := assetloader.NewAssetLoader()
+
+	assetLoader, err := assetloader.NewAssetLoader()
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
 	biomeLoader := biomeloader.NewBiomeLoader(assetLoader)
 	mapService := taleslabservices.NewMapService(biomeLoader, encoder)
 
@@ -42,7 +47,7 @@ func main() {
 		},
 		Props: &entities.Props{
 			StoneDensity: 100,
-			TreeDensity:  11,
+			TreeDensity:  15,
 			MiscDensity:  15,
 		},
 		Mountains: &entities.Mountains{

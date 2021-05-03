@@ -9,7 +9,7 @@ TaleSpire Slab Generator: https://taleslab.herokuapp.com/swagger/
 
 ## Generated Examples
 **Printscreen**
-![version_size](./docs/images/3dforest.png)
+![version_size](docs/images/3dtemperateforest.png)
 
 **Base64**
 ```bash
