@@ -11,20 +11,23 @@ import (
 )
 
 type mapService struct {
-	biomeLoader biomeloader.BiomeLoader
-	encoder     talespirecoder.Encoder
+	biomeLoader          biomeloader.BiomeLoader
+	secondaryBiomeLoader biomeloader.BiomeLoader
+	encoder              talespirecoder.Encoder
 }
 
-func NewMapService(biomeLoader biomeloader.BiomeLoader, encoder talespirecoder.Encoder) *mapService {
+func NewMapService(biomeLoader biomeloader.BiomeLoader, secondaryBiomeLoader biomeloader.BiomeLoader, encoder talespirecoder.Encoder) *mapService {
 	return &mapService{
-		biomeLoader: biomeLoader,
-		encoder:     encoder,
+		biomeLoader:          biomeLoader,
+		encoder:              encoder,
+		secondaryBiomeLoader: secondaryBiomeLoader,
 	}
 }
 
 func (self *mapService) Generate(ctx context.Context, inputMap *entities.Map) (*contracts.MapResponse, apierror.ApiError) {
-	builder := New(self.biomeLoader, self.encoder).
+	builder := New(self.biomeLoader, self.secondaryBiomeLoader, self.encoder).
 		SetBiome(inputMap.Biome).
+		SetSecondaryBiome(inputMap.SecondaryBiome).
 		SetMountains(inputMap.Mountains).
 		SetGround(inputMap.Ground).
 		SetProps(inputMap.Props).

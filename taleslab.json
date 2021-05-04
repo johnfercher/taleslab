@@ -120,12 +120,13 @@
       "description": "Map request model",
       "type": "object",
       "required": [
+        "biome_type",
         "ground",
         "props"
       ],
       "properties": {
         "biome_type": {
-          "description": "Biome type (desert, tropical_forest, temperate_forest, tundra)",
+          "description": "Biome type (desert, subtropical_forest, temperate_forest, tundra)",
           "type": "string",
           "x-go-name": "Biome",
           "example": "temperate_forest"
@@ -144,6 +145,12 @@
         },
         "river": {
           "$ref": "#/definitions/River"
+        },
+        "secondary_biome_type": {
+          "description": "SecondaryBiome type (desert, subtropical_forest, temperate_forest, tundra)",
+          "type": "string",
+          "x-go-name": "SecondaryBiome",
+          "example": "tundra"
         }
       },
       "x-go-package": "github.com/johnfercher/taleslab/pkg/taleslab/domain/entities"

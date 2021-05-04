@@ -3,6 +3,7 @@ package taleslabservices
 import (
 	"github.com/johnfercher/taleslab/internal/api/apierror"
 	"github.com/johnfercher/taleslab/internal/math"
+	"github.com/johnfercher/taleslab/pkg/assetloader"
 	"github.com/johnfercher/taleslab/pkg/biomeloader"
 	"github.com/johnfercher/taleslab/pkg/grid"
 	"github.com/johnfercher/taleslab/pkg/mappers"
@@ -15,24 +16,35 @@ import (
 )
 
 type mapBuilder struct {
-	biomeLoader biomeloader.BiomeLoader
-	encoder     talespirecoder.Encoder
-	props       *entities.Props
-	ground      *entities.Ground
-	mountains   *entities.Mountains
-	river       *entities.River
-	canyon      *entities.Canyon
+	biomeLoader          biomeloader.BiomeLoader
+	secondaryBiomeLoader biomeloader.BiomeLoader
+	encoder              talespirecoder.Encoder
+	props                *entities.Props
+	ground               *entities.Ground
+	mountains            *entities.Mountains
+	river                *entities.River
+	canyon               *entities.Canyon
 }
 
-func New(biomeLoader biomeloader.BiomeLoader, encoder talespirecoder.Encoder) *mapBuilder {
+func New(biomeLoader biomeloader.BiomeLoader, secondaryBiomeLoader biomeloader.BiomeLoader, encoder talespirecoder.Encoder) *mapBuilder {
 	return &mapBuilder{
-		biomeLoader: biomeLoader,
-		encoder:     encoder,
+		biomeLoader:          biomeLoader,
+		encoder:              encoder,
+		secondaryBiomeLoader: secondaryBiomeLoader,
 	}
 }
 
 func (self *mapBuilder) SetBiome(biomeType entities.BiomeType) services.MapBuilder {
 	self.biomeLoader.SetBiome(biomeType)
+	return self
+}
+
+func (self *mapBuilder) SetSecondaryBiome(biomeType entities.BiomeType) services.MapBuilder {
+	if biomeType == "" {
+		return self
+	}
+
+	self.secondaryBiomeLoader.SetBiome(biomeType)
 	return self
 }
 
@@ -139,31 +151,6 @@ func (self *mapBuilder) Build() (string, apierror.ApiError) {
 }
 
 func (self *mapBuilder) appendConstructionSlab(elementType grid.ElementType, generatedSlab *entities.Slab, gridHeights [][]grid.Element) {
-	assets := []*entities.Asset{}
-
-	elementMax := len(self.biomeLoader.GetConstructorAssets(elementType))
-
-	for _, elementKey := range self.biomeLoader.GetConstructorAssets(elementType) {
-		prop := self.biomeLoader.GetConstructor(elementKey)
-		asset := &entities.Asset{
-			Id:         prop.AssertParts[0].Id,
-			Name:       prop.AssertParts[0].Name,
-			Dimensions: prop.AssertParts[0].Dimensions,
-			OffsetZ:    prop.AssertParts[0].OffsetZ,
-		}
-
-		assets = append(assets, asset)
-	}
-
-	stoneWallProp := self.biomeLoader.GetProp(self.biomeLoader.GetStoneWall())
-
-	stoneWall := &entities.Asset{
-		Id:         stoneWallProp.AssertParts[0].Id,
-		Name:       stoneWallProp.AssertParts[0].Name,
-		Dimensions: stoneWallProp.AssertParts[0].Dimensions,
-		OffsetZ:    stoneWallProp.AssertParts[0].OffsetZ,
-	}
-
 	lastStoneWallX := -4
 	lastStoneWallY := -4
 
@@ -172,6 +159,8 @@ func (self *mapBuilder) appendConstructionSlab(elementType grid.ElementType, gen
 			if element.ElementType != elementType {
 				continue
 			}
+
+			prop := self.getBiomeConstructor(i, len(gridHeights), elementType)
 
 			minValue := element
 
@@ -191,45 +180,54 @@ func (self *mapBuilder) appendConstructionSlab(elementType grid.ElementType, gen
 				minValue = gridHeights[i][j+1]
 			}
 
-			if element.Height-minValue.Height > 1 && (minValue.ElementType == grid.BaseGroundType) {
-				if math.Distance(lastStoneWallX, lastStoneWallY, i, j) > 2 {
-					lastStoneWallX = i
-					lastStoneWallY = j
-
-					for k := int(element.Height); k >= int(minValue.Height); k-- {
-						rotation := math.GetRandomRotation(minValue.ElementType == grid.BaseGroundType, 2, "stone_wall_rotation")
-						randomDistanceY := math.GetRandomValue(2, "y")
-						randomDistanceX := math.GetRandomValue(2, "x")
-
-						self.addLayout(stoneWall, i+randomDistanceX, j+randomDistanceY, int(k+stoneWall.OffsetZ)/3.0, rotation)
-					}
+			for _, assetPart := range prop.AssertParts {
+				asset := &entities.Asset{
+					Id:         assetPart.Id,
+					Name:       assetPart.Name,
+					Dimensions: assetPart.Dimensions,
+					OffsetZ:    assetPart.OffsetZ,
 				}
-			} else {
-				elementRand := math.GetRandomValue(elementMax, "ground")
 
-				// Use the minimum neighborhood height to fill empty spaces
-				for k := minValue.Height; k <= element.Height; k++ {
-					self.addLayout(assets[elementRand], i, j, k+assets[elementRand].OffsetZ, 768)
+				if element.Height-minValue.Height > 1 && (minValue.ElementType == grid.BaseGroundType) {
+					if math.Distance(lastStoneWallX, lastStoneWallY, i, j) > 2 {
+						lastStoneWallX = i
+						lastStoneWallY = j
+
+						for k := int(element.Height); k >= int(minValue.Height); k-- {
+							rotation := math.GetRandomRotation(minValue.ElementType == grid.BaseGroundType, 2, "stone_wall_rotation")
+							randomDistanceY := math.GetRandomValue(2, "y")
+							randomDistanceX := math.GetRandomValue(2, "x")
+
+							stoneWallProp := self.biomeLoader.GetProp(self.biomeLoader.GetStoneWall())
+
+							stoneWall := &entities.Asset{
+								Id:         stoneWallProp.AssertParts[0].Id,
+								Name:       stoneWallProp.AssertParts[0].Name,
+								Dimensions: stoneWallProp.AssertParts[0].Dimensions,
+								OffsetZ:    stoneWallProp.AssertParts[0].OffsetZ,
+							}
+
+							self.addLayout(stoneWall, i+randomDistanceX, j+randomDistanceY, int(k+stoneWall.OffsetZ)/3.0, rotation)
+							generatedSlab.AddAsset(stoneWall)
+						}
+					}
+				} else {
+					for k := minValue.Height; k <= element.Height; k++ {
+						self.addLayout(asset, i, j, k+asset.OffsetZ, 768)
+					}
+
+					generatedSlab.AddAsset(asset)
 				}
 			}
-
 		}
 	}
-
-	for _, asset := range assets {
-		generatedSlab.AddAsset(asset)
-	}
-
-	generatedSlab.AddAsset(stoneWall)
 }
 
 func (self *mapBuilder) appendPropsToSlab(elementType grid.ElementType, generatedSlab *entities.Slab, gridHeights [][]grid.Element, gridProps [][]grid.Element) {
 	for i, array := range gridHeights {
 		for j, element := range array {
 			if gridProps[i][j].ElementType == elementType {
-				elementsKeys := self.biomeLoader.GetPropAssets(elementType)
-				elementKey := elementsKeys[math.GetRandomValue(len(elementsKeys), "props")]
-				prop := self.biomeLoader.GetProp(elementKey)
+				prop := self.getBiomeProp(i, len(gridHeights), elementType)
 
 				for id, assetPart := range prop.AssertParts {
 					asset := &entities.Asset{
@@ -294,4 +292,40 @@ func (self *mapBuilder) addLayout(asset *entities.Asset, x, y, z, rotation int) 
 	}
 
 	asset.Layouts = append(asset.Layouts, layout)
+}
+
+func (self *mapBuilder) getBiomeConstructor(i, iMax int, elementType grid.ElementType) *assetloader.AssetInfo {
+	option := math.GetRandomOption(i, iMax, 6.0)
+
+	if self.secondaryBiomeLoader.GetBiome() == "" {
+		option = true
+	}
+
+	if option {
+		elementsKeys := self.biomeLoader.GetConstructorAssets(elementType)
+		elementKey := elementsKeys[math.GetRandomValue(len(elementsKeys), "constructors")]
+		return self.biomeLoader.GetConstructor(elementKey)
+	}
+
+	elementsKeys := self.secondaryBiomeLoader.GetConstructorAssets(elementType)
+	elementKey := elementsKeys[math.GetRandomValue(len(elementsKeys), "constructors")]
+	return self.secondaryBiomeLoader.GetConstructor(elementKey)
+}
+
+func (self *mapBuilder) getBiomeProp(i, iMax int, elementType grid.ElementType) *assetloader.AssetInfo {
+	option := math.GetRandomOption(i, iMax, 13.0)
+
+	if self.secondaryBiomeLoader.GetBiome() == "" {
+		option = true
+	}
+
+	if option {
+		elementsKeys := self.biomeLoader.GetPropAssets(elementType)
+		elementKey := elementsKeys[math.GetRandomValue(len(elementsKeys), "props")]
+		return self.biomeLoader.GetProp(elementKey)
+	}
+
+	elementsKeys := self.secondaryBiomeLoader.GetPropAssets(elementType)
+	elementKey := elementsKeys[math.GetRandomValue(len(elementsKeys), "props")]
+	return self.secondaryBiomeLoader.GetProp(elementKey)
 }

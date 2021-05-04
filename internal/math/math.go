@@ -67,3 +67,13 @@ func getRandom(maxRand int, key string, depth uint) int {
 	lastDistance[key] = randomValue
 	return randomValue
 }
+
+func GetRandomOption(current, max int, divisor float64) bool {
+	xPercent := float64(current) / float64(max)
+	value := (rand.NormFloat64() / divisor) + xPercent
+	if value < 0.5 {
+		return false
+	} else {
+		return true
+	}
+}
