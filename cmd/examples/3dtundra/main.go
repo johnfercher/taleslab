@@ -24,7 +24,8 @@ func main() {
 	}
 
 	biomeLoader := biomeloader.NewBiomeLoader(assetLoader)
-	mapService := taleslabservices.NewMapService(biomeLoader, encoder)
+	secondaryBiomeLoader := biomeloader.NewBiomeLoader(assetLoader)
+	mapService := taleslabservices.NewMapService(biomeLoader, secondaryBiomeLoader, encoder)
 
 	inputMap := &entities.Map{
 		Biome: entities.TundraBiomeType,

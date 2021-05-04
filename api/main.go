@@ -46,7 +46,8 @@ func main() {
 	}
 
 	biomeLoader := biomeloader.NewBiomeLoader(assetLoader)
-	mapService := taleslabservices.NewMapService(biomeLoader, encoder)
+	secondaryBiomeLoader := biomeloader.NewBiomeLoader(assetLoader)
+	mapService := taleslabservices.NewMapService(biomeLoader, secondaryBiomeLoader, encoder)
 
 	serverOptions := []httptransport.ServerOption{
 		httptransport.ServerErrorEncoder(apiencodes.EncodeError),

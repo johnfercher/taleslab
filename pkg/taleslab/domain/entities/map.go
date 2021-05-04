@@ -10,11 +10,11 @@ import (
 type BiomeType string
 
 const (
-	TropicalForestBiomeType  BiomeType = "tropical_forest"
-	TemperateForestBiomeType BiomeType = "temperate_forest"
-	DesertBiomeType          BiomeType = "desert"
-	TundraBiomeType          BiomeType = "tundra"
-	BeachBiomeType           BiomeType = "beach"
+	SubTropicalForestBiomeType BiomeType = "subtropical_forest"
+	TemperateForestBiomeType   BiomeType = "temperate_forest"
+	DesertBiomeType            BiomeType = "desert"
+	TundraBiomeType            BiomeType = "tundra"
+	BeachBiomeType             BiomeType = "beach"
 )
 
 func ValidateBiomeType(value interface{}) error {
@@ -26,7 +26,7 @@ func ValidateBiomeType(value interface{}) error {
 	}
 
 	switch valueBiome {
-	case TropicalForestBiomeType:
+	case SubTropicalForestBiomeType:
 		return nil
 	case TemperateForestBiomeType:
 		return nil
@@ -38,7 +38,7 @@ func ValidateBiomeType(value interface{}) error {
 		return nil
 	default:
 		return validation.Errors{
-			"invalid_biome": errors.New("biome should be: tropical_forest, temperate_forest, desert or tundra"),
+			"invalid_biome": errors.New("biome should be: subtropical_forest, temperate_forest, desert or tundra"),
 		}.Filter()
 	}
 }
@@ -46,10 +46,14 @@ func ValidateBiomeType(value interface{}) error {
 // Map request model
 // swagger:model
 type Map struct {
-	// Biome type (desert, tropical_forest, temperate_forest, tundra)
-	// required: false
+	// Biome type (desert, subtropical_forest, temperate_forest, tundra)
+	// required: true
 	// example: temperate_forest
 	Biome BiomeType `json:"biome_type,omitempty"`
+	// SecondaryBiome type (desert, subtropical_forest, temperate_forest, tundra)
+	// required: false
+	// example: tundra
+	SecondaryBiome BiomeType `json:"secondary_biome_type,omitempty"`
 	// required: true
 	Ground *Ground `json:"ground,omitempty"`
 	// required: false
@@ -66,6 +70,7 @@ func (self Map) Validate() error {
 	err := validation.Errors{
 		"map": validation.ValidateStruct(&self,
 			validation.Field(&self.Biome, validation.Required, validation.By(ValidateBiomeType)),
+			validation.Field(&self.SecondaryBiome, validation.By(ValidateBiomeType)),
 			validation.Field(&self.Ground),
 			validation.Field(&self.Mountains),
 			validation.Field(&self.Canyon),
