@@ -234,11 +234,11 @@ func (self *mapBuilder) appendPropsToSlab(elementType grid.ElementType, generate
 						Id:         prop.AssertParts[id].Id,
 						Name:       prop.AssertParts[id].Name,
 						Dimensions: prop.AssertParts[id].Dimensions,
-						OffsetZ:    prop.AssertParts[id].OffsetZ,
+						//OffsetZ:    prop.AssertParts[id].OffsetZ,
 					}
 
-					rotation := math.GetRandomRotation(true, 5, "props")
-					self.addLayout(asset, i, j, element.Height+assetPart.OffsetZ, rotation)
+					//rotation := math.GetRandomRotation(true, 5, "props")
+					self.addLayout(asset, i+assetPart.OffsetX, j+assetPart.OffsetY, element.Height+assetPart.OffsetZ, assetPart.Rotation)
 
 					generatedSlab.AddAsset(asset)
 				}

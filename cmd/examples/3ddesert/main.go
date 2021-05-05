@@ -28,17 +28,17 @@ func main() {
 	mapService := taleslabservices.NewMapService(biomeLoader, secondaryBiomeLoader, encoder)
 
 	inputMap := &entities.Map{
-		Biome: entities.DesertBiomeType,
+		Biome: entities.DesertTestType,
 		Ground: &entities.Ground{
-			Width:             100,
-			Length:            100,
+			Width:             50,
+			Length:            50,
 			TerrainComplexity: 5,
 			ForceBaseLand:     true,
 		},
 		Props: &entities.Props{
-			StoneDensity: 300,
-			TreeDensity:  180,
-			MiscDensity:  350,
+			StoneDensity: 350,
+			TreeDensity:  350,
+			MiscDensity:  1000,
 		},
 		River: &entities.River{
 			HasRiver: false,

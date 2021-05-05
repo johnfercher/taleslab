@@ -15,6 +15,7 @@ const (
 	DesertBiomeType            BiomeType = "desert"
 	TundraBiomeType            BiomeType = "tundra"
 	BeachBiomeType             BiomeType = "beach"
+	DesertTestType             BiomeType = "desert_test"
 )
 
 func ValidateBiomeType(value interface{}) error {
