@@ -28,6 +28,20 @@
     "stone_wall": "big_stone_wall"
   },
   {
+    "biome_type": "desert_test",
+    "ground_blocks": {
+      "ground_type": ["ground_sand_small"],
+      "mountain_type": ["ground_sand_small"],
+      "base_ground_type": ["ground_sand_small"]
+    },
+    "prop_blocks": {
+      "tree_type": ["cactus_small", "cactus_big"],
+      "stone_type": ["stone_big"],
+      "misc_type": ["wizard_house"]
+    },
+    "stone_wall": "big_stone_wall"
+  },
+  {
     "biome_type": "tundra",
     "ground_blocks": {
       "ground_type": ["ground_snow_small"],

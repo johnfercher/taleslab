@@ -14,7 +14,10 @@ type AssetInfo struct {
 type AssetPart struct {
 	Id         []byte      `json:"id"`
 	Dimensions *Dimensions `json:"dimensions"`
+	OffsetX    int         `json:"offset_x"`
+	OffsetY    int         `json:"offset_y"`
 	OffsetZ    int         `json:"offset_z"`
+	Rotation   int         `json:"rotation"`
 	Name       string      `json:"name"`
 }
 

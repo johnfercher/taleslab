@@ -1,7 +1,7 @@
 package talespirecontracts
 
 type Vector3d struct {
-	X uint16 `json:"x"`
-	Y uint16 `json:"y"`
-	Z uint16 `json:"z"`
+	X int16 `json:"x"`
+	Y int16 `json:"y"`
+	Z int16 `json:"z"`
 }

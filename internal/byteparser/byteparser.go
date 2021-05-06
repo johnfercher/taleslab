@@ -103,6 +103,22 @@ func BufferToInt16(buf *bufio.Reader) (int16, error) {
 	return value, nil
 }
 
+func BufferToString(buf *bufio.Reader, bytesCount int) (string, error) {
+	packetBytes := make([]byte, bytesCount)
+
+	_, err := buf.Peek(bytesCount)
+	if err != nil {
+		return "", err
+	}
+
+	_, err = buf.Read(packetBytes)
+	if err != nil {
+		return "", err
+	}
+
+	return string(packetBytes), nil
+}
+
 func BufferToUint16(buf *bufio.Reader) (uint16, error) {
 	packetBytes := make([]byte, 2)
 

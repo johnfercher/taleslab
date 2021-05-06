@@ -1,6 +1,7 @@
 package taleslabservices
 
 import (
+	"fmt"
 	"github.com/johnfercher/taleslab/internal/api/apierror"
 	"github.com/johnfercher/taleslab/internal/math"
 	"github.com/johnfercher/taleslab/pkg/assetloader"
@@ -88,8 +89,11 @@ func (self *mapBuilder) Build() (string, apierror.ApiError) {
 	if self.ground == nil {
 		return "", apierror.New(400, "GroundType must be provided")
 	}
-
-	world := grid.TerrainGenerator(self.ground.Width, self.ground.Length, 2.0, 2.0,
+	world := grid.GenerateElementGrid(self.ground.Width, self.ground.Length, grid.Element{
+		ElementType: grid.GroundType,
+		Height:      0,
+	})
+	/*world := grid.TerrainGenerator(self.ground.Width, self.ground.Length, 2.0, 2.0,
 		self.ground.TerrainComplexity, self.ground.MinHeight, self.ground.ForceBaseLand)
 
 	if self.mountains != nil {
@@ -101,7 +105,7 @@ func (self *mapBuilder) Build() (string, apierror.ApiError) {
 
 	if self.canyon != nil && self.canyon.HasCanyon {
 		world = grid.DigCanyon(world, self.canyon.CanyonOffset)
-	}
+	}*/
 
 	//grid.PrintHeights(world)
 
@@ -129,12 +133,12 @@ func (self *mapBuilder) Build() (string, apierror.ApiError) {
 		}
 	}
 
-	groundBlocks := self.biomeLoader.GetConstructorKeys()
+	//groundBlocks := self.biomeLoader.GetConstructorKeys()
 	propKeys := self.biomeLoader.GetPropKeys()
 
-	for key := range groundBlocks {
+	/*for key := range groundBlocks {
 		self.appendConstructionSlab(key, slabGenerated, world)
-	}
+	}*/
 
 	for key := range propKeys {
 		self.appendPropsToSlab(key, slabGenerated, world, propsGrid)
@@ -194,9 +198,9 @@ func (self *mapBuilder) appendConstructionSlab(elementType grid.ElementType, gen
 						lastStoneWallY = j
 
 						for k := int(element.Height); k >= int(minValue.Height); k-- {
-							rotation := math.GetRandomRotation(minValue.ElementType == grid.BaseGroundType, 2, "stone_wall_rotation")
-							randomDistanceY := math.GetRandomValue(2, "y")
-							randomDistanceX := math.GetRandomValue(2, "x")
+							//rotation := math.GetRandomRotation(minValue.ElementType == grid.BaseGroundType, 2, "stone_wall_rotation")
+							//randomDistanceY := math.GetRandomValue(2, "y")
+							//randomDistanceX := math.GetRandomValue(2, "x")
 
 							stoneWallProp := self.biomeLoader.GetProp(self.biomeLoader.GetStoneWall())
 
@@ -207,13 +211,13 @@ func (self *mapBuilder) appendConstructionSlab(elementType grid.ElementType, gen
 								OffsetZ:    stoneWallProp.AssertParts[0].OffsetZ,
 							}
 
-							self.addLayout(stoneWall, i+randomDistanceX, j+randomDistanceY, int(k+stoneWall.OffsetZ)/3.0, rotation)
+							//self.addLayout(stoneWall, i+randomDistanceX, j+randomDistanceY, int(k+stoneWall.OffsetZ)/3.0, rotation)
 							generatedSlab.AddAsset(stoneWall)
 						}
 					}
 				} else {
 					for k := minValue.Height; k <= element.Height; k++ {
-						self.addLayout(asset, i, j, k+asset.OffsetZ, 768)
+						//self.addLayout(asset, i, j, k+asset.OffsetZ, 768)
 					}
 
 					generatedSlab.AddAsset(asset)
@@ -234,11 +238,11 @@ func (self *mapBuilder) appendPropsToSlab(elementType grid.ElementType, generate
 						Id:         prop.AssertParts[id].Id,
 						Name:       prop.AssertParts[id].Name,
 						Dimensions: prop.AssertParts[id].Dimensions,
-						OffsetZ:    prop.AssertParts[id].OffsetZ,
+						//OffsetZ:    prop.AssertParts[id].OffsetZ,
 					}
 
-					rotation := math.GetRandomRotation(true, 5, "props")
-					self.addLayout(asset, i, j, element.Height+assetPart.OffsetZ, rotation)
+					//rotation := math.GetRandomRotation(true, 5, "props")
+					self.addLayout(asset, i, j, element.Height, assetPart.Rotation, assetPart.OffsetX, assetPart.OffsetY, assetPart.OffsetZ)
 
 					generatedSlab.AddAsset(asset)
 				}
@@ -281,14 +285,18 @@ func (self *mapBuilder) generateMountainsGrid(minHeight int) [][][]grid.Element 
 	return mountainsGrid
 }
 
-func (self *mapBuilder) addLayout(asset *entities.Asset, x, y, z, rotation int) {
+func (self *mapBuilder) addLayout(asset *entities.Asset, x, y, z, rotation, offsetX, offsetY, offsetZ int) {
 	layout := &entities.Bounds{
 		Coordinates: &entities.Vector3d{
-			X: x * asset.Dimensions.Width,
-			Y: y * asset.Dimensions.Length,
-			Z: z * asset.Dimensions.Height,
+			X: (x * 100) + offsetX,
+			Y: (y * 160) + offsetY,
+			Z: (z * 200) + offsetZ,
 		},
-		Rotation: rotation + (y * asset.Dimensions.Length / 41),
+		Rotation: rotation + ((y + offsetY) / 41),
+	}
+
+	if offsetX != 0 || offsetY != 0 {
+		fmt.Printf("x:%d, y:%d, offsetX:%d, offsetY:%d\n", x, y, offsetX, offsetY)
 	}
 
 	asset.Layouts = append(asset.Layouts, layout)
