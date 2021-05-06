@@ -284,11 +284,11 @@ func (self *mapBuilder) generateMountainsGrid(minHeight int) [][][]grid.Element 
 func (self *mapBuilder) addLayout(asset *entities.Asset, x, y, z, rotation int) {
 	layout := &entities.Bounds{
 		Coordinates: &entities.Vector3d{
-			X: x * asset.Dimensions.Width,
-			Y: y * asset.Dimensions.Length,
-			Z: z * asset.Dimensions.Height,
+			X: x * 100,
+			Y: y,
+			Z: z * 200,
 		},
-		Rotation: rotation + (y * asset.Dimensions.Length / 41),
+		Rotation: rotation + (y / 41),
 	}
 
 	asset.Layouts = append(asset.Layouts, layout)
