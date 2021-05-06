@@ -1,9 +1,7 @@
 package mappers
 
 import (
-	"fmt"
 	"github.com/johnfercher/taleslab/pkg/assetloader"
-	"github.com/johnfercher/taleslab/pkg/taleslab/domain/consts"
 	"github.com/johnfercher/taleslab/pkg/talespire/talespirecontracts"
 )
 
@@ -34,7 +32,7 @@ func AssetInfoFromTalespireContract(assetId, assetType string, slab *talespireco
 	return assetInfo
 }
 
-func TalespireContractFromAssetInfo(assetInfo *assetloader.AssetInfo) *talespirecontracts.Slab {
+/*func TalespireContractFromAssetInfo(assetInfo *assetloader.AssetInfo) *talespirecontracts.Slab {
 	slab := &talespirecontracts.Slab{
 		MagicBytes:  consts.MagicBytes,
 		Version:     2,
@@ -47,8 +45,9 @@ func TalespireContractFromAssetInfo(assetInfo *assetloader.AssetInfo) *talespire
 			LayoutsCount: 0,
 			Layouts:      nil,
 		}
-		fmt.Println("%s%s", slab, asset)
+		//fmt.Println("%s%s", slab, asset)
 	}
 
-	return nil
+	return slab
 }
+*/

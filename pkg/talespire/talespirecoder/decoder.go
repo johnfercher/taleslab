@@ -105,9 +105,9 @@ func (self *decoder) decodeBounds(reader *bufio.Reader) (*talespirecontracts.Bou
 
 	return &talespirecontracts.Bounds{
 		Coordinates: &talespirecontracts.Vector3d{
-			X: DecodeX(centerX),
+			X: centerX,
 			Y: DecodeY(centerY),
-			Z: DecodeZ(centerZ),
+			Z: centerZ,
 		},
 		Rotation: rotation,
 	}, nil

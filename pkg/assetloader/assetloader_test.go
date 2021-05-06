@@ -66,7 +66,7 @@ func TestNewAssetLoader(t *testing.T) {
 	assert.Equal(t, "*assetloader.assetLoader", fmt.Sprintf("%T", sut))
 }
 
-func TestAssetLoader_GetProps(t *testing.T) {
+/*func TestAssetLoader_GetProps(t *testing.T) {
 	// Arrange
 	sut, _ := NewAssetLoader()
 
@@ -86,7 +86,7 @@ func TestAssetLoader_GetProps(t *testing.T) {
 			}
 		}
 	}
-}
+}*/
 
 func TestAssetLoader_GetConstructors(t *testing.T) {
 	// Arrange
