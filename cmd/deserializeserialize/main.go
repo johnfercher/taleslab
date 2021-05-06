@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	original := "H4sIAAAAAAAACzv369xFJgZGBgaG3ckJ5/Ni2B03v5zDE3U8PIOdAQQmAKUagPgEA4QGkjwQ2oGtgfEEWE0DYwqUZoDTAFUoNPRYAAAA"
+	original := "H4sIAAAAAAAACzv369xFJgYmBgaG/wc689svvfDcPrlnfsmSe72MQLHdyQnn82LYHTe/nMMTdTw8AyRmwvCC0YGNAQkAAGMl9FdEAAAA"
 
 	slabCompressor := bytecompressor.New()
 	decoder := talespirecoder.NewDecoder(slabCompressor)

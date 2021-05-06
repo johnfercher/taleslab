@@ -105,7 +105,7 @@ func (self *encoder) encodeAssetLayouts(slab *talespirecontracts.Slab) ([]byte, 
 	for _, asset := range slab.Assets {
 		for _, layout := range asset.Layouts {
 			// Center X
-			centerX, err := byteparser.BytesFromUint16(layout.Coordinates.X)
+			centerX, err := byteparser.BytesFromInt16(layout.Coordinates.X)
 			if err != nil {
 				return nil, err
 			}
@@ -113,7 +113,7 @@ func (self *encoder) encodeAssetLayouts(slab *talespirecontracts.Slab) ([]byte, 
 			layoutsArray = append(layoutsArray, centerX...)
 
 			// Center Z
-			centerZ, err := byteparser.BytesFromUint16(layout.Coordinates.Z)
+			centerZ, err := byteparser.BytesFromInt16(layout.Coordinates.Z)
 			if err != nil {
 				return nil, err
 			}
@@ -121,7 +121,7 @@ func (self *encoder) encodeAssetLayouts(slab *talespirecontracts.Slab) ([]byte, 
 			layoutsArray = append(layoutsArray, centerZ...)
 
 			// Center Y
-			centerY, err := byteparser.BytesFromUint16(EncodeY(layout.Coordinates.Y))
+			centerY, err := byteparser.BytesFromInt16(EncodeY(layout.Coordinates.Y))
 			if err != nil {
 				return nil, err
 			}

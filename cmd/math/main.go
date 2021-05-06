@@ -3,7 +3,7 @@ package main
 import "fmt"
 
 func main() {
-	offset := 205
+	offset := 108
 	remainder := offset % 100
 
 	fmt.Println(offset - remainder)

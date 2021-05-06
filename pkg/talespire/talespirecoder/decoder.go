@@ -83,17 +83,17 @@ func (self *decoder) Decode(slabBase64 string) (*talespirecontracts.Slab, error)
 }
 
 func (self *decoder) decodeBounds(reader *bufio.Reader) (*talespirecontracts.Bounds, error) {
-	centerX, err := byteparser.BufferToUint16(reader)
+	centerX, err := byteparser.BufferToInt16(reader)
 	if err != nil {
 		return nil, err
 	}
 
-	centerZ, err := byteparser.BufferToUint16(reader)
+	centerZ, err := byteparser.BufferToInt16(reader)
 	if err != nil {
 		return nil, err
 	}
 
-	centerY, err := byteparser.BufferToUint16(reader)
+	centerY, err := byteparser.BufferToInt16(reader)
 	if err != nil {
 		return nil, err
 	}
@@ -117,12 +117,12 @@ func (self *decoder) decodeAsset(reader *bufio.Reader) (*talespirecontracts.Asse
 	asset := &talespirecontracts.Asset{}
 
 	// Id
-	idBytes, err := byteparser.BufferToBytes(reader, 18)
+	idBytes, err := byteparser.BufferToString(reader, 18)
 	if err != nil {
 		return nil, err
 	}
-
-	asset.Id = append(asset.Id, idBytes...)
+	asset.IdString = idBytes
+	//asset.Id = append(asset.Id, idBytes...)
 
 	// Count
 	count, err := byteparser.BufferToInt16(reader)

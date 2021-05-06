@@ -37,9 +37,9 @@ func taleSpireAssetFromEntity(entity *entities.Asset) *talespirecontracts.Asset 
 func taleSpireBoundsFromEntity(entity *entities.Bounds) *talespirecontracts.Bounds {
 	taleSpire := &talespirecontracts.Bounds{
 		Coordinates: &talespirecontracts.Vector3d{
-			X: uint16(entity.Coordinates.X),
-			Y: uint16(entity.Coordinates.Y),
-			Z: uint16(entity.Coordinates.Z),
+			X: int16(entity.Coordinates.X),
+			Y: int16(entity.Coordinates.Y),
+			Z: int16(entity.Coordinates.Z),
 		},
 		Rotation: uint16(entity.Rotation),
 	}

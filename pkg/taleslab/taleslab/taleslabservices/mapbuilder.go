@@ -1,6 +1,7 @@
 package taleslabservices
 
 import (
+	"fmt"
 	"github.com/johnfercher/taleslab/internal/api/apierror"
 	"github.com/johnfercher/taleslab/internal/math"
 	"github.com/johnfercher/taleslab/pkg/assetloader"
@@ -88,8 +89,11 @@ func (self *mapBuilder) Build() (string, apierror.ApiError) {
 	if self.ground == nil {
 		return "", apierror.New(400, "GroundType must be provided")
 	}
-
-	world := grid.TerrainGenerator(self.ground.Width, self.ground.Length, 2.0, 2.0,
+	world := grid.GenerateElementGrid(self.ground.Width, self.ground.Length, grid.Element{
+		ElementType: grid.GroundType,
+		Height:      0,
+	})
+	/*world := grid.TerrainGenerator(self.ground.Width, self.ground.Length, 2.0, 2.0,
 		self.ground.TerrainComplexity, self.ground.MinHeight, self.ground.ForceBaseLand)
 
 	if self.mountains != nil {
@@ -101,7 +105,7 @@ func (self *mapBuilder) Build() (string, apierror.ApiError) {
 
 	if self.canyon != nil && self.canyon.HasCanyon {
 		world = grid.DigCanyon(world, self.canyon.CanyonOffset)
-	}
+	}*/
 
 	//grid.PrintHeights(world)
 
@@ -282,15 +286,17 @@ func (self *mapBuilder) generateMountainsGrid(minHeight int) [][][]grid.Element 
 }
 
 func (self *mapBuilder) addLayout(asset *entities.Asset, x, y, z, rotation, offsetX, offsetY, offsetZ int) {
-	remainderX := offsetX % 100
-	remainderY := offsetY % 200
 	layout := &entities.Bounds{
 		Coordinates: &entities.Vector3d{
-			X: ((x + offsetX - remainderX) * 100) + remainderX,
-			Y: y + offsetY,
-			Z: ((z + offsetZ - remainderY) * 200) + remainderY,
+			X: (x * 100) + offsetX,
+			Y: (y * 160) + offsetY,
+			Z: (z * 200) + offsetZ,
 		},
 		Rotation: rotation + ((y + offsetY) / 41),
+	}
+
+	if offsetX != 0 || offsetY != 0 {
+		fmt.Printf("x:%d, y:%d, offsetX:%d, offsetY:%d\n", x, y, offsetX, offsetY)
 	}
 
 	asset.Layouts = append(asset.Layouts, layout)
