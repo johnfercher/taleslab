@@ -22,14 +22,14 @@ func main() {
 
 	slab := entities.NewSlab()
 
-	asset := loader.GetConstructor("ground_nature_small")
+	asset := loader.GetProp("fire")
 	slab.AddAsset(&entities.Asset{
 		Id: asset.AssertParts[0].Id,
 	})
 
-	radius := 5
+	radius := 8
 
-	for i := 0.0; i < 2.0*3.14; i += 0.2 {
+	for i := 0.0; i < 4.0*3.14; i += 0.02 {
 		cos := math.Cos(i)
 		sin := math.Sin(i)
 
@@ -43,7 +43,7 @@ func main() {
 			Coordinates: &entities.Vector3d{
 				X: xPositiveTranslated,
 				Y: yPositiveTranslated,
-				Z: 0,
+				Z: int(i),
 			},
 			Rotation: 0,
 		}

@@ -1,5 +1,35 @@
 [
   {
+    "id": "fire",
+    "asset_parts": [
+      {
+        "id": "AAA0wD/Pk8fsSpNFmDCNyR1L",
+        "name": "fire",
+        "dimensions": {
+          "width": 1,
+          "length": 1,
+          "height": 1
+        },
+        "offset_z": 1
+      }
+    ]
+  },
+  {
+    "id": "curtains",
+    "asset_parts": [
+      {
+        "id": "AAD/wIlvh9LoSbeTjJ90pN6N",
+        "name": "curtains",
+        "dimensions": {
+          "width": 1,
+          "length": 1,
+          "height": 1
+        },
+        "offset_z": 1
+      }
+    ]
+  },
+  {
     "id": "dead_tree_big",
     "asset_parts": [
       {
@@ -260,6 +290,51 @@
       {
         "id": "AAA4on1Ypd2hT7gWtBrE3+CY",
         "name": "bull_skull",
+        "dimensions": {
+          "width": 1,
+          "length": 1,
+          "height": 1
+        },
+        "offset_z": 1
+      }
+    ]
+  },
+  {
+    "id": "pile_of_skulls",
+    "asset_parts": [
+      {
+        "id": "AACO0hU1fpL1Sb2s8IReXbIr",
+        "name": "pile_of_skulls",
+        "dimensions": {
+          "width": 1,
+          "length": 1,
+          "height": 1
+        },
+        "offset_z": 1
+      }
+    ]
+  },
+  {
+    "id": "down_skeleton",
+    "asset_parts": [
+      {
+        "id": "AACJ8RsIlPI9SZvwTTdq8Frl",
+        "name": "down_skeleton",
+        "dimensions": {
+          "width": 1,
+          "length": 1,
+          "height": 1
+        },
+        "offset_z": 1
+      }
+    ]
+  },
+  {
+    "id": "up_skeleton",
+    "asset_parts": [
+      {
+        "id": "AABpD31zfYUfSJSa6LSTCxGs",
+        "name": "up_skeleton",
         "dimensions": {
           "width": 1,
           "length": 1,
@@ -581,6 +656,81 @@
           "height": 1
         },
         "offset_z": 7
+      }
+    ]
+  },
+  {
+    "id": "dead_tree_small",
+    "asset_parts": [
+      {
+        "id": "AAAyjKzsRMCXTo2PFXqDlolW",
+        "name": "dead_tree_small",
+        "dimensions": {
+          "width": 1,
+          "length": 1,
+          "height": 1
+        },
+        "offset_z": 1
+      }
+    ]
+  },
+  {
+    "id": "dead_tree_tiny",
+    "asset_parts": [
+      {
+        "id": "AAAvnsCvczaRT7ixW53xU32m",
+        "name": "dead_tree_tiny",
+        "dimensions": {
+          "width": 1,
+          "length": 1,
+          "height": 1
+        },
+        "offset_z": 1
+      }
+    ]
+  },
+  {
+    "id": "cut_tree_with_moss",
+    "asset_parts": [
+      {
+        "id": "AAAJwulTUPqKQI+jDJu52wu3",
+        "name": "cut_tree_with_moss",
+        "dimensions": {
+          "width": 1,
+          "length": 1,
+          "height": 1
+        },
+        "offset_z": 1
+      }
+    ]
+  },
+  {
+    "id": "bush_tree",
+    "asset_parts": [
+      {
+        "id": "AACCVrko1CTBSK5AxfAkBMmx",
+        "name": "bush_tree",
+        "dimensions": {
+          "width": 1,
+          "length": 1,
+          "height": 1
+        },
+        "offset_z": 1
+      }
+    ]
+  },
+  {
+    "id": "small_green_crystal",
+    "asset_parts": [
+      {
+        "id": "AACkPsVL30iQSZ0R+jCZAImN",
+        "name": "small_green_crystal",
+        "dimensions": {
+          "width": 1,
+          "length": 1,
+          "height": 1
+        },
+        "offset_z": 1
       }
     ]
   }
