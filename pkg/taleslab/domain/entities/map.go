@@ -12,6 +12,7 @@ type BiomeType string
 const (
 	SubTropicalForestBiomeType BiomeType = "subtropical_forest"
 	TemperateForestBiomeType   BiomeType = "temperate_forest"
+	DeadForestBiomeType        BiomeType = "dead_forest"
 	DesertBiomeType            BiomeType = "desert"
 	TundraBiomeType            BiomeType = "tundra"
 	BeachBiomeType             BiomeType = "beach"
@@ -21,7 +22,7 @@ func ValidateBiomeType(value interface{}) error {
 	valueBiome, ok := value.(BiomeType)
 	if !ok {
 		return validation.Errors{
-			"invalid_biome": errors.New("biome should be: tropical_forest, temperate_forest, desert or tundra"),
+			"invalid_biome": errors.New("biome should be: subtropical_forest, temperate_forest, dead_forest, desert or tundra"),
 		}.Filter()
 	}
 
@@ -30,15 +31,15 @@ func ValidateBiomeType(value interface{}) error {
 		return nil
 	case TemperateForestBiomeType:
 		return nil
+	case DeadForestBiomeType:
+		return nil
 	case DesertBiomeType:
 		return nil
 	case TundraBiomeType:
 		return nil
-	case BeachBiomeType:
-		return nil
 	default:
 		return validation.Errors{
-			"invalid_biome": errors.New("biome should be: subtropical_forest, temperate_forest, desert or tundra"),
+			"invalid_biome": errors.New("biome should be: subtropical_forest, temperate_forest, dead_forest, desert or tundra"),
 		}.Filter()
 	}
 }
@@ -46,11 +47,11 @@ func ValidateBiomeType(value interface{}) error {
 // Map request model
 // swagger:model
 type Map struct {
-	// Biome type (desert, subtropical_forest, temperate_forest, tundra)
+	// Biome type (subtropical_forest, temperate_forest, dead_forest, desert, tundra)
 	// required: true
 	// example: temperate_forest
 	Biome BiomeType `json:"biome_type,omitempty"`
-	// SecondaryBiome type (desert, subtropical_forest, temperate_forest, tundra)
+	// SecondaryBiome type (subtropical_forest, temperate_forest, dead_forest, desert, tundra)
 	// required: false
 	// example: tundra
 	SecondaryBiome BiomeType `json:"secondary_biome_type,omitempty"`

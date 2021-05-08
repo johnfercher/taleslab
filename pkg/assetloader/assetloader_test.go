@@ -120,8 +120,9 @@ func TestAssetLoader_GetProp(t *testing.T) {
 		assert.NotNil(t, sut.GetProp(mappedPropKey), fmt.Sprintf("ornament not loaded %s", mappedPropKey))
 	}
 
-	for loadedPropKey := range sut.GetProps() {
-		assert.NotNil(t, mappedProps[loadedPropKey], fmt.Sprintf("ornament not mapped %s", loadedPropKey))
+	loadedProps := sut.GetProps()
+	for loadedPropKey := range loadedProps {
+		assert.True(t, mappedProps[loadedPropKey], fmt.Sprintf("ornament not mapped %s", loadedPropKey))
 	}
 }
 
@@ -136,7 +137,7 @@ func TestAssetLoader_GetConstructor(t *testing.T) {
 	}
 
 	for loadConstructorKey := range sut.GetConstructors() {
-		assert.NotNil(t, mappedConstructors[loadConstructorKey], fmt.Sprintf("constructor not mapped %s", loadConstructorKey))
+		assert.True(t, mappedConstructors[loadConstructorKey], fmt.Sprintf("constructor not mapped %s", loadConstructorKey))
 	}
 }
 
@@ -177,6 +178,16 @@ func getMappedProps() map[string]bool {
 		"two_floor_pine_tree_with_trunk":      true,
 		"snow_two_floor_pine_tree":            true,
 		"snow_two_floor_pine_tree_with_trunk": true,
+		"up_skeleton":                         true,
+		"fire":                                true,
+		"dead_tree_tiny":                      true,
+		"dead_tree_small":                     true,
+		"cut_tree_with_moss":                  true,
+		"down_skeleton":                       true,
+		"bush_tree":                           true,
+		"pile_of_skulls":                      true,
+		"small_green_crystal":                 true,
+		"curtains":                            true,
 	}
 }
 
@@ -190,5 +201,7 @@ func getMappedConstructors() map[string]bool {
 		"mud_small":                     true,
 		"mud_with_feather_small":        true,
 		"clay_with_feather_small":       true,
+		"dead_land":                     true,
+		"cavern_one_rock":               true,
 	}
 }

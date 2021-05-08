@@ -32,17 +32,17 @@ func RandomlyFillEmptyGridSlots(worldGrid [][]Element, propsGrid [][]Element,
 				continue
 			}
 
-			// Avoid to add stones in limits
+			// Avoid to add in limits
 			if i == 0 || i == width-1 || j == 0 || j == length-1 {
 				continue
 			}
 
-			// Avoid to add stones too close
+			// Avoid to add to close
 			if i > 1 && (propsGrid[i-1][j].ElementType != NoneType || propsGrid[i-2][j].ElementType != NoneType) {
 				continue
 			}
 
-			// Avoid to add stones too close
+			// Avoid to add to close
 			if j > 1 && (propsGrid[i][j-1].ElementType != NoneType || propsGrid[i][j-2].ElementType != NoneType) {
 				continue
 			}

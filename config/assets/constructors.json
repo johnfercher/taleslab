@@ -110,5 +110,33 @@
         }
       }
     ]
+  },
+  {
+    "id": "dead_land",
+    "asset_parts": [
+      {
+        "id": "AADJZzyFjheySZt29/gMAGCj",
+        "name": "dead_land",
+        "dimensions": {
+          "width": 1,
+          "length": 1,
+          "height": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": "cavern_one_rock",
+    "asset_parts": [
+      {
+        "id": "AAA1ImrOT2boQ6dE1XQ2I3Ad",
+        "name": "dead_land",
+        "dimensions": {
+          "width": 1,
+          "length": 1,
+          "height": 1
+        }
+      }
+    ]
   }
 ]

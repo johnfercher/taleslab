@@ -119,12 +119,12 @@ func (self *mapBuilder) Build() (string, apierror.ApiError) {
 		})
 
 		propsGrid = grid.RandomlyFillEmptyGridSlots(world, propsGrid, self.props.TreeDensity, grid.TreeType, func(element grid.Element) bool {
-			return element.ElementType == grid.GroundType || element.ElementType == grid.MountainType
+			return element.ElementType == grid.GroundType || element.ElementType == grid.MountainType || element.ElementType == grid.BaseGroundType
 		})
 
 		if self.props.MiscDensity != 0 {
 			propsGrid = grid.RandomlyFillEmptyGridSlots(world, propsGrid, self.props.MiscDensity, grid.MiscType, func(element grid.Element) bool {
-				return element.ElementType != grid.NoneType
+				return element.ElementType == grid.GroundType || element.ElementType == grid.MountainType || element.ElementType == grid.BaseGroundType
 			})
 		}
 	}
