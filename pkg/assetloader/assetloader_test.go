@@ -187,7 +187,6 @@ func getMappedProps() map[string]bool {
 		"bush_tree":                           true,
 		"pile_of_skulls":                      true,
 		"small_green_crystal":                 true,
-		"curtains":                            true,
 	}
 }
 
