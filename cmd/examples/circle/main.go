@@ -3,10 +3,10 @@ package main
 import (
 	"fmt"
 	"github.com/johnfercher/taleslab/internal/bytecompressor"
+	"github.com/johnfercher/taleslab/internal/talespireadapter/talespirecoder"
 	"github.com/johnfercher/taleslab/pkg/assetloader"
-	"github.com/johnfercher/taleslab/pkg/mappers"
-	"github.com/johnfercher/taleslab/pkg/taleslab/domain/entities"
-	"github.com/johnfercher/taleslab/pkg/talespire/talespirecoder"
+	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"
+	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabmappers"
 	"log"
 	"math"
 )
@@ -20,10 +20,10 @@ func main() {
 	compressor := bytecompressor.New()
 	encoder := talespirecoder.NewEncoder(compressor)
 
-	slab := entities.NewSlab()
+	slab := taleslabentities.NewSlab()
 
 	asset := loader.GetProp("fire")
-	slab.AddAsset(&entities.Asset{
+	slab.AddAsset(&taleslabentities.Asset{
 		Id: asset.AssertParts[0].Id,
 	})
 
@@ -39,8 +39,8 @@ func main() {
 		xPositiveTranslated := radius + xRounded
 		yPositiveTranslated := radius + yRounded
 
-		layout := &entities.Bounds{
-			Coordinates: &entities.Vector3d{
+		layout := &taleslabentities.Bounds{
+			Coordinates: &taleslabentities.Vector3d{
 				X: xPositiveTranslated,
 				Y: yPositiveTranslated,
 				Z: int(i),
@@ -51,7 +51,7 @@ func main() {
 		slab.AddLayoutToAsset(asset.AssertParts[0].Id, layout)
 	}
 
-	taleSpireSlab := mappers.TaleSpireSlabFromEntity(slab)
+	taleSpireSlab := taleslabmappers.TaleSpireSlabFromEntity(slab)
 
 	base64, err := encoder.Encode(taleSpireSlab)
 

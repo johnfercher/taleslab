@@ -1,10 +1,12 @@
 package grid
 
 import (
+	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts"
+	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"
 	"math"
 )
 
-func DigRiver(grid [][]Element) [][]Element {
+func DigRiver(grid [][]taleslabentities.Element) [][]taleslabentities.Element {
 	xFrequency := 2.0
 
 	x := len(grid)
@@ -17,24 +19,24 @@ func DigRiver(grid [][]Element) [][]Element {
 
 		randomY := uint16(gain*math.Sin(yNormalizedValue*math.Pi)) + uint16(offset)
 
-		grid[i][randomY] = Element{
+		grid[i][randomY] = taleslabentities.Element{
 			Height:      0,
-			ElementType: RiverType,
+			ElementType: taleslabconsts.RiverType,
 		}
-		grid[i][randomY+1] = Element{
+		grid[i][randomY+1] = taleslabentities.Element{
 			Height:      0,
-			ElementType: RiverType,
+			ElementType: taleslabconsts.RiverType,
 		}
-		grid[i][randomY+2] = Element{
+		grid[i][randomY+2] = taleslabentities.Element{
 			Height:      0,
-			ElementType: RiverType,
+			ElementType: taleslabconsts.RiverType,
 		}
 	}
 
 	return grid
 }
 
-func DigCanyon(grid [][]Element, offset int) [][]Element {
+func DigCanyon(grid [][]taleslabentities.Element, offset int) [][]taleslabentities.Element {
 	yFrequency := 2.0
 
 	y := len(grid[0])
@@ -47,9 +49,9 @@ func DigCanyon(grid [][]Element, offset int) [][]Element {
 		randomX := uint16(gain*math.Sin(yNormalizedValue*math.Pi)) + uint16(offset)
 
 		for x := 0; x < int(randomX); x++ {
-			grid[x][j] = Element{
+			grid[x][j] = taleslabentities.Element{
 				Height:      1,
-				ElementType: BaseGroundType,
+				ElementType: taleslabconsts.BaseGroundType,
 			}
 		}
 	}

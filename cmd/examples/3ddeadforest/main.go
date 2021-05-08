@@ -4,11 +4,12 @@ import (
 	"context"
 	"fmt"
 	"github.com/johnfercher/taleslab/internal/bytecompressor"
+	"github.com/johnfercher/taleslab/internal/talespireadapter/talespirecoder"
 	"github.com/johnfercher/taleslab/pkg/assetloader"
-	"github.com/johnfercher/taleslab/pkg/biomeloader"
-	"github.com/johnfercher/taleslab/pkg/taleslab/domain/entities"
-	"github.com/johnfercher/taleslab/pkg/taleslab/taleslab/taleslabservices"
-	"github.com/johnfercher/taleslab/pkg/talespire/talespirecoder"
+	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts"
+	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"
+	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabrepositories"
+	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabservices"
 	"log"
 )
 
@@ -23,24 +24,24 @@ func main() {
 		log.Fatal(err.Error())
 	}
 
-	biomeLoader := biomeloader.NewBiomeLoader(assetLoader)
-	secondaryBiomeLoader := biomeloader.NewBiomeLoader(assetLoader)
-	mapService := taleslabservices.NewMapService(biomeLoader, secondaryBiomeLoader, encoder)
+	biomeRepository := taleslabrepositories.NewBiomeRepository(assetLoader)
+	secondaryBiomeRepository := taleslabrepositories.NewBiomeRepository(assetLoader)
+	mapService := taleslabservices.NewMapService(biomeRepository, secondaryBiomeRepository, encoder)
 
-	inputMap := &entities.Map{
-		Biome: entities.DeadForestBiomeType,
-		Ground: &entities.Ground{
+	inputMap := &taleslabentities.Map{
+		Biome: taleslabconsts.DeadForestBiomeType,
+		Ground: &taleslabentities.Ground{
 			Width:             80,
 			Length:            80,
 			TerrainComplexity: 5,
 			ForceBaseLand:     true,
 		},
-		Props: &entities.Props{
+		Props: &taleslabentities.Props{
 			StoneDensity: 300,
 			TreeDensity:  15,
 			MiscDensity:  130,
 		},
-		River: &entities.River{
+		River: &taleslabentities.River{
 			HasRiver: false,
 		},
 	}

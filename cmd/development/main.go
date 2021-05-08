@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/johnfercher/taleslab/internal/bytecompressor"
-	"github.com/johnfercher/taleslab/pkg/talespire/talespirecoder"
+	"github.com/johnfercher/taleslab/internal/talespireadapter/talespirecoder"
 	"log"
 )
 

@@ -24,11 +24,11 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/johnfercher/taleslab/internal/api/apiencodes"
 	"github.com/johnfercher/taleslab/internal/bytecompressor"
+	"github.com/johnfercher/taleslab/internal/talespireadapter/talespirecoder"
 	"github.com/johnfercher/taleslab/pkg/assetloader"
-	"github.com/johnfercher/taleslab/pkg/biomeloader"
-	"github.com/johnfercher/taleslab/pkg/taleslab/taleslab/taleslabhttp"
-	"github.com/johnfercher/taleslab/pkg/taleslab/taleslab/taleslabservices"
-	"github.com/johnfercher/taleslab/pkg/talespire/talespirecoder"
+	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabhttp"
+	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabrepositories"
+	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabservices"
 	"github.com/robertbakker/swaggerui"
 	"log"
 	"net/http"
@@ -45,8 +45,8 @@ func main() {
 		log.Fatal(err.Error())
 	}
 
-	biomeLoader := biomeloader.NewBiomeLoader(assetLoader)
-	secondaryBiomeLoader := biomeloader.NewBiomeLoader(assetLoader)
+	biomeLoader := taleslabrepositories.NewBiomeRepository(assetLoader)
+	secondaryBiomeLoader := taleslabrepositories.NewBiomeRepository(assetLoader)
 	mapService := taleslabservices.NewMapService(biomeLoader, secondaryBiomeLoader, encoder)
 
 	serverOptions := []httptransport.ServerOption{

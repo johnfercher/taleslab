@@ -3,10 +3,10 @@ package main
 import (
 	"fmt"
 	"github.com/johnfercher/taleslab/internal/bytecompressor"
+	"github.com/johnfercher/taleslab/internal/talespireadapter/talespirecoder"
 	"github.com/johnfercher/taleslab/pkg/assetloader"
-	"github.com/johnfercher/taleslab/pkg/mappers"
-	"github.com/johnfercher/taleslab/pkg/taleslab/domain/entities"
-	"github.com/johnfercher/taleslab/pkg/talespire/talespirecoder"
+	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"
+	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabmappers"
 	"log"
 	"math/rand"
 )
@@ -20,11 +20,11 @@ func main() {
 	compressor := bytecompressor.New()
 	encoder := talespirecoder.NewEncoder(compressor)
 
-	slab := entities.NewSlab()
+	slab := taleslabentities.NewSlab()
 
 	constructor := loader.GetConstructor("ground_nature_small")
 
-	slab.AddAsset(&entities.Asset{
+	slab.AddAsset(&taleslabentities.Asset{
 		Id: constructor.AssertParts[0].Id,
 	})
 
@@ -36,8 +36,8 @@ func main() {
 		for j := ySize; j > 0; j-- {
 			for k := zSize; k > 0; k-- {
 				if rand.Int()%2 == 0 {
-					layout := &entities.Bounds{
-						Coordinates: &entities.Vector3d{
+					layout := &taleslabentities.Bounds{
+						Coordinates: &taleslabentities.Vector3d{
 							X: i - 1,
 							Y: j - 1,
 							Z: k - 1,
@@ -51,7 +51,7 @@ func main() {
 		}
 	}
 
-	taleSpireSlab := mappers.TaleSpireSlabFromEntity(slab)
+	taleSpireSlab := taleslabmappers.TaleSpireSlabFromEntity(slab)
 
 	base64, err := encoder.Encode(taleSpireSlab)
 

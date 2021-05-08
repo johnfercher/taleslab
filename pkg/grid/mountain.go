@@ -1,18 +1,20 @@
 package grid
 
 import (
+	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts"
+	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"
 	"math"
 	"math/rand"
 	"time"
 )
 
-func TerrainGenerator(x, y int, xFrequency, yFrequency, gain float64, minHeight int, forceBaseLand bool) [][]Element {
-	groundHeight := [][]Element{}
+func TerrainGenerator(x, y int, xFrequency, yFrequency, gain float64, minHeight int, forceBaseLand bool) [][]taleslabentities.Element {
+	groundHeight := [][]taleslabentities.Element{}
 
 	for i := 0; i < x; i++ {
-		array := []Element{}
+		array := []taleslabentities.Element{}
 		for j := 0; j < y; j++ {
-			array = append(array, Element{Height: 0, ElementType: GroundType})
+			array = append(array, taleslabentities.Element{Height: 0, ElementType: taleslabconsts.GroundType})
 		}
 		groundHeight = append(groundHeight, array)
 	}
@@ -43,7 +45,7 @@ func TerrainGenerator(x, y int, xFrequency, yFrequency, gain float64, minHeight 
 
 			// Remove Ground
 			if !forceBaseLand && heightAvg == 0 {
-				groundHeight[i][j].ElementType = NoneType
+				groundHeight[i][j].ElementType = taleslabconsts.NoneType
 			}
 		}
 	}
@@ -51,16 +53,16 @@ func TerrainGenerator(x, y int, xFrequency, yFrequency, gain float64, minHeight 
 	return groundHeight
 }
 
-func MountainGenerator(x, y int, gain float64, minHeight int) [][]Element {
+func MountainGenerator(x, y int, gain float64, minHeight int) [][]taleslabentities.Element {
 	xFrequency := 2.0
 	yFrequency := 2.0
 
-	groundHeight := [][]Element{}
+	groundHeight := [][]taleslabentities.Element{}
 
 	for i := 0; i < x; i++ {
-		array := []Element{}
+		array := []taleslabentities.Element{}
 		for j := 0; j < y; j++ {
-			array = append(array, Element{0, MountainType})
+			array = append(array, taleslabentities.Element{0, taleslabconsts.MountainType})
 		}
 		groundHeight = append(groundHeight, array)
 	}

@@ -6,32 +6,38 @@
 #### Request
 ```
 [POST] /api/generate/map
-
 {
-    "biome":"forest",
-    "ground": {
-        "width": 70,
-        "length": 70,
-        "terrain_complexity": 5,
-        "force_base_land": false
-    },
-    "props": {
-        "tree_density": 11,
-        "props_density": 83
-    },
-    "mountains":{
-        "min_x": 15,
-        "rand_x": 30,
-        "min_y": 15,
-        "rand_y": 30,
-        "min_complexity": 3,
-        "rand_complexity": 6,
-        "min_height": 10,
-        "rand_height": 10
-    },
-    "river": {
-        "has_river": true
-    }
+  "biome_type": "temperate_forest",
+  "canyon": {
+    "canyon_offset": 10,
+    "has_canyon": true
+  },
+  "ground": {
+    "force_base_land": false,
+    "length": 70,
+    "min_height": 5,
+    "terrain_complexity": 5,
+    "width": 70
+  },
+  "mountains": {
+    "min_complexity": 3,
+    "min_height": 10,
+    "min_x": 15,
+    "min_y": 15,
+    "rand_complexity": 6,
+    "rand_height": 10,
+    "rand_x": 30,
+    "rand_y": 30
+  },
+  "props": {
+    "misc_density": 83,
+    "stone_density": 83,
+    "tree_density": 11
+  },
+  "river": {
+    "has_river": true
+  },
+  "secondary_biome_type": "tundra"
 }
 ```
 #### Response
