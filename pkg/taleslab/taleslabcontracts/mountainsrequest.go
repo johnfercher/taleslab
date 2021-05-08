@@ -1,4 +1,4 @@
-package taleslabentities
+package taleslabcontracts
 
 import validation "github.com/go-ozzo/ozzo-validation"
 

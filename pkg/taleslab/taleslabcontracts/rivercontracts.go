@@ -1,4 +1,4 @@
-package taleslabentities
+package taleslabcontracts
 
 // swagger:model
 type River struct {

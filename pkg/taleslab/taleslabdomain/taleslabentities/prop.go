@@ -1,29 +1,19 @@
 package taleslabentities
 
-import validation "github.com/go-ozzo/ozzo-validation"
-
-// swagger:model
-type Props struct {
-	// Density of trees on the map
-	// required: true
-	// example: 11
-	TreeDensity int `json:"tree_density"`
-	// Density of stones on the map
-	// required: false
-	// example: 83
-	StoneDensity int `json:"stone_density"`
-	// Density of misc on the map
-	// required: false
-	// example: 83
-	MiscDensity int `json:"misc_density"`
+type Prop struct {
+	Id    string  `json:"id"`
+	Parts []*Part `json:"asset_parts"`
 }
 
-func (self Props) Validate() error {
-	validate := validation.ValidateStruct(&self,
-		validation.Field(&self.TreeDensity, validation.Min(0)),
-		validation.Field(&self.StoneDensity, validation.Min(0)),
-		validation.Field(&self.MiscDensity, validation.Min(0)),
-	)
+type Part struct {
+	Id         []byte      `json:"id"`
+	Dimensions *Dimensions `json:"dimensions"`
+	OffsetZ    int         `json:"offset_z"`
+	Name       string      `json:"name"`
+}
 
-	return validate
+type Dimensions struct {
+	Width  int `json:"width"`
+	Length int `json:"length"`
+	Height int `json:"height"`
 }

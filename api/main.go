@@ -25,7 +25,7 @@ import (
 	"github.com/johnfercher/taleslab/internal/api/apiencodes"
 	"github.com/johnfercher/taleslab/internal/bytecompressor"
 	"github.com/johnfercher/taleslab/internal/talespireadapter/talespirecoder"
-	"github.com/johnfercher/taleslab/pkg/assetloader"
+	"github.com/johnfercher/taleslab/pkg/proploader"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabhttp"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabrepositories"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabservices"
@@ -40,7 +40,7 @@ func main() {
 	byteCompressor := bytecompressor.New()
 	encoder := talespirecoder.NewEncoder(byteCompressor)
 
-	assetLoader, err := assetloader.NewAssetLoader()
+	assetLoader, err := proploader.NewPropLoader()
 	if err != nil {
 		log.Fatal(err.Error())
 	}

@@ -6,7 +6,6 @@ import (
 	"github.com/johnfercher/taleslab/internal/api/apierror"
 	"github.com/johnfercher/taleslab/internal/talespireadapter/talespirecoder"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabcontracts"
-	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabrepositories"
 )
 
@@ -24,7 +23,7 @@ func NewMapService(biomeLoader taleslabrepositories.BiomeRepository, secondaryBi
 	}
 }
 
-func (self *mapService) Generate(ctx context.Context, inputMap *taleslabentities.Map) (*taleslabcontracts.MapResponse, apierror.ApiError) {
+func (self *mapService) Generate(ctx context.Context, inputMap *taleslabcontracts.Map) (*taleslabcontracts.MapResponse, apierror.ApiError) {
 	builder := NewMapBuilder(self.biomeLoader, self.secondaryBiomeLoader, self.encoder).
 		SetBiome(inputMap.Biome).
 		SetSecondaryBiome(inputMap.SecondaryBiome).

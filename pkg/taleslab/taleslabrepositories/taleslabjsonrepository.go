@@ -2,7 +2,7 @@ package taleslabrepositories
 
 import (
 	"encoding/json"
-	"github.com/johnfercher/taleslab/pkg/assetloader"
+	"github.com/johnfercher/taleslab/pkg/proploader"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"
 	"io/ioutil"
@@ -11,11 +11,11 @@ import (
 
 type biomeJsonRepository struct {
 	biomeType   taleslabconsts.BiomeType
-	assetLoader assetloader.AssetLoader
+	assetLoader proploader.PropLoader
 	biomes      map[taleslabconsts.BiomeType]taleslabentities.Biome
 }
 
-func NewBiomeRepository(assetLoader assetloader.AssetLoader) *biomeJsonRepository {
+func NewBiomeRepository(assetLoader proploader.PropLoader) *biomeJsonRepository {
 	reposiktory := &biomeJsonRepository{
 		assetLoader: assetLoader,
 	}
@@ -34,10 +34,6 @@ func (self *biomeJsonRepository) GetConstructorAssets(elementType taleslabconsts
 	return self.biomes[self.biomeType].GroundBlocks[elementType]
 }
 
-func (self *biomeJsonRepository) GetConstructor(id string) *assetloader.AssetInfo {
-	return self.assetLoader.GetConstructor(id)
-}
-
 func (self *biomeJsonRepository) GetPropKeys() map[taleslabconsts.ElementType][]string {
 	return self.biomes[self.biomeType].PropBlocks
 }
@@ -46,7 +42,7 @@ func (self *biomeJsonRepository) GetPropAssets(elementType taleslabconsts.Elemen
 	return self.biomes[self.biomeType].PropBlocks[elementType]
 }
 
-func (self *biomeJsonRepository) GetProp(id string) *assetloader.AssetInfo {
+func (self *biomeJsonRepository) GetProp(id string) *taleslabentities.Prop {
 	return self.assetLoader.GetProp(id)
 }
 

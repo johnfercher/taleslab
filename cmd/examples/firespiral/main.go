@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/johnfercher/taleslab/internal/bytecompressor"
 	"github.com/johnfercher/taleslab/internal/talespireadapter/talespirecoder"
-	"github.com/johnfercher/taleslab/pkg/assetloader"
+	"github.com/johnfercher/taleslab/pkg/proploader"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabmappers"
 	"log"
@@ -12,7 +12,7 @@ import (
 )
 
 func main() {
-	loader, err := assetloader.NewAssetLoader()
+	loader, err := proploader.NewPropLoader()
 	if err != nil {
 		log.Fatal(err.Error())
 	}
@@ -37,7 +37,7 @@ func main() {
 		yPositiveTranslated := radius + yRounded
 
 		asset := &taleslabentities.Asset{
-			Id: asset.AssertParts[0].Id,
+			Id: asset.Parts[0].Id,
 			Coordinates: &taleslabentities.Vector3d{
 				X: xPositiveTranslated,
 				Y: yPositiveTranslated,

@@ -1,6 +1,8 @@
-package taleslabentities
+package taleslabcontracts
 
-import validation "github.com/go-ozzo/ozzo-validation"
+import (
+	validation "github.com/go-ozzo/ozzo-validation"
+)
 
 // swagger:model
 type Canyon struct {

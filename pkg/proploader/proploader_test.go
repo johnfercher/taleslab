@@ -1,8 +1,9 @@
-package assetloader
+package proploader
 
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"
 	"github.com/stretchr/testify/assert"
 	"io/ioutil"
 	"log"
@@ -12,8 +13,7 @@ import (
 )
 
 var AppBaseDir = ""
-var rawProps []AssetInfo
-var rawConstructors []AssetInfo
+var rawProps []taleslabentities.Prop
 
 func init() {
 	if AppBaseDir != "" {
@@ -35,40 +35,30 @@ func init() {
 		log.Fatal(err.Error())
 	}
 
-	ornamentBytes, err := ioutil.ReadFile("./config/assets/ornaments.json")
+	propsBytes, err := ioutil.ReadFile("./config/assets/props.json")
 	if err != nil {
 		log.Fatal(err.Error())
 	}
 
-	err = json.Unmarshal(ornamentBytes, &rawProps)
-	if err != nil {
-		log.Fatal(err.Error())
-	}
-
-	constructorsBytes, err := ioutil.ReadFile("./config/assets/constructors.json")
-	if err != nil {
-		log.Fatal(err.Error())
-	}
-
-	err = json.Unmarshal(constructorsBytes, &rawConstructors)
+	err = json.Unmarshal(propsBytes, &rawProps)
 	if err != nil {
 		log.Fatal(err.Error())
 	}
 }
 
-func TestNewAssetLoader(t *testing.T) {
+func TestNewPropLoader(t *testing.T) {
 	// Act
-	sut, err := NewAssetLoader()
+	sut, err := NewPropLoader()
 
 	// Assert
 	assert.Nil(t, err)
 	assert.NotNil(t, sut)
-	assert.Equal(t, "*assetloader.assetLoader", fmt.Sprintf("%T", sut))
+	assert.Equal(t, "*proploader.propLoader", fmt.Sprintf("%T", sut))
 }
 
 func TestAssetLoader_GetProps(t *testing.T) {
 	// Arrange
-	sut, _ := NewAssetLoader()
+	sut, _ := NewPropLoader()
 
 	// Act
 	props := sut.GetProps()
@@ -88,32 +78,10 @@ func TestAssetLoader_GetProps(t *testing.T) {
 	}
 }
 
-func TestAssetLoader_GetConstructors(t *testing.T) {
-	// Arrange
-	sut, _ := NewAssetLoader()
-
-	// Act
-	constructors := sut.GetConstructors()
-
-	// Assert
-	assert.NotNil(t, constructors)
-	assert.Equal(t, len(rawConstructors), len(constructors), "different quantity array loaded x map returned")
-	assert.Equal(t, len(getMappedConstructors()), len(constructors), "different quantity mappeds x map returned")
-
-	for i := 0; i < len(rawConstructors); i++ {
-		for j := 0; j < len(rawConstructors); j++ {
-			if i != j {
-				assert.NotEqual(t, rawConstructors[i].Id, rawConstructors[j].Id, fmt.Sprintf("repeated constructors ids, name: %s", rawConstructors[i].Id))
-				assert.NotEqual(t, rawConstructors[i].Id, rawConstructors[j].Id, fmt.Sprintf("repeated constructors names, id %s", rawConstructors[i].Id))
-			}
-		}
-	}
-}
-
 func TestAssetLoader_GetProp(t *testing.T) {
 	// Arrange
 	mappedProps := getMappedProps()
-	sut, _ := NewAssetLoader()
+	sut, _ := NewPropLoader()
 
 	// Act & Assert
 	for mappedPropKey := range mappedProps {
@@ -123,21 +91,6 @@ func TestAssetLoader_GetProp(t *testing.T) {
 	loadedProps := sut.GetProps()
 	for loadedPropKey := range loadedProps {
 		assert.True(t, mappedProps[loadedPropKey], fmt.Sprintf("ornament not mapped %s", loadedPropKey))
-	}
-}
-
-func TestAssetLoader_GetConstructor(t *testing.T) {
-	// Arrange
-	mappedConstructors := getMappedConstructors()
-	sut, _ := NewAssetLoader()
-
-	// Act & Assert
-	for mappedConstructorKey := range mappedConstructors {
-		assert.NotNil(t, sut.GetConstructor(mappedConstructorKey), fmt.Sprintf("constructor not loaded %s", mappedConstructorKey))
-	}
-
-	for loadConstructorKey := range sut.GetConstructors() {
-		assert.True(t, mappedConstructors[loadConstructorKey], fmt.Sprintf("constructor not mapped %s", loadConstructorKey))
 	}
 }
 
@@ -188,20 +141,15 @@ func getMappedProps() map[string]bool {
 		"pile_of_skulls":                      true,
 		"small_green_crystal":                 true,
 		"curtains":                            true,
-	}
-}
-
-func getMappedConstructors() map[string]bool {
-	return map[string]bool{
-		"ground_nature_big":             true,
-		"ground_nature_with_stones_big": true,
-		"ground_nature_small":           true,
-		"ground_sand_small":             true,
-		"ground_snow_small":             true,
-		"mud_small":                     true,
-		"mud_with_feather_small":        true,
-		"clay_with_feather_small":       true,
-		"dead_land":                     true,
-		"cavern_one_rock":               true,
+		"ground_nature_big":                   true,
+		"ground_nature_with_stones_big":       true,
+		"ground_nature_small":                 true,
+		"ground_sand_small":                   true,
+		"ground_snow_small":                   true,
+		"mud_small":                           true,
+		"mud_with_feather_small":              true,
+		"clay_with_feather_small":             true,
+		"dead_land":                           true,
+		"cavern_one_rock":                     true,
 	}
 }

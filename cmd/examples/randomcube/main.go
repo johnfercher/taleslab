@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/johnfercher/taleslab/internal/bytecompressor"
 	"github.com/johnfercher/taleslab/internal/talespireadapter/talespirecoder"
-	"github.com/johnfercher/taleslab/pkg/assetloader"
+	"github.com/johnfercher/taleslab/pkg/proploader"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabmappers"
 	"log"
@@ -12,7 +12,7 @@ import (
 )
 
 func main() {
-	loader, err := assetloader.NewAssetLoader()
+	loader, err := proploader.NewPropLoader()
 	if err != nil {
 		log.Fatal(err.Error())
 	}
@@ -22,7 +22,7 @@ func main() {
 
 	assets := taleslabentities.Assets{}
 
-	constructor := loader.GetConstructor("ground_nature_small")
+	constructor := loader.GetProp("ground_nature_small")
 
 	xSize := 50
 	ySize := 50
@@ -33,7 +33,7 @@ func main() {
 			for k := zSize; k > 0; k-- {
 				if rand.Int()%2 == 0 {
 					asset := &taleslabentities.Asset{
-						Id: constructor.AssertParts[0].Id,
+						Id: constructor.Parts[0].Id,
 						Coordinates: &taleslabentities.Vector3d{
 							X: i - 1,
 							Y: j - 1,
