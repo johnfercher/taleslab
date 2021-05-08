@@ -32,3 +32,5 @@ More examples:
 * [Api](./docs/api/api.md)
 * [Assets](./docs/assets/assets.md)
 * [Biomes](./docs/assets/assets.md)
+
+[travis]: https://travis-ci.com/johnfercher/taleslab

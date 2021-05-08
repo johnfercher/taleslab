@@ -20,13 +20,9 @@ func main() {
 	compressor := bytecompressor.New()
 	encoder := talespirecoder.NewEncoder(compressor)
 
-	slab := taleslabentities.NewSlab()
+	assets := taleslabentities.Assets{}
 
 	constructor := loader.GetConstructor("ground_nature_small")
-
-	slab.AddAsset(&taleslabentities.Asset{
-		Id: constructor.AssertParts[0].Id,
-	})
 
 	xSize := 50
 	ySize := 50
@@ -36,7 +32,8 @@ func main() {
 		for j := ySize; j > 0; j-- {
 			for k := zSize; k > 0; k-- {
 				if rand.Int()%2 == 0 {
-					layout := &taleslabentities.Bounds{
+					asset := &taleslabentities.Asset{
+						Id: constructor.AssertParts[0].Id,
 						Coordinates: &taleslabentities.Vector3d{
 							X: i - 1,
 							Y: j - 1,
@@ -45,13 +42,13 @@ func main() {
 						Rotation: (j - 1) / 41,
 					}
 
-					slab.AddLayoutToAsset(constructor.AssertParts[0].Id, layout)
+					assets = append(assets, asset)
 				}
 			}
 		}
 	}
 
-	taleSpireSlab := taleslabmappers.TaleSpireSlabFromEntity(slab)
+	taleSpireSlab := taleslabmappers.TaleSpireSlabFromAssets(assets)
 
 	base64, err := encoder.Encode(taleSpireSlab)
 

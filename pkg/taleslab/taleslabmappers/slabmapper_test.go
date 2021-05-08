@@ -12,32 +12,27 @@ func TestEntitySlabFromTaleSpire(t *testing.T) {
 	taleSpireSlab := mocks.CreateTaleSpireSlab()
 
 	// Act
-	slab := EntitySlabFromTaleSpire(taleSpireSlab)
+	assets := AssetsFromTaleSpireSlab(taleSpireSlab)
 
 	// Assert
-	assert.NotNil(t, slab)
-	assert.Equal(t, taleslabconsts.MagicBytes, slab.MagicBytes)
-	assert.Equal(t, int16(2), slab.Version)
-
-	asset := slab.GetAsset(string([]byte{0x0, 0x0, 0x2c, 0x3e, 0x77, 0x5d, 0x2f, 0xca, 0x44, 0x4c,
-		0x88, 0xd0, 0xf9, 0xb4, 0xa7, 0xaf, 0xaf, 0x5a}))
+	assert.NotNil(t, assets)
+	asset := assets[0]
 
 	assert.Equal(t, []byte{0x0, 0x0, 0x2c, 0x3e, 0x77, 0x5d, 0x2f, 0xca, 0x44, 0x4c,
 		0x88, 0xd0, 0xf9, 0xb4, 0xa7, 0xaf, 0xaf, 0x5a}, asset.Id)
 
-	assert.Equal(t, int16(1), int16(len(asset.Layouts)))
-	assert.Equal(t, 0, asset.Layouts[0].Rotation)
-	assert.Equal(t, 0, asset.Layouts[0].Coordinates.X)
-	assert.Equal(t, 0, asset.Layouts[0].Coordinates.Y)
-	assert.Equal(t, 0, asset.Layouts[0].Coordinates.Z)
+	assert.Equal(t, 0, asset.Rotation)
+	assert.Equal(t, 0, asset.Coordinates.X)
+	assert.Equal(t, 0, asset.Coordinates.Y)
+	assert.Equal(t, 0, asset.Coordinates.Z)
 }
 
 func TestTaleSpireSlabFromEntity(t *testing.T) {
 	// Arrange
-	slab := mocks.CreateSlab()
+	assets := mocks.CreateAssets()
 
 	// Act
-	taleSpireSlab := TaleSpireSlabFromEntity(slab)
+	taleSpireSlab := TaleSpireSlabFromAssets(assets)
 
 	// Assert
 	assert.NotNil(t, taleSpireSlab)

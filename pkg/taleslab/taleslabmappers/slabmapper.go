@@ -2,62 +2,86 @@ package taleslabmappers
 
 import (
 	"github.com/johnfercher/taleslab/internal/talespireadapter/talespirecontracts"
+	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"
 )
 
-func TaleSpireSlabFromEntity(entity *taleslabentities.Slab) *talespirecontracts.Slab {
-	assets := entity.GetAssets()
-
+func TaleSpireSlabFromAssets(assets taleslabentities.Assets) *talespirecontracts.Slab {
+	uniqueAssets := getUniqueAssets(assets)
 	taleSpire := &talespirecontracts.Slab{
-		MagicBytes:  entity.MagicBytes,
-		Version:     entity.Version,
-		AssetsCount: int16(len(assets)),
+		MagicBytes:  taleslabconsts.MagicBytes,
+		Version:     taleslabconsts.SlabVersion,
+		AssetsCount: int16(len(uniqueAssets)),
 	}
+
+	for _, uniqueAsset := range uniqueAssets {
+		layouts := getBoundFromAsset(uniqueAsset.Id, assets)
+		taleSpireAsset := &talespirecontracts.Asset{
+			Id:           uniqueAsset.Id,
+			LayoutsCount: int16(len(layouts)),
+			Layouts:      layouts,
+		}
+
+		taleSpire.Assets = append(taleSpire.Assets, taleSpireAsset)
+	}
+
+	return taleSpire
+}
+
+func getUniqueAssets(assets taleslabentities.Assets) map[string]*taleslabentities.Asset {
+	uniqueAssets := make(map[string]*taleslabentities.Asset)
 
 	for _, asset := range assets {
-		taleSpire.Assets = append(taleSpire.Assets, taleSpireAssetFromEntity(asset))
+		if uniqueAssets[string(asset.Id)] == nil {
+			uniqueAssets[string(asset.Id)] = asset
+		}
 	}
 
-	return taleSpire
+	return uniqueAssets
 }
 
-func taleSpireAssetFromEntity(entity *taleslabentities.Asset) *talespirecontracts.Asset {
-	taleSpire := &talespirecontracts.Asset{
-		Id:           entity.Id,
-		LayoutsCount: int16(len(entity.Layouts)),
+func getBoundFromAsset(id []byte, assets taleslabentities.Assets) []*talespirecontracts.Bounds {
+	bounds := []*talespirecontracts.Bounds{}
+
+	for _, asset := range assets {
+		if string(id) == string(asset.Id) {
+			bound := &talespirecontracts.Bounds{
+				Coordinates: &talespirecontracts.Vector3d{
+					X: uint16(asset.Coordinates.X),
+					Y: uint16(asset.Coordinates.Y),
+					Z: uint16(asset.Coordinates.Z),
+				},
+				Rotation: uint16(asset.Rotation),
+			}
+			bounds = append(bounds, bound)
+		}
 	}
 
-	for _, layout := range entity.Layouts {
-		taleSpire.Layouts = append(taleSpire.Layouts, taleSpireBoundsFromEntity(layout))
-	}
-
-	return taleSpire
+	return bounds
 }
 
-func taleSpireBoundsFromEntity(entity *taleslabentities.Bounds) *talespirecontracts.Bounds {
-	taleSpire := &talespirecontracts.Bounds{
-		Coordinates: &talespirecontracts.Vector3d{
-			X: uint16(entity.Coordinates.X),
-			Y: uint16(entity.Coordinates.Y),
-			Z: uint16(entity.Coordinates.Z),
-		},
-		Rotation: uint16(entity.Rotation),
-	}
-
-	return taleSpire
-}
-
-func EntitySlabFromTaleSpire(taleSpire *talespirecontracts.Slab) *taleslabentities.Slab {
-	entity := taleslabentities.NewSlab()
+func AssetsFromTaleSpireSlab(taleSpire *talespirecontracts.Slab) taleslabentities.Assets {
+	assets := taleslabentities.Assets{}
 
 	for _, asset := range taleSpire.Assets {
-		entity.AddAsset(entityAssetFromTaleSpire(asset))
+		for _, layout := range asset.Layouts {
+			entity := &taleslabentities.Asset{
+				Id: asset.Id,
+				Coordinates: &taleslabentities.Vector3d{
+					X: int(layout.Coordinates.X),
+					Y: int(layout.Coordinates.Y),
+					Z: int(layout.Coordinates.Z),
+				},
+			}
+
+			assets = append(assets, entity)
+		}
 	}
 
-	return entity
+	return assets
 }
 
-func entityAssetFromTaleSpire(taleSpire *talespirecontracts.Asset) *taleslabentities.Asset {
+/*func entityAssetFromTaleSpire(taleSpire *talespirecontracts.Asset) *taleslabentities.Asset {
 	entity := &taleslabentities.Asset{
 		Id: taleSpire.Id,
 	}
@@ -80,4 +104,4 @@ func entityBoundsFromTaleSpire(taleSpire *talespirecontracts.Bounds) *taleslaben
 	}
 
 	return entity
-}
+}*/
