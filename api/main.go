@@ -66,7 +66,7 @@ func main() {
 
 	router := mux.NewRouter()
 
-	// swagger:operation POST /api/generate/map MapDtoRequest
+	// swagger:operation POST /api/generate/map map_generation
 	// ---
 	// summary: Generate a new map, based on the input parameters
 	// description: The biome you select will change the ground tile and tree type.
@@ -81,14 +81,14 @@ func main() {
 	//     "$ref": "#/definitions/MapDtoRequest"
 	// responses:
 	//   "200":
-	//     "$ref": "#/responses/mapRes"
+	//     "$ref": "#/responses/swaggMapRes"
 	//   "400":
 	//     "$ref": "#/responses/errRes"
 	//   "404":
 	//     "$ref": "#/responses/errRes"
 	router.Handle("/api/generate/map", generateMapEndpoint)
 
-	// swagger:operation POST /api/count
+	// swagger:operation GET /api/count get_count
 	// ---
 	// summary: Get quantity of maps generated
 	// description: Get how many maps were generated

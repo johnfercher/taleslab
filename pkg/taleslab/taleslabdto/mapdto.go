@@ -53,7 +53,7 @@ func (self MapDtoRequest) Validate() error {
 }
 
 // Response from API
-// swagger:response MapDtoResponse
+// swagger:response swaggMapRes
 // nolint:deadcode,unused
 type swaggMapRes struct {
 	// in: body
