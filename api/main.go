@@ -58,7 +58,14 @@ func main() {
 		serverOptions...,
 	)
 
+	getGenerationsCountEndpoint := httptransport.NewServer(apiencodes.LogRequest(taleslabhttp.MakeGetGenerationsCount(mapService)),
+		taleslabhttp.DecodeNothing,
+		apiencodes.EncodeResponse,
+		serverOptions...,
+	)
+
 	router := mux.NewRouter()
+
 	// swagger:operation POST /api/generate/map MapDtoRequest
 	// ---
 	// summary: Generate a new map, based on the input parameters
@@ -80,6 +87,21 @@ func main() {
 	//   "404":
 	//     "$ref": "#/responses/errRes"
 	router.Handle("/api/generate/map", generateMapEndpoint)
+
+	// swagger:operation POST /api/count
+	// ---
+	// summary: Get quantity of maps generated
+	// description: Get how many maps were generated
+	// produces:
+	// - application/json
+	// responses:
+	//   "200":
+	//     "$ref": "#/responses/swaggCountRes"
+	//   "400":
+	//     "$ref": "#/responses/errRes"
+	//   "404":
+	//     "$ref": "#/responses/errRes"
+	router.Handle("/api/count", getGenerationsCountEndpoint)
 
 	router.PathPrefix("/swagger/").Handler(http.StripPrefix("/swagger/", swaggerui.SwaggerFileHandler("taleslab.json")))
 

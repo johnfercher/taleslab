@@ -13,3 +13,9 @@ func MakeGenerateMap(service taleslabservices.MapService) endpoint.Endpoint {
 		return service.Generate(ctx, inputMap)
 	}
 }
+
+func MakeGetGenerationsCount(service taleslabservices.MapService) endpoint.Endpoint {
+	return func(ctx context.Context, request interface{}) (interface{}, error) {
+		return service.GetGenerationsCount(ctx)
+	}
+}
