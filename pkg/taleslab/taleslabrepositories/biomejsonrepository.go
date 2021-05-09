@@ -2,22 +2,22 @@ package taleslabrepositories
 
 import (
 	"encoding/json"
-	"github.com/johnfercher/taleslab/pkg/proploader"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"
+	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabrepositories"
 	"io/ioutil"
 	"log"
 )
 
 type biomeJsonRepository struct {
-	biomeType   taleslabconsts.BiomeType
-	assetLoader proploader.PropLoader
-	biomes      map[taleslabconsts.BiomeType]taleslabentities.Biome
+	biomeType      taleslabconsts.BiomeType
+	propRepository taleslabrepositories.PropRepository
+	biomes         map[taleslabconsts.BiomeType]taleslabentities.Biome
 }
 
-func NewBiomeRepository(assetLoader proploader.PropLoader) *biomeJsonRepository {
+func NewBiomeRepository(propRepository taleslabrepositories.PropRepository) *biomeJsonRepository {
 	reposiktory := &biomeJsonRepository{
-		assetLoader: assetLoader,
+		propRepository: propRepository,
 	}
 
 	reposiktory.loadBiomes()
@@ -43,7 +43,7 @@ func (self *biomeJsonRepository) GetPropAssets(elementType taleslabconsts.Elemen
 }
 
 func (self *biomeJsonRepository) GetProp(id string) *taleslabentities.Prop {
-	return self.assetLoader.GetProp(id)
+	return self.propRepository.GetProp(id)
 }
 
 func (self *biomeJsonRepository) SetBiome(biomeType taleslabconsts.BiomeType) {

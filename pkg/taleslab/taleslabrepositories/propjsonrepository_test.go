@@ -1,4 +1,4 @@
-package proploader
+package taleslabrepositories
 
 import (
 	"encoding/json"
@@ -46,19 +46,19 @@ func init() {
 	}
 }
 
-func TestNewPropLoader(t *testing.T) {
+func TestNewPropRepository(t *testing.T) {
 	// Act
-	sut, err := NewPropLoader()
+	sut, err := NewPropRepository()
 
 	// Assert
 	assert.Nil(t, err)
 	assert.NotNil(t, sut)
-	assert.Equal(t, "*proploader.propLoader", fmt.Sprintf("%T", sut))
+	assert.Equal(t, "*taleslabrepositories.propJsonRepository", fmt.Sprintf("%T", sut))
 }
 
 func TestAssetLoader_GetProps(t *testing.T) {
 	// Arrange
-	sut, _ := NewPropLoader()
+	sut, _ := NewPropRepository()
 
 	// Act
 	props := sut.GetProps()
@@ -81,7 +81,7 @@ func TestAssetLoader_GetProps(t *testing.T) {
 func TestAssetLoader_GetProp(t *testing.T) {
 	// Arrange
 	mappedProps := getMappedProps()
-	sut, _ := NewPropLoader()
+	sut, _ := NewPropRepository()
 
 	// Act & Assert
 	for mappedPropKey := range mappedProps {

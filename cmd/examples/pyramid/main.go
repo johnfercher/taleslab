@@ -4,14 +4,14 @@ import (
 	"fmt"
 	"github.com/johnfercher/taleslab/internal/bytecompressor"
 	"github.com/johnfercher/taleslab/internal/talespireadapter/talespirecoder"
-	"github.com/johnfercher/taleslab/pkg/proploader"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabmappers"
+	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabrepositories"
 	"log"
 )
 
 func main() {
-	loader, err := proploader.NewPropLoader()
+	propRepository, err := taleslabrepositories.NewPropRepository()
 	if err != nil {
 		log.Fatal(err.Error())
 	}
@@ -21,7 +21,7 @@ func main() {
 
 	assets := taleslabentities.Assets{}
 
-	asset := loader.GetProp("ground_nature_small")
+	asset := propRepository.GetProp("ground_nature_small")
 
 	xSize := 20
 	ySize := 20

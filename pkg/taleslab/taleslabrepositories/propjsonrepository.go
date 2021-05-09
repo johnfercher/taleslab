@@ -1,4 +1,4 @@
-package proploader
+package taleslabrepositories
 
 import (
 	"encoding/json"
@@ -6,17 +6,12 @@ import (
 	"io/ioutil"
 )
 
-type PropLoader interface {
-	GetProp(id string) *taleslabentities.Prop
-	GetProps() map[string]*taleslabentities.Prop
-}
-
-type propLoader struct {
+type propJsonRepository struct {
 	props map[string]*taleslabentities.Prop
 }
 
-func NewPropLoader() (*propLoader, error) {
-	assetLoader := &propLoader{}
+func NewPropRepository() (*propJsonRepository, error) {
+	assetLoader := &propJsonRepository{}
 
 	err := assetLoader.loadProps()
 	if err != nil {
@@ -26,15 +21,15 @@ func NewPropLoader() (*propLoader, error) {
 	return assetLoader, nil
 }
 
-func (self *propLoader) GetProp(id string) *taleslabentities.Prop {
+func (self *propJsonRepository) GetProp(id string) *taleslabentities.Prop {
 	return self.props[id]
 }
 
-func (self *propLoader) GetProps() map[string]*taleslabentities.Prop {
+func (self *propJsonRepository) GetProps() map[string]*taleslabentities.Prop {
 	return self.props
 }
 
-func (self *propLoader) loadProps() error {
+func (self *propJsonRepository) loadProps() error {
 	bytes, err := ioutil.ReadFile("./config/assets/props.json")
 	if err != nil {
 		return err

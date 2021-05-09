@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"github.com/johnfercher/taleslab/internal/bytecompressor"
 	"github.com/johnfercher/taleslab/internal/talespireadapter/talespirecoder"
-	"github.com/johnfercher/taleslab/pkg/proploader"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabcontracts"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabrepositories"
@@ -19,14 +18,14 @@ func main() {
 	compressor := bytecompressor.New()
 	encoder := talespirecoder.NewEncoder(compressor)
 
-	assetLoader, err := proploader.NewPropLoader()
+	propRepository, err := taleslabrepositories.NewPropRepository()
 	if err != nil {
 		log.Fatal(err.Error())
 	}
 
-	biomeLoader := taleslabrepositories.NewBiomeRepository(assetLoader)
-	secondaryBiomeLoader := taleslabrepositories.NewBiomeRepository(assetLoader)
-	mapService := taleslabservices.NewMapService(biomeLoader, secondaryBiomeLoader, encoder)
+	biomeRepository := taleslabrepositories.NewBiomeRepository(propRepository)
+	secondaryBiomeRepository := taleslabrepositories.NewBiomeRepository(propRepository)
+	mapService := taleslabservices.NewMapService(biomeRepository, secondaryBiomeRepository, encoder)
 
 	inputMap := &taleslabcontracts.Map{
 		Biome: taleslabconsts.SubTropicalForestBiomeType,

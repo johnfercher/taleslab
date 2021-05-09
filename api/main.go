@@ -25,7 +25,6 @@ import (
 	"github.com/johnfercher/taleslab/internal/api/apiencodes"
 	"github.com/johnfercher/taleslab/internal/bytecompressor"
 	"github.com/johnfercher/taleslab/internal/talespireadapter/talespirecoder"
-	"github.com/johnfercher/taleslab/pkg/proploader"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabhttp"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabrepositories"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabservices"
@@ -40,14 +39,14 @@ func main() {
 	byteCompressor := bytecompressor.New()
 	encoder := talespirecoder.NewEncoder(byteCompressor)
 
-	assetLoader, err := proploader.NewPropLoader()
+	propRepository, err := taleslabrepositories.NewPropRepository()
 	if err != nil {
 		log.Fatal(err.Error())
 	}
 
-	biomeLoader := taleslabrepositories.NewBiomeRepository(assetLoader)
-	secondaryBiomeLoader := taleslabrepositories.NewBiomeRepository(assetLoader)
-	mapService := taleslabservices.NewMapService(biomeLoader, secondaryBiomeLoader, encoder)
+	biomeRepository := taleslabrepositories.NewBiomeRepository(propRepository)
+	secondaryBiomeLoader := taleslabrepositories.NewBiomeRepository(propRepository)
+	mapService := taleslabservices.NewMapService(biomeRepository, secondaryBiomeLoader, encoder)
 
 	serverOptions := []httptransport.ServerOption{
 		httptransport.ServerErrorEncoder(apiencodes.EncodeError),
