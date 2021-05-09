@@ -1,9 +1,10 @@
-package taleslabcontracts
+package taleslabdto
 
 import validation "github.com/go-ozzo/ozzo-validation"
 
+// MountainsDtoRequest response model
 // swagger:model
-type Mountains struct {
+type MountainsDtoRequest struct {
 	// Defines the minimum width of the mountains in the map
 	// required: true
 	// example: 15
@@ -38,7 +39,7 @@ type Mountains struct {
 	RandHeight int `json:"rand_height"`
 }
 
-func (self Mountains) Validate() error {
+func (self MountainsDtoRequest) Validate() error {
 	validate := validation.ValidateStruct(&self,
 		validation.Field(&self.MinX, validation.Min(0)),
 		validation.Field(&self.RandX, validation.Min(0)),

@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"github.com/johnfercher/taleslab/internal/bytecompressor"
 	"github.com/johnfercher/taleslab/internal/talespireadapter/talespirecoder"
-	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabcontracts"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts"
+	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdto"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabrepositories"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabservices"
 	"log"
@@ -27,20 +27,20 @@ func main() {
 	secondaryBiomeRepository := taleslabrepositories.NewBiomeRepository(propRepository)
 	mapService := taleslabservices.NewMapService(biomeRepository, secondaryBiomeRepository, encoder)
 
-	inputMap := &taleslabcontracts.Map{
+	inputMap := &taleslabdto.MapDtoRequest{
 		Biome: taleslabconsts.DesertBiomeType,
-		Ground: &taleslabcontracts.Ground{
+		Ground: &taleslabdto.GroundDtoRequest{
 			Width:             100,
 			Length:            100,
 			TerrainComplexity: 5,
 			ForceBaseLand:     true,
 		},
-		Props: &taleslabcontracts.Props{
+		Props: &taleslabdto.PropsDtoRequest{
 			StoneDensity: 300,
 			TreeDensity:  180,
 			MiscDensity:  350,
 		},
-		River: &taleslabcontracts.River{
+		River: &taleslabdto.RiverDtoRequest{
 			HasRiver: false,
 		},
 	}

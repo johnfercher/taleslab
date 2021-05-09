@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"github.com/johnfercher/taleslab/internal/bytecompressor"
 	"github.com/johnfercher/taleslab/internal/talespireadapter/talespirecoder"
-	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabcontracts"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts"
+	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdto"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabrepositories"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabservices"
 	"log"
@@ -27,21 +27,21 @@ func main() {
 	secondaryBiomeRepository := taleslabrepositories.NewBiomeRepository(propRepository)
 	mapService := taleslabservices.NewMapService(biomeRepository, secondaryBiomeRepository, encoder)
 
-	inputMap := &taleslabcontracts.Map{
+	inputMap := &taleslabdto.MapDtoRequest{
 		Biome: taleslabconsts.SubTropicalForestBiomeType,
-		Ground: &taleslabcontracts.Ground{
+		Ground: &taleslabdto.GroundDtoRequest{
 			Width:             70,
 			Length:            70,
 			TerrainComplexity: 5,
 			MinHeight:         5,
 			ForceBaseLand:     true,
 		},
-		Props: &taleslabcontracts.Props{
+		Props: &taleslabdto.PropsDtoRequest{
 			StoneDensity: 150,
 			TreeDensity:  11,
 			MiscDensity:  11,
 		},
-		Mountains: &taleslabcontracts.Mountains{
+		Mountains: &taleslabdto.MountainsDtoRequest{
 			MinX:           30,
 			RandX:          5,
 			MinY:           30,
@@ -51,10 +51,10 @@ func main() {
 			MinHeight:      10,
 			RandHeight:     10,
 		},
-		River: &taleslabcontracts.River{
+		River: &taleslabdto.RiverDtoRequest{
 			HasRiver: false,
 		},
-		Canyon: &taleslabcontracts.Canyon{
+		Canyon: &taleslabdto.CanyonDtoRequest{
 			HasCanyon:    true,
 			CanyonOffset: 10,
 		},

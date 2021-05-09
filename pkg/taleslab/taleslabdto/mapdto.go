@@ -1,12 +1,11 @@
-package taleslabcontracts
+package taleslabdto
 
-import (
-	validation "github.com/go-ozzo/ozzo-validation"
-	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts"
-)
+import validation "github.com/go-ozzo/ozzo-validation"
+import "github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts"
 
-// MapResponse response model
-type MapResponse struct {
+// MapDtoResponse response model
+// swagger:model
+type MapDtoResponse struct {
 	// Version of the TaleSpire Slab
 	SlabVersion string `json:"slab_version"`
 	// Size of the base64 string
@@ -15,17 +14,9 @@ type MapResponse struct {
 	Code string `json:"code"`
 }
 
-// Response from API
-// swagger:response mapRes
-// nolint:deadcode,unused
-type swaggMapRes struct {
-	// in: body
-	Map MapResponse
-}
-
-// Map request model
+// MapDtoRequest request model
 // swagger:model
-type Map struct {
+type MapDtoRequest struct {
 	// Biome type (subtropical_forest, temperate_forest, dead_forest, desert, tundra)
 	// required: true
 	// example: temperate_forest
@@ -35,18 +26,18 @@ type Map struct {
 	// example: tundra
 	SecondaryBiome taleslabconsts.BiomeType `json:"secondary_biome_type,omitempty"`
 	// required: true
-	Ground *Ground `json:"ground,omitempty"`
+	Ground *GroundDtoRequest `json:"ground,omitempty"`
 	// required: false
-	Mountains *Mountains `json:"mountains,omitempty"`
+	Mountains *MountainsDtoRequest `json:"mountains,omitempty"`
 	// required: false
-	River *River `json:"river,omitempty"`
+	River *RiverDtoRequest `json:"river,omitempty"`
 	// required: false
-	Canyon *Canyon `json:"canyon,omitempty"`
+	Canyon *CanyonDtoRequest `json:"canyon,omitempty"`
 	// required: true
-	Props *Props `json:"props,omitempty"`
+	Props *PropsDtoRequest `json:"props,omitempty"`
 }
 
-func (self Map) Validate() error {
+func (self MapDtoRequest) Validate() error {
 	err := validation.Errors{
 		"map": validation.ValidateStruct(&self,
 			validation.Field(&self.Biome, validation.Required, validation.By(taleslabconsts.ValidateBiomeType)),
@@ -59,12 +50,4 @@ func (self Map) Validate() error {
 	}.Filter()
 
 	return err
-}
-
-// Request from API
-// swagger:parameters Map
-// nolint:deadcode,unused
-type swaggMapReq struct {
-	//in: body
-	Map Map
 }

@@ -1,9 +1,10 @@
-package taleslabcontracts
+package taleslabdto
 
 import validation "github.com/go-ozzo/ozzo-validation"
 
+// PropsDtoRequest response model
 // swagger:model
-type Props struct {
+type PropsDtoRequest struct {
 	// Density of trees on the map
 	// required: true
 	// example: 11
@@ -18,7 +19,7 @@ type Props struct {
 	MiscDensity int `json:"misc_density"`
 }
 
-func (self Props) Validate() error {
+func (self PropsDtoRequest) Validate() error {
 	validate := validation.ValidateStruct(&self,
 		validation.Field(&self.TreeDensity, validation.Min(0)),
 		validation.Field(&self.StoneDensity, validation.Min(0)),

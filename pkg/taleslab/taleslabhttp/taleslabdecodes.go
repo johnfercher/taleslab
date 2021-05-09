@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"github.com/johnfercher/taleslab/internal/api/apierror"
-	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabcontracts"
+	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdto"
 	"io/ioutil"
 	"net/http"
 )
@@ -17,7 +17,7 @@ func DecodeMapRequest(ctx context.Context, r *http.Request) (request interface{}
 		return nil, err
 	}
 
-	inputMap := &taleslabcontracts.Map{}
+	inputMap := &taleslabdto.MapDtoRequest{}
 	err = json.Unmarshal(bytes, inputMap)
 	if err != nil {
 		apiErr := apierror.New(http.StatusBadRequest, err.Error())

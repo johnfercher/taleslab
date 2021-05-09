@@ -16,15 +16,15 @@ import (
 	"fmt"
 	"github.com/johnfercher/taleslab/internal/bytecompressor"
 	"github.com/johnfercher/taleslab/internal/talespireadapter/talespirecoder"
-	"github.com/johnfercher/taleslab/pkg/assetloader"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabmappers"
+	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabrepositories"
 	"log"
 	"math"
 )
 
 func main() {
-	loader, err := assetloader.NewAssetLoader()
+	propRepository, err := taleslabrepositories.NewPropRepository()
 	if err != nil {
 		log.Fatal(err.Error())
 	}
@@ -34,7 +34,7 @@ func main() {
 
 	assets := taleslabentities.Assets{}
 
-	asset := loader.GetProp("fire")
+	asset := propRepository.GetProp("fire")
 
 	radius := 8
 
@@ -49,7 +49,7 @@ func main() {
 		yPositiveTranslated := radius + yRounded
 
 		asset := &taleslabentities.Asset{
-			Id: asset.AssertParts[0].Id,
+			Id: asset.Parts[0].Id,
 			Coordinates: &taleslabentities.Vector3d{
 				X: xPositiveTranslated,
 				Y: yPositiveTranslated,

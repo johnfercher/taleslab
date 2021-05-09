@@ -1,9 +1,10 @@
-package taleslabcontracts
+package taleslabdto
 
 import validation "github.com/go-ozzo/ozzo-validation"
 
+// GroundDtoRequest request model
 // swagger:model
-type Ground struct {
+type GroundDtoRequest struct {
 	// World map width
 	// required: true
 	// example: 70
@@ -26,7 +27,7 @@ type Ground struct {
 	ForceBaseLand bool `json:"force_base_land"`
 }
 
-func (self Ground) Validate() error {
+func (self GroundDtoRequest) Validate() error {
 	validate := validation.ValidateStruct(&self,
 		validation.Field(&self.Width, validation.Required, validation.Min(10), validation.Max(70)),
 		validation.Field(&self.Length, validation.Required, validation.Min(10), validation.Max(70)),

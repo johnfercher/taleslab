@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"github.com/johnfercher/taleslab/internal/api/apierror"
 	"github.com/johnfercher/taleslab/internal/talespireadapter/talespirecoder"
-	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabcontracts"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabrepositories"
+	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdto"
 )
 
 type mapService struct {
@@ -23,7 +23,7 @@ func NewMapService(biomeLoader taleslabrepositories.BiomeRepository, secondaryBi
 	}
 }
 
-func (self *mapService) Generate(ctx context.Context, inputMap *taleslabcontracts.Map) (*taleslabcontracts.MapResponse, apierror.ApiError) {
+func (self *mapService) Generate(ctx context.Context, inputMap *taleslabdto.MapDtoRequest) (*taleslabdto.MapDtoResponse, apierror.ApiError) {
 	builder := NewMapBuilder(self.biomeLoader, self.secondaryBiomeLoader, self.encoder).
 		SetBiome(inputMap.Biome).
 		SetSecondaryBiome(inputMap.SecondaryBiome).
@@ -41,7 +41,7 @@ func (self *mapService) Generate(ctx context.Context, inputMap *taleslabcontract
 	size := float64(len(base64) / 1024)
 	sizeStr := fmt.Sprintf("%f Kb", size)
 
-	return &taleslabcontracts.MapResponse{
+	return &taleslabdto.MapDtoResponse{
 		SlabVersion: "v2",
 		Size:        sizeStr,
 		Code:        base64,

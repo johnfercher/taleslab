@@ -30,7 +30,5 @@ More examples:
 ## Docs
 * [Slab Versions (1 and 2)](./docs/versions/versions.md)
 * [Api](./docs/api/api.md)
-* [Assets](./docs/assets/assets.md)
-* [Biomes](./docs/assets/assets.md)
 
 [travis]: https://travis-ci.com/johnfercher/taleslab

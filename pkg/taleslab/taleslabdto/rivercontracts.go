@@ -1,7 +1,8 @@
-package taleslabcontracts
+package taleslabdto
 
+// RiverDtoRequest response model
 // swagger:model
-type River struct {
+type RiverDtoRequest struct {
 	// Defines if there will be a river on the map
 	// required: true
 	// example: true

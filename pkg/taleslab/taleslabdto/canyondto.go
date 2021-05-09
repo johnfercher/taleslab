@@ -1,11 +1,12 @@
-package taleslabcontracts
+package taleslabdto
 
 import (
 	validation "github.com/go-ozzo/ozzo-validation"
 )
 
+// CanyonDtoRequest request model
 // swagger:model
-type Canyon struct {
+type CanyonDtoRequest struct {
 	// Turn on a Canyon
 	// required: false
 	// example: true
@@ -16,7 +17,7 @@ type Canyon struct {
 	CanyonOffset int `json:"canyon_offset"`
 }
 
-func (self Canyon) Validate() error {
+func (self CanyonDtoRequest) Validate() error {
 	if !self.HasCanyon {
 		return nil
 	}
