@@ -15,7 +15,7 @@ func TestGenerateElementGrid(t *testing.T) {
 	// Assert
 	for i := 0; i < 5; i++ {
 		for j := 0; j < 5; j++ {
-			assert.Equal(t, taleslabentities.Element{0, taleslabconsts.GroundType}, elementGrind[i][j])
+			assert.Equal(t, taleslabentities.Element{Height: 0, ElementType: taleslabconsts.GroundType}, elementGrind[i][j])
 		}
 	}
 }

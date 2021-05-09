@@ -12,8 +12,7 @@ type PropLoader interface {
 }
 
 type propLoader struct {
-	constructors map[string]*taleslabentities.Prop
-	props        map[string]*taleslabentities.Prop
+	props map[string]*taleslabentities.Prop
 }
 
 func NewPropLoader() (*propLoader, error) {

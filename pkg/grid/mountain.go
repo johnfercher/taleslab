@@ -62,7 +62,7 @@ func MountainGenerator(x, y int, gain float64, minHeight int) [][]taleslabentiti
 	for i := 0; i < x; i++ {
 		array := []taleslabentities.Element{}
 		for j := 0; j < y; j++ {
-			array = append(array, taleslabentities.Element{0, taleslabconsts.MountainType})
+			array = append(array, taleslabentities.Element{Height: 0, ElementType: taleslabconsts.MountainType})
 		}
 		groundHeight = append(groundHeight, array)
 	}
