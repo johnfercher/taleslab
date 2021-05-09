@@ -19,18 +19,26 @@ var Module = fx.Options(
 )
 
 func InitServer(router *mux.Router, lifecycle fx.Lifecycle) {
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = "5000"
-	}
 
 	lifecycle.Append(fx.Hook{
 		OnStart: func(ctx context.Context) error {
-			go http.ListenAndServe(":"+port, router)
+			go listen(router)
 			return nil
 		},
 		OnStop: func(ctx context.Context) error {
 			panic("Close")
 		},
 	})
+}
+
+func listen(router *mux.Router) {
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "5000"
+	}
+
+	err := http.ListenAndServe(":"+port, router)
+	if err != nil {
+		panic(err.Error())
+	}
 }
