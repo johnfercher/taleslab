@@ -34,7 +34,7 @@ type mapBuilder struct {
 	canyon    *taleslabdto.CanyonDtoRequest
 }
 
-func NewMapBuilder(biomeLoader taleslabrepositories.BiomeRepository, secondaryBiomeLoader taleslabrepositories.BiomeRepository, encoder talespirecoder.Encoder) *mapBuilder {
+func NewMapBuilder(biomeLoader taleslabrepositories.BiomeRepository, secondaryBiomeLoader taleslabrepositories.BiomeRepository, encoder talespirecoder.Encoder) taleslabservices.MapBuilder {
 	return &mapBuilder{
 		encoder:                  encoder,
 		biomeRepository:          biomeLoader,

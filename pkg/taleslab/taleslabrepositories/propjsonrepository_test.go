@@ -48,17 +48,16 @@ func init() {
 
 func TestNewPropRepository(t *testing.T) {
 	// Act
-	sut, err := NewPropRepository()
+	sut := NewPropRepository()
 
 	// Assert
-	assert.Nil(t, err)
 	assert.NotNil(t, sut)
 	assert.Equal(t, "*taleslabrepositories.propJsonRepository", fmt.Sprintf("%T", sut))
 }
 
 func TestAssetLoader_GetProps(t *testing.T) {
 	// Arrange
-	sut, _ := NewPropRepository()
+	sut := NewPropRepository()
 
 	// Act
 	props := sut.GetProps()
@@ -81,7 +80,7 @@ func TestAssetLoader_GetProps(t *testing.T) {
 func TestAssetLoader_GetProp(t *testing.T) {
 	// Arrange
 	mappedProps := getMappedProps()
-	sut, _ := NewPropRepository()
+	sut := NewPropRepository()
 
 	// Act & Assert
 	for mappedPropKey := range mappedProps {

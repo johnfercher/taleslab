@@ -12,10 +12,7 @@ import (
 )
 
 func main() {
-	propRepository, err := taleslabrepositories.NewPropRepository()
-	if err != nil {
-		log.Fatal(err.Error())
-	}
+	propRepository := taleslabrepositories.NewPropRepository()
 
 	compressor := bytecompressor.New()
 	encoder := talespirecoder.NewEncoder(compressor)
