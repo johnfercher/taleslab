@@ -18,10 +18,7 @@ func main() {
 	compressor := bytecompressor.New()
 	encoder := talespirecoder.NewEncoder(compressor)
 
-	propRepository, err := taleslabrepositories.NewPropRepository()
-	if err != nil {
-		log.Fatal(err.Error())
-	}
+	propRepository := taleslabrepositories.NewPropRepository()
 
 	biomeRepository := taleslabrepositories.NewBiomeRepository(propRepository)
 	secondaryBiomeRepository := taleslabrepositories.NewBiomeRepository(propRepository)
