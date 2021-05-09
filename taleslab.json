@@ -24,7 +24,7 @@
           "application/json"
         ],
         "summary": "Generate a new map, based on the input parameters",
-        "operationId": "map",
+        "operationId": "MapDtoRequest",
         "parameters": [
           {
             "description": "Input parameters for map generation",
@@ -32,7 +32,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/Map"
+              "$ref": "#/definitions/MapDtoRequest"
             }
           }
         ],
