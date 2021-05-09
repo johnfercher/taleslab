@@ -17,7 +17,7 @@ type ByteCompressor interface {
 type byteCompressor struct {
 }
 
-func New() *byteCompressor {
+func New() ByteCompressor {
 	return &byteCompressor{}
 }
 

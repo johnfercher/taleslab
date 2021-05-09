@@ -15,7 +15,7 @@ type biomeJsonRepository struct {
 	biomes         map[taleslabconsts.BiomeType]taleslabentities.Biome
 }
 
-func NewBiomeRepository(propRepository taleslabrepositories.PropRepository) *biomeJsonRepository {
+func NewBiomeRepository(propRepository taleslabrepositories.PropRepository) taleslabrepositories.BiomeRepository {
 	reposiktory := &biomeJsonRepository{
 		propRepository: propRepository,
 	}

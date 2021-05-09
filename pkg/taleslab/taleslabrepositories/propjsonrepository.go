@@ -3,6 +3,7 @@ package taleslabrepositories
 import (
 	"encoding/json"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"
+	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabrepositories"
 	"io/ioutil"
 )
 
@@ -10,15 +11,11 @@ type propJsonRepository struct {
 	props map[string]*taleslabentities.Prop
 }
 
-func NewPropRepository() (*propJsonRepository, error) {
+func NewPropRepository() taleslabrepositories.PropRepository {
 	assetLoader := &propJsonRepository{}
 
-	err := assetLoader.loadProps()
-	if err != nil {
-		return nil, err
-	}
-
-	return assetLoader, nil
+	_ = assetLoader.loadProps()
+	return assetLoader
 }
 
 func (self *propJsonRepository) GetProp(id string) *taleslabentities.Prop {
