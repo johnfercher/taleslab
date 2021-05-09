@@ -59,7 +59,7 @@ func main() {
 	)
 
 	router := mux.NewRouter()
-	// swagger:operation POST /api/generate/map map
+	// swagger:operation POST /api/generate/map MapDtoRequest
 	// ---
 	// summary: Generate a new map, based on the input parameters
 	// description: The biome you select will change the ground tile and tree type.
@@ -71,7 +71,7 @@ func main() {
 	//   in: body
 	//   required: true
 	//   schema:
-	//     "$ref": "#/definitions/Map"
+	//     "$ref": "#/definitions/MapDtoRequest"
 	// responses:
 	//   "200":
 	//     "$ref": "#/responses/mapRes"
