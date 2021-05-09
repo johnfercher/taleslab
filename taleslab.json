@@ -51,7 +51,8 @@
     }
   },
   "definitions": {
-    "Canyon": {
+    "CanyonDtoRequest": {
+      "description": "CanyonDtoRequest request model",
       "type": "object",
       "properties": {
         "canyon_offset": {
@@ -68,9 +69,10 @@
           "example": true
         }
       },
-      "x-go-package": "github.com/johnfercher/taleslab/pkg/taleslab/domain/entities"
+      "x-go-package": "github.com/johnfercher/taleslab/pkg/taleslab/taleslabdto"
     },
-    "Ground": {
+    "GroundDtoRequest": {
+      "description": "GroundDtoRequest request model",
       "type": "object",
       "required": [
         "width",
@@ -114,10 +116,10 @@
           "example": 70
         }
       },
-      "x-go-package": "github.com/johnfercher/taleslab/pkg/taleslab/domain/entities"
+      "x-go-package": "github.com/johnfercher/taleslab/pkg/taleslab/taleslabdto"
     },
-    "Map": {
-      "description": "Map request model",
+    "MapDtoRequest": {
+      "description": "MapDtoRequest request model",
       "type": "object",
       "required": [
         "biome_type",
@@ -126,37 +128,37 @@
       ],
       "properties": {
         "biome_type": {
-          "description": "Biome type (desert, subtropical_forest, temperate_forest, tundra)",
+          "description": "Biome type (subtropical_forest, temperate_forest, dead_forest, desert, tundra)",
           "type": "string",
           "x-go-name": "Biome",
           "example": "temperate_forest"
         },
         "canyon": {
-          "$ref": "#/definitions/Canyon"
+          "$ref": "#/definitions/CanyonDtoRequest"
         },
         "ground": {
-          "$ref": "#/definitions/Ground"
+          "$ref": "#/definitions/GroundDtoRequest"
         },
         "mountains": {
-          "$ref": "#/definitions/Mountains"
+          "$ref": "#/definitions/MountainsDtoRequest"
         },
         "props": {
-          "$ref": "#/definitions/Props"
+          "$ref": "#/definitions/PropsDtoRequest"
         },
         "river": {
-          "$ref": "#/definitions/River"
+          "$ref": "#/definitions/RiverDtoRequest"
         },
         "secondary_biome_type": {
-          "description": "SecondaryBiome type (desert, subtropical_forest, temperate_forest, tundra)",
+          "description": "SecondaryBiome type (subtropical_forest, temperate_forest, dead_forest, desert, tundra)",
           "type": "string",
           "x-go-name": "SecondaryBiome",
           "example": "tundra"
         }
       },
-      "x-go-package": "github.com/johnfercher/taleslab/pkg/taleslab/domain/entities"
+      "x-go-package": "github.com/johnfercher/taleslab/pkg/taleslab/taleslabdto"
     },
-    "MapResponse": {
-      "description": "MapResponse response model",
+    "MapDtoResponse": {
+      "description": "MapDtoResponse response model",
       "type": "object",
       "properties": {
         "code": {
@@ -175,9 +177,10 @@
           "x-go-name": "SlabVersion"
         }
       },
-      "x-go-package": "github.com/johnfercher/taleslab/pkg/taleslab/contracts"
+      "x-go-package": "github.com/johnfercher/taleslab/pkg/taleslab/taleslabdto"
     },
-    "Mountains": {
+    "MountainsDtoRequest": {
+      "description": "MountainsDtoRequest response model",
       "type": "object",
       "required": [
         "min_x",
@@ -247,9 +250,10 @@
           "example": 30
         }
       },
-      "x-go-package": "github.com/johnfercher/taleslab/pkg/taleslab/domain/entities"
+      "x-go-package": "github.com/johnfercher/taleslab/pkg/taleslab/taleslabdto"
     },
-    "Props": {
+    "PropsDtoRequest": {
+      "description": "PropsDtoRequest response model",
       "type": "object",
       "required": [
         "tree_density"
@@ -277,9 +281,10 @@
           "example": 11
         }
       },
-      "x-go-package": "github.com/johnfercher/taleslab/pkg/taleslab/domain/entities"
+      "x-go-package": "github.com/johnfercher/taleslab/pkg/taleslab/taleslabdto"
     },
-    "River": {
+    "RiverDtoRequest": {
+      "description": "RiverDtoRequest response model",
       "type": "object",
       "required": [
         "has_river"
@@ -292,7 +297,7 @@
           "example": true
         }
       },
-      "x-go-package": "github.com/johnfercher/taleslab/pkg/taleslab/domain/entities"
+      "x-go-package": "github.com/johnfercher/taleslab/pkg/taleslab/taleslabdto"
     }
   },
   "responses": {
@@ -316,7 +321,7 @@
     "mapRes": {
       "description": "Response from API",
       "schema": {
-        "$ref": "#/definitions/MapResponse"
+        "$ref": "#/definitions/MapDtoResponse"
       }
     }
   }

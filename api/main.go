@@ -24,11 +24,10 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/johnfercher/taleslab/internal/api/apiencodes"
 	"github.com/johnfercher/taleslab/internal/bytecompressor"
-	"github.com/johnfercher/taleslab/pkg/assetloader"
-	"github.com/johnfercher/taleslab/pkg/biomeloader"
-	"github.com/johnfercher/taleslab/pkg/taleslab/taleslab/taleslabhttp"
-	"github.com/johnfercher/taleslab/pkg/taleslab/taleslab/taleslabservices"
-	"github.com/johnfercher/taleslab/pkg/talespire/talespirecoder"
+	"github.com/johnfercher/taleslab/internal/talespireadapter/talespirecoder"
+	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabhttp"
+	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabrepositories"
+	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabservices"
 	"github.com/robertbakker/swaggerui"
 	"log"
 	"net/http"
@@ -40,14 +39,14 @@ func main() {
 	byteCompressor := bytecompressor.New()
 	encoder := talespirecoder.NewEncoder(byteCompressor)
 
-	assetLoader, err := assetloader.NewAssetLoader()
+	propRepository, err := taleslabrepositories.NewPropRepository()
 	if err != nil {
 		log.Fatal(err.Error())
 	}
 
-	biomeLoader := biomeloader.NewBiomeLoader(assetLoader)
-	secondaryBiomeLoader := biomeloader.NewBiomeLoader(assetLoader)
-	mapService := taleslabservices.NewMapService(biomeLoader, secondaryBiomeLoader, encoder)
+	biomeRepository := taleslabrepositories.NewBiomeRepository(propRepository)
+	secondaryBiomeLoader := taleslabrepositories.NewBiomeRepository(propRepository)
+	mapService := taleslabservices.NewMapService(biomeRepository, secondaryBiomeLoader, encoder)
 
 	serverOptions := []httptransport.ServerOption{
 		httptransport.ServerErrorEncoder(apiencodes.EncodeError),

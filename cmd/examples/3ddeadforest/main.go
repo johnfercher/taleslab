@@ -4,11 +4,11 @@ import (
 	"context"
 	"fmt"
 	"github.com/johnfercher/taleslab/internal/bytecompressor"
-	"github.com/johnfercher/taleslab/pkg/assetloader"
-	"github.com/johnfercher/taleslab/pkg/biomeloader"
-	"github.com/johnfercher/taleslab/pkg/taleslab/domain/entities"
-	"github.com/johnfercher/taleslab/pkg/taleslab/taleslab/taleslabservices"
-	"github.com/johnfercher/taleslab/pkg/talespire/talespirecoder"
+	"github.com/johnfercher/taleslab/internal/talespireadapter/talespirecoder"
+	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts"
+	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdto"
+	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabrepositories"
+	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabservices"
 	"log"
 )
 
@@ -18,29 +18,29 @@ func main() {
 	compressor := bytecompressor.New()
 	encoder := talespirecoder.NewEncoder(compressor)
 
-	assetLoader, err := assetloader.NewAssetLoader()
+	propRepository, err := taleslabrepositories.NewPropRepository()
 	if err != nil {
 		log.Fatal(err.Error())
 	}
 
-	biomeLoader := biomeloader.NewBiomeLoader(assetLoader)
-	secondaryBiomeLoader := biomeloader.NewBiomeLoader(assetLoader)
-	mapService := taleslabservices.NewMapService(biomeLoader, secondaryBiomeLoader, encoder)
+	biomeRepository := taleslabrepositories.NewBiomeRepository(propRepository)
+	secondaryBiomeRepository := taleslabrepositories.NewBiomeRepository(propRepository)
+	mapService := taleslabservices.NewMapService(biomeRepository, secondaryBiomeRepository, encoder)
 
-	inputMap := &entities.Map{
-		Biome: entities.DeadForestBiomeType,
-		Ground: &entities.Ground{
+	inputMap := &taleslabdto.MapDtoRequest{
+		Biome: taleslabconsts.DeadForestBiomeType,
+		Ground: &taleslabdto.GroundDtoRequest{
 			Width:             80,
 			Length:            80,
 			TerrainComplexity: 5,
 			ForceBaseLand:     true,
 		},
-		Props: &entities.Props{
+		Props: &taleslabdto.PropsDtoRequest{
 			StoneDensity: 300,
 			TreeDensity:  15,
 			MiscDensity:  130,
 		},
-		River: &entities.River{
+		River: &taleslabdto.RiverDtoRequest{
 			HasRiver: false,
 		},
 	}

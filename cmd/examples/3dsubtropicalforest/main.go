@@ -4,11 +4,11 @@ import (
 	"context"
 	"fmt"
 	"github.com/johnfercher/taleslab/internal/bytecompressor"
-	"github.com/johnfercher/taleslab/pkg/assetloader"
-	"github.com/johnfercher/taleslab/pkg/biomeloader"
-	"github.com/johnfercher/taleslab/pkg/taleslab/domain/entities"
-	"github.com/johnfercher/taleslab/pkg/taleslab/taleslab/taleslabservices"
-	"github.com/johnfercher/taleslab/pkg/talespire/talespirecoder"
+	"github.com/johnfercher/taleslab/internal/talespireadapter/talespirecoder"
+	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts"
+	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdto"
+	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabrepositories"
+	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabservices"
 	"log"
 )
 
@@ -18,30 +18,30 @@ func main() {
 	compressor := bytecompressor.New()
 	encoder := talespirecoder.NewEncoder(compressor)
 
-	assetLoader, err := assetloader.NewAssetLoader()
+	propRepository, err := taleslabrepositories.NewPropRepository()
 	if err != nil {
 		log.Fatal(err.Error())
 	}
 
-	biomeLoader := biomeloader.NewBiomeLoader(assetLoader)
-	secondaryBiomeLoader := biomeloader.NewBiomeLoader(assetLoader)
-	mapService := taleslabservices.NewMapService(biomeLoader, secondaryBiomeLoader, encoder)
+	biomeRepository := taleslabrepositories.NewBiomeRepository(propRepository)
+	secondaryBiomeRepository := taleslabrepositories.NewBiomeRepository(propRepository)
+	mapService := taleslabservices.NewMapService(biomeRepository, secondaryBiomeRepository, encoder)
 
-	inputMap := &entities.Map{
-		Biome: entities.SubTropicalForestBiomeType,
-		Ground: &entities.Ground{
+	inputMap := &taleslabdto.MapDtoRequest{
+		Biome: taleslabconsts.SubTropicalForestBiomeType,
+		Ground: &taleslabdto.GroundDtoRequest{
 			Width:             70,
 			Length:            70,
 			TerrainComplexity: 5,
 			MinHeight:         5,
 			ForceBaseLand:     true,
 		},
-		Props: &entities.Props{
+		Props: &taleslabdto.PropsDtoRequest{
 			StoneDensity: 150,
 			TreeDensity:  11,
 			MiscDensity:  11,
 		},
-		Mountains: &entities.Mountains{
+		Mountains: &taleslabdto.MountainsDtoRequest{
 			MinX:           30,
 			RandX:          5,
 			MinY:           30,
@@ -51,10 +51,10 @@ func main() {
 			MinHeight:      10,
 			RandHeight:     10,
 		},
-		River: &entities.River{
+		River: &taleslabdto.RiverDtoRequest{
 			HasRiver: false,
 		},
-		Canyon: &entities.Canyon{
+		Canyon: &taleslabdto.CanyonDtoRequest{
 			HasCanyon:    true,
 			CanyonOffset: 10,
 		},

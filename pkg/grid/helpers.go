@@ -2,15 +2,17 @@ package grid
 
 import (
 	"fmt"
+	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts"
+	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"
 	"math/rand"
 	"time"
 )
 
-func GenerateElementGrid(x, y int, defaultElement Element) [][]Element {
-	unitGrid := [][]Element{}
+func GenerateElementGrid(x, y int, defaultElement taleslabentities.Element) [][]taleslabentities.Element {
+	unitGrid := [][]taleslabentities.Element{}
 
 	for i := 0; i < x; i++ {
-		array := []Element{}
+		array := []taleslabentities.Element{}
 		for j := 0; j < y; j++ {
 			array = append(array, defaultElement)
 		}
@@ -20,8 +22,8 @@ func GenerateElementGrid(x, y int, defaultElement Element) [][]Element {
 	return unitGrid
 }
 
-func RandomlyFillEmptyGridSlots(worldGrid [][]Element, propsGrid [][]Element,
-	density int, elementType ElementType, mustAdd func(element Element) bool) [][]Element {
+func RandomlyFillEmptyGridSlots(worldGrid [][]taleslabentities.Element, propsGrid [][]taleslabentities.Element,
+	density int, elementType taleslabconsts.ElementType, mustAdd func(element taleslabentities.Element) bool) [][]taleslabentities.Element {
 	width := len(worldGrid)
 	length := len(worldGrid[0])
 
@@ -38,17 +40,17 @@ func RandomlyFillEmptyGridSlots(worldGrid [][]Element, propsGrid [][]Element,
 			}
 
 			// Avoid to add to close
-			if i > 1 && (propsGrid[i-1][j].ElementType != NoneType || propsGrid[i-2][j].ElementType != NoneType) {
+			if i > 1 && (propsGrid[i-1][j].ElementType != taleslabconsts.NoneType || propsGrid[i-2][j].ElementType != taleslabconsts.NoneType) {
 				continue
 			}
 
 			// Avoid to add to close
-			if j > 1 && (propsGrid[i][j-1].ElementType != NoneType || propsGrid[i][j-2].ElementType != NoneType) {
+			if j > 1 && (propsGrid[i][j-1].ElementType != taleslabconsts.NoneType || propsGrid[i][j-2].ElementType != taleslabconsts.NoneType) {
 				continue
 			}
 
 			if rand.Int()%density == 0 {
-				propsGrid[i][j] = Element{ElementType: elementType}
+				propsGrid[i][j] = taleslabentities.Element{ElementType: elementType}
 			}
 		}
 	}
@@ -56,7 +58,7 @@ func RandomlyFillEmptyGridSlots(worldGrid [][]Element, propsGrid [][]Element,
 	return propsGrid
 }
 
-func BuildTerrain(world [][]Element, asset [][]Element) [][]Element {
+func BuildTerrain(world [][]taleslabentities.Element, asset [][]taleslabentities.Element) [][]taleslabentities.Element {
 	xMax := len(world)
 	yMax := len(world[0])
 
@@ -86,14 +88,14 @@ func BuildTerrain(world [][]Element, asset [][]Element) [][]Element {
 	return newWorld
 }
 
-func Copy(gridOriginal [][]Element) [][]Element {
+func Copy(gridOriginal [][]taleslabentities.Element) [][]taleslabentities.Element {
 	x := len(gridOriginal)
 	y := len(gridOriginal[0])
 
-	gridNew := [][]Element{}
+	gridNew := [][]taleslabentities.Element{}
 
 	for i := 0; i < x; i++ {
-		array := []Element{}
+		array := []taleslabentities.Element{}
 		for j := 0; j < y; j++ {
 			array = append(array, gridOriginal[i][j])
 		}
@@ -103,7 +105,7 @@ func Copy(gridOriginal [][]Element) [][]Element {
 	return gridNew
 }
 
-func Print(grid [][]Element) {
+func Print(grid [][]taleslabentities.Element) {
 	for i := 0; i < len(grid); i++ {
 		for j := 0; j < len(grid[i]); j++ {
 			fmt.Printf("(%s, %d)\t", grid[i][j].ElementType, grid[i][j].Height)
@@ -113,7 +115,7 @@ func Print(grid [][]Element) {
 	fmt.Println()
 }
 
-func PrintTypes(grid [][]Element) {
+func PrintTypes(grid [][]taleslabentities.Element) {
 	for i := 0; i < len(grid); i++ {
 		for j := 0; j < len(grid[i]); j++ {
 			fmt.Printf("%s\t", grid[i][j].ElementType)
@@ -123,7 +125,7 @@ func PrintTypes(grid [][]Element) {
 	fmt.Println()
 }
 
-func PrintHeights(grid [][]Element) {
+func PrintHeights(grid [][]taleslabentities.Element) {
 	for i := 0; i < len(grid); i++ {
 		for j := 0; j < len(grid[i]); j++ {
 			fmt.Printf("%d\t", grid[i][j].Height)

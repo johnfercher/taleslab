@@ -19,6 +19,7 @@ H4sIAAAAAAAE/0z9f4gdZ/vfeVadH31Onz7dfVrdsiTjjZ4vsTcNj0KE4mwUMEqJlb/buzKstTHRE9Y2
 More examples:
 * [Transition (3D Temperate Forest, 3d Tundra)](docs/examples/transition3dforest2tundra.md)
 * [3D Temperate Forest](docs/examples/3dtemperateforest.md)
+* [3D Subtropical Forest](docs/examples/3dsubtropicalforest.md)
 * [3D Dead Forest](docs/examples/3ddeadforest.md)
 * [3D Desert](./docs/examples/3ddesert.md)
 * [3D Tundra](./docs/examples/3dtundra.md)
@@ -26,37 +27,8 @@ More examples:
 * [Random Cube](./docs/examples/randomcube.md)
 * [Pyramid](./docs/examples/pyramid.md)
 
-
-## Slab Versions
-
-TaleSpire have two versions of slab code. The Version 1 is the main supported one, which have some 
-projects capable to serialize/deserialize it. The Version 2 is the new one, which there is no other
-projects (besides this, yet) capable to serialize/deserialize it. TaleSpire is capable to
-work with both versions, but when a Version 1 code is pasted into the game, TaleSpire converts the code into a Version 2.
-
-
-### Version 2
-
-The Version 2 serialization/deserialization was developed based on the Version 1, the first part
-of the ByteArray is almost the same, but the last objects are different.
-
-[Version 2: Documentation](docs//versions/version2.md)
-
-
-## Unuspported versions
-These versions are here for documentation purpose only. Current versions DO NOT support them.
-### Version 1
-
-The Version 1 serialization/deserialization is based on
-[Mercer01/talespireDeserialize](https://github.com/Mercer01/talespireDeserialize),
-[brcoding/TaleSpireHtmlSlabGeneration](https://github.com/brcoding/TaleSpireHtmlSlabGeneration)
-and [https://github.com/creadth/Creadth.Talespire.DungeonGenerator](https://github.com/creadth/Creadth.Talespire.DungeonGenerator)
-
-[Version 1: Documentation](docs/versions/version1.md)
-
-## Api 
-We now have an api that can be used to generate slabs according to your inputs. 
-
-You can find the docs [Here](docs/api/api.md)
+## Docs
+* [Slab Versions (1 and 2)](./docs/versions/versions.md)
+* [Api](./docs/api/api.md)
 
 [travis]: https://travis-ci.com/johnfercher/taleslab
