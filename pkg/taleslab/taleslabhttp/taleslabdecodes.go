@@ -34,3 +34,7 @@ func DecodeMapRequest(ctx context.Context, r *http.Request) (request interface{}
 
 	return inputMap, nil
 }
+
+func DecodeNothing(ctx context.Context, r *http.Request) (request interface{}, err error) {
+	return nil, nil
+}

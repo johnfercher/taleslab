@@ -8,4 +8,5 @@ import (
 
 type MapService interface {
 	Generate(ctx context.Context, inputMap *taleslabdto.MapDtoRequest) (*taleslabdto.MapDtoResponse, apierror.ApiError)
+	GetGenerationsCount(ctx context.Context) (*taleslabdto.GenerationCountDtoResponse, apierror.ApiError)
 }

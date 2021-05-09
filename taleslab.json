@@ -71,6 +71,18 @@
       },
       "x-go-package": "github.com/johnfercher/taleslab/pkg/taleslab/taleslabdto"
     },
+    "GenerationCountDtoResponse": {
+      "description": "GenerationCountDtoResponse request model",
+      "type": "object",
+      "properties": {
+        "count": {
+          "type": "integer",
+          "format": "uint64",
+          "x-go-name": "Count"
+        }
+      },
+      "x-go-package": "github.com/johnfercher/taleslab/pkg/taleslab/taleslabdto"
+    },
     "GroundDtoRequest": {
       "description": "GroundDtoRequest request model",
       "type": "object",
@@ -301,6 +313,18 @@
     }
   },
   "responses": {
+    "GenerationCountDtoResponse": {
+      "description": "Response from API",
+      "schema": {
+        "$ref": "#/definitions/GenerationCountDtoResponse"
+      }
+    },
+    "MapDtoResponse": {
+      "description": "Response from API",
+      "schema": {
+        "$ref": "#/definitions/MapDtoResponse"
+      }
+    },
     "errRes": {
       "description": "ApiError response model",
       "schema": {
@@ -316,12 +340,6 @@
             "format": "int64"
           }
         }
-      }
-    },
-    "mapRes": {
-      "description": "Response from API",
-      "schema": {
-        "$ref": "#/definitions/MapDtoResponse"
       }
     }
   }

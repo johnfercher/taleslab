@@ -10,6 +10,7 @@ import (
 )
 
 type mapService struct {
+	generationsCount     uint64
 	biomeLoader          taleslabrepositories.BiomeRepository
 	secondaryBiomeLoader taleslabrepositories.BiomeRepository
 	encoder              talespirecoder.Encoder
@@ -17,6 +18,7 @@ type mapService struct {
 
 func NewMapService(biomeLoader taleslabrepositories.BiomeRepository, secondaryBiomeLoader taleslabrepositories.BiomeRepository, encoder talespirecoder.Encoder) *mapService {
 	return &mapService{
+		generationsCount:     0,
 		biomeLoader:          biomeLoader,
 		encoder:              encoder,
 		secondaryBiomeLoader: secondaryBiomeLoader,
@@ -40,10 +42,17 @@ func (self *mapService) Generate(ctx context.Context, inputMap *taleslabdto.MapD
 
 	size := float64(len(base64) / 1024)
 	sizeStr := fmt.Sprintf("%f Kb", size)
+	self.generationsCount++
 
 	return &taleslabdto.MapDtoResponse{
 		SlabVersion: "v2",
 		Size:        sizeStr,
 		Code:        base64,
+	}, nil
+}
+
+func (self *mapService) GetGenerationsCount(ctx context.Context) (*taleslabdto.GenerationCountDtoResponse, apierror.ApiError) {
+	return &taleslabdto.GenerationCountDtoResponse{
+		Count: self.generationsCount,
 	}, nil
 }
