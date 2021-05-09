@@ -17,6 +17,27 @@
   },
   "host": "taleslab.herokuapp.com",
   "paths": {
+    "/api/count": {
+      "get": {
+        "description": "Get how many maps were generated",
+        "produces": [
+          "application/json"
+        ],
+        "summary": "Get quantity of maps generated",
+        "operationId": "get_count",
+        "responses": {
+          "200": {
+            "$ref": "#/responses/swaggCountRes"
+          },
+          "400": {
+            "$ref": "#/responses/errRes"
+          },
+          "404": {
+            "$ref": "#/responses/errRes"
+          }
+        }
+      }
+    },
     "/api/generate/map": {
       "post": {
         "description": "The biome you select will change the ground tile and tree type.",
@@ -24,7 +45,7 @@
           "application/json"
         ],
         "summary": "Generate a new map, based on the input parameters",
-        "operationId": "MapDtoRequest",
+        "operationId": "map_generation",
         "parameters": [
           {
             "description": "Input parameters for map generation",
@@ -38,7 +59,7 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/responses/mapRes"
+            "$ref": "#/responses/swaggMapRes"
           },
           "400": {
             "$ref": "#/responses/errRes"
@@ -313,18 +334,6 @@
     }
   },
   "responses": {
-    "GenerationCountDtoResponse": {
-      "description": "Response from API",
-      "schema": {
-        "$ref": "#/definitions/GenerationCountDtoResponse"
-      }
-    },
-    "MapDtoResponse": {
-      "description": "Response from API",
-      "schema": {
-        "$ref": "#/definitions/MapDtoResponse"
-      }
-    },
     "errRes": {
       "description": "ApiError response model",
       "schema": {
@@ -340,6 +349,18 @@
             "format": "int64"
           }
         }
+      }
+    },
+    "swaggCountRes": {
+      "description": "Response from API",
+      "schema": {
+        "$ref": "#/definitions/GenerationCountDtoResponse"
+      }
+    },
+    "swaggMapRes": {
+      "description": "Response from API",
+      "schema": {
+        "$ref": "#/definitions/MapDtoResponse"
       }
     }
   }

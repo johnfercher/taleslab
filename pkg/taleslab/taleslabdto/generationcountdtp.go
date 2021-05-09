@@ -7,7 +7,7 @@ type GenerationCountDtoResponse struct {
 }
 
 // Response from API
-// swagger:response GenerationCountDtoResponse
+// swagger:response swaggCountRes
 // nolint:deadcode,unused
 type swaggCountRes struct {
 	// in: body
