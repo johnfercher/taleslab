@@ -36,10 +36,10 @@ func DigRiver(grid [][]taleslabentities.Element) [][]taleslabentities.Element {
 	return grid
 }
 
-func DigCanyon(grid [][]taleslabentities.Element, offset int) [][]taleslabentities.Element {
+func DigTerrainInOffset(baseTerrain [][]taleslabentities.Element, offset int) [][]taleslabentities.Element {
 	yFrequency := 2.0
 
-	y := len(grid[0])
+	y := len(baseTerrain[0])
 
 	gain := 3.0
 
@@ -49,12 +49,12 @@ func DigCanyon(grid [][]taleslabentities.Element, offset int) [][]taleslabentiti
 		randomX := uint16(gain*math.Sin(yNormalizedValue*math.Pi)) + uint16(offset)
 
 		for x := 0; x < int(randomX); x++ {
-			grid[x][j] = taleslabentities.Element{
+			baseTerrain[x][j] = taleslabentities.Element{
 				Height:      1,
 				ElementType: taleslabconsts.BaseGroundType,
 			}
 		}
 	}
 
-	return grid
+	return baseTerrain
 }

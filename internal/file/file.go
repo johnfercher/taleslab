@@ -7,7 +7,7 @@ import (
 	"os"
 )
 
-func SaveContentInFile(base64Content string, pathFile string) apierror.ApiError {
+func SaveCodes(base64Contents []string, pathFile string) apierror.ApiError {
 	f, err := os.Create(pathFile)
 	if err != nil {
 		return apierror.New(http.StatusInternalServerError, err.Error())
@@ -15,7 +15,12 @@ func SaveContentInFile(base64Content string, pathFile string) apierror.ApiError 
 
 	defer f.Close()
 
-	_, err = f.WriteString("```" + base64Content + "```")
+	contents := ""
+	for _, base := range base64Contents {
+		content := "```" + base + "```"
+		contents += content + "\n"
+	}
+	_, err = f.WriteString(contents)
 	if err != nil {
 		return apierror.New(http.StatusInternalServerError, err.Error())
 	}

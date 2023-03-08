@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-func TerrainGenerator(x, y int, xFrequency, yFrequency, gain float64, minHeight int, forceBaseLand bool) [][]taleslabentities.Element {
+func TerrainGenerator(x, y int, xFrequency, yFrequency, gain float64, minHeight int, forceBaseLand bool) taleslabentities.ElementMatrix {
 	groundHeight := [][]taleslabentities.Element{}
 
 	for i := 0; i < x; i++ {
@@ -53,18 +53,18 @@ func TerrainGenerator(x, y int, xFrequency, yFrequency, gain float64, minHeight 
 	return groundHeight
 }
 
-func MountainGenerator(x, y int, gain float64, minHeight int) [][]taleslabentities.Element {
+func MountainGenerator(x, y int, gain float64, minHeight int) taleslabentities.ElementMatrix {
 	xFrequency := 2.0
 	yFrequency := 2.0
 
-	groundHeight := [][]taleslabentities.Element{}
+	mountainElements := [][]taleslabentities.Element{}
 
 	for i := 0; i < x; i++ {
 		array := []taleslabentities.Element{}
 		for j := 0; j < y; j++ {
 			array = append(array, taleslabentities.Element{Height: 0, ElementType: taleslabconsts.MountainType})
 		}
-		groundHeight = append(groundHeight, array)
+		mountainElements = append(mountainElements, array)
 	}
 
 	for i := 0; i < x; i++ {
@@ -84,12 +84,49 @@ func MountainGenerator(x, y int, gain float64, minHeight int) [][]taleslabentiti
 			heightAvg := int((xHeight + yHeight) / 2.0)
 
 			if heightAvg > int(gain) {
-				groundHeight[i][j].Height = heightAvg - int(gain) + minHeight
+				mountainElements[i][j].Height = heightAvg - int(gain) + minHeight
 			} else {
-				groundHeight[i][j].Height = 0
+				mountainElements[i][j].Height = 0
 			}
 		}
 	}
 
-	return groundHeight
+	return mountainElements
+}
+
+func SliceTerrain(base [][]taleslabentities.Element, sliceSize int) []taleslabentities.ElementMatrix {
+	var slices []taleslabentities.ElementMatrix
+
+	for i := 0; i < len(base); i += sliceSize {
+		for j := 0; j < len(base[i]); j += sliceSize {
+			//fmt.Printf("%d, %d\n", i, j)
+			slices = append(slices, GetSliceInOffset(base, sliceSize, i, j))
+		}
+	}
+
+	return slices
+}
+
+func GetSliceInOffset(base [][]taleslabentities.Element, sliceSize, offsetX, offsetY int) taleslabentities.ElementMatrix {
+	xSliceSize := sliceSize
+	ySliceSize := sliceSize
+
+	if offsetX+sliceSize > len(base) {
+		xSliceSize = sliceSize + len(base) - (offsetX + sliceSize)
+	}
+
+	if offsetY+sliceSize > len(base[0]) {
+		ySliceSize = sliceSize + len(base) - (offsetY + sliceSize)
+	}
+
+	slice := GenerateElementGrid(xSliceSize, ySliceSize, taleslabentities.Element{0, taleslabconsts.GroundType})
+
+	for i := 0; i+offsetX < len(base) && i < sliceSize; i++ {
+		for j := 0; j+offsetY < len(base[i]) && j < sliceSize; j++ {
+			//fmt.Printf("[%d] = %d, [%d] = %d\n", i, i+offsetX, j, j+offsetY)
+			slice[i][j] = base[i+offsetX][j+offsetY]
+		}
+	}
+
+	return slice
 }
