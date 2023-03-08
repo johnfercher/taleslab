@@ -25,36 +25,20 @@ func main() {
 	mapService := taleslabservices.NewMapService(biomeRepository, secondaryBiomeRepository, encoder)
 
 	inputMap := &taleslabdto.MapDtoRequest{
-		Biome:          taleslabconsts.TemperateForestBiomeType,
-		SecondaryBiome: taleslabconsts.TundraBiomeType,
+		Biome: taleslabconsts.DeadLandBiomeType,
 		Ground: &taleslabdto.GroundDtoRequest{
-			Width:             70,
-			Length:            70,
+			Width:             80,
+			Length:            80,
 			TerrainComplexity: 5,
-			MinHeight:         5,
 			ForceBaseLand:     true,
 		},
 		Props: &taleslabdto.PropsDtoRequest{
-			StoneDensity: 150,
-			TreeDensity:  11,
-			MiscDensity:  11,
-		},
-		Mountains: &taleslabdto.MountainsDtoRequest{
-			MinX:           30,
-			RandX:          5,
-			MinY:           30,
-			RandY:          5,
-			MinComplexity:  5,
-			RandComplexity: 2,
-			MinHeight:      10,
-			RandHeight:     10,
+			StoneDensity: 300,
+			TreeDensity:  15,
+			MiscDensity:  130,
 		},
 		River: &taleslabdto.RiverDtoRequest{
 			HasRiver: false,
-		},
-		Canyon: &taleslabdto.CanyonDtoRequest{
-			HasCanyon:    false,
-			CanyonOffset: 10,
 		},
 	}
 
@@ -63,7 +47,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	err = file.SaveContentInFile(slab.Code, "docs/codes/3dtemperateforest2tundra.txt")
+	err = file.SaveContentInFile(slab.Code, "docs/codes/3ddeadland.txt")
 	if err != nil {
 		log.Fatal(err)
 	}

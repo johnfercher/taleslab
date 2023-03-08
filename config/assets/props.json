@@ -819,6 +819,20 @@
     ]
   },
   {
+    "id": "dead_ground_small",
+    "asset_parts": [
+      {
+        "id": "AAAkp/Mc1aiBRZiy7FkM9y85",
+        "name": "dead_ground_small",
+        "dimensions": {
+          "width": 1,
+          "length": 1,
+          "height": 1
+        }
+      }
+    ]
+  },
+  {
     "id": "mud_with_feather_small",
     "asset_parts": [
       {

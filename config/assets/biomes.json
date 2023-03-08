@@ -82,5 +82,19 @@
       "misc_type": ["rose", "floor_bush", "small_fern", "big_fern"]
     },
     "stone_wall": "big_stone_wall"
+  },
+  {
+    "biome_type": "dead_land",
+    "ground_blocks": {
+      "ground_type": ["dead_ground_small"],
+      "mountain_type": ["dead_ground_small"],
+      "base_ground_type": ["dead_ground_small"]
+    },
+    "prop_blocks": {
+      "tree_type": ["pine_tree_big"],
+      "stone_type": ["pine_tree_big"],
+      "misc_type": ["pine_tree_big"]
+    },
+    "stone_wall": "big_stone_wall"
   }
 ]

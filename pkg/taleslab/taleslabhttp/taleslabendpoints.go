@@ -19,20 +19,20 @@ var serverOptions = []httptransport.ServerOption{
 	httptransport.ServerErrorEncoder(apiencodes.EncodeError),
 }
 
-func MakeGenerateMap(service taleslabservices.MapService) endpoint.Endpoint {
+func MakeGenerateMap(service taleslabservices.SlabGenerator) endpoint.Endpoint {
 	return func(ctx context.Context, request interface{}) (interface{}, error) {
 		inputMap := request.(*taleslabdto.MapDtoRequest)
 		return service.Generate(ctx, inputMap)
 	}
 }
 
-func MakeGetGenerationsCount(service taleslabservices.MapService) endpoint.Endpoint {
+func MakeGetGenerationsCount(service taleslabservices.SlabGenerator) endpoint.Endpoint {
 	return func(ctx context.Context, request interface{}) (interface{}, error) {
 		return service.GetGenerationsCount(ctx)
 	}
 }
 
-func DefineGenerateMapEndpoint(router *mux.Router, mapService taleslabservices.MapService) {
+func DefineGenerateMapEndpoint(router *mux.Router, mapService taleslabservices.SlabGenerator) {
 	generateMapEndpoint := httptransport.NewServer(apiencodes.LogRequest(MakeGenerateMap(mapService)),
 		DecodeMapRequest,
 		apiencodes.EncodeResponse,
@@ -62,7 +62,7 @@ func DefineGenerateMapEndpoint(router *mux.Router, mapService taleslabservices.M
 	router.Handle("/api/generate/map", generateMapEndpoint)
 }
 
-func DefineGetGenerationsCountEndpoint(router *mux.Router, mapService taleslabservices.MapService) {
+func DefineGetGenerationsCountEndpoint(router *mux.Router, mapService taleslabservices.SlabGenerator) {
 
 	getGenerationsCountEndpoint := httptransport.NewServer(apiencodes.LogRequest(MakeGetGenerationsCount(mapService)),
 		DecodeNothing,
