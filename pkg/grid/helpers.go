@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-func GenerateElementGrid(x, y int, defaultElement taleslabentities.Element) [][]taleslabentities.Element {
+func GenerateElementGrid(x, y int, defaultElement taleslabentities.Element) taleslabentities.ElementMatrix {
 	unitGrid := [][]taleslabentities.Element{}
 
 	for i := 0; i < x; i++ {
@@ -58,14 +58,14 @@ func RandomlyFillEmptyGridSlots(worldGrid [][]taleslabentities.Element, propsGri
 	return propsGrid
 }
 
-func BuildTerrain(world [][]taleslabentities.Element, asset [][]taleslabentities.Element) [][]taleslabentities.Element {
-	xMax := len(world)
-	yMax := len(world[0])
+func AppendTerrainRandomly(baseTerrain [][]taleslabentities.Element, terrainToAppend [][]taleslabentities.Element) [][]taleslabentities.Element {
+	xMax := len(baseTerrain)
+	yMax := len(baseTerrain[0])
 
-	assetXMax := len(asset)
-	assetYMax := len(asset[0])
+	assetXMax := len(terrainToAppend)
+	assetYMax := len(terrainToAppend[0])
 
-	newWorld := Copy(world)
+	newWorld := Copy(baseTerrain)
 
 	rand.Seed(time.Now().UnixNano())
 
@@ -74,8 +74,8 @@ func BuildTerrain(world [][]taleslabentities.Element, asset [][]taleslabentities
 
 	for i := 0; i < assetXMax; i++ {
 		for j := 0; j < assetYMax; j++ {
-			assetValue := asset[i][j]
-			worldValue := world[i+randomXPosition][j+randomYPosition]
+			assetValue := terrainToAppend[i][j]
+			worldValue := baseTerrain[i+randomXPosition][j+randomYPosition]
 
 			if assetValue.Height > worldValue.Height {
 				newWorld[i+randomXPosition][j+randomYPosition] = assetValue

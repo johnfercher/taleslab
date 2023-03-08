@@ -9,9 +9,9 @@ type MapDtoResponse struct {
 	// Version of the TaleSpire Slab
 	SlabVersion string `json:"slab_version"`
 	// Size of the base64 string
-	Size string `json:"size"`
-	// Code to insert in the game
-	Code string `json:"code"`
+	Size int `json:"size"`
+	// Codes to insert in the game
+	Codes []string `json:"codes"`
 }
 
 // MapDtoRequest request model

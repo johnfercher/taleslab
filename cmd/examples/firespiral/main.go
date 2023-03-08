@@ -53,7 +53,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	err = file.SaveContentInFile(base64, "docs/codes/firespiral.txt")
+	err = file.SaveCodes(base64, "docs/codes/firespiral.txt")
 	if err != nil {
 		log.Fatal(err)
 	}

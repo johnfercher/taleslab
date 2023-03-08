@@ -27,8 +27,8 @@ func main() {
 	inputMap := &taleslabdto.MapDtoRequest{
 		Biome: taleslabconsts.TundraBiomeType,
 		Ground: &taleslabdto.GroundDtoRequest{
-			Width:             70,
-			Length:            70,
+			Width:             150,
+			Length:            150,
 			TerrainComplexity: 5,
 		},
 		Props: &taleslabdto.PropsDtoRequest{
@@ -56,7 +56,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	err = file.SaveContentInFile(slab.Code, "docs/codes/3dtundra.txt")
+	err = file.SaveCodes(slab.Codes, "docs/codes/3dtundra.txt")
 	if err != nil {
 		log.Fatal(err)
 	}

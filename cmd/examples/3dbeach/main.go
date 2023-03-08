@@ -61,7 +61,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	err = file.SaveContentInFile(slab.Code, "docs/codes/3dbeach.txt")
+	err = file.SaveCodes(slab.Code, "docs/codes/3dbeach.txt")
 	if err != nil {
 		log.Fatal(err)
 	}
