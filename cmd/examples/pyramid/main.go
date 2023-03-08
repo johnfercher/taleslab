@@ -1,8 +1,8 @@
 package main
 
 import (
-	"fmt"
 	"github.com/johnfercher/taleslab/internal/bytecompressor"
+	"github.com/johnfercher/taleslab/internal/file"
 	"github.com/johnfercher/taleslab/internal/talespireadapter/talespirecoder"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabmappers"
@@ -50,5 +50,8 @@ func main() {
 		log.Fatal(err)
 	}
 
-	fmt.Println(base64)
+	err = file.SaveContentInFile(base64, "docs/codes/pyramid.txt")
+	if err != nil {
+		log.Fatal(err)
+	}
 }

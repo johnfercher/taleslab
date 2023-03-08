@@ -6,6 +6,7 @@ import (
 )
 
 // BiomeType request model
+//
 //swagger:type string
 type BiomeType string
 
@@ -13,6 +14,7 @@ const (
 	SubTropicalForestBiomeType BiomeType = "subtropical_forest"
 	TemperateForestBiomeType   BiomeType = "temperate_forest"
 	DeadForestBiomeType        BiomeType = "dead_forest"
+	DeadLandBiomeType          BiomeType = "dead_land"
 	DesertBiomeType            BiomeType = "desert"
 	TundraBiomeType            BiomeType = "tundra"
 	BeachBiomeType             BiomeType = "beach"

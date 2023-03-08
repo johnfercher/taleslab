@@ -12,7 +12,7 @@ require (
 	github.com/niemeyer/pretty v0.0.0-20200227124842-a10e7caefd8e // indirect
 	github.com/robertbakker/swaggerui v0.0.0-20180516211811-2fc4dad5e58a
 	github.com/stretchr/testify v1.7.0
-	go.uber.org/fx v1.13.1 // indirect
+	go.uber.org/fx v1.13.1
 	gopkg.in/check.v1 v1.0.0-20200227125254-8fa46927fb4f // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b // indirect

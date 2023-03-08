@@ -3,53 +3,33 @@ package taleslabservices
 import (
 	"github.com/johnfercher/taleslab/internal/api/apierror"
 	"github.com/johnfercher/taleslab/internal/math"
-	"github.com/johnfercher/taleslab/internal/talespireadapter/talespirecoder"
 	"github.com/johnfercher/taleslab/pkg/grid"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabrepositories"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabservices"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdto"
-	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabmappers"
-	"math/rand"
-	"net/http"
-	"time"
 )
 
-type mapBuilder struct {
+type assetsGenerator struct {
 	biomeRepository          taleslabrepositories.BiomeRepository
 	secondaryBiomeRepository taleslabrepositories.BiomeRepository
-	encoder                  talespirecoder.Encoder
-
-	Width             int
-	Length            int
-	TerrainComplexity float64
-	MinHeight         int
-	ForceBaseLand     bool
-
-	props     *taleslabdto.PropsDtoRequest
-	ground    *taleslabdto.GroundDtoRequest
-	mountains *taleslabdto.MountainsDtoRequest
-	river     *taleslabdto.RiverDtoRequest
-	canyon    *taleslabdto.CanyonDtoRequest
+	props                    *taleslabdto.PropsDtoRequest
 }
 
-func NewMapBuilder(biomeLoader taleslabrepositories.BiomeRepository, secondaryBiomeLoader taleslabrepositories.BiomeRepository, encoder talespirecoder.Encoder) taleslabservices.MapBuilder {
-	return &mapBuilder{
-		encoder:                  encoder,
+func NewAssetsGenerator(biomeLoader taleslabrepositories.BiomeRepository, secondaryBiomeLoader taleslabrepositories.BiomeRepository) taleslabservices.AssetsGenerator {
+	return &assetsGenerator{
 		biomeRepository:          biomeLoader,
 		secondaryBiomeRepository: secondaryBiomeLoader,
-		Width:                    45,
-		Length:                   45,
 	}
 }
 
-func (self *mapBuilder) SetBiome(biomeType taleslabconsts.BiomeType) taleslabservices.MapBuilder {
+func (self *assetsGenerator) SetBiome(biomeType taleslabconsts.BiomeType) taleslabservices.AssetsGenerator {
 	self.biomeRepository.SetBiome(biomeType)
 	return self
 }
 
-func (self *mapBuilder) SetSecondaryBiome(biomeType taleslabconsts.BiomeType) taleslabservices.MapBuilder {
+func (self *assetsGenerator) SetSecondaryBiome(biomeType taleslabconsts.BiomeType) taleslabservices.AssetsGenerator {
 	if biomeType == "" {
 		return self
 	}
@@ -58,71 +38,20 @@ func (self *mapBuilder) SetSecondaryBiome(biomeType taleslabconsts.BiomeType) ta
 	return self
 }
 
-func (self *mapBuilder) SetGround(ground *taleslabdto.GroundDtoRequest) taleslabservices.MapBuilder {
-	self.ground = ground
-	return self
-}
-
-func (self *mapBuilder) SetMountains(mountains *taleslabdto.MountainsDtoRequest) taleslabservices.MapBuilder {
-	if mountains == nil {
-		return self
-	}
-	self.mountains = mountains
-	return self
-}
-
-func (self *mapBuilder) SetRiver(river *taleslabdto.RiverDtoRequest) taleslabservices.MapBuilder {
-	if river != nil {
-		self.river = river
-	}
-
-	return self
-}
-
-func (self *mapBuilder) SetCanyon(canyon *taleslabdto.CanyonDtoRequest) taleslabservices.MapBuilder {
-	if canyon != nil {
-		self.canyon = canyon
-	}
-
-	return self
-}
-
-func (self *mapBuilder) SetProps(props *taleslabdto.PropsDtoRequest) taleslabservices.MapBuilder {
+func (self *assetsGenerator) SetProps(props *taleslabdto.PropsDtoRequest) taleslabservices.AssetsGenerator {
 	self.props = props
 	return self
 }
 
-func (self *mapBuilder) Build() (string, apierror.ApiError) {
+func (self *assetsGenerator) Generate(world [][]taleslabentities.Element) (taleslabentities.Assets, apierror.ApiError) {
+	worldWidth := len(world)
+	worldLength := len(world[0])
 	assets := taleslabentities.Assets{}
-
-	if self.ground == nil {
-		return "", apierror.New(400, "GroundType must be provided")
-	}
-
-	world := grid.TerrainGenerator(self.ground.Width, self.ground.Length, 2.0, 2.0,
-		self.ground.TerrainComplexity, self.ground.MinHeight, self.ground.ForceBaseLand)
-
-	if self.mountains != nil {
-		mountains := self.generateMountainsGrid(self.ground.MinHeight)
-		for _, mountain := range mountains {
-			world = grid.BuildTerrain(world, mountain)
-		}
-	}
-
-	if self.canyon != nil && self.canyon.HasCanyon {
-		world = grid.DigCanyon(world, self.canyon.CanyonOffset)
-	}
-
-	//grid.PrintHeights(world)
-
-	if self.river != nil && self.river.HasRiver {
-		world = grid.DigRiver(world)
-	}
 
 	var propsGrid [][]taleslabentities.Element
 
 	if self.props != nil {
-		propsGrid = grid.GenerateElementGrid(self.ground.Width, self.ground.Length, taleslabentities.Element{ElementType: taleslabconsts.NoneType})
+		propsGrid = grid.GenerateElementGrid(worldWidth, worldLength, taleslabentities.Element{ElementType: taleslabconsts.NoneType})
 
 		propsGrid = grid.RandomlyFillEmptyGridSlots(world, propsGrid, self.props.StoneDensity, taleslabconsts.StoneType, func(element taleslabentities.Element) bool {
 			// Just to not add stone in an empty grid slot
@@ -155,17 +84,10 @@ func (self *mapBuilder) Build() (string, apierror.ApiError) {
 		assets = self.appendPropsToSlab(key, assets, world, propsGrid)
 	}
 
-	taleSpireSlab := taleslabmappers.TaleSpireSlabFromAssets(assets)
-
-	base64, err := self.encoder.Encode(taleSpireSlab)
-	if err != nil {
-		return "", apierror.New(http.StatusInternalServerError, err.Error())
-	}
-
-	return base64, nil
+	return assets, nil
 }
 
-func (self *mapBuilder) appendConstructionSlab(elementType taleslabconsts.ElementType, assets taleslabentities.Assets,
+func (self *assetsGenerator) appendConstructionSlab(elementType taleslabconsts.ElementType, assets taleslabentities.Assets,
 	gridHeights [][]taleslabentities.Element) taleslabentities.Assets {
 	lastStoneWallX := -4
 	lastStoneWallY := -4
@@ -240,7 +162,7 @@ func (self *mapBuilder) appendConstructionSlab(elementType taleslabconsts.Elemen
 	return assets
 }
 
-func (self *mapBuilder) appendPropsToSlab(elementType taleslabconsts.ElementType, assets taleslabentities.Assets,
+func (self *assetsGenerator) appendPropsToSlab(elementType taleslabconsts.ElementType, assets taleslabentities.Assets,
 	gridHeights [][]taleslabentities.Element, gridProps [][]taleslabentities.Element) taleslabentities.Assets {
 	for i, array := range gridHeights {
 		for j, element := range array {
@@ -267,42 +189,7 @@ func (self *mapBuilder) appendPropsToSlab(elementType taleslabconsts.ElementType
 	return assets
 }
 
-func (self *mapBuilder) generateMountainsGrid(minHeight int) [][][]taleslabentities.Element {
-	mountainsGrid := [][][]taleslabentities.Element{}
-
-	rand.Seed(time.Now().UnixNano())
-	iCount := rand.Intn(self.mountains.RandComplexity) + self.mountains.MinComplexity
-
-	rand.Seed(time.Now().UnixNano())
-	jCount := rand.Intn(self.mountains.RandComplexity) + self.mountains.MinComplexity
-
-	for i := 0; i < iCount; i++ {
-		for j := 0; j < jCount; j++ {
-			rand.Seed(time.Now().UnixNano())
-			bothAxis := rand.Intn(10)
-
-			rand.Seed(time.Now().UnixNano())
-			balancedWidth := self.mountains.MinX
-			balancedRandWidth := rand.Intn(self.mountains.RandX)
-			mountainX := balancedWidth + balancedRandWidth + bothAxis
-
-			rand.Seed(time.Now().UnixNano())
-			balancedLength := self.mountains.MinY
-			balancedRandLength := rand.Intn(self.mountains.RandY)
-			mountainY := balancedLength + balancedRandLength + bothAxis
-
-			rand.Seed(time.Now().UnixNano())
-			gain := float64(rand.Intn(self.mountains.RandHeight) + self.mountains.MinHeight)
-
-			generatedMountain := grid.MountainGenerator(mountainX, mountainY, gain, minHeight)
-			mountainsGrid = append(mountainsGrid, generatedMountain)
-		}
-	}
-
-	return mountainsGrid
-}
-
-func (self *mapBuilder) addCoordinates(asset *taleslabentities.Asset, x, y, z, rotation int) {
+func (self *assetsGenerator) addCoordinates(asset *taleslabentities.Asset, x, y, z, rotation int) {
 	asset.Coordinates = &taleslabentities.Vector3d{
 		X: x * asset.Dimensions.Width,
 		Y: y * asset.Dimensions.Length,
@@ -311,7 +198,7 @@ func (self *mapBuilder) addCoordinates(asset *taleslabentities.Asset, x, y, z, r
 	asset.Rotation = rotation + (y * asset.Dimensions.Length / 41)
 }
 
-func (self *mapBuilder) getBiomeConstructor(i, iMax int, elementType taleslabconsts.ElementType) *taleslabentities.Prop {
+func (self *assetsGenerator) getBiomeConstructor(i, iMax int, elementType taleslabconsts.ElementType) *taleslabentities.Prop {
 	option := math.GetRandomOption(i, iMax, 6.0)
 
 	if self.secondaryBiomeRepository.GetBiome() == "" {
@@ -329,7 +216,7 @@ func (self *mapBuilder) getBiomeConstructor(i, iMax int, elementType taleslabcon
 	return self.secondaryBiomeRepository.GetProp(elementKey)
 }
 
-func (self *mapBuilder) getBiomeProp(i, iMax int, elementType taleslabconsts.ElementType) *taleslabentities.Prop {
+func (self *assetsGenerator) getBiomeProp(i, iMax int, elementType taleslabconsts.ElementType) *taleslabentities.Prop {
 	option := math.GetRandomOption(i, iMax, 13.0)
 
 	if self.secondaryBiomeRepository.GetBiome() == "" {

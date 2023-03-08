@@ -6,7 +6,6 @@ import (
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdto"
 )
 
-type MapService interface {
+type SlabGenerator interface {
 	Generate(ctx context.Context, inputMap *taleslabdto.MapDtoRequest) (*taleslabdto.MapDtoResponse, apierror.ApiError)
-	GetGenerationsCount(ctx context.Context) (*taleslabdto.GenerationCountDtoResponse, apierror.ApiError)
 }
