@@ -45,7 +45,7 @@ func TerrainGenerator(x, y int, xFrequency, yFrequency, gain float64, minHeight 
 
 			// Remove Ground
 			if !forceBaseLand && heightAvg == 0 {
-				groundHeight[i][j].ElementType = taleslabconsts.NoneType
+				groundHeight[i][j].ElementType = taleslabconsts.WaterType
 			}
 		}
 	}

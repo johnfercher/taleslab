@@ -4,7 +4,7 @@ import (
 	"bufio"
 	"bytes"
 	"fmt"
-	"github.com/johnfercher/taleslab/internal/byteparser"
+	"github.com/johnfercher/taleslab/internal/helper/byteparser"
 	"log"
 )
 

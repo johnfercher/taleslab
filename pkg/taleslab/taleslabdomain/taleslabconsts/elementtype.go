@@ -8,7 +8,7 @@ const (
 	MountainType   ElementType = "mountain_type"
 	TreeType       ElementType = "tree_type"
 	StoneType      ElementType = "stone_type"
-	RiverType      ElementType = "river_type"
+	WaterType      ElementType = "water_type"
 	BaseGroundType ElementType = "base_ground_type"
 	StoneWallType  ElementType = "stone_wall_type"
 	MiscType       ElementType = "misc_type"

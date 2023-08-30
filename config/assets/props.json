@@ -887,5 +887,19 @@
         }
       }
     ]
+  },
+  {
+    "id": "water",
+    "asset_parts": [
+      {
+        "id": "AACKjpbcthtASYt3QDVzz2CU",
+        "name": "water",
+        "dimensions": {
+          "width": 1,
+          "length": 1,
+          "height": 1
+        }
+      }
+    ]
   }
 ]

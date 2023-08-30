@@ -3,7 +3,7 @@ package taleslabservices
 import (
 	"context"
 	"github.com/johnfercher/taleslab/internal/api/apierror"
-	"github.com/johnfercher/taleslab/internal/talespireadapter/talespirecoder"
+	"github.com/johnfercher/taleslab/internal/helper/talespireadapter/talespirecoder"
 	"github.com/johnfercher/taleslab/pkg/grid"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabrepositories"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabservices"

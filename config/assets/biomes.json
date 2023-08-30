@@ -4,7 +4,8 @@
     "ground_blocks": {
       "ground_type": ["mud_small", "mud_with_feather_small", "clay_with_feather_small", "ground_nature_small"],
       "mountain_type": ["mud_small", "mud_with_feather_small", "clay_with_feather_small", "ground_nature_small"],
-      "base_ground_type": ["mud_small", "mud_with_feather_small", "clay_with_feather_small", "ground_nature_small"]
+      "base_ground_type": ["mud_small", "mud_with_feather_small", "clay_with_feather_small", "ground_nature_small"],
+      "water_type": ["water"]
     },
     "prop_blocks": {
       "tree_type": ["one_big_tree", "two_big_tree", "three_big_tree"],
@@ -46,7 +47,8 @@
     "ground_blocks": {
       "ground_type": ["ground_snow_small"],
       "mountain_type": ["ground_snow_small"],
-      "base_ground_type": ["ground_snow_small"]
+      "base_ground_type": ["ground_snow_small"],
+      "water_type": ["water"]
     },
     "prop_blocks": {
       "tree_type": ["snow_two_floor_pine_tree_with_trunk", "snow_two_floor_pine_tree","snow_pine_tree_big", "dead_tree_big"],

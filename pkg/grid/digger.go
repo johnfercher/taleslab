@@ -20,16 +20,16 @@ func DigRiver(grid [][]taleslabentities.Element) [][]taleslabentities.Element {
 		randomY := uint16(gain*math.Sin(yNormalizedValue*math.Pi)) + uint16(offset)
 
 		grid[i][randomY] = taleslabentities.Element{
-			Height:      0,
-			ElementType: taleslabconsts.RiverType,
+			Height:      1,
+			ElementType: taleslabconsts.WaterType,
 		}
 		grid[i][randomY+1] = taleslabentities.Element{
-			Height:      0,
-			ElementType: taleslabconsts.RiverType,
+			Height:      1,
+			ElementType: taleslabconsts.WaterType,
 		}
 		grid[i][randomY+2] = taleslabentities.Element{
-			Height:      0,
-			ElementType: taleslabconsts.RiverType,
+			Height:      1,
+			ElementType: taleslabconsts.WaterType,
 		}
 	}
 

@@ -1,9 +1,9 @@
 package talespirecoder
 
 import (
-	"github.com/johnfercher/taleslab/internal/bytecompressor"
-	"github.com/johnfercher/taleslab/internal/byteparser"
-	"github.com/johnfercher/taleslab/internal/talespireadapter/talespirecontracts"
+	"github.com/johnfercher/taleslab/internal/helper/bytecompressor"
+	"github.com/johnfercher/taleslab/internal/helper/byteparser"
+	"github.com/johnfercher/taleslab/internal/helper/talespireadapter/talespirecontracts"
 )
 
 type Encoder interface {

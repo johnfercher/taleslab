@@ -1,14 +1,14 @@
 package taleslabmappers
 
 import (
-	"github.com/johnfercher/taleslab/internal/talespireadapter/talespirecontracts"
+	talespirecontracts2 "github.com/johnfercher/taleslab/internal/helper/talespireadapter/talespirecontracts"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"
 )
 
-func TaleSpireSlabFromAssets(assets taleslabentities.Assets) *talespirecontracts.Slab {
+func TaleSpireSlabFromAssets(assets taleslabentities.Assets) *talespirecontracts2.Slab {
 	uniqueAssets := getUniqueAssets(assets)
-	taleSpire := &talespirecontracts.Slab{
+	taleSpire := &talespirecontracts2.Slab{
 		MagicBytes:  taleslabconsts.MagicBytes,
 		Version:     taleslabconsts.SlabVersion,
 		AssetsCount: int16(len(uniqueAssets)),
@@ -16,7 +16,7 @@ func TaleSpireSlabFromAssets(assets taleslabentities.Assets) *talespirecontracts
 
 	for _, uniqueAsset := range uniqueAssets {
 		layouts := getBoundFromAsset(uniqueAsset.Id, assets)
-		taleSpireAsset := &talespirecontracts.Asset{
+		taleSpireAsset := &talespirecontracts2.Asset{
 			Id:           uniqueAsset.Id,
 			LayoutsCount: int16(len(layouts)),
 			Layouts:      layouts,
@@ -40,13 +40,13 @@ func getUniqueAssets(assets taleslabentities.Assets) map[string]*taleslabentitie
 	return uniqueAssets
 }
 
-func getBoundFromAsset(id []byte, assets taleslabentities.Assets) []*talespirecontracts.Bounds {
-	bounds := []*talespirecontracts.Bounds{}
+func getBoundFromAsset(id []byte, assets taleslabentities.Assets) []*talespirecontracts2.Bounds {
+	bounds := []*talespirecontracts2.Bounds{}
 
 	for _, asset := range assets {
 		if string(id) == string(asset.Id) {
-			bound := &talespirecontracts.Bounds{
-				Coordinates: &talespirecontracts.Vector3d{
+			bound := &talespirecontracts2.Bounds{
+				Coordinates: &talespirecontracts2.Vector3d{
 					X: uint16(asset.Coordinates.X),
 					Y: uint16(asset.Coordinates.Y),
 					Z: uint16(asset.Coordinates.Z),
@@ -60,7 +60,7 @@ func getBoundFromAsset(id []byte, assets taleslabentities.Assets) []*talespireco
 	return bounds
 }
 
-func AssetsFromTaleSpireSlab(taleSpire *talespirecontracts.Slab) taleslabentities.Assets {
+func AssetsFromTaleSpireSlab(taleSpire *talespirecontracts2.Slab) taleslabentities.Assets {
 	assets := taleslabentities.Assets{}
 
 	for _, asset := range taleSpire.Assets {

@@ -2,13 +2,13 @@ package talespirecoder
 
 import (
 	"bufio"
-	"github.com/johnfercher/taleslab/internal/bytecompressor"
-	"github.com/johnfercher/taleslab/internal/byteparser"
-	talespirecontracts2 "github.com/johnfercher/taleslab/internal/talespireadapter/talespirecontracts"
+	"github.com/johnfercher/taleslab/internal/helper/bytecompressor"
+	"github.com/johnfercher/taleslab/internal/helper/byteparser"
+	"github.com/johnfercher/taleslab/internal/helper/talespireadapter/talespirecontracts"
 )
 
 type Decoder interface {
-	Decode(slabBase64 string) (*talespirecontracts2.Slab, error)
+	Decode(slabBase64 string) (*talespirecontracts.Slab, error)
 }
 
 type decoder struct {
@@ -21,8 +21,8 @@ func NewDecoder(byteCompressor bytecompressor.ByteCompressor) Decoder {
 	}
 }
 
-func (self *decoder) Decode(slabBase64 string) (*talespirecontracts2.Slab, error) {
-	slab := &talespirecontracts2.Slab{}
+func (self *decoder) Decode(slabBase64 string) (*talespirecontracts.Slab, error) {
+	slab := &talespirecontracts.Slab{}
 
 	reader, err := self.slabCompressor.BufferFromBase64(slabBase64)
 	if err != nil {
@@ -82,7 +82,7 @@ func (self *decoder) Decode(slabBase64 string) (*talespirecontracts2.Slab, error
 	return slab, nil
 }
 
-func (self *decoder) decodeBounds(reader *bufio.Reader) (*talespirecontracts2.Bounds, error) {
+func (self *decoder) decodeBounds(reader *bufio.Reader) (*talespirecontracts.Bounds, error) {
 	centerX, err := byteparser.BufferToUint16(reader)
 	if err != nil {
 		return nil, err
@@ -103,8 +103,8 @@ func (self *decoder) decodeBounds(reader *bufio.Reader) (*talespirecontracts2.Bo
 		return nil, err
 	}
 
-	return &talespirecontracts2.Bounds{
-		Coordinates: &talespirecontracts2.Vector3d{
+	return &talespirecontracts.Bounds{
+		Coordinates: &talespirecontracts.Vector3d{
 			X: DecodeX(centerX),
 			Y: DecodeY(centerY),
 			Z: DecodeZ(centerZ),
@@ -113,8 +113,8 @@ func (self *decoder) decodeBounds(reader *bufio.Reader) (*talespirecontracts2.Bo
 	}, nil
 }
 
-func (self *decoder) decodeAsset(reader *bufio.Reader) (*talespirecontracts2.Asset, error) {
-	asset := &talespirecontracts2.Asset{}
+func (self *decoder) decodeAsset(reader *bufio.Reader) (*talespirecontracts.Asset, error) {
+	asset := &talespirecontracts.Asset{}
 
 	// Id
 	idBytes, err := byteparser.BufferToBytes(reader, 18)

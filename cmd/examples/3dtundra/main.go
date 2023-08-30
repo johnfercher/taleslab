@@ -2,9 +2,9 @@ package main
 
 import (
 	"context"
-	"github.com/johnfercher/taleslab/internal/bytecompressor"
-	"github.com/johnfercher/taleslab/internal/file"
-	"github.com/johnfercher/taleslab/internal/talespireadapter/talespirecoder"
+	"github.com/johnfercher/taleslab/internal/helper/bytecompressor"
+	"github.com/johnfercher/taleslab/internal/helper/file"
+	"github.com/johnfercher/taleslab/internal/helper/talespireadapter/talespirecoder"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdto"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabrepositories"
@@ -27,8 +27,8 @@ func main() {
 	inputMap := &taleslabdto.MapDtoRequest{
 		Biome: taleslabconsts.TundraBiomeType,
 		Ground: &taleslabdto.GroundDtoRequest{
-			Width:             150,
-			Length:            150,
+			Width:             50,
+			Length:            50,
 			TerrainComplexity: 5,
 		},
 		Props: &taleslabdto.PropsDtoRequest{

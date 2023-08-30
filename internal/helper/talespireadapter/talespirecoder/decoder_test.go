@@ -3,7 +3,7 @@ package talespirecoder
 import (
 	"errors"
 	"fmt"
-	"github.com/johnfercher/taleslab/internal/bytecompressor"
+	"github.com/johnfercher/taleslab/internal/helper/bytecompressor"
 	"github.com/johnfercher/taleslab/mocks"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts"
 	"github.com/stretchr/testify/assert"
