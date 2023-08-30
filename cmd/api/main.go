@@ -5,7 +5,7 @@
 // Terms Of Service:
 //
 //	Schemes: https, http
-//	Host: taleslab.herokuapp.com
+//	Host: localhost:5000
 //	Version: 1.0.0
 //
 //	Consumes:

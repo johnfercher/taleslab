@@ -15,29 +15,8 @@
     "title": "TaleSlab",
     "version": "1.0.0"
   },
-  "host": "taleslab.herokuapp.com",
+  "host": "localhost:5000",
   "paths": {
-    "/api/count": {
-      "get": {
-        "description": "Get how many maps were generated",
-        "produces": [
-          "application/json"
-        ],
-        "summary": "Get quantity of maps generated",
-        "operationId": "get_count",
-        "responses": {
-          "200": {
-            "$ref": "#/responses/swaggCountRes"
-          },
-          "400": {
-            "$ref": "#/responses/errRes"
-          },
-          "404": {
-            "$ref": "#/responses/errRes"
-          }
-        }
-      }
-    },
     "/api/generate/map": {
       "post": {
         "description": "The biome you select will change the ground tile and tree type.",
