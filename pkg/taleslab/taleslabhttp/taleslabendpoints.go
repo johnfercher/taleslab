@@ -12,7 +12,7 @@ import (
 )
 
 var FXHandlers = fx.Options(
-	fx.Invoke(DefineGetGenerationsCountEndpoint, DefineGenerateMapEndpoint),
+	fx.Invoke(DefineGenerateMapEndpoint),
 )
 
 var serverOptions = []httptransport.ServerOption{
@@ -23,12 +23,6 @@ func MakeGenerateMap(service taleslabservices.SlabGenerator) endpoint.Endpoint {
 	return func(ctx context.Context, request interface{}) (interface{}, error) {
 		inputMap := request.(*taleslabdto.MapDtoRequest)
 		return service.Generate(ctx, inputMap)
-	}
-}
-
-func MakeGetGenerationsCount(service taleslabservices.SlabGenerator) endpoint.Endpoint {
-	return func(ctx context.Context, request interface{}) (interface{}, error) {
-		return service.GetGenerationsCount(ctx)
 	}
 }
 
@@ -60,29 +54,4 @@ func DefineGenerateMapEndpoint(router *mux.Router, mapService taleslabservices.S
 	//   "404":
 	//     "$ref": "#/responses/errRes"
 	router.Handle("/api/generate/map", generateMapEndpoint)
-}
-
-func DefineGetGenerationsCountEndpoint(router *mux.Router, mapService taleslabservices.SlabGenerator) {
-
-	getGenerationsCountEndpoint := httptransport.NewServer(apiencodes.LogRequest(MakeGetGenerationsCount(mapService)),
-		DecodeNothing,
-		apiencodes.EncodeResponse,
-		serverOptions...,
-	)
-
-	// swagger:operation GET /api/count get_count
-	// ---
-	// summary: Get quantity of maps generated
-	// description: Get how many maps were generated
-	// produces:
-	// - application/json
-	// responses:
-	//   "200":
-	//     "$ref": "#/responses/swaggCountRes"
-	//   "400":
-	//     "$ref": "#/responses/errRes"
-	//   "404":
-	//     "$ref": "#/responses/errRes"
-	router.Handle("/api/count", getGenerationsCountEndpoint)
-
 }

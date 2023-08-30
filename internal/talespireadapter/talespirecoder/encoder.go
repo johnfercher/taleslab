@@ -3,11 +3,11 @@ package talespirecoder
 import (
 	"github.com/johnfercher/taleslab/internal/bytecompressor"
 	"github.com/johnfercher/taleslab/internal/byteparser"
-	talespirecontracts2 "github.com/johnfercher/taleslab/internal/talespireadapter/talespirecontracts"
+	"github.com/johnfercher/taleslab/internal/talespireadapter/talespirecontracts"
 )
 
 type Encoder interface {
-	Encode(slab *talespirecontracts2.Slab) (string, error)
+	Encode(slab *talespirecontracts.Slab) (string, error)
 }
 
 type encoder struct {
@@ -20,7 +20,7 @@ func NewEncoder(byteCompressor bytecompressor.ByteCompressor) Encoder {
 	}
 }
 
-func (self *encoder) Encode(slab *talespirecontracts2.Slab) (string, error) {
+func (self *encoder) Encode(slab *talespirecontracts.Slab) (string, error) {
 	slabByteArray := []byte{}
 
 	// Magic Hex
@@ -72,7 +72,7 @@ func (self *encoder) Encode(slab *talespirecontracts2.Slab) (string, error) {
 	return slabBase64, nil
 }
 
-func (self *encoder) encodeAssets(slab *talespirecontracts2.Slab) ([]byte, error) {
+func (self *encoder) encodeAssets(slab *talespirecontracts.Slab) ([]byte, error) {
 	assetsArray := []byte{}
 
 	// For
@@ -98,7 +98,7 @@ func (self *encoder) encodeAssets(slab *talespirecontracts2.Slab) ([]byte, error
 	return assetsArray, nil
 }
 
-func (self *encoder) encodeAssetLayouts(slab *talespirecontracts2.Slab) ([]byte, error) {
+func (self *encoder) encodeAssetLayouts(slab *talespirecontracts.Slab) ([]byte, error) {
 	layoutsArray := []byte{}
 
 	// For

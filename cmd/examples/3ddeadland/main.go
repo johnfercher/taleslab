@@ -47,7 +47,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	err = file.SaveCodes(slab.Code, "docs/codes/3ddeadland.txt")
+	err = file.SaveCodes(slab.Codes, "docs/codes/3ddeadland.txt")
 	if err != nil {
 		log.Fatal(err)
 	}

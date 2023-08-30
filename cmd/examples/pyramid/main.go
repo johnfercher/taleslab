@@ -45,12 +45,11 @@ func main() {
 	taleSpireSlab := taleslabmappers.TaleSpireSlabFromAssets(assets)
 
 	base64, err := encoder.Encode(taleSpireSlab)
-
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	err = file.SaveCodes(base64, "docs/codes/pyramid.txt")
+	err = file.SaveCodes([]string{base64}, "docs/codes/pyramid.txt")
 	if err != nil {
 		log.Fatal(err)
 	}
