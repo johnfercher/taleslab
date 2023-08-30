@@ -2,9 +2,8 @@ package main
 
 import (
 	"context"
-	"github.com/johnfercher/taleslab/internal/helper/bytecompressor"
+	"github.com/johnfercher/talescoder/pkg/encoder"
 	"github.com/johnfercher/taleslab/internal/helper/file"
-	"github.com/johnfercher/taleslab/internal/helper/talespireadapter/talespirecoder"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdto"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabrepositories"
@@ -15,8 +14,7 @@ import (
 func main() {
 	ctx := context.TODO()
 
-	compressor := bytecompressor.New()
-	encoder := talespirecoder.NewEncoder(compressor)
+	encoder := encoder.NewEncoder()
 
 	propRepository := taleslabrepositories.NewPropRepository()
 

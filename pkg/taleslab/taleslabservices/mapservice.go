@@ -2,8 +2,8 @@ package taleslabservices
 
 import (
 	"context"
+	"github.com/johnfercher/talescoder/pkg/encoder"
 	"github.com/johnfercher/taleslab/internal/api/apierror"
-	"github.com/johnfercher/taleslab/internal/helper/talespireadapter/talespirecoder"
 	"github.com/johnfercher/taleslab/pkg/grid"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabrepositories"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabservices"
@@ -15,10 +15,10 @@ import (
 type mapService struct {
 	biomeLoader          taleslabrepositories.BiomeRepository
 	secondaryBiomeLoader taleslabrepositories.BiomeRepository
-	encoder              talespirecoder.Encoder
+	encoder              encoder.Encoder
 }
 
-func NewMapService(biomeLoader taleslabrepositories.BiomeRepository, secondaryBiomeLoader taleslabrepositories.BiomeRepository, encoder talespirecoder.Encoder) taleslabservices.SlabGenerator {
+func NewMapService(biomeLoader taleslabrepositories.BiomeRepository, secondaryBiomeLoader taleslabrepositories.BiomeRepository, encoder encoder.Encoder) taleslabservices.SlabGenerator {
 	return &mapService{
 		biomeLoader:          biomeLoader,
 		encoder:              encoder,

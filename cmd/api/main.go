@@ -19,8 +19,8 @@
 package main
 
 import (
-	"github.com/johnfercher/taleslab/internal/helper/bytecompressor"
-	"github.com/johnfercher/taleslab/internal/helper/talespireadapter/talespirecoder"
+	"github.com/johnfercher/talescoder/pkg/decoder"
+	"github.com/johnfercher/talescoder/pkg/encoder"
 	"github.com/johnfercher/taleslab/internal/httprouter"
 	"github.com/johnfercher/taleslab/internal/wireup/server"
 	"github.com/johnfercher/taleslab/pkg/taleslab"
@@ -30,9 +30,8 @@ import (
 func main() {
 	fx.New(
 		taleslab.Module,
-		bytecompressor.Module,
-		talespirecoder.Module,
 		httprouter.Module,
 		server.Module,
+		fx.Provide(encoder.NewEncoder, decoder.NewDecoder),
 	).Run()
 }
