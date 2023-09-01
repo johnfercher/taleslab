@@ -4,7 +4,7 @@ import (
 	"context"
 	"github.com/johnfercher/talescoder/pkg/encoder"
 	"github.com/johnfercher/taleslab/internal/file"
-	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts"
+	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts/biometype"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdto"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabrepositories"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabservices"
@@ -23,10 +23,10 @@ func main() {
 	mapService := taleslabservices.NewMapService(biomeRepository, secondaryBiomeRepository, encoder)
 
 	inputMap := &taleslabdto.MapDtoRequest{
-		Biome: taleslabconsts.DeadLandBiomeType,
+		Biome: biometype.Lava,
 		Ground: &taleslabdto.GroundDtoRequest{
-			Width:             80,
-			Length:            80,
+			Width:             50,
+			Length:            50,
 			TerrainComplexity: 5,
 			ForceBaseLand:     true,
 		},
@@ -45,7 +45,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	err = file.SaveCodes(slab.Codes, "docs/codes/3ddeadland.txt")
+	err = file.SaveCodes(slab.Codes, "docs/codes/3dlava.txt")
 	if err != nil {
 		log.Fatal(err)
 	}

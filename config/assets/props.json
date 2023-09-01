@@ -879,7 +879,7 @@
     "asset_parts": [
       {
         "id": "AAA1ImrOT2boQ6dE1XQ2I3Ad",
-        "name": "dead_land",
+        "name": "cavern_one_rock",
         "dimensions": {
           "width": 1,
           "length": 1,
@@ -894,6 +894,48 @@
       {
         "id": "AACKjpbcthtASYt3QDVzz2CU",
         "name": "water",
+        "dimensions": {
+          "width": 1,
+          "length": 1,
+          "height": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": "lava",
+    "asset_parts": [
+      {
+        "id": "AABrOzrMN/WCRLL0qCqOaC16",
+        "name": "lava",
+        "dimensions": {
+          "width": 1,
+          "length": 1,
+          "height": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": "lava_cold",
+    "asset_parts": [
+      {
+        "id": "AAD+VjTiCbt7S6Sp7XKg67Pt",
+        "name": "lava_cold",
+        "dimensions": {
+          "width": 1,
+          "length": 1,
+          "height": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": "lava_dust",
+    "asset_parts": [
+      {
+        "id": "AAAkp/Mc1aiBRZiy7FkM9y85",
+        "name": "lava_dust",
         "dimensions": {
           "width": 1,
           "length": 1,

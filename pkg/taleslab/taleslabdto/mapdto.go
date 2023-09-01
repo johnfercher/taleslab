@@ -1,7 +1,9 @@
 package taleslabdto
 
-import validation "github.com/go-ozzo/ozzo-validation"
-import "github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts"
+import (
+	validation "github.com/go-ozzo/ozzo-validation"
+	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts/biometype"
+)
 
 // MapDtoResponse response model
 // swagger:model
@@ -20,11 +22,11 @@ type MapDtoRequest struct {
 	// Biome type (subtropical_forest, temperate_forest, dead_forest, desert, tundra)
 	// required: true
 	// example: temperate_forest
-	Biome taleslabconsts.BiomeType `json:"biome_type,omitempty"`
+	Biome biometype.BiomeType `json:"biome_type,omitempty"`
 	// SecondaryBiome type (subtropical_forest, temperate_forest, dead_forest, desert, tundra)
 	// required: false
 	// example: tundra
-	SecondaryBiome taleslabconsts.BiomeType `json:"secondary_biome_type,omitempty"`
+	SecondaryBiome biometype.BiomeType `json:"secondary_biome_type,omitempty"`
 	// required: true
 	Ground *GroundDtoRequest `json:"ground,omitempty"`
 	// required: false
@@ -40,8 +42,8 @@ type MapDtoRequest struct {
 func (self MapDtoRequest) Validate() error {
 	err := validation.Errors{
 		"map": validation.ValidateStruct(&self,
-			validation.Field(&self.Biome, validation.Required, validation.By(taleslabconsts.ValidateBiomeType)),
-			validation.Field(&self.SecondaryBiome, validation.By(taleslabconsts.ValidateBiomeType)),
+			validation.Field(&self.Biome, validation.Required, validation.By(biometype.ValidateBiomeType)),
+			validation.Field(&self.SecondaryBiome, validation.By(biometype.ValidateBiomeType)),
 			validation.Field(&self.Ground),
 			validation.Field(&self.Mountains),
 			validation.Field(&self.Canyon),

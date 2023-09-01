@@ -5,6 +5,7 @@ import (
 	"github.com/johnfercher/taleslab/internal/math"
 	"github.com/johnfercher/taleslab/pkg/grid"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts"
+	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts/biometype"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabrepositories"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabservices"
@@ -24,12 +25,12 @@ func NewAssetsGenerator(biomeLoader taleslabrepositories.BiomeRepository, second
 	}
 }
 
-func (self *assetsGenerator) SetBiome(biomeType taleslabconsts.BiomeType) taleslabservices.AssetsGenerator {
+func (self *assetsGenerator) SetBiome(biomeType biometype.BiomeType) taleslabservices.AssetsGenerator {
 	self.biomeRepository.SetBiome(biomeType)
 	return self
 }
 
-func (self *assetsGenerator) SetSecondaryBiome(biomeType taleslabconsts.BiomeType) taleslabservices.AssetsGenerator {
+func (self *assetsGenerator) SetSecondaryBiome(biomeType biometype.BiomeType) taleslabservices.AssetsGenerator {
 	if biomeType == "" {
 		return self
 	}

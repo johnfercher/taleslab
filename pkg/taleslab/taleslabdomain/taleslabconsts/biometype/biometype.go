@@ -1,4 +1,4 @@
-package taleslabconsts
+package biometype
 
 import (
 	"errors"
@@ -11,13 +11,14 @@ import (
 type BiomeType string
 
 const (
-	SubTropicalForestBiomeType BiomeType = "subtropical_forest"
-	TemperateForestBiomeType   BiomeType = "temperate_forest"
-	DeadForestBiomeType        BiomeType = "dead_forest"
-	DeadLandBiomeType          BiomeType = "dead_land"
-	DesertBiomeType            BiomeType = "desert"
-	TundraBiomeType            BiomeType = "tundra"
-	BeachBiomeType             BiomeType = "beach"
+	SubTropicalForest BiomeType = "subtropical_forest"
+	TemperateForest   BiomeType = "temperate_forest"
+	DeadForest        BiomeType = "dead_forest"
+	Swamp             BiomeType = "swamp"
+	Lava              BiomeType = "lava"
+	Desert            BiomeType = "desert"
+	Tundra            BiomeType = "tundra"
+	Beach             BiomeType = "beach"
 )
 
 func ValidateBiomeType(value interface{}) error {
@@ -29,15 +30,15 @@ func ValidateBiomeType(value interface{}) error {
 	}
 
 	switch valueBiome {
-	case SubTropicalForestBiomeType:
+	case SubTropicalForest:
 		return nil
-	case TemperateForestBiomeType:
+	case TemperateForest:
 		return nil
-	case DeadForestBiomeType:
+	case DeadForest:
 		return nil
-	case DesertBiomeType:
+	case Desert:
 		return nil
-	case TundraBiomeType:
+	case Tundra:
 		return nil
 	default:
 		return validation.Errors{

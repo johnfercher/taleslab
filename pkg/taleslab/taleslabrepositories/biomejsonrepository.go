@@ -3,6 +3,7 @@ package taleslabrepositories
 import (
 	"encoding/json"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts"
+	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts/biometype"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabrepositories"
 	"io/ioutil"
@@ -10,9 +11,9 @@ import (
 )
 
 type biomeJsonRepository struct {
-	biomeType      taleslabconsts.BiomeType
+	biomeType      biometype.BiomeType
 	propRepository taleslabrepositories.PropRepository
-	biomes         map[taleslabconsts.BiomeType]taleslabentities.Biome
+	biomes         map[biometype.BiomeType]taleslabentities.Biome
 }
 
 func NewBiomeRepository(propRepository taleslabrepositories.PropRepository) taleslabrepositories.BiomeRepository {
@@ -46,11 +47,11 @@ func (self *biomeJsonRepository) GetProp(id string) *taleslabentities.Prop {
 	return self.propRepository.GetProp(id)
 }
 
-func (self *biomeJsonRepository) SetBiome(biomeType taleslabconsts.BiomeType) {
+func (self *biomeJsonRepository) SetBiome(biomeType biometype.BiomeType) {
 	self.biomeType = biomeType
 }
 
-func (self *biomeJsonRepository) GetBiome() taleslabconsts.BiomeType {
+func (self *biomeJsonRepository) GetBiome() biometype.BiomeType {
 	return self.biomeType
 }
 
@@ -70,7 +71,7 @@ func (self *biomeJsonRepository) loadBiomes() {
 		log.Fatal(err.Error())
 	}
 
-	biomeMap := make(map[taleslabconsts.BiomeType]taleslabentities.Biome)
+	biomeMap := make(map[biometype.BiomeType]taleslabentities.Biome)
 
 	for _, biome := range biomes {
 		biomeMap[biome.BiomeType] = biome

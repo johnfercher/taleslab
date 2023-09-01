@@ -20,7 +20,7 @@ More examples:
 * [Transition (3D Temperate Forest, 3d Tundra)](docs/examples/transition3dforest2tundra.md)
 * [3D Temperate Forest](docs/examples/3dtemperateforest.md)
 * [3D Subtropical Forest](docs/examples/3dsubtropicalforest.md)
-* [3D Dead Forest](docs/examples/3ddeadforest.md)
+* [3D Dead Forest](docs/examples/3dswamp.md)
 * [3D Desert](./docs/examples/3ddesert.md)
 * [3D Tundra](./docs/examples/3dtundra.md)
 * [Circle](./docs/examples/circle.md)
