@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 	"github.com/johnfercher/talescoder/pkg/encoder"
-	"github.com/johnfercher/taleslab/internal/helper/file"
+	"github.com/johnfercher/taleslab/internal/file"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdto"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabrepositories"
@@ -26,8 +26,8 @@ func main() {
 		Biome:          taleslabconsts.TemperateForestBiomeType,
 		SecondaryBiome: taleslabconsts.TundraBiomeType,
 		Ground: &taleslabdto.GroundDtoRequest{
-			Width:             70,
-			Length:            70,
+			Width:             50,
+			Length:            50,
 			TerrainComplexity: 5,
 			MinHeight:         5,
 			ForceBaseLand:     true,

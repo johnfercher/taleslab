@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/johnfercher/talescoder/pkg/encoder"
-	"github.com/johnfercher/taleslab/internal/helper/file"
+	"github.com/johnfercher/taleslab/internal/file"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabmappers"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabrepositories"

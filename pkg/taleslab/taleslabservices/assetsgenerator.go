@@ -2,7 +2,7 @@ package taleslabservices
 
 import (
 	"github.com/johnfercher/taleslab/internal/api/apierror"
-	"github.com/johnfercher/taleslab/internal/helper/math"
+	"github.com/johnfercher/taleslab/internal/math"
 	"github.com/johnfercher/taleslab/pkg/grid"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"

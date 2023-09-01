@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 	"github.com/johnfercher/talescoder/pkg/encoder"
-	"github.com/johnfercher/taleslab/internal/helper/file"
+	"github.com/johnfercher/taleslab/internal/file"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdto"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabrepositories"
@@ -28,6 +28,7 @@ func main() {
 			Width:             50,
 			Length:            50,
 			TerrainComplexity: 5,
+			ForceBaseLand:     true,
 		},
 		Props: &taleslabdto.PropsDtoRequest{
 			StoneDensity: 100,

@@ -14,11 +14,10 @@ package main
 
 import (
 	"context"
-	"fmt"
-	"github.com/johnfercher/taleslab/internal/bytecompressor"
-	"github.com/johnfercher/taleslab/internal/talespireadapter/talespirecoder"
-	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdto"
+	"github.com/johnfercher/talescoder/pkg/encoder"
+	"github.com/johnfercher/taleslab/internal/file"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts"
+	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdto"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabrepositories"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabservices"
 	"log"
@@ -27,13 +26,9 @@ import (
 func main() {
 	ctx := context.TODO()
 
-	compressor := bytecompressor.New()
-	encoder := talespirecoder.NewEncoder(compressor)
+	encoder := encoder.NewEncoder()
 
-	propRepository, err := taleslabrepositories.NewPropRepository()
-	if err != nil {
-		log.Fatal(err.Error())
-	}
+	propRepository := taleslabrepositories.NewPropRepository()
 
 	biomeRepository := taleslabrepositories.NewBiomeRepository(propRepository)
 	secondaryBiomeRepository := taleslabrepositories.NewBiomeRepository(propRepository)
@@ -42,8 +37,8 @@ func main() {
 	inputMap := &taleslabdto.MapDtoRequest{
 		Biome: taleslabconsts.TundraBiomeType,
 		Ground: &taleslabdto.GroundDtoRequest{
-			Width:             70,
-			Length:            70,
+			Width:             50,
+			Length:            50,
 			TerrainComplexity: 5,
 		},
 		Props: &taleslabdto.PropsDtoRequest{
@@ -71,7 +66,9 @@ func main() {
 		log.Fatal(err)
 	}
 
-	fmt.Println(slab.Code)
-	fmt.Println(slab.Size)
+	err = file.SaveCodes(slab.Codes, "docs/codes/3dtundra.txt")
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 ```

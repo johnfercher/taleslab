@@ -13,9 +13,8 @@ H4sIAAAAAAAE/zTWL48kVRfH8dtdVT0jVm3aoCiDYgVBoUiJdZTBQAtwKLICQUjLFuXIJi15AeMISb2A
 package main
 
 import (
-	"fmt"
-	"github.com/johnfercher/taleslab/internal/bytecompressor"
-	"github.com/johnfercher/taleslab/internal/talespireadapter/talespirecoder"
+	"github.com/johnfercher/talescoder/pkg/encoder"
+	"github.com/johnfercher/taleslab/internal/file"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabmappers"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabrepositories"
@@ -23,13 +22,9 @@ import (
 )
 
 func main() {
-	propRepository, err := taleslabrepositories.NewPropRepository()
-	if err != nil {
-		log.Fatal(err.Error())
-	}
+	propRepository := taleslabrepositories.NewPropRepository()
 
-	compressor := bytecompressor.New()
-	encoder := talespirecoder.NewEncoder(compressor)
+	encoder := encoder.NewEncoder()
 
 	assets := taleslabentities.Assets{}
 
@@ -60,11 +55,13 @@ func main() {
 	taleSpireSlab := taleslabmappers.TaleSpireSlabFromAssets(assets)
 
 	base64, err := encoder.Encode(taleSpireSlab)
-
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	fmt.Println(base64)
+	err = file.SaveCodes([]string{base64}, "docs/codes/pyramid.txt")
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 ```
