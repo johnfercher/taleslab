@@ -3,7 +3,6 @@ package taleslabservices
 import (
 	"github.com/johnfercher/taleslab/internal/api/apierror"
 	"github.com/johnfercher/taleslab/internal/math"
-	"github.com/johnfercher/taleslab/pkg/grid"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts/biometype"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"
@@ -13,20 +12,24 @@ import (
 )
 
 type assetsGenerator struct {
-	biomeRepository          taleslabrepositories.BiomeRepository
-	secondaryBiomeRepository taleslabrepositories.BiomeRepository
-	props                    *taleslabdto.PropsDtoRequest
+	biomeRepository    taleslabrepositories.BiomeRepository
+	props              *taleslabdto.PropsDtoRequest
+	biomeType          biometype.BiomeType
+	secondaryBiomeType biometype.BiomeType
 }
 
-func NewAssetsGenerator(biomeLoader taleslabrepositories.BiomeRepository, secondaryBiomeLoader taleslabrepositories.BiomeRepository) taleslabservices.AssetsGenerator {
+func NewAssetsGenerator(biomeRepository taleslabrepositories.BiomeRepository) taleslabservices.AssetsGenerator {
 	return &assetsGenerator{
-		biomeRepository:          biomeLoader,
-		secondaryBiomeRepository: secondaryBiomeLoader,
+		biomeRepository: biomeRepository,
 	}
 }
 
 func (self *assetsGenerator) SetBiome(biomeType biometype.BiomeType) taleslabservices.AssetsGenerator {
-	self.biomeRepository.SetBiome(biomeType)
+	if biomeType == "" {
+		return self
+	}
+
+	self.biomeType = biomeType
 	return self
 }
 
@@ -35,7 +38,7 @@ func (self *assetsGenerator) SetSecondaryBiome(biomeType biometype.BiomeType) ta
 		return self
 	}
 
-	self.secondaryBiomeRepository.SetBiome(biomeType)
+	self.secondaryBiomeType = biomeType
 	return self
 }
 
@@ -49,7 +52,7 @@ func (self *assetsGenerator) Generate(world [][]taleslabentities.Element) (tales
 	worldLength := len(world[0])
 	assets := taleslabentities.Assets{}
 
-	var propsGrid [][]taleslabentities.Element
+	/*var propsGrid [][]taleslabentities.Element
 
 	if self.props != nil {
 		propsGrid = grid.GenerateElementGrid(worldWidth, worldLength, taleslabentities.Element{ElementType: taleslabconsts.NoneType})
@@ -72,18 +75,18 @@ func (self *assetsGenerator) Generate(world [][]taleslabentities.Element) (tales
 					element.ElementType == taleslabconsts.BaseGroundType
 			})
 		}
-	}
+	}*/
 
-	propKeys := self.biomeRepository.GetPropKeys()
+	//propKeys := self.biomeRepository.GetPropKeys()
 	constructorKeys := self.biomeRepository.GetConstructorKeys()
 
 	for key := range constructorKeys {
 		assets = self.appendConstructionSlab(key, assets, world)
 	}
 
-	for key := range propKeys {
+	/*for key := range propKeys {
 		assets = self.appendPropsToSlab(key, assets, world, propsGrid)
-	}
+	}*/
 
 	return assets, nil
 }
@@ -202,7 +205,7 @@ func (self *assetsGenerator) addCoordinates(asset *taleslabentities.Asset, x, y,
 func (self *assetsGenerator) getBiomeConstructor(i, iMax int, elementType taleslabconsts.ElementType) *taleslabentities.Prop {
 	option := math.GetRandomOption(i, iMax, 6.0)
 
-	if self.secondaryBiomeRepository.GetBiome() == "" {
+	if self.secondaryBiomeRepository.GetBiomeType() == "" {
 		option = true
 	}
 
@@ -220,7 +223,7 @@ func (self *assetsGenerator) getBiomeConstructor(i, iMax int, elementType talesl
 func (self *assetsGenerator) getBiomeProp(i, iMax int, elementType taleslabconsts.ElementType) *taleslabentities.Prop {
 	option := math.GetRandomOption(i, iMax, 13.0)
 
-	if self.secondaryBiomeRepository.GetBiome() == "" {
+	if self.secondaryBiomeRepository.GetBiomeType() == "" {
 		option = true
 	}
 
