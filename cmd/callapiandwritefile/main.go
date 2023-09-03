@@ -28,7 +28,6 @@ func main() {
 			X: -22.503520257853395,
 			Y: -43.170512111338226,
 		},
-		SquareSize: 128,
 	}
 
 	response, err := client.GetArea(ctx, request)

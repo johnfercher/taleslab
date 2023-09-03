@@ -28,10 +28,6 @@ func TestGetSliceInOffset(t *testing.T) {
 	grid.Print()
 	fmt.Println()
 
-	slices := SliceTerrain(grid, 5)
-	for _, slice := range slices {
-		slice.Print()
-		fmt.Println()
-	}
+	GetSliceInOffset(grid, 50)
 
 }

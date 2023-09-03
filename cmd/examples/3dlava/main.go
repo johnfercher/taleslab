@@ -25,8 +25,8 @@ func main() {
 	inputMap := &taleslabdto.MapDtoRequest{
 		Biome: biometype.Lava,
 		Ground: &taleslabdto.GroundDtoRequest{
-			Width:             50,
-			Length:            50,
+			Width:             128,
+			Length:            128,
 			TerrainComplexity: 5,
 			ForceBaseLand:     true,
 		},

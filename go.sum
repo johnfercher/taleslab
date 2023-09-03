@@ -131,6 +131,8 @@ github.com/johnfercher/talescoder v1.0.4 h1:H7Rlyoo+BGxagg0YSox5okrQzI5auJwNWptU
 github.com/johnfercher/talescoder v1.0.4/go.mod h1:mUMU8bA5tF5V0q/csE2WGvPoQISXAw4DZJxdZkYN6hM=
 github.com/johnfercher/tessadem-sdk v1.0.0 h1:UNls0RyF9zm3aW3CYNHbAinY+erpB1G/gts5IOWlRDc=
 github.com/johnfercher/tessadem-sdk v1.0.0/go.mod h1:SH8q6nFAIWkWKe0ak49dRpA+mExN3QmFzwnHAN4kr60=
+github.com/johnfercher/tessadem-sdk v1.0.1 h1:uMx9gCbfLiIOQENm8VD5rT+/XQ/2yvx0xKGTKdti9TQ=
+github.com/johnfercher/tessadem-sdk v1.0.1/go.mod h1:5473f0ckd6jEwUJG/RdXGqjHIs3AGMgWx9/k/9GCMY0=
 github.com/joho/godotenv v1.5.1 h1:7eLL/+HRGLY0ldzfGMeQkb7vMd0as4CfYvUVzLqw0N0=
 github.com/joho/godotenv v1.5.1/go.mod h1:f4LDr5Voq0i2e/R5DDNOoa2zzDfwtkZa6DnEwAbqwq4=
 github.com/jonboulle/clockwork v0.1.0/go.mod h1:Ii8DK3G1RaLaWxj9trq07+26W01tbo22gdxWY5EU2bo=

@@ -1,6 +1,6 @@
 module github.com/johnfercher/taleslab
 
-go 1.21.0
+go 1.23
 
 require (
 	github.com/go-kit/kit v0.10.0
@@ -20,7 +20,7 @@ require (
 	github.com/elazarl/go-bindata-assetfs v1.0.1 // indirect
 	github.com/ghodss/yaml v1.0.0 // indirect
 	github.com/go-logfmt/logfmt v0.5.0 // indirect
-	github.com/johnfercher/tessadem-sdk v1.0.0 // indirect
+	github.com/johnfercher/tessadem-sdk v1.0.1 // indirect
 	github.com/kr/text v0.2.0 // indirect
 	github.com/niemeyer/pretty v0.0.0-20200227124842-a10e7caefd8e // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect

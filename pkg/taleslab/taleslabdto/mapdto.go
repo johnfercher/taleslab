@@ -13,7 +13,7 @@ type MapDtoResponse struct {
 	// Size of the base64 string
 	Size int `json:"size"`
 	// Codes to insert in the game
-	Codes []string `json:"codes"`
+	Codes [][]string `json:"codes"`
 }
 
 // MapDtoRequest request model

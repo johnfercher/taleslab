@@ -38,32 +38,37 @@ func (self *mapService) Generate(ctx context.Context, inputMap *taleslabdto.MapD
 		return nil, err
 	}
 
-	worldSlices := grid.SliceTerrain(worldMatrix, 50)
+	worldMatrixSlices := grid.SliceTerrain(worldMatrix, 50)
 
 	response := &taleslabdto.MapDtoResponse{
 		SlabVersion: "v2",
 	}
 
-	for _, slice := range worldSlices {
-		assetsGenerator := NewAssetsGenerator(self.biomeLoader, self.secondaryBiomeLoader).
-			SetBiome(inputMap.Biome).
-			SetProps(inputMap.Props).
-			SetSecondaryBiome(inputMap.SecondaryBiome)
+	for _, worldMatrix := range worldMatrixSlices {
+		sliceCode := []string{}
+		for _, slice := range worldMatrix {
+			assetsGenerator := NewAssetsGenerator(self.biomeLoader, self.secondaryBiomeLoader).
+				SetBiome(inputMap.Biome).
+				SetProps(inputMap.Props).
+				SetSecondaryBiome(inputMap.SecondaryBiome)
 
-		worldAssets, err := assetsGenerator.Generate(slice)
-		if err != nil {
-			return nil, err
+			worldAssets, err := assetsGenerator.Generate(slice)
+			if err != nil {
+				return nil, err
+			}
+
+			slab := taleslabmappers.TaleSpireSlabFromAssets(worldAssets)
+
+			base64, encodeError := self.encoder.Encode(slab)
+			if err != nil {
+				return nil, apierror.New(http.StatusInternalServerError, encodeError.Error())
+			}
+
+			sliceCode = append(sliceCode, base64)
+			response.Size += len(base64) / 1024
 		}
 
-		slab := taleslabmappers.TaleSpireSlabFromAssets(worldAssets)
-
-		base64, encodeError := self.encoder.Encode(slab)
-		if err != nil {
-			return nil, apierror.New(http.StatusInternalServerError, encodeError.Error())
-		}
-
-		response.Codes = append(response.Codes, base64)
-		response.Size += len(base64) / 1024
+		response.Codes = append(response.Codes, sliceCode)
 	}
 
 	return response, nil

@@ -30,35 +30,19 @@ func main() {
 
 	worldMatrix := BuildNormalizedElevationMap(areaResponse)
 
-	inputMap := &taleslabdto.MapDtoRequest{
-		Biome: biometype.Tundra,
-		Ground: &taleslabdto.GroundDtoRequest{
-			Width:             128,
-			Length:            128,
-			TerrainComplexity: 5,
-			ForceBaseLand:     true,
-		},
-		Props: &taleslabdto.PropsDtoRequest{
-			StoneDensity: 100,
-			TreeDensity:  15,
-			MiscDensity:  15,
-		},
-		Mountains: &taleslabdto.MountainsDtoRequest{
-			MinX:           30,
-			RandX:          5,
-			MinY:           30,
-			RandY:          5,
-			MinComplexity:  5,
-			RandComplexity: 2,
-			MinHeight:      10,
-			RandHeight:     10,
-		},
-		River: &taleslabdto.RiverDtoRequest{
-			HasRiver: true,
-		},
+	fmt.Println(len(worldMatrix), len(worldMatrix[0]))
+
+	biome := biometype.TemperateForest
+	secondaryBiome := biometype.TemperateForest
+	props := &taleslabdto.PropsDtoRequest{
+		StoneDensity: 100,
+		TreeDensity:  15,
+		MiscDensity:  15,
 	}
 
-	worldSlices := grid.SliceTerrain(worldMatrix, 50)
+	worldMatrixSlices := grid.SliceTerrain(worldMatrix, 50)
+
+	fmt.Println("okok")
 
 	encoder := encoder.NewEncoder()
 	propRepository := taleslabrepositories.NewPropRepository()
@@ -69,28 +53,33 @@ func main() {
 		SlabVersion: "v2",
 	}
 
-	for _, slice := range worldSlices {
-		assetsGenerator := taleslabservices.NewAssetsGenerator(biomeRepository, secondaryBiomeRepository).
-			SetBiome(inputMap.Biome).
-			SetProps(inputMap.Props).
-			SetSecondaryBiome(inputMap.SecondaryBiome)
+	for _, worldMatrix := range worldMatrixSlices {
+		sliceCode := []string{}
+		for _, slice := range worldMatrix {
+			assetsGenerator := taleslabservices.NewAssetsGenerator(biomeRepository, secondaryBiomeRepository).
+				SetBiome(biome).
+				SetProps(props).
+				SetSecondaryBiome(secondaryBiome)
 
-		worldAssets, apiErr := assetsGenerator.Generate(slice)
-		if apiErr != nil {
-			fmt.Println(err.Error())
-			return
+			worldAssets, err := assetsGenerator.Generate(slice)
+			if err != nil {
+				fmt.Println(err.Error())
+				return
+			}
+
+			slab := taleslabmappers.TaleSpireSlabFromAssets(worldAssets)
+
+			base64, encodeError := encoder.Encode(slab)
+			if err != nil {
+				fmt.Println(encodeError.Error())
+				return
+			}
+
+			sliceCode = append(sliceCode, base64)
+			response.Size += len(base64) / 1024
 		}
 
-		slab := taleslabmappers.TaleSpireSlabFromAssets(worldAssets)
-
-		base64, err := encoder.Encode(slab)
-		if err != nil {
-			fmt.Println(err.Error())
-			return
-		}
-
-		response.Codes = append(response.Codes, base64)
-		response.Size += len(base64) / 1024
+		response.Codes = append(response.Codes, sliceCode)
 	}
 
 	err = file.SaveCodes(response.Codes, "docs/codes/pet.txt")

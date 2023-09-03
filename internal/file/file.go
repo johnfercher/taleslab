@@ -7,7 +7,7 @@ import (
 	"os"
 )
 
-func SaveCodes(base64Contents []string, pathFile string) apierror.ApiError {
+func SaveCodes(base64MatrixContents [][]string, pathFile string) apierror.ApiError {
 	f, err := os.Create(pathFile)
 	if err != nil {
 		return apierror.New(http.StatusInternalServerError, err.Error())
@@ -16,10 +16,14 @@ func SaveCodes(base64Contents []string, pathFile string) apierror.ApiError {
 	defer f.Close()
 
 	contents := ""
-	for _, base := range base64Contents {
-		content := "```" + base + "```"
-		contents += content + "\n"
+	for _, base64Contents := range base64MatrixContents {
+		for _, base := range base64Contents {
+			content := "```" + base + "```"
+			contents += content + "\n"
+		}
+		contents += "\n"
 	}
+
 	_, err = f.WriteString(contents)
 	if err != nil {
 		return apierror.New(http.StatusInternalServerError, err.Error())
