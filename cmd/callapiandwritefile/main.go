@@ -13,7 +13,6 @@ func main() {
 
 	godotenv.Load()
 	apiKey := os.Getenv("API_KEY")
-	fmt.Println(apiKey)
 
 	client := tessadem.NewClient(apiKey)
 	writer := tessadem.NewFileWriter()
@@ -21,12 +20,12 @@ func main() {
 	request := &tessadem.AreaRequest{
 		Units: tessadem.Meter,
 		Northeast: &tessadem.Vector2D{
-			X: -22.510677151874123,
-			Y: -43.18595653686086,
+			X: -27.44524479006217,
+			Y: -48.519853037517144,
 		},
 		Southwest: &tessadem.Vector2D{
-			X: -22.503520257853395,
-			Y: -43.170512111338226,
+			X: -27.459521825397537,
+			Y: -48.55104453459989,
 		},
 	}
 
