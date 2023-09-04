@@ -22,7 +22,7 @@ func main() {
 
 	fileReader := tessadem.NewFileReader()
 
-	areaResponse, err := fileReader.ReadArea(ctx, "file.json")
+	areaResponse, err := fileReader.ReadArea(ctx, "data/petropolis.json")
 	if err != nil {
 		fmt.Println(err.Error())
 		return
@@ -32,13 +32,7 @@ func main() {
 
 	fmt.Println(len(worldMatrix), len(worldMatrix[0]))
 
-	biome := biometype.Beach
-
-	props := &taleslabdto.PropsDtoRequest{
-		StoneDensity: 100,
-		TreeDensity:  5,
-		MiscDensity:  25,
-	}
+	biome := biometype.TemperateForest
 
 	worldMatrixSlices := grid.SliceTerrain(worldMatrix, 50)
 
@@ -54,8 +48,7 @@ func main() {
 		sliceCode := []string{}
 		for _, slice := range worldMatrix {
 			assetsGenerator := taleslabservices.NewAssetsGenerator(biomeRepository, propRepository).
-				SetBiome(biome).
-				SetProps(props)
+				SetBiome(biome)
 
 			worldAssets, err := assetsGenerator.Generate(slice)
 			if err != nil {
@@ -109,7 +102,7 @@ func BuildNormalizedElevationMap(response *tessadem.AreaResponse) [][]taleslaben
 			elevation := int(response.Results[i][j].Elevation - min)
 			element := taleslabentities.Element{
 				elevation,
-				getBaseGroundType(hasOcean, int(response.Results[i][j].Elevation)),
+				getBaseGroundType(hasOcean, elevation),
 			}
 
 			array = append(array, element)
@@ -121,15 +114,11 @@ func BuildNormalizedElevationMap(response *tessadem.AreaResponse) [][]taleslaben
 }
 
 func getBaseGroundType(hasOcean bool, elevation int) taleslabconsts.ElementType {
-	if !hasOcean {
-		return taleslabconsts.Ground
-	}
-
-	if elevation <= 1 {
+	if hasOcean && elevation <= 1 {
 		return taleslabconsts.Water
 	}
 
-	if elevation <= 4 {
+	if elevation <= 3 {
 		return taleslabconsts.BaseGround
 	}
 

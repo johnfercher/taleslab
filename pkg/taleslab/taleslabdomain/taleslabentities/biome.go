@@ -6,6 +6,7 @@ import (
 	"github.com/johnfercher/taleslab/internal/math"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts/biometype"
+	"math/rand"
 )
 
 type Biome struct {
@@ -37,7 +38,7 @@ func (b *Biome) GetBuildingBlockFromElement(reliefType taleslabconsts.ElementTyp
 		return "", errors.New("there is no building blocks for this relief type")
 	}
 
-	index := math.GetRandomValue(len(block), fmt.Sprintf("%s-building", reliefType))
+	index := rand.Intn(len(block))
 
 	return block[index], nil
 }

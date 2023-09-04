@@ -10,13 +10,11 @@ import (
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabrepositories"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabservices"
-	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdto"
 )
 
 type assetsGenerator struct {
 	biomeRepository    taleslabrepositories.BiomeRepository
 	propsRepository    taleslabrepositories.PropRepository
-	props              *taleslabdto.PropsDtoRequest
 	biomeType          biometype.BiomeType
 	secondaryBiomeType biometype.BiomeType
 }
@@ -43,11 +41,6 @@ func (self *assetsGenerator) SetSecondaryBiome(biomeType biometype.BiomeType) ta
 	}
 
 	self.secondaryBiomeType = biomeType
-	return self
-}
-
-func (self *assetsGenerator) SetProps(props *taleslabdto.PropsDtoRequest) taleslabservices.AssetsGenerator {
-	self.props = props
 	return self
 }
 
@@ -164,27 +157,6 @@ func (self *assetsGenerator) generateDetailAssets(world [][]taleslabentities.Ele
 
 		}
 	}
-
-	/*propsGrid = grid.RandomlyFillEmptyGridSlots(world, propsGrid, self.props.StoneDensity, taleslabconsts.Stone, func(element taleslabentities.Element) bool {
-		// Just to not add stone in an empty grid slot
-		return element.ElementType != taleslabconsts.None
-	})
-
-	propsGrid = grid.RandomlyFillEmptyGridSlots(world, propsGrid, self.props.TreeDensity, taleslabconsts.Tree, func(element taleslabentities.Element) bool {
-		return element.ElementType == taleslabconsts.Ground ||
-			element.ElementType == taleslabconsts.Mountain ||
-			element.ElementType == taleslabconsts.BaseGround ||
-			element.ElementType == taleslabconsts.Water
-	})
-
-	if self.props.MiscDensity != 0 {
-		propsGrid = grid.RandomlyFillEmptyGridSlots(world, propsGrid, self.props.MiscDensity, taleslabconsts.Misc, func(element taleslabentities.Element) bool {
-			return element.ElementType == taleslabconsts.Ground ||
-				element.ElementType == taleslabconsts.Mountain ||
-				element.ElementType == taleslabconsts.BaseGround ||
-				element.ElementType == taleslabconsts.Water
-		})
-	}*/
 
 	return propsGrid
 }
