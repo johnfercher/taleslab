@@ -17,10 +17,9 @@ func main() {
 	encoder := encoder.NewEncoder()
 
 	propRepository := taleslabrepositories.NewPropRepository()
+	biomeRepository := taleslabrepositories.NewBiomeRepository()
 
-	biomeRepository := taleslabrepositories.NewBiomeRepository(propRepository)
-	secondaryBiomeRepository := taleslabrepositories.NewBiomeRepository(propRepository)
-	mapService := taleslabservices.NewMapService(biomeRepository, secondaryBiomeRepository, encoder)
+	mapService := taleslabservices.NewMapService(biomeRepository, propRepository, encoder)
 
 	inputMap := &taleslabdto.MapDtoRequest{
 		Biome: biometype.Beach,

@@ -17,16 +17,14 @@ func main() {
 	encoder := encoder.NewEncoder()
 
 	propRepository := taleslabrepositories.NewPropRepository()
-
-	biomeRepository := taleslabrepositories.NewBiomeRepository(propRepository)
-	secondaryBiomeRepository := taleslabrepositories.NewBiomeRepository(propRepository)
-	mapService := taleslabservices.NewMapService(biomeRepository, secondaryBiomeRepository, encoder)
+	biomeRepository := taleslabrepositories.NewBiomeRepository()
+	mapService := taleslabservices.NewMapService(biomeRepository, propRepository, encoder)
 
 	inputMap := &taleslabdto.MapDtoRequest{
 		Biome: biometype.Lava,
 		Ground: &taleslabdto.GroundDtoRequest{
-			Width:             128,
-			Length:            128,
+			Width:             50,
+			Length:            50,
 			TerrainComplexity: 5,
 			ForceBaseLand:     true,
 		},
