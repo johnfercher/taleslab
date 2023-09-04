@@ -66,8 +66,8 @@
         "id": "AACmti5NH3hdToBfG7WRV5Nl",
         "name": "coconut_tree_small",
         "dimensions": {
-          "width": 2,
-          "length": 2,
+          "width": 1,
+          "length": 1,
           "height": 1
         },
         "offset_z": 1
@@ -81,8 +81,8 @@
         "id": "AABx/so+p7uARbfEaUtHMDsv",
         "name": "coconut_tree_big",
         "dimensions": {
-          "width": 2,
-          "length": 2,
+          "width": 1,
+          "length": 1,
           "height": 1
         },
         "offset_z": 1
@@ -125,6 +125,66 @@
       {
         "id": "AAAnlx5Fc7wsRoxGUSaH5uFw",
         "name": "stone_big",
+        "dimensions": {
+          "width": 1,
+          "length": 1,
+          "height": 1
+        },
+        "offset_z": 0
+      }
+    ]
+  },
+  {
+    "id": "one_small_rock",
+    "asset_parts": [
+      {
+        "id": "AADjxTuSRag/QJPdA129J2J5",
+        "name": "one_small_rock",
+        "dimensions": {
+          "width": 1,
+          "length": 1,
+          "height": 1
+        },
+        "offset_z": 0
+      }
+    ]
+  },
+  {
+    "id": "coconut",
+    "asset_parts": [
+      {
+        "id": "AADEN3wr/42VQIc+WSAxiS3s",
+        "name": "coconut",
+        "dimensions": {
+          "width": 1,
+          "length": 1,
+          "height": 1
+        },
+        "offset_z": 1
+      }
+    ]
+  },
+  {
+    "id": "orange_fish",
+    "asset_parts": [
+      {
+        "id": "AABw5QP2WxI8QJOz+OBwsyKs",
+        "name": "orange_fish",
+        "dimensions": {
+          "width": 1,
+          "length": 1,
+          "height": 1
+        },
+        "offset_z": 0
+      }
+    ]
+  },
+  {
+    "id": "coral",
+    "asset_parts": [
+      {
+        "id": "AAD0riaFHUiOSKGRqolY5wXs",
+        "name": "coral",
         "dimensions": {
           "width": 1,
           "length": 1,

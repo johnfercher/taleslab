@@ -21,15 +21,15 @@ func DigRiver(grid [][]taleslabentities.Element) [][]taleslabentities.Element {
 
 		grid[i][randomY] = taleslabentities.Element{
 			Height:      1,
-			ElementType: taleslabconsts.WaterType,
+			ElementType: taleslabconsts.Water,
 		}
 		grid[i][randomY+1] = taleslabentities.Element{
 			Height:      1,
-			ElementType: taleslabconsts.WaterType,
+			ElementType: taleslabconsts.Water,
 		}
 		grid[i][randomY+2] = taleslabentities.Element{
 			Height:      1,
-			ElementType: taleslabconsts.WaterType,
+			ElementType: taleslabconsts.Water,
 		}
 	}
 
@@ -51,7 +51,7 @@ func DigTerrainInOffset(baseTerrain [][]taleslabentities.Element, offset int) []
 		for x := 0; x < int(randomX); x++ {
 			baseTerrain[x][j] = taleslabentities.Element{
 				Height:      1,
-				ElementType: taleslabconsts.BaseGroundType,
+				ElementType: taleslabconsts.BaseGround,
 			}
 		}
 	}

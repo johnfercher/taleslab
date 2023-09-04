@@ -1,40 +1,42 @@
-[
-  {
-    "biome_type": "beach",
-    "reliefs": {
-      "water": {
-        "building_blocks": ["water"],
-        "prop_blocks": {
-          "vegetation": [],
-          "stones": [],
-          "misc": []
-        }
-      },
-      "base_ground": {
-        "building_blocks": ["ground_sand_small"],
-        "prop_blocks": {
-          "vegetation": [],
-          "stones": [],
-          "misc": []
-        }
-      },
-      "ground": {
-        "building_blocks": ["ground_nature_small"],
-        "prop_blocks": {
-          "vegetation": ["pine_tree_big"],
-          "stones": ["stone_big"],
-          "misc": ["rose", "floor_bush", "small_fern", "big_fern"]
-        }
-      },
-      "mountain": {
-        "building_blocks": ["ground_nature_small"],
-        "prop_blocks": {
-          "vegetation": ["pine_tree_big"],
-          "stones": ["stone_big"],
-          "misc": ["rose", "floor_bush", "small_fern", "big_fern"]
-        }
+[{
+  "biome_type": "beach",
+  "reliefs": [
+    {
+      "key": "water",
+      "building_blocks": ["water"],
+      "prop_blocks": {
+        "vegetation": ["coral"],
+        "stones": ["one_small_rock"],
+        "misc": ["orange_fish"]
       }
     },
-    "stone_wall": "big_stone_wall"
-  }
-]
+    {
+      "key": "base_ground",
+      "building_blocks": ["ground_sand_small"],
+      "prop_blocks": {
+        "vegetation": ["coconut_tree_big", "coconut_tree_big"],
+        "stones": ["one_small_rock"],
+        "misc": ["coconut"]
+      }
+    },
+    {
+      "key": "ground",
+      "building_blocks": ["ground_nature_small"],
+      "prop_blocks": {
+        "vegetation": ["pine_tree_big", "two_floor_pine_tree"],
+        "stones": ["stone_big"],
+        "misc": ["rose", "floor_bush", "small_fern", "big_fern"]
+      }
+    },
+    {
+      "key": "mountain",
+      "building_blocks": ["ground_nature_small"],
+      "prop_blocks": {
+        "vegetation": ["pine_tree_big", "two_floor_pine_tree" ],
+        "stones": ["stone_big"],
+        "misc": ["rose", "floor_bush", "small_fern", "big_fern"]
+      }
+    }
+  ],
+  "stone_wall": "big_stone_wall"
+}]

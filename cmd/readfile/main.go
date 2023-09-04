@@ -33,7 +33,7 @@ func main() {
 	fmt.Println(len(worldMatrix), len(worldMatrix[0]))
 
 	biome := biometype.Beach
-	secondaryBiome := biometype.Beach
+
 	props := &taleslabdto.PropsDtoRequest{
 		StoneDensity: 100,
 		TreeDensity:  15,
@@ -44,8 +44,7 @@ func main() {
 
 	encoder := encoder.NewEncoder()
 	propRepository := taleslabrepositories.NewPropRepository()
-	biomeRepository := taleslabrepositories.NewBiomeRepository(propRepository)
-	secondaryBiomeRepository := taleslabrepositories.NewBiomeRepository(propRepository)
+	biomeRepository := taleslabrepositories.NewBiomeRepository()
 
 	response := &taleslabdto.MapDtoResponse{
 		SlabVersion: "v2",
@@ -54,10 +53,9 @@ func main() {
 	for _, worldMatrix := range worldMatrixSlices {
 		sliceCode := []string{}
 		for _, slice := range worldMatrix {
-			assetsGenerator := taleslabservices.NewAssetsGenerator(biomeRepository, secondaryBiomeRepository).
+			assetsGenerator := taleslabservices.NewAssetsGenerator(biomeRepository, propRepository).
 				SetBiome(biome).
-				SetProps(props).
-				SetSecondaryBiome(secondaryBiome)
+				SetProps(props)
 
 			worldAssets, err := assetsGenerator.Generate(slice)
 			if err != nil {
@@ -80,7 +78,7 @@ func main() {
 		response.Codes = append(response.Codes, sliceCode)
 	}
 
-	err = file.SaveCodes(response.Codes, "docs/codes/pet.txt")
+	err = file.SaveCodes(response.Codes, "docs/codes/pet2.txt")
 	if err != nil {
 		fmt.Println(err.Error())
 		return
@@ -131,16 +129,16 @@ func BuildNormalizedElevationMap(response *tessadem.AreaResponse) [][]taleslaben
 
 func getBaseGroundType(hasOcean bool, elevation int) taleslabconsts.ElementType {
 	if !hasOcean {
-		return taleslabconsts.GroundType
+		return taleslabconsts.Ground
 	}
 
 	if elevation <= 0 {
-		return taleslabconsts.WaterType
+		return taleslabconsts.Water
 	}
 
 	if elevation <= 2 {
-		return taleslabconsts.BaseGroundType
+		return taleslabconsts.BaseGround
 	}
 
-	return taleslabconsts.GroundType
+	return taleslabconsts.Ground
 }

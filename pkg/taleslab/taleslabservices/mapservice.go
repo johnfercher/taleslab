@@ -13,16 +13,16 @@ import (
 )
 
 type mapService struct {
-	biomeLoader          taleslabrepositories.BiomeRepository
-	secondaryBiomeLoader taleslabrepositories.BiomeRepository
-	encoder              encoder.Encoder
+	biomeRepository taleslabrepositories.BiomeRepository
+	propsRepository taleslabrepositories.PropRepository
+	encoder         encoder.Encoder
 }
 
-func NewMapService(biomeLoader taleslabrepositories.BiomeRepository, secondaryBiomeLoader taleslabrepositories.BiomeRepository, encoder encoder.Encoder) taleslabservices.SlabGenerator {
+func NewMapService(biomeRepository taleslabrepositories.BiomeRepository, propsRepository taleslabrepositories.PropRepository, encoder encoder.Encoder) taleslabservices.SlabGenerator {
 	return &mapService{
-		biomeLoader:          biomeLoader,
-		encoder:              encoder,
-		secondaryBiomeLoader: secondaryBiomeLoader,
+		biomeRepository: biomeRepository,
+		propsRepository: propsRepository,
+		encoder:         encoder,
 	}
 }
 
@@ -47,7 +47,7 @@ func (self *mapService) Generate(ctx context.Context, inputMap *taleslabdto.MapD
 	for _, worldMatrix := range worldMatrixSlices {
 		sliceCode := []string{}
 		for _, slice := range worldMatrix {
-			assetsGenerator := NewAssetsGenerator(self.biomeLoader, self.secondaryBiomeLoader).
+			assetsGenerator := NewAssetsGenerator(self.biomeRepository, self.propsRepository).
 				SetBiome(inputMap.Biome).
 				SetProps(inputMap.Props).
 				SetSecondaryBiome(inputMap.SecondaryBiome)

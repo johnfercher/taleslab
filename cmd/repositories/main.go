@@ -6,8 +6,7 @@ import (
 )
 
 func main() {
-	props := taleslabrepositories.NewPropRepository()
-	biomes := taleslabrepositories.NewBiomeRepository(props)
+	biomes := taleslabrepositories.NewBiomeRepository()
 
 	biome := biomes.GetBiome(biometype.Beach)
 	biome.Print()

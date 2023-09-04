@@ -2,6 +2,7 @@ package taleslabrepositories
 
 import (
 	"encoding/json"
+	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts/biometype"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabrepositories"
@@ -10,15 +11,12 @@ import (
 )
 
 type biomeJsonRepository struct {
-	biomeType      biometype.BiomeType
-	propRepository taleslabrepositories.PropRepository
-	biomes         map[biometype.BiomeType]*taleslabentities.Biome
+	biomeType biometype.BiomeType
+	biomes    map[biometype.BiomeType]*taleslabentities.Biome
 }
 
-func NewBiomeRepository(propRepository taleslabrepositories.PropRepository) taleslabrepositories.BiomeRepository {
-	repository := &biomeJsonRepository{
-		propRepository: propRepository,
-	}
+func NewBiomeRepository() taleslabrepositories.BiomeRepository {
+	repository := &biomeJsonRepository{}
 
 	repository.loadBiomes()
 
@@ -35,7 +33,7 @@ func (self *biomeJsonRepository) loadBiomes() {
 		log.Fatal(err.Error())
 	}
 
-	biomes := []*taleslabentities.Biome{}
+	biomes := []*BiomeDao{}
 
 	err = json.Unmarshal(bytes, &biomes)
 	if err != nil {
@@ -45,8 +43,22 @@ func (self *biomeJsonRepository) loadBiomes() {
 	biomeMap := make(map[biometype.BiomeType]*taleslabentities.Biome)
 
 	for _, biome := range biomes {
-		biomeMap[biome.Type] = biome
+		biomeMap[biome.Type] = &taleslabentities.Biome{
+			Type:      biome.Type,
+			Reliefs:   self.reliefsArrayToMap(biome.Reliefs),
+			StoneWall: biome.StoneWall,
+		}
 	}
 
 	self.biomes = biomeMap
+}
+
+func (self *biomeJsonRepository) reliefsArrayToMap(reliefs []*taleslabentities.Relief) map[taleslabconsts.ElementType]*taleslabentities.Relief {
+	reliefMap := make(map[taleslabconsts.ElementType]*taleslabentities.Relief)
+
+	for _, relief := range reliefs {
+		reliefMap[taleslabconsts.ElementType(relief.Key)] = relief
+	}
+
+	return reliefMap
 }
