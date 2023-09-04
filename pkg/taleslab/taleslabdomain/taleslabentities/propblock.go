@@ -3,9 +3,9 @@ package taleslabentities
 import "fmt"
 
 type PropBlocks struct {
-	Vegetation []string `json:"vegetation"`
-	Stones     []string `json:"stones"`
-	Misc       []string `json:"misc"`
+	Vegetation PropDistribution `json:"vegetation"`
+	Stones     PropDistribution `json:"stones"`
+	Misc       PropDistribution `json:"misc"`
 }
 
 func (p *PropBlocks) Print() {

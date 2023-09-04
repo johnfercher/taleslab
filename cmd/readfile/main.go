@@ -36,8 +36,8 @@ func main() {
 
 	props := &taleslabdto.PropsDtoRequest{
 		StoneDensity: 100,
-		TreeDensity:  15,
-		MiscDensity:  15,
+		TreeDensity:  5,
+		MiscDensity:  25,
 	}
 
 	worldMatrixSlices := grid.SliceTerrain(worldMatrix, 50)
@@ -86,27 +86,20 @@ func main() {
 }
 
 func BuildNormalizedElevationMap(response *tessadem.AreaResponse) [][]taleslabentities.Element {
-	min := math.MaxFloat64
-	max := 0.0
 	hasOcean := false
 
-	for i := 0; i < len(response.Results); i++ {
-		for j := 0; j < len(response.Results[i]); j++ {
-			elevation := response.Results[i][j].Elevation
-			if elevation < min {
-				min = elevation
-			} else if elevation > max {
-				max = elevation
+	min, _ := getMinMax(response)
+
+	if min <= 0 {
+		hasOcean = true
+		for i := 0; i < len(response.Results); i++ {
+			for j := 0; j < len(response.Results[i]); j++ {
+				response.Results[i][j].Elevation += math.Abs(min)
 			}
 		}
 	}
 
-	if min <= 0 {
-		fmt.Println(min)
-		hasOcean = true
-	}
-
-	fmt.Println(min, max)
+	min, _ = getMinMax(response)
 
 	elevation := [][]taleslabentities.Element{}
 
@@ -132,13 +125,31 @@ func getBaseGroundType(hasOcean bool, elevation int) taleslabconsts.ElementType 
 		return taleslabconsts.Ground
 	}
 
-	if elevation <= 0 {
+	if elevation <= 1 {
 		return taleslabconsts.Water
 	}
 
-	if elevation <= 2 {
+	if elevation <= 4 {
 		return taleslabconsts.BaseGround
 	}
 
 	return taleslabconsts.Ground
+}
+
+func getMinMax(response *tessadem.AreaResponse) (float64, float64) {
+	min := math.MaxFloat64
+	max := 0.0
+
+	for i := 0; i < len(response.Results); i++ {
+		for j := 0; j < len(response.Results[i]); j++ {
+			elevation := response.Results[i][j].Elevation
+			if elevation < min {
+				min = elevation
+			} else if elevation > max {
+				max = elevation
+			}
+		}
+	}
+
+	return min, max
 }

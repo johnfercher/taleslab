@@ -1,6 +1,7 @@
 package taleslabservices
 
 import (
+	"fmt"
 	"github.com/johnfercher/taleslab/internal/api/apierror"
 	"github.com/johnfercher/taleslab/internal/math"
 	"github.com/johnfercher/taleslab/pkg/grid"
@@ -117,7 +118,54 @@ func (self *assetsGenerator) generateDetailAssets(world [][]taleslabentities.Ele
 
 	propsGrid := grid.GenerateElementGrid(worldWidth, worldLength, taleslabentities.Element{ElementType: taleslabconsts.None})
 
-	propsGrid = grid.RandomlyFillEmptyGridSlots(world, propsGrid, self.props.StoneDensity, taleslabconsts.Stone, func(element taleslabentities.Element) bool {
+	biome := self.biomeRepository.GetBiome(self.biomeType)
+
+	propsKey := []taleslabconsts.ElementType{
+		taleslabconsts.Tree,
+		taleslabconsts.Stone,
+		taleslabconsts.Misc,
+	}
+
+	for i := 0; i < worldWidth; i++ {
+		for j := 0; j < worldLength; j++ {
+			// Avoid to add in limits
+			if i == 0 || i == worldWidth-1 || j == 0 || j == worldLength-1 {
+				continue
+			}
+
+			// Avoid to add to close
+			if i > 1 && (propsGrid[i-1][j].ElementType != taleslabconsts.None || propsGrid[i-2][j].ElementType != taleslabconsts.None) {
+				continue
+			}
+
+			// Avoid to add to close
+			if j > 1 && (propsGrid[i][j-1].ElementType != taleslabconsts.None || propsGrid[i][j-2].ElementType != taleslabconsts.None) {
+				continue
+			}
+
+			for key, _ := range biome.Reliefs {
+				if world[i][j].ElementType != key {
+					continue
+				}
+
+				for _, prop := range propsKey {
+					if propsGrid[i][j].ElementType != taleslabconsts.None {
+						continue
+					}
+
+					maxRand := 100
+					weight, _ := biome.GetPropBlockWeight(key, prop)
+					random := math.GetRandomValue(maxRand, fmt.Sprintf("%s-%s-add", key, prop))
+					if float64(maxRand)*weight > float64(random) {
+						propsGrid[i][j] = taleslabentities.Element{ElementType: prop}
+					}
+				}
+			}
+
+		}
+	}
+
+	/*propsGrid = grid.RandomlyFillEmptyGridSlots(world, propsGrid, self.props.StoneDensity, taleslabconsts.Stone, func(element taleslabentities.Element) bool {
 		// Just to not add stone in an empty grid slot
 		return element.ElementType != taleslabconsts.None
 	})
@@ -136,7 +184,7 @@ func (self *assetsGenerator) generateDetailAssets(world [][]taleslabentities.Ele
 				element.ElementType == taleslabconsts.BaseGround ||
 				element.ElementType == taleslabconsts.Water
 		})
-	}
+	}*/
 
 	return propsGrid
 }

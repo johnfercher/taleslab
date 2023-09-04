@@ -135,11 +135,26 @@
     ]
   },
   {
-    "id": "one_small_rock",
+    "id": "one_small_rock-z1",
     "asset_parts": [
       {
         "id": "AADjxTuSRag/QJPdA129J2J5",
-        "name": "one_small_rock",
+        "name": "one_small_rock-z1",
+        "dimensions": {
+          "width": 1,
+          "length": 1,
+          "height": 1
+        },
+        "offset_z": 1
+      }
+    ]
+  },
+  {
+    "id": "one_small_rock-z0",
+    "asset_parts": [
+      {
+        "id": "AADjxTuSRag/QJPdA129J2J5",
+        "name": "one_small_rock-z0",
         "dimensions": {
           "width": 1,
           "length": 1,

@@ -5,36 +5,72 @@
       "key": "water",
       "building_blocks": ["water"],
       "prop_blocks": {
-        "vegetation": ["coral"],
-        "stones": ["one_small_rock"],
-        "misc": ["orange_fish"]
+        "vegetation": {
+          "weight": 0.01,
+          "props": ["coral"]
+        },
+        "stones": {
+          "weight": 0.01,
+          "props": ["one_small_rock-z0"]
+        },
+        "misc": {
+          "weight": 0.01,
+          "props": ["orange_fish"]
+        }
       }
     },
     {
       "key": "base_ground",
       "building_blocks": ["ground_sand_small"],
       "prop_blocks": {
-        "vegetation": ["coconut_tree_big", "coconut_tree_big"],
-        "stones": ["one_small_rock"],
-        "misc": ["coconut"]
+        "vegetation": {
+          "weight": 0.05,
+          "props": ["coconut_tree_small", "coconut_tree_big"]
+        },
+        "stones": {
+          "weight": 0.05,
+          "props": ["one_small_rock-z1"]
+        },
+        "misc": {
+          "weight": 0.01,
+          "props": ["coconut"]
+        }
       }
     },
     {
       "key": "ground",
       "building_blocks": ["ground_nature_small"],
       "prop_blocks": {
-        "vegetation": ["pine_tree_big", "two_floor_pine_tree"],
-        "stones": ["stone_big"],
-        "misc": ["rose", "floor_bush", "small_fern", "big_fern"]
+        "vegetation": {
+          "weight": 0.2,
+          "props": ["pine_tree_big", "two_floor_pine_tree"]
+        },
+        "stones": {
+          "weight": 0.01,
+          "props": ["stone_big"]
+        },
+        "misc": {
+          "weight": 0.01,
+          "props": ["rose", "floor_bush", "small_fern", "big_fern"]
+        }
       }
     },
     {
       "key": "mountain",
       "building_blocks": ["ground_nature_small"],
       "prop_blocks": {
-        "vegetation": ["pine_tree_big", "two_floor_pine_tree" ],
-        "stones": ["stone_big"],
-        "misc": ["rose", "floor_bush", "small_fern", "big_fern"]
+        "vegetation": {
+          "weight": 0.1,
+          "props": ["pine_tree_big", "two_floor_pine_tree"]
+        },
+        "stones": {
+          "weight": 0.01,
+          "props": ["stone_big"]
+        },
+        "misc": {
+          "weight": 0.01,
+          "props": ["rose", "floor_bush", "small_fern", "big_fern"]
+        }
       }
     }
   ],

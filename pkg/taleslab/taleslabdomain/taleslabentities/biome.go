@@ -50,32 +50,52 @@ func (b *Biome) GetPropBlockFromElement(reliefType taleslabconsts.ElementType, p
 
 	if propType == taleslabconsts.Tree {
 		vegetation := relief.PropBlocks.Vegetation
-		if len(vegetation) <= 0 {
+		if len(vegetation.Props) <= 0 {
 			return "", errors.New("there is no building blocks for this relief type")
 		}
 
-		index := math.GetRandomValue(len(vegetation), fmt.Sprintf("%s-%s-vegetation", reliefType, propType))
+		index := math.GetRandomValue(len(vegetation.Props), fmt.Sprintf("%s-%s-vegetation", reliefType, propType))
 
-		return vegetation[index], nil
+		return vegetation.Props[index], nil
 	}
 
 	if propType == taleslabconsts.Stone {
 		stones := relief.PropBlocks.Stones
-		if len(stones) <= 0 {
+		if len(stones.Props) <= 0 {
 			return "", errors.New("there is no building blocks for this relief type")
 		}
 
-		index := math.GetRandomValue(len(stones), fmt.Sprintf("%s-%s-stones", reliefType, propType))
+		index := math.GetRandomValue(len(stones.Props), fmt.Sprintf("%s-%s-stones", reliefType, propType))
 
-		return stones[index], nil
+		return stones.Props[index], nil
 	}
 
 	misc := relief.PropBlocks.Misc
-	if len(misc) <= 0 {
+	if len(misc.Props) <= 0 {
 		return "", errors.New("there is no building blocks for this relief type")
 	}
 
-	index := math.GetRandomValue(len(misc), fmt.Sprintf("%s-%s-misc", reliefType, propType))
+	index := math.GetRandomValue(len(misc.Props), fmt.Sprintf("%s-%s-misc", reliefType, propType))
 
-	return misc[index], nil
+	return misc.Props[index], nil
+}
+
+func (b *Biome) GetPropBlockWeight(reliefType taleslabconsts.ElementType, propType taleslabconsts.ElementType) (float64, error) {
+	relief, ok := b.Reliefs[reliefType]
+	if !ok {
+		return 0, errors.New("unknown relief")
+	}
+
+	if propType == taleslabconsts.Tree {
+		vegetation := relief.PropBlocks.Vegetation
+		return vegetation.Weight, nil
+	}
+
+	if propType == taleslabconsts.Stone {
+		stones := relief.PropBlocks.Stones
+		return stones.Weight, nil
+	}
+
+	misc := relief.PropBlocks.Misc
+	return misc.Weight, nil
 }

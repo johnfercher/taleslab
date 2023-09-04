@@ -49,7 +49,6 @@ func (self *mapService) Generate(ctx context.Context, inputMap *taleslabdto.MapD
 		for _, slice := range worldMatrix {
 			assetsGenerator := NewAssetsGenerator(self.biomeRepository, self.propsRepository).
 				SetBiome(inputMap.Biome).
-				SetProps(inputMap.Props).
 				SetSecondaryBiome(inputMap.SecondaryBiome)
 
 			worldAssets, err := assetsGenerator.Generate(slice)
