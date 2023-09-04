@@ -9,5 +9,5 @@ import (
 type AssetsGenerator interface {
 	SetBiome(biome biometype.BiomeType) AssetsGenerator
 	SetSecondaryBiome(biomeType biometype.BiomeType) AssetsGenerator
-	Generate(world [][]taleslabentities.Element) (taleslabentities.Assets, apierror.ApiError)
+	Generate(world [][]taleslabentities.Element, currentX, currentY int) (taleslabentities.Assets, apierror.ApiError)
 }

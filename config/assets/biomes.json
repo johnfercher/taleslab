@@ -4,114 +4,73 @@
     "reliefs": [
       {
         "key": "water",
-        "building_blocks": [
-          "water"
-        ],
+        "building_blocks": ["water"],
         "prop_blocks": {
           "vegetation": {
             "weight": 0.01,
-            "props": [
-              "coral"
-            ]
+            "props": ["coral"]
           },
           "stones": {
             "weight": 0.01,
-            "props": [
-              "one_small_rock-z0"
-            ]
+            "props": ["one_small_rock-z0"]
           },
           "misc": {
             "weight": 0.01,
-            "props": [
-              "orange_fish"
-            ]
+            "props": ["orange_fish"]
           }
         }
       },
       {
         "key": "base_ground",
-        "building_blocks": [
-          "ground_sand_small"
-        ],
+        "building_blocks": ["ground_sand_small"],
         "prop_blocks": {
           "vegetation": {
             "weight": 0.05,
-            "props": [
-              "coconut_tree_small",
-              "coconut_tree_big"
-            ]
+            "props": ["coconut_tree_small", "coconut_tree_big"]
           },
           "stones": {
             "weight": 0.05,
-            "props": [
-              "one_small_rock-z1"
-            ]
+            "props": ["one_small_rock-z1"]
           },
           "misc": {
             "weight": 0.01,
-            "props": [
-              "coconut"
-            ]
+            "props": ["coconut"]
           }
         }
       },
       {
         "key": "ground",
-        "building_blocks": [
-          "ground_nature_small"
-        ],
+        "building_blocks": ["ground_nature_small"],
         "prop_blocks": {
           "vegetation": {
             "weight": 0.2,
-            "props": [
-              "pine_tree_big",
-              "two_floor_pine_tree"
-            ]
+            "props": ["pine_tree_big", "two_floor_pine_tree"]
           },
           "stones": {
             "weight": 0.01,
-            "props": [
-              "stone_big"
-            ]
+            "props": ["stone_big"]
           },
           "misc": {
             "weight": 0.01,
-            "props": [
-              "rose",
-              "floor_bush",
-              "small_fern",
-              "big_fern"
-            ]
+            "props": ["rose", "floor_bush", "small_fern", "big_fern"]
           }
         }
       },
       {
         "key": "mountain",
-        "building_blocks": [
-          "ground_nature_small"
-        ],
+        "building_blocks": ["ground_nature_small"],
         "prop_blocks": {
           "vegetation": {
             "weight": 0.1,
-            "props": [
-              "pine_tree_big",
-              "two_floor_pine_tree"
-            ]
+            "props": ["pine_tree_big", "two_floor_pine_tree"]
           },
           "stones": {
             "weight": 0.01,
-            "props": [
-              "stone_big"
-            ]
+            "props": ["stone_big"]
           },
           "misc": {
             "weight": 0.01,
-            "props": [
-              "rose",
-              "floor_bush",
-              "small_fern",
-              "big_fern"
-            ]
+            "props": ["rose", "floor_bush", "small_fern", "big_fern"]
           }
         }
       }
@@ -123,114 +82,619 @@
     "reliefs": [
       {
         "key": "water",
-        "building_blocks": [
-          "water"
-        ],
+        "building_blocks": ["water"],
         "prop_blocks": {
           "vegetation": {
             "weight": 0.01,
-            "props": [
-              "coral"
-            ]
+            "props": ["coral"]
           },
           "stones": {
             "weight": 0.01,
-            "props": [
-              "one_small_rock-z0"
-            ]
+            "props": ["one_small_rock-z0"]
           },
           "misc": {
             "weight": 0.01,
-            "props": [
-              "orange_fish"
-            ]
+            "props": ["orange_fish"]
           }
         }
       },
       {
         "key": "base_ground",
-        "building_blocks": [
-          "mud_small", "ground_nature_small"
-        ],
+        "building_blocks": ["mud_small", "ground_nature_small"],
         "prop_blocks": {
           "vegetation": {
             "weight": 0.2,
-            "props": [
-              "pine_tree_big",
-              "two_floor_pine_tree"
-            ]
+            "props": ["pine_tree_big","two_floor_pine_tree" ,"two_floor_pine_tree_with_trunk"]
           },
           "stones": {
             "weight": 0.05,
-            "props": [
-              "one_small_rock-z1"
-            ]
+            "props": ["one_small_rock-z1"]
           },
           "misc": {
             "weight": 0.2,
-            "props": [
-              "small_fern"
-            ]
+            "props": ["rose", "floor_bush", "small_fern", "big_fern"]
           }
         }
       },
       {
         "key": "ground",
-        "building_blocks": [
-          "ground_nature_small"
-        ],
+        "building_blocks": ["ground_nature_small"],
         "prop_blocks": {
           "vegetation": {
             "weight": 0.2,
-            "props": [
-              "pine_tree_big",
-              "two_floor_pine_tree"
-            ]
+            "props": ["pine_tree_big","two_floor_pine_tree" ,"two_floor_pine_tree_with_trunk"]
           },
           "stones": {
             "weight": 0.01,
-            "props": [
-              "stone_big"
-            ]
+            "props": ["stone_big"]
           },
           "misc": {
             "weight": 0.2,
-            "props": [
-              "rose",
-              "floor_bush",
-              "small_fern",
-              "big_fern"
-            ]
+            "props": ["rose", "floor_bush", "small_fern", "big_fern"]
           }
         }
       },
       {
         "key": "mountain",
-        "building_blocks": [
-          "ground_nature_small"
-        ],
+        "building_blocks": ["ground_nature_small"],
         "prop_blocks": {
           "vegetation": {
             "weight": 0.1,
-            "props": [
-              "pine_tree_big",
-              "two_floor_pine_tree"
-            ]
+            "props": ["pine_tree_big","two_floor_pine_tree" ,"two_floor_pine_tree_with_trunk"]
           },
           "stones": {
             "weight": 0.01,
-            "props": [
-              "stone_big"
-            ]
+            "props": ["stone_big"]
           },
           "misc": {
             "weight": 0.01,
-            "props": [
-              "rose",
-              "floor_bush",
-              "small_fern",
-              "big_fern"
-            ]
+            "props": ["rose", "floor_bush", "small_fern", "big_fern"]
+          }
+        }
+      }
+    ],
+    "stone_wall": "big_stone_wall"
+  },
+  {
+    "biome_type": "temperate_forest",
+    "reliefs": [
+      {
+        "key": "water",
+        "building_blocks": ["water"],
+        "prop_blocks": {
+          "vegetation": {
+            "weight": 0.01,
+            "props": ["coral"]
+          },
+          "stones": {
+            "weight": 0.01,
+            "props": ["one_small_rock-z0"]
+          },
+          "misc": {
+            "weight": 0.01,
+            "props": ["orange_fish"]
+          }
+        }
+      },
+      {
+        "key": "base_ground",
+        "building_blocks": ["mud_small", "ground_nature_small"],
+        "prop_blocks": {
+          "vegetation": {
+            "weight": 0.2,
+            "props": ["pine_tree_big","two_floor_pine_tree" ,"two_floor_pine_tree_with_trunk"]
+          },
+          "stones": {
+            "weight": 0.05,
+            "props": ["one_small_rock-z1"]
+          },
+          "misc": {
+            "weight": 0.2,
+            "props": ["rose", "floor_bush", "small_fern", "big_fern"]
+          }
+        }
+      },
+      {
+        "key": "ground",
+        "building_blocks": ["ground_nature_small"],
+        "prop_blocks": {
+          "vegetation": {
+            "weight": 0.2,
+            "props": ["pine_tree_big","two_floor_pine_tree" ,"two_floor_pine_tree_with_trunk"]
+          },
+          "stones": {
+            "weight": 0.01,
+            "props": ["stone_big"]
+          },
+          "misc": {
+            "weight": 0.2,
+            "props": ["rose", "floor_bush", "small_fern", "big_fern"]
+          }
+        }
+      },
+      {
+        "key": "mountain",
+        "building_blocks": ["ground_nature_small"],
+        "prop_blocks": {
+          "vegetation": {
+            "weight": 0.1,
+            "props": ["pine_tree_big","two_floor_pine_tree" ,"two_floor_pine_tree_with_trunk"]
+          },
+          "stones": {
+            "weight": 0.01,
+            "props": ["stone_big"]
+          },
+          "misc": {
+            "weight": 0.01,
+            "props": ["rose", "floor_bush", "small_fern", "big_fern"]
+          }
+        }
+      }
+    ],
+    "stone_wall": "big_stone_wall"
+  },
+  {
+    "biome_type": "desert",
+    "reliefs": [
+      {
+        "key": "water",
+        "building_blocks": ["water"],
+        "prop_blocks": {
+          "vegetation": {
+            "weight": 0.01,
+            "props": ["coral"]
+          },
+          "stones": {
+            "weight": 0.01,
+            "props": ["one_small_rock-z0"]
+          },
+          "misc": {
+            "weight": 0.01,
+            "props": ["orange_fish"]
+          }
+        }
+      },
+      {
+        "key": "base_ground",
+        "building_blocks": ["ground_sand_small"],
+        "prop_blocks": {
+          "vegetation": {
+            "weight": 0.01,
+            "props": ["cactus_small", "cactus_big"]
+          },
+          "stones": {
+            "weight": 0.01,
+            "props": ["stone_big"]
+          },
+          "misc": {
+            "weight": 0.01,
+            "props": ["bull_skull", "down_rib", "up_rib"]
+          }
+        }
+      },
+      {
+        "key": "ground",
+        "building_blocks": ["ground_sand_small"],
+        "prop_blocks": {
+          "vegetation": {
+            "weight": 0.01,
+            "props": ["cactus_small", "cactus_big"]
+          },
+          "stones": {
+            "weight": 0.01,
+            "props": ["stone_big"]
+          },
+          "misc": {
+            "weight": 0.01,
+            "props": ["bull_skull", "down_rib", "up_rib"]
+          }
+        }
+      },
+      {
+        "key": "mountain",
+        "building_blocks": ["ground_sand_small"],
+        "prop_blocks": {
+          "vegetation": {
+            "weight": 0.01,
+            "props": ["cactus_small", "cactus_big"]
+          },
+          "stones": {
+            "weight": 0.01,
+            "props": ["stone_big"]
+          },
+          "misc": {
+            "weight": 0.01,
+            "props": ["bull_skull", "down_rib", "up_rib"]
+          }
+        }
+      }
+    ],
+    "stone_wall": "big_stone_wall"
+  },
+  {
+    "biome_type": "tundra",
+    "reliefs": [
+      {
+        "key": "water",
+        "building_blocks": ["water"],
+        "prop_blocks": {
+          "vegetation": {
+            "weight": 0.01,
+            "props": ["coral"]
+          },
+          "stones": {
+            "weight": 0.01,
+            "props": ["one_small_rock-z0"]
+          },
+          "misc": {
+            "weight": 0.01,
+            "props": ["orange_fish"]
+          }
+        }
+      },
+      {
+        "key": "base_ground",
+        "building_blocks": ["ground_snow_small"],
+        "prop_blocks": {
+          "vegetation": {
+            "weight": 0.2,
+            "props": ["snow_two_floor_pine_tree_with_trunk", "snow_two_floor_pine_tree","snow_pine_tree_big", "dead_tree_big"]
+          },
+          "stones": {
+            "weight": 0.01,
+            "props": ["snow_stone_small"]
+          },
+          "misc": {
+            "weight": 0.01,
+            "props": ["small_dead_bush", "big_dead_bush"]
+          }
+        }
+      },
+      {
+        "key": "ground",
+        "building_blocks": ["ground_snow_small"],
+        "prop_blocks": {
+          "vegetation": {
+            "weight": 0.1,
+            "props": ["snow_two_floor_pine_tree_with_trunk", "snow_two_floor_pine_tree","snow_pine_tree_big", "dead_tree_big"]
+          },
+          "stones": {
+            "weight": 0.01,
+            "props": ["snow_stone_small"]
+          },
+          "misc": {
+            "weight": 0.01,
+            "props": ["small_dead_bush", "big_dead_bush"]
+          }
+        }
+      },
+      {
+        "key": "mountain",
+        "building_blocks": ["ground_snow_small"],
+        "prop_blocks": {
+          "vegetation": {
+            "weight": 0.2,
+            "props": ["snow_two_floor_pine_tree_with_trunk", "snow_two_floor_pine_tree","snow_pine_tree_big", "dead_tree_big"]
+          },
+          "stones": {
+            "weight": 0.01,
+            "props": ["snow_stone_small"]
+          },
+          "misc": {
+            "weight": 0.01,
+            "props": ["small_dead_bush", "big_dead_bush"]
+          }
+        }
+      }
+    ],
+    "stone_wall": "big_stone_wall"
+  },
+  {
+    "biome_type": "subtropical_forest",
+    "reliefs": [
+      {
+        "key": "water",
+        "building_blocks": ["water"],
+        "prop_blocks": {
+          "vegetation": {
+            "weight": 0.01,
+            "props": ["coral"]
+          },
+          "stones": {
+            "weight": 0.01,
+            "props": ["one_small_rock-z0"]
+          },
+          "misc": {
+            "weight": 0.01,
+            "props": ["orange_fish"]
+          }
+        }
+      },
+      {
+        "key": "base_ground",
+        "building_blocks": ["mud_small", "mud_with_feather_small", "clay_with_feather_small", "ground_nature_small"],
+        "prop_blocks": {
+          "vegetation": {
+            "weight": 0.2,
+            "props": ["one_big_tree", "two_big_tree", "three_big_tree"]
+          },
+          "stones": {
+            "weight": 0.01,
+            "props": ["snow_stone_small"]
+          },
+          "misc": {
+            "weight": 0.01,
+            "props": ["small_leaves_bug", "big_leaves_bug", "floor_bush"]
+          }
+        }
+      },
+      {
+        "key": "ground",
+        "building_blocks": ["mud_small", "mud_with_feather_small", "clay_with_feather_small", "ground_nature_small"],
+        "prop_blocks": {
+          "vegetation": {
+            "weight": 0.1,
+            "props": ["one_big_tree", "two_big_tree", "three_big_tree"]
+          },
+          "stones": {
+            "weight": 0.01,
+            "props": ["snow_stone_small"]
+          },
+          "misc": {
+            "weight": 0.01,
+            "props": ["small_leaves_bug", "big_leaves_bug", "floor_bush"]
+          }
+        }
+      },
+      {
+        "key": "mountain",
+        "building_blocks": ["mud_small", "mud_with_feather_small", "clay_with_feather_small", "ground_nature_small"],
+        "prop_blocks": {
+          "vegetation": {
+            "weight": 0.2,
+            "props": ["one_big_tree", "two_big_tree", "three_big_tree"]
+          },
+          "stones": {
+            "weight": 0.01,
+            "props": ["snow_stone_small"]
+          },
+          "misc": {
+            "weight": 0.01,
+            "props": ["small_leaves_bug", "big_leaves_bug", "floor_bush"]
+          }
+        }
+      }
+    ],
+    "stone_wall": "big_stone_wall"
+  },
+  {
+    "biome_type": "dead_forest",
+    "reliefs": [
+      {
+        "key": "water",
+        "building_blocks": ["water"],
+        "prop_blocks": {
+          "vegetation": {
+            "weight": 0.01,
+            "props": ["coral"]
+          },
+          "stones": {
+            "weight": 0.01,
+            "props": ["one_small_rock-z0"]
+          },
+          "misc": {
+            "weight": 0.01,
+            "props": ["orange_fish"]
+          }
+        }
+      },
+      {
+        "key": "base_ground",
+        "building_blocks": ["mud_small", "mud_small" ,"clay_with_feather_small", "cavern_one_rock", "mud_with_feather_small"],
+        "prop_blocks": {
+          "vegetation": {
+            "weight": 0.2,
+            "props": ["bush_tree", "dead_tree_big", "dead_tree_small", "dead_tree_tiny", "cut_tree_with_moss", "bush_tree"]
+          },
+          "stones": {
+            "weight": 0.01,
+            "props": ["stone_big"]
+          },
+          "misc": {
+            "weight": 0.01,
+            "props": ["small_fern", "big_fern", "small_dead_bush", "big_dead_bush", "bull_skull", "down_rib", "up_rib", "pile_of_skulls", "down_skeleton", "up_skeleton", "small_dead_bush", "big_dead_bush"]
+          }
+        }
+      },
+      {
+        "key": "ground",
+        "building_blocks": ["mud_small", "mud_small" ,"clay_with_feather_small", "cavern_one_rock", "mud_with_feather_small"],
+        "prop_blocks": {
+          "vegetation": {
+            "weight": 0.1,
+            "props": ["bush_tree", "dead_tree_big", "dead_tree_small", "dead_tree_tiny", "cut_tree_with_moss", "bush_tree"]
+          },
+          "stones": {
+            "weight": 0.01,
+            "props": ["stone_big"]
+          },
+          "misc": {
+            "weight": 0.01,
+            "props": ["small_fern", "big_fern", "small_dead_bush", "big_dead_bush", "bull_skull", "down_rib", "up_rib", "pile_of_skulls", "down_skeleton", "up_skeleton", "small_dead_bush", "big_dead_bush"]
+          }
+        }
+      },
+      {
+        "key": "mountain",
+        "building_blocks": ["mud_small", "mud_small" ,"clay_with_feather_small", "cavern_one_rock", "mud_with_feather_small"],
+        "prop_blocks": {
+          "vegetation": {
+            "weight": 0.2,
+            "props": ["bush_tree", "dead_tree_big", "dead_tree_small", "dead_tree_tiny", "cut_tree_with_moss", "bush_tree"]
+          },
+          "stones": {
+            "weight": 0.01,
+            "props": ["stone_big"]
+          },
+          "misc": {
+            "weight": 0.01,
+            "props": ["small_fern", "big_fern", "small_dead_bush", "big_dead_bush", "bull_skull", "down_rib", "up_rib", "pile_of_skulls", "down_skeleton", "up_skeleton", "small_dead_bush", "big_dead_bush"]
+          }
+        }
+      }
+    ],
+    "stone_wall": "big_stone_wall"
+  },
+  {
+    "biome_type": "lava",
+    "reliefs": [
+      {
+        "key": "water",
+        "building_blocks": ["water"],
+        "prop_blocks": {
+          "vegetation": {
+            "weight": 0.01,
+            "props": ["coral"]
+          },
+          "stones": {
+            "weight": 0.01,
+            "props": ["one_small_rock-z0"]
+          },
+          "misc": {
+            "weight": 0.01,
+            "props": ["orange_fish"]
+          }
+        }
+      },
+      {
+        "key": "base_ground",
+        "building_blocks": ["lava", "lava_cold"],
+        "prop_blocks": {
+          "vegetation": {
+            "weight": 0.2,
+            "props": ["bush_tree", "dead_tree_big", "dead_tree_small", "dead_tree_tiny", "cut_tree_with_moss", "bush_tree"]
+          },
+          "stones": {
+            "weight": 0.01,
+            "props": ["stone_big"]
+          },
+          "misc": {
+            "weight": 0.01,
+            "props": ["small_fern", "big_fern", "small_dead_bush", "big_dead_bush", "bull_skull", "down_rib", "up_rib", "pile_of_skulls", "down_skeleton", "up_skeleton", "small_dead_bush", "big_dead_bush"]
+          }
+        }
+      },
+      {
+        "key": "ground",
+        "building_blocks": ["lava", "lava_cold","lava_dust"],
+        "prop_blocks": {
+          "vegetation": {
+            "weight": 0.1,
+            "props": ["bush_tree", "dead_tree_big", "dead_tree_small", "dead_tree_tiny", "cut_tree_with_moss", "bush_tree"]
+          },
+          "stones": {
+            "weight": 0.01,
+            "props": ["stone_big"]
+          },
+          "misc": {
+            "weight": 0.01,
+            "props": ["small_fern", "big_fern", "small_dead_bush", "big_dead_bush", "bull_skull", "down_rib", "up_rib", "pile_of_skulls", "down_skeleton", "up_skeleton", "small_dead_bush", "big_dead_bush"]
+          }
+        }
+      },
+      {
+        "key": "mountain",
+        "building_blocks": ["lava_cold","lava_dust"],
+        "prop_blocks": {
+          "vegetation": {
+            "weight": 0.2,
+            "props": ["bush_tree", "dead_tree_big", "dead_tree_small", "dead_tree_tiny", "cut_tree_with_moss", "bush_tree"]
+          },
+          "stones": {
+            "weight": 0.01,
+            "props": ["stone_big"]
+          },
+          "misc": {
+            "weight": 0.01,
+            "props": ["small_fern", "big_fern", "small_dead_bush", "big_dead_bush", "bull_skull", "down_rib", "up_rib", "pile_of_skulls", "down_skeleton", "up_skeleton", "small_dead_bush", "big_dead_bush"]
+          }
+        }
+      }
+    ],
+    "stone_wall": "big_stone_wall"
+  },
+  {
+    "biome_type": "swamp",
+    "reliefs": [
+      {
+        "key": "water",
+        "building_blocks": ["water"],
+        "prop_blocks": {
+          "vegetation": {
+            "weight": 0.01,
+            "props": ["coral"]
+          },
+          "stones": {
+            "weight": 0.01,
+            "props": ["one_small_rock-z0"]
+          },
+          "misc": {
+            "weight": 0.01,
+            "props": ["orange_fish"]
+          }
+        }
+      },
+      {
+        "key": "base_ground",
+        "building_blocks": ["dead_ground_small"],
+        "prop_blocks": {
+          "vegetation": {
+            "weight": 0.2,
+            "props": ["pine_tree_big"]
+          },
+          "stones": {
+            "weight": 0.01,
+            "props": ["stone_big"]
+          },
+          "misc": {
+            "weight": 0.01,
+            "props": ["small_fern", "big_fern", "small_dead_bush", "big_dead_bush", "bull_skull", "down_rib", "up_rib", "pile_of_skulls", "down_skeleton", "up_skeleton", "small_dead_bush", "big_dead_bush"]
+          }
+        }
+      },
+      {
+        "key": "ground",
+        "building_blocks": ["dead_ground_small"],
+        "prop_blocks": {
+          "vegetation": {
+            "weight": 0.1,
+            "props": ["pine_tree_big"]
+          },
+          "stones": {
+            "weight": 0.01,
+            "props": ["stone_big"]
+          },
+          "misc": {
+            "weight": 0.01,
+            "props": ["small_fern", "big_fern", "small_dead_bush", "big_dead_bush", "bull_skull", "down_rib", "up_rib", "pile_of_skulls", "down_skeleton", "up_skeleton", "small_dead_bush", "big_dead_bush"]
+          }
+        }
+      },
+      {
+        "key": "mountain",
+        "building_blocks": ["dead_ground_small"],
+        "prop_blocks": {
+          "vegetation": {
+            "weight": 0.2,
+            "props": ["pine_tree_big"]
+          },
+          "stones": {
+            "weight": 0.01,
+            "props": ["stone_big"]
+          },
+          "misc": {
+            "weight": 0.01,
+            "props": ["small_fern", "big_fern", "small_dead_bush", "big_dead_bush", "bull_skull", "down_rib", "up_rib", "pile_of_skulls", "down_skeleton", "up_skeleton", "small_dead_bush", "big_dead_bush"]
           }
         }
       }

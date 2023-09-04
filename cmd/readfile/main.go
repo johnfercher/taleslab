@@ -29,12 +29,16 @@ func main() {
 	}
 
 	worldMatrix := BuildNormalizedElevationMap(areaResponse)
+	maxWidth := len(worldMatrix)
+	maxLength := len(worldMatrix[0])
+	squareSize := 50
 
 	fmt.Println(len(worldMatrix), len(worldMatrix[0]))
 
-	biome := biometype.TemperateForest
+	biome := biometype.Tundra
+	secondaryBiome := biometype.TemperateForest
 
-	worldMatrixSlices := grid.SliceTerrain(worldMatrix, 50)
+	worldMatrixSlices := grid.SliceTerrain(worldMatrix, squareSize)
 
 	encoder := encoder.NewEncoder()
 	propRepository := taleslabrepositories.NewPropRepository()
@@ -44,13 +48,16 @@ func main() {
 		SlabVersion: "v2",
 	}
 
+	currentX := 0
+	currentY := 0
 	for _, worldMatrix := range worldMatrixSlices {
 		sliceCode := []string{}
 		for _, slice := range worldMatrix {
-			assetsGenerator := taleslabservices.NewAssetsGenerator(biomeRepository, propRepository).
-				SetBiome(biome)
+			assetsGenerator := taleslabservices.NewAssetsGenerator(biomeRepository, propRepository, maxWidth, maxLength).
+				SetBiome(biome).
+				SetSecondaryBiome(secondaryBiome)
 
-			worldAssets, err := assetsGenerator.Generate(slice)
+			worldAssets, err := assetsGenerator.Generate(slice, currentX, currentY)
 			if err != nil {
 				fmt.Println(err.Error())
 				return
@@ -66,9 +73,12 @@ func main() {
 
 			sliceCode = append(sliceCode, base64)
 			response.Size += len(base64) / 1024
+			currentY += squareSize
 		}
 
 		response.Codes = append(response.Codes, sliceCode)
+		currentY = 0
+		currentX += squareSize
 	}
 
 	err = file.SaveCodes(response.Codes, "docs/codes/pet2.txt")
@@ -122,7 +132,11 @@ func getBaseGroundType(hasOcean bool, elevation int) taleslabconsts.ElementType 
 		return taleslabconsts.BaseGround
 	}
 
-	return taleslabconsts.Ground
+	if elevation <= 10 {
+		return taleslabconsts.Ground
+	}
+
+	return taleslabconsts.Mountain
 }
 
 func getMinMax(response *tessadem.AreaResponse) (float64, float64) {
