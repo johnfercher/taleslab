@@ -13,16 +13,16 @@ import (
 )
 
 type mapService struct {
-	biomeLoader          taleslabrepositories.BiomeRepository
-	secondaryBiomeLoader taleslabrepositories.BiomeRepository
-	encoder              encoder.Encoder
+	biomeRepository taleslabrepositories.BiomeRepository
+	propsRepository taleslabrepositories.PropRepository
+	encoder         encoder.Encoder
 }
 
-func NewMapService(biomeLoader taleslabrepositories.BiomeRepository, secondaryBiomeLoader taleslabrepositories.BiomeRepository, encoder encoder.Encoder) taleslabservices.SlabGenerator {
+func NewMapService(biomeRepository taleslabrepositories.BiomeRepository, propsRepository taleslabrepositories.PropRepository, encoder encoder.Encoder) taleslabservices.SlabGenerator {
 	return &mapService{
-		biomeLoader:          biomeLoader,
-		encoder:              encoder,
-		secondaryBiomeLoader: secondaryBiomeLoader,
+		biomeRepository: biomeRepository,
+		propsRepository: propsRepository,
+		encoder:         encoder,
 	}
 }
 
@@ -38,21 +38,26 @@ func (self *mapService) Generate(ctx context.Context, inputMap *taleslabdto.MapD
 		return nil, err
 	}
 
-	worldMatrixSlices := grid.SliceTerrain(worldMatrix, 50)
+	maxWidth := len(worldMatrix)
+	maxLength := len(worldMatrix[0])
+	squareSize := 50
+
+	worldMatrixSlices := grid.SliceTerrain(worldMatrix, squareSize)
 
 	response := &taleslabdto.MapDtoResponse{
 		SlabVersion: "v2",
 	}
 
+	currentX := 0
+	currentY := 0
 	for _, worldMatrix := range worldMatrixSlices {
 		sliceCode := []string{}
 		for _, slice := range worldMatrix {
-			assetsGenerator := NewAssetsGenerator(self.biomeLoader, self.secondaryBiomeLoader).
+			assetsGenerator := NewAssetsGenerator(self.biomeRepository, self.propsRepository, maxWidth, maxLength).
 				SetBiome(inputMap.Biome).
-				SetProps(inputMap.Props).
 				SetSecondaryBiome(inputMap.SecondaryBiome)
 
-			worldAssets, err := assetsGenerator.Generate(slice)
+			worldAssets, err := assetsGenerator.Generate(slice, currentX, currentY)
 			if err != nil {
 				return nil, err
 			}
@@ -66,9 +71,12 @@ func (self *mapService) Generate(ctx context.Context, inputMap *taleslabdto.MapD
 
 			sliceCode = append(sliceCode, base64)
 			response.Size += len(base64) / 1024
+			currentX += squareSize
 		}
 
 		response.Codes = append(response.Codes, sliceCode)
+		currentX = 0
+		currentY += squareSize
 	}
 
 	return response, nil

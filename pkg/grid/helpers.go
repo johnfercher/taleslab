@@ -40,12 +40,12 @@ func RandomlyFillEmptyGridSlots(worldGrid [][]taleslabentities.Element, propsGri
 			}
 
 			// Avoid to add to close
-			if i > 1 && (propsGrid[i-1][j].ElementType != taleslabconsts.NoneType || propsGrid[i-2][j].ElementType != taleslabconsts.NoneType) {
+			if i > 1 && (propsGrid[i-1][j].ElementType != taleslabconsts.None || propsGrid[i-2][j].ElementType != taleslabconsts.None) {
 				continue
 			}
 
 			// Avoid to add to close
-			if j > 1 && (propsGrid[i][j-1].ElementType != taleslabconsts.NoneType || propsGrid[i][j-2].ElementType != taleslabconsts.NoneType) {
+			if j > 1 && (propsGrid[i][j-1].ElementType != taleslabconsts.None || propsGrid[i][j-2].ElementType != taleslabconsts.None) {
 				continue
 			}
 

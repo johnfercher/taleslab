@@ -5,6 +5,8 @@ import (
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"
 )
 
-type BiomeRepository interface {
-	GetBiome(biometype.BiomeType) *taleslabentities.Biome
+type BiomeDao struct {
+	Type      biometype.BiomeType        `json:"biome_type"`
+	Reliefs   []*taleslabentities.Relief `json:"reliefs"`
+	StoneWall string                     `json:"stone_wall"`
 }

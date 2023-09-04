@@ -1,6 +1,7 @@
 package taleslabservices
 
 import (
+	"fmt"
 	"github.com/johnfercher/taleslab/internal/api/apierror"
 	"github.com/johnfercher/taleslab/internal/math"
 	"github.com/johnfercher/taleslab/pkg/grid"
@@ -9,24 +10,34 @@ import (
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabrepositories"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabservices"
-	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdto"
 )
 
 type assetsGenerator struct {
-	biomeRepository          taleslabrepositories.BiomeRepository
-	secondaryBiomeRepository taleslabrepositories.BiomeRepository
-	props                    *taleslabdto.PropsDtoRequest
+	biomeRepository    taleslabrepositories.BiomeRepository
+	propsRepository    taleslabrepositories.PropRepository
+	biomeType          biometype.BiomeType
+	secondaryBiomeType biometype.BiomeType
+	MaxWidth           int
+	MaxLength          int
+	CurrentX           int
+	CurrentY           int
 }
 
-func NewAssetsGenerator(biomeLoader taleslabrepositories.BiomeRepository, secondaryBiomeLoader taleslabrepositories.BiomeRepository) taleslabservices.AssetsGenerator {
+func NewAssetsGenerator(biomeRepository taleslabrepositories.BiomeRepository, propsRepository taleslabrepositories.PropRepository, maxWidth, maxLength int) taleslabservices.AssetsGenerator {
 	return &assetsGenerator{
-		biomeRepository:          biomeLoader,
-		secondaryBiomeRepository: secondaryBiomeLoader,
+		biomeRepository: biomeRepository,
+		propsRepository: propsRepository,
+		MaxWidth:        maxWidth,
+		MaxLength:       maxLength,
 	}
 }
 
 func (self *assetsGenerator) SetBiome(biomeType biometype.BiomeType) taleslabservices.AssetsGenerator {
-	self.biomeRepository.SetBiome(biomeType)
+	if biomeType == "" {
+		return self
+	}
+
+	self.biomeType = biomeType
 	return self
 }
 
@@ -35,126 +46,64 @@ func (self *assetsGenerator) SetSecondaryBiome(biomeType biometype.BiomeType) ta
 		return self
 	}
 
-	self.secondaryBiomeRepository.SetBiome(biomeType)
+	self.secondaryBiomeType = biomeType
 	return self
 }
 
-func (self *assetsGenerator) SetProps(props *taleslabdto.PropsDtoRequest) taleslabservices.AssetsGenerator {
-	self.props = props
-	return self
-}
+func (self *assetsGenerator) Generate(world [][]taleslabentities.Element, currentX, currentY int) (taleslabentities.Assets, apierror.ApiError) {
+	self.CurrentX = currentX
+	self.CurrentY = currentY
 
-func (self *assetsGenerator) Generate(world [][]taleslabentities.Element) (taleslabentities.Assets, apierror.ApiError) {
-	worldWidth := len(world)
-	worldLength := len(world[0])
-	assets := taleslabentities.Assets{}
+	rotation := 768
 
-	var propsGrid [][]taleslabentities.Element
+	assets := self.generateWorldAssets(world, rotation)
+	propsGrid := self.generateDetailAssets(world)
 
-	if self.props != nil {
-		propsGrid = grid.GenerateElementGrid(worldWidth, worldLength, taleslabentities.Element{ElementType: taleslabconsts.NoneType})
-
-		propsGrid = grid.RandomlyFillEmptyGridSlots(world, propsGrid, self.props.StoneDensity, taleslabconsts.StoneType, func(element taleslabentities.Element) bool {
-			// Just to not add stone in an empty grid slot
-			return element.ElementType != taleslabconsts.NoneType
-		})
-
-		propsGrid = grid.RandomlyFillEmptyGridSlots(world, propsGrid, self.props.TreeDensity, taleslabconsts.TreeType, func(element taleslabentities.Element) bool {
-			return element.ElementType == taleslabconsts.GroundType ||
-				element.ElementType == taleslabconsts.MountainType ||
-				element.ElementType == taleslabconsts.BaseGroundType
-		})
-
-		if self.props.MiscDensity != 0 {
-			propsGrid = grid.RandomlyFillEmptyGridSlots(world, propsGrid, self.props.MiscDensity, taleslabconsts.MiscType, func(element taleslabentities.Element) bool {
-				return element.ElementType == taleslabconsts.GroundType ||
-					element.ElementType == taleslabconsts.MountainType ||
-					element.ElementType == taleslabconsts.BaseGroundType
-			})
-		}
-	}
-
-	propKeys := self.biomeRepository.GetPropKeys()
-	constructorKeys := self.biomeRepository.GetConstructorKeys()
-
-	for key := range constructorKeys {
-		assets = self.appendConstructionSlab(key, assets, world)
-	}
-
-	for key := range propKeys {
-		assets = self.appendPropsToSlab(key, assets, world, propsGrid)
-	}
+	assets = self.appendPropsToSlab(assets, world, propsGrid)
 
 	return assets, nil
 }
 
-func (self *assetsGenerator) appendConstructionSlab(elementType taleslabconsts.ElementType, assets taleslabentities.Assets,
-	gridHeights [][]taleslabentities.Element) taleslabentities.Assets {
-	lastStoneWallX := -4
-	lastStoneWallY := -4
+func (self *assetsGenerator) generateWorldAssets(world [][]taleslabentities.Element, rotation int) []*taleslabentities.Asset {
+	assets := []*taleslabentities.Asset{}
 
-	for i, array := range gridHeights {
+	// X axis
+	for i, array := range world {
+		// Y axis
 		for j, element := range array {
-			if element.ElementType != elementType {
-				continue
-			}
-
-			prop := self.getBiomeConstructor(i, len(gridHeights), elementType)
+			prop := self.getBiomeBuildingBlock(self.CurrentX+i, self.MaxWidth, element.ElementType)
 
 			minValue := element
 
-			if i > 0 && gridHeights[i-1][j].Height < minValue.Height {
-				minValue = gridHeights[i-1][j]
+			if i > 0 && world[i-1][j].Height < minValue.Height {
+				minValue = world[i-1][j]
 			}
 
-			if i < len(gridHeights)-1 && gridHeights[i+1][j].Height < minValue.Height {
-				minValue = gridHeights[i+1][j]
+			if i < len(world)-1 && world[i+1][j].Height < minValue.Height {
+				minValue = world[i+1][j]
 			}
 
-			if j > 0 && gridHeights[i][j-1].Height < minValue.Height {
-				minValue = gridHeights[i][j-1]
+			if j > 0 && world[i][j-1].Height < minValue.Height {
+				minValue = world[i][j-1]
 			}
 
-			if j < len(gridHeights[i])-1 && gridHeights[i][j+1].Height < minValue.Height {
-				minValue = gridHeights[i][j+1]
+			if j < len(world[i])-1 && world[i][j+1].Height < minValue.Height {
+				minValue = world[i][j+1]
 			}
 
+			// Asset Layers
 			for _, assetPart := range prop.Parts {
-				if element.Height-minValue.Height > 1 && (minValue.ElementType == taleslabconsts.BaseGroundType) {
-					if math.Distance(lastStoneWallX, lastStoneWallY, i, j) > 2 {
-						lastStoneWallX = i
-						lastStoneWallY = j
-
-						for k := int(element.Height); k >= int(minValue.Height); k-- {
-							rotation := math.GetRandomRotation(minValue.ElementType == taleslabconsts.BaseGroundType, 2, "stone_wall_rotation")
-							randomDistanceY := math.GetRandomValue(2, "y")
-							randomDistanceX := math.GetRandomValue(2, "x")
-
-							stoneWallProp := self.biomeRepository.GetProp(self.biomeRepository.GetStoneWall())
-
-							stoneWall := &taleslabentities.Asset{
-								Id:         stoneWallProp.Parts[0].Id,
-								Name:       stoneWallProp.Parts[0].Name,
-								Dimensions: stoneWallProp.Parts[0].Dimensions,
-								OffsetZ:    stoneWallProp.Parts[0].OffsetZ,
-							}
-
-							self.addCoordinates(stoneWall, i+randomDistanceX, j+randomDistanceY, int(k+stoneWall.OffsetZ)/3.0, rotation)
-							assets = append(assets, stoneWall)
-						}
+				// Fill Gaps
+				for k := minValue.Height; k <= element.Height; k++ {
+					asset := &taleslabentities.Asset{
+						Id:         assetPart.Id,
+						Name:       assetPart.Name,
+						Dimensions: assetPart.Dimensions,
+						OffsetZ:    assetPart.OffsetZ,
 					}
-				} else {
-					for k := minValue.Height; k <= element.Height; k++ {
-						asset := &taleslabentities.Asset{
-							Id:         assetPart.Id,
-							Name:       assetPart.Name,
-							Dimensions: assetPart.Dimensions,
-							OffsetZ:    assetPart.OffsetZ,
-						}
 
-						self.addCoordinates(asset, i, j, k+asset.OffsetZ, 768)
-						assets = append(assets, asset)
-					}
+					self.addCoordinates(asset, i, j, k+asset.OffsetZ, rotation)
+					assets = append(assets, asset)
 				}
 			}
 		}
@@ -163,12 +112,74 @@ func (self *assetsGenerator) appendConstructionSlab(elementType taleslabconsts.E
 	return assets
 }
 
-func (self *assetsGenerator) appendPropsToSlab(elementType taleslabconsts.ElementType, assets taleslabentities.Assets,
-	gridHeights [][]taleslabentities.Element, gridProps [][]taleslabentities.Element) taleslabentities.Assets {
-	for i, array := range gridHeights {
+func (self *assetsGenerator) generateDetailAssets(world [][]taleslabentities.Element) [][]taleslabentities.Element {
+	worldWidth := len(world)
+	worldLength := len(world[0])
+
+	propsGrid := grid.GenerateElementGrid(worldWidth, worldLength, taleslabentities.Element{ElementType: taleslabconsts.None})
+
+	biome := self.biomeRepository.GetBiome(self.biomeType)
+
+	propsKey := []taleslabconsts.ElementType{
+		taleslabconsts.Tree,
+		taleslabconsts.Stone,
+		taleslabconsts.Misc,
+	}
+
+	for i := 0; i < worldWidth; i++ {
+		for j := 0; j < worldLength; j++ {
+			// Avoid to add in limits
+			if i == 0 || i == worldWidth-1 || j == 0 || j == worldLength-1 {
+				continue
+			}
+
+			// Avoid to add to close
+			if i > 1 && (propsGrid[i-1][j].ElementType != taleslabconsts.None || propsGrid[i-2][j].ElementType != taleslabconsts.None) {
+				continue
+			}
+
+			// Avoid to add to close
+			if j > 1 && (propsGrid[i][j-1].ElementType != taleslabconsts.None || propsGrid[i][j-2].ElementType != taleslabconsts.None) {
+				continue
+			}
+
+			for key, _ := range biome.Reliefs {
+				if world[i][j].ElementType != key {
+					continue
+				}
+
+				for _, prop := range propsKey {
+					if propsGrid[i][j].ElementType != taleslabconsts.None {
+						continue
+					}
+
+					maxRand := 100
+					weight, _ := biome.GetPropBlockWeight(key, prop)
+					random := math.GetRandomValue(maxRand, fmt.Sprintf("%s-%s-add", key, prop))
+					if float64(maxRand)*weight > float64(random) {
+						propsGrid[i][j] = taleslabentities.Element{ElementType: prop}
+					}
+				}
+			}
+
+		}
+	}
+
+	return propsGrid
+}
+
+func (self *assetsGenerator) appendPropsToSlab(assets taleslabentities.Assets,
+	world [][]taleslabentities.Element, gridProps [][]taleslabentities.Element) taleslabentities.Assets {
+	for i, array := range world {
 		for j, element := range array {
-			if gridProps[i][j].ElementType == elementType {
-				prop := self.getBiomeProp(i, len(gridHeights), elementType)
+			reliefType := world[i][j].ElementType
+			propType := gridProps[i][j].ElementType
+
+			if propType != taleslabconsts.None {
+				prop := self.getBiomeProp(self.CurrentX+i, self.MaxWidth, reliefType, propType)
+				if prop == nil {
+					continue
+				}
 
 				for id, assetPart := range prop.Parts {
 					asset := &taleslabentities.Asset{
@@ -199,38 +210,42 @@ func (self *assetsGenerator) addCoordinates(asset *taleslabentities.Asset, x, y,
 	asset.Rotation = rotation + (y * asset.Dimensions.Length / 41)
 }
 
-func (self *assetsGenerator) getBiomeConstructor(i, iMax int, elementType taleslabconsts.ElementType) *taleslabentities.Prop {
-	option := math.GetRandomOption(i, iMax, 6.0)
+func (self *assetsGenerator) getBiomeProp(i, iMax int, reliefType taleslabconsts.ElementType, propType taleslabconsts.ElementType) *taleslabentities.Prop {
+	biome := self.biomeRepository.GetBiome(self.biomeType)
 
-	if self.secondaryBiomeRepository.GetBiome() == "" {
-		option = true
+	if self.secondaryBiomeType == "" {
+		key, _ := biome.GetPropBlockFromElement(reliefType, propType)
+		return self.propsRepository.GetProp(key)
 	}
 
-	if option {
-		elementsKeys := self.biomeRepository.GetConstructorAssets(elementType)
-		elementKey := elementsKeys[math.GetRandomValue(len(elementsKeys), "constructors")]
-		return self.biomeRepository.GetProp(elementKey)
-	}
-
-	elementsKeys := self.secondaryBiomeRepository.GetConstructorAssets(elementType)
-	elementKey := elementsKeys[math.GetRandomValue(len(elementsKeys), "constructors")]
-	return self.secondaryBiomeRepository.GetProp(elementKey)
-}
-
-func (self *assetsGenerator) getBiomeProp(i, iMax int, elementType taleslabconsts.ElementType) *taleslabentities.Prop {
 	option := math.GetRandomOption(i, iMax, 13.0)
 
-	if self.secondaryBiomeRepository.GetBiome() == "" {
-		option = true
+	if option {
+		key, _ := biome.GetPropBlockFromElement(reliefType, propType)
+		return self.propsRepository.GetProp(key)
 	}
+
+	biome = self.biomeRepository.GetBiome(self.secondaryBiomeType)
+	key, _ := biome.GetPropBlockFromElement(reliefType, propType)
+	return self.propsRepository.GetProp(key)
+}
+
+func (self *assetsGenerator) getBiomeBuildingBlock(i, iMax int, reliefType taleslabconsts.ElementType) *taleslabentities.Prop {
+	biome := self.biomeRepository.GetBiome(self.biomeType)
+
+	if self.secondaryBiomeType == "" {
+		key, _ := biome.GetBuildingBlockFromElement(reliefType)
+		return self.propsRepository.GetProp(key)
+	}
+
+	option := math.GetRandomOption(i, iMax, 13.0)
 
 	if option {
-		elementsKeys := self.biomeRepository.GetPropAssets(elementType)
-		elementKey := elementsKeys[math.GetRandomValue(len(elementsKeys), "props")]
-		return self.biomeRepository.GetProp(elementKey)
+		key, _ := biome.GetBuildingBlockFromElement(reliefType)
+		return self.propsRepository.GetProp(key)
 	}
 
-	elementsKeys := self.secondaryBiomeRepository.GetPropAssets(elementType)
-	elementKey := elementsKeys[math.GetRandomValue(len(elementsKeys), "props")]
-	return self.secondaryBiomeRepository.GetProp(elementKey)
+	biome = self.biomeRepository.GetBiome(self.secondaryBiomeType)
+	key, _ := biome.GetBuildingBlockFromElement(reliefType)
+	return self.propsRepository.GetProp(key)
 }

@@ -20,12 +20,12 @@ func main() {
 	request := &tessadem.AreaRequest{
 		Units: tessadem.Meter,
 		Northeast: &tessadem.Vector2D{
-			X: -27.44524479006217,
-			Y: -48.519853037517144,
+			X: -22.490167623953077,
+			Y: -43.07809776047625,
 		},
 		Southwest: &tessadem.Vector2D{
-			X: -27.459521825397537,
-			Y: -48.55104453459989,
+			X: -22.475654441563602,
+			Y: -43.0492586515996,
 		},
 	}
 

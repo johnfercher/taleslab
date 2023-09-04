@@ -22,44 +22,42 @@ func main() {
 
 	fileReader := tessadem.NewFileReader()
 
-	areaResponse, err := fileReader.ReadArea(ctx, "file.json")
+	areaResponse, err := fileReader.ReadArea(ctx, "data/petropolis.json")
 	if err != nil {
 		fmt.Println(err.Error())
 		return
 	}
 
 	worldMatrix := BuildNormalizedElevationMap(areaResponse)
+	maxWidth := len(worldMatrix)
+	maxLength := len(worldMatrix[0])
+	squareSize := 50
 
 	fmt.Println(len(worldMatrix), len(worldMatrix[0]))
 
-	biome := biometype.Beach
-	secondaryBiome := biometype.Beach
-	props := &taleslabdto.PropsDtoRequest{
-		StoneDensity: 100,
-		TreeDensity:  15,
-		MiscDensity:  15,
-	}
+	biome := biometype.Tundra
+	secondaryBiome := biometype.TemperateForest
 
-	worldMatrixSlices := grid.SliceTerrain(worldMatrix, 50)
+	worldMatrixSlices := grid.SliceTerrain(worldMatrix, squareSize)
 
 	encoder := encoder.NewEncoder()
 	propRepository := taleslabrepositories.NewPropRepository()
-	biomeRepository := taleslabrepositories.NewBiomeRepository(propRepository)
-	secondaryBiomeRepository := taleslabrepositories.NewBiomeRepository(propRepository)
+	biomeRepository := taleslabrepositories.NewBiomeRepository()
 
 	response := &taleslabdto.MapDtoResponse{
 		SlabVersion: "v2",
 	}
 
+	currentX := 0
+	currentY := 0
 	for _, worldMatrix := range worldMatrixSlices {
 		sliceCode := []string{}
 		for _, slice := range worldMatrix {
-			assetsGenerator := taleslabservices.NewAssetsGenerator(biomeRepository, secondaryBiomeRepository).
+			assetsGenerator := taleslabservices.NewAssetsGenerator(biomeRepository, propRepository, maxWidth, maxLength).
 				SetBiome(biome).
-				SetProps(props).
 				SetSecondaryBiome(secondaryBiome)
 
-			worldAssets, err := assetsGenerator.Generate(slice)
+			worldAssets, err := assetsGenerator.Generate(slice, currentX, currentY)
 			if err != nil {
 				fmt.Println(err.Error())
 				return
@@ -75,12 +73,15 @@ func main() {
 
 			sliceCode = append(sliceCode, base64)
 			response.Size += len(base64) / 1024
+			currentY += squareSize
 		}
 
 		response.Codes = append(response.Codes, sliceCode)
+		currentY = 0
+		currentX += squareSize
 	}
 
-	err = file.SaveCodes(response.Codes, "docs/codes/pet.txt")
+	err = file.SaveCodes(response.Codes, "docs/codes/pet2.txt")
 	if err != nil {
 		fmt.Println(err.Error())
 		return
@@ -88,9 +89,59 @@ func main() {
 }
 
 func BuildNormalizedElevationMap(response *tessadem.AreaResponse) [][]taleslabentities.Element {
+	hasOcean := false
+
+	min, _ := getMinMax(response)
+
+	if min <= 0 {
+		hasOcean = true
+		for i := 0; i < len(response.Results); i++ {
+			for j := 0; j < len(response.Results[i]); j++ {
+				response.Results[i][j].Elevation += math.Abs(min)
+			}
+		}
+	}
+
+	min, _ = getMinMax(response)
+
+	elevation := [][]taleslabentities.Element{}
+
+	for i := 0; i < len(response.Results); i++ {
+		array := []taleslabentities.Element{}
+		for j := 0; j < len(response.Results[i]); j++ {
+			elevation := int(response.Results[i][j].Elevation - min)
+			element := taleslabentities.Element{
+				elevation,
+				getBaseGroundType(hasOcean, elevation),
+			}
+
+			array = append(array, element)
+		}
+		elevation = append(elevation, array)
+	}
+
+	return elevation
+}
+
+func getBaseGroundType(hasOcean bool, elevation int) taleslabconsts.ElementType {
+	if hasOcean && elevation <= 1 {
+		return taleslabconsts.Water
+	}
+
+	if elevation <= 3 {
+		return taleslabconsts.BaseGround
+	}
+
+	if elevation <= 10 {
+		return taleslabconsts.Ground
+	}
+
+	return taleslabconsts.Mountain
+}
+
+func getMinMax(response *tessadem.AreaResponse) (float64, float64) {
 	min := math.MaxFloat64
 	max := 0.0
-	hasOcean := false
 
 	for i := 0; i < len(response.Results); i++ {
 		for j := 0; j < len(response.Results[i]); j++ {
@@ -103,44 +154,5 @@ func BuildNormalizedElevationMap(response *tessadem.AreaResponse) [][]taleslaben
 		}
 	}
 
-	if min <= 0 {
-		fmt.Println(min)
-		hasOcean = true
-	}
-
-	fmt.Println(min, max)
-
-	elevation := [][]taleslabentities.Element{}
-
-	for i := 0; i < len(response.Results); i++ {
-		array := []taleslabentities.Element{}
-		for j := 0; j < len(response.Results[i]); j++ {
-			elevation := int(response.Results[i][j].Elevation - min)
-			element := taleslabentities.Element{
-				elevation,
-				getBaseGroundType(hasOcean, int(response.Results[i][j].Elevation)),
-			}
-
-			array = append(array, element)
-		}
-		elevation = append(elevation, array)
-	}
-
-	return elevation
-}
-
-func getBaseGroundType(hasOcean bool, elevation int) taleslabconsts.ElementType {
-	if !hasOcean {
-		return taleslabconsts.GroundType
-	}
-
-	if elevation <= 0 {
-		return taleslabconsts.WaterType
-	}
-
-	if elevation <= 2 {
-		return taleslabconsts.BaseGroundType
-	}
-
-	return taleslabconsts.GroundType
+	return min, max
 }
