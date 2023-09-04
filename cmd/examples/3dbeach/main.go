@@ -18,6 +18,7 @@ func main() {
 
 	propRepository := taleslabrepositories.NewPropRepository()
 	biomeRepository := taleslabrepositories.NewBiomeRepository()
+
 	mapService := taleslabservices.NewMapService(biomeRepository, propRepository, encoder)
 
 	inputMap := &taleslabdto.MapDtoRequest{
