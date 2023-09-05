@@ -6,7 +6,7 @@
 
 ![version_size](docs/codes/3dtemperateforesttotundra/image.png)
 
-You can see the documentation [here](johnfercher.com/taleslab).
+You can see the documentation [here](http://johnfercher.com/taleslab).
 
 ## Base64
 ```bash
