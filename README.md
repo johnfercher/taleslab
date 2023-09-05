@@ -23,7 +23,7 @@ More examples:
 * [3D Dead Forest](docs/examples/3dswamp.md)
 * [3D Desert](./docs/examples/3ddesert.md)
 * [3D Tundra](./docs/examples/3dtundra.md)
-* [Circle](./docs/examples/circle.md)
+* [Fire Spiral](./docs/examples/firespiral.md)
 * [Random Cube](./docs/examples/randomcube.md)
 * [Pyramid](./docs/examples/pyramid.md)
 
