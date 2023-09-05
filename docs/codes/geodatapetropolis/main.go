@@ -35,8 +35,7 @@ func main() {
 
 	fmt.Println(len(worldMatrix), len(worldMatrix[0]))
 
-	biome := biometype.Tundra
-	secondaryBiome := biometype.TemperateForest
+	biome := biometype.TemperateForest
 
 	worldMatrixSlices := grid.SliceTerrain(worldMatrix, squareSize)
 
@@ -54,8 +53,7 @@ func main() {
 		sliceCode := []string{}
 		for _, slice := range worldMatrix {
 			assetsGenerator := taleslabservices.NewAssetsGenerator(biomeRepository, propRepository, maxWidth, maxLength).
-				SetBiome(biome).
-				SetSecondaryBiome(secondaryBiome)
+				SetBiome(biome)
 
 			worldAssets, err := assetsGenerator.Generate(slice, currentX, currentY)
 			if err != nil {
@@ -81,7 +79,7 @@ func main() {
 		currentX += squareSize
 	}
 
-	err = file.SaveCodes(response.Codes, "docs/codes/pet2.txt")
+	err = file.SaveCodes(response.Codes, "docs/codes/geodatapetropolis/data.txt")
 	if err != nil {
 		fmt.Println(err.Error())
 		return
