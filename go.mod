@@ -1,6 +1,6 @@
 module github.com/johnfercher/taleslab
 
-go 1.23
+go 1.21.0
 
 require (
 	github.com/go-kit/kit v0.10.0
