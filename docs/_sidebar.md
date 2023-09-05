@@ -1,4 +1,4 @@
-* [Resume](README.md?id=resume)
+* [Home](README.md)
   * **Procedural Maps**
     * [Beach](/codes/3dbeach/README.md)
     * [Dead Forest](/codes/3ddeadforest/README.md)
