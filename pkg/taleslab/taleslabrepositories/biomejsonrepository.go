@@ -28,7 +28,7 @@ func (self *biomeJsonRepository) GetBiome(biomeType biometype.BiomeType) *talesl
 }
 
 func (self *biomeJsonRepository) loadBiomes() {
-	bytes, err := ioutil.ReadFile("./config/assets/biomes.json")
+	bytes, err := ioutil.ReadFile("./docs/configs/biomes.json")
 	if err != nil {
 		log.Fatal(err.Error())
 	}
