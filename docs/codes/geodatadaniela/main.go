@@ -35,7 +35,7 @@ func main() {
 
 	fmt.Println(len(worldMatrix), len(worldMatrix[0]))
 
-	biome := biometype.Tundra
+	biome := biometype.Beach
 
 	worldMatrixSlices := grid.SliceTerrain(worldMatrix, squareSize)
 
