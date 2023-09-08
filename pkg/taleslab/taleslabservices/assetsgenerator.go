@@ -21,6 +21,7 @@ type assetsGenerator struct {
 	MaxLength          int
 	CurrentX           int
 	CurrentY           int
+	River              bool
 }
 
 func NewAssetsGenerator(biomeRepository taleslabrepositories.BiomeRepository, propsRepository taleslabrepositories.PropRepository, maxWidth, maxLength int) taleslabservices.AssetsGenerator {

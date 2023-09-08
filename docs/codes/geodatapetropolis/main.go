@@ -33,6 +33,8 @@ func main() {
 	maxLength := len(worldMatrix[0])
 	squareSize := 50
 
+	worldMatrix = grid.DigRiver2(worldMatrix)
+
 	fmt.Println(len(worldMatrix), len(worldMatrix[0]))
 
 	biome := biometype.TemperateForest
