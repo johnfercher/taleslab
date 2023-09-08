@@ -9,6 +9,7 @@ require (
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
+	github.com/johnfercher/rrt v0.0.0-20230907191927-78907e826414 // indirect
 	github.com/johnfercher/talescoder v1.0.5 // indirect
 	github.com/johnfercher/tessadem-sdk v1.0.2 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect

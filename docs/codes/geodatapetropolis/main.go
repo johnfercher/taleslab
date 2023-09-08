@@ -33,7 +33,7 @@ func main() {
 	maxLength := len(worldMatrix[0])
 	squareSize := 50
 
-	worldMatrix = grid.DigRiver2(worldMatrix)
+	worldMatrix = grid.DigRiver3(worldMatrix)
 
 	fmt.Println(len(worldMatrix), len(worldMatrix[0]))
 

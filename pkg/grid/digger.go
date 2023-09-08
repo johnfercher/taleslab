@@ -2,6 +2,8 @@ package grid
 
 import (
 	"fmt"
+	"github.com/johnfercher/rrt/pkg/rrt"
+	"github.com/johnfercher/rrt/pkg/shared"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"
 	"math"
@@ -54,6 +56,55 @@ func getRiverHeight(height int) int {
 func DigRiver2(grid [][]taleslabentities.Element) [][]taleslabentities.Element {
 	min, max := getMinMax(grid)
 	return GenRiver(min.X, min.Y, max.X, max.Y, max.Z, grid)
+}
+
+func DigRiver3(grid [][]taleslabentities.Element) [][]taleslabentities.Element {
+	min, max := getMinMax(grid)
+	start := &shared.Vector3D{
+		X: float64(max.X),
+		Y: float64(max.Y),
+		Z: float64(max.Z),
+	}
+	end := &shared.Vector3D{
+		X: float64(min.X),
+		Y: float64(min.Y),
+		Z: float64(min.Z),
+	}
+
+	riverRRT := rrt.New(0.1)
+
+	riverRRT.AddCollisionCondition(func(vector3D *shared.Vector3D) bool {
+		return vector3D.Z > 10 && vector3D.Z > start.Z
+	})
+	riverRRT.AddStopCondition(func(testPoint *shared.Vector3D, finish *shared.Vector3D) bool {
+		return shared.Distance(testPoint, finish) <= 5
+	})
+
+	vector3d := elementsToVector(grid)
+	nodes := riverRRT.FindPath(start, end, vector3d)
+	for _, node := range nodes {
+		node.Print("")
+	}
+
+	return grid
+}
+
+func elementsToVector(grid [][]taleslabentities.Element) [][]*shared.Vector3D {
+	var matrix [][]*shared.Vector3D
+
+	for i, lineElement := range grid {
+		var line []*shared.Vector3D
+		for j, element := range lineElement {
+			line = append(line, &shared.Vector3D{
+				X: float64(i),
+				Y: float64(j),
+				Z: float64(element.Height),
+			})
+		}
+		matrix = append(matrix, line)
+	}
+
+	return matrix
 }
 
 func GenRiver(xMin, yMin, xMax, yMax, currentMinHeight int, grid [][]taleslabentities.Element) [][]taleslabentities.Element {
@@ -190,7 +241,7 @@ func GenRiver(xMin, yMin, xMax, yMax, currentMinHeight int, grid [][]taleslabent
 	if x < lengthX-1 && y > 0 {
 		distance := getDistance(xMin, yMin, x+1, y-1)
 		if distance < minDistance {
-			minDistance = distanceq
+			minDistance = distance
 			minXDistance = x + 1
 			minYDistance = y - 1
 		}
