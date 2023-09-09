@@ -2,8 +2,7 @@ package grid
 
 import (
 	"fmt"
-	"github.com/johnfercher/rrt/pkg/rrt"
-	"github.com/johnfercher/rrt/pkg/shared"
+	"github.com/johnfercher/go-rrt/pkg/rrt"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"
 	"math"
@@ -53,58 +52,26 @@ func getRiverHeight(height int) int {
 	return height - 1
 }
 
-func DigRiver2(grid [][]taleslabentities.Element) [][]taleslabentities.Element {
-	min, max := getMinMax(grid)
-	return GenRiver(min.X, min.Y, max.X, max.Y, max.Z, grid)
-}
-
 func DigRiver3(grid [][]taleslabentities.Element) [][]taleslabentities.Element {
 	min, max := getMinMax(grid)
-	start := &shared.Vector3D{
-		X: float64(max.X),
-		Y: float64(max.Y),
-		Z: float64(max.Z),
-	}
-	end := &shared.Vector3D{
-		X: float64(min.X),
-		Y: float64(min.Y),
-		Z: float64(min.Z),
-	}
+	riverRRT := rrt.New[taleslabentities.Element](0.1)
 
-	riverRRT := rrt.New(0.1)
-
-	riverRRT.AddCollisionCondition(func(vector3D *shared.Vector3D) bool {
-		return vector3D.Z > 10 && vector3D.Z > start.Z
+	riverRRT.AddCollisionCondition(func(point taleslabentities.Element) bool {
+		return point.Height > 10
 	})
-	riverRRT.AddStopCondition(func(testPoint *shared.Vector3D, finish *shared.Vector3D) bool {
-		return shared.Distance(testPoint, finish) <= 5
+	riverRRT.AddStopCondition(func(testPoint *rrt.Point[taleslabentities.Element], finish *rrt.Point[taleslabentities.Element]) bool {
+		return testPoint.DistanceTo(finish) <= 5
 	})
 
-	vector3d := elementsToVector(grid)
-	nodes := riverRRT.FindPath(start, end, vector3d)
-	for _, node := range nodes {
-		node.Print("")
+	points := riverRRT.FindPath(max, min, grid)
+	for _, point := range points {
+		point.Println()
+		x := int(point.X)
+		y := int(point.Y)
+		grid = digSquare(x, y, 3, grid[x][y].Height-1, grid)
 	}
 
 	return grid
-}
-
-func elementsToVector(grid [][]taleslabentities.Element) [][]*shared.Vector3D {
-	var matrix [][]*shared.Vector3D
-
-	for i, lineElement := range grid {
-		var line []*shared.Vector3D
-		for j, element := range lineElement {
-			line = append(line, &shared.Vector3D{
-				X: float64(i),
-				Y: float64(j),
-				Z: float64(element.Height),
-			})
-		}
-		matrix = append(matrix, line)
-	}
-
-	return matrix
 }
 
 func GenRiver(xMin, yMin, xMax, yMax, currentMinHeight int, grid [][]taleslabentities.Element) [][]taleslabentities.Element {
@@ -293,31 +260,27 @@ func digSquare(x, y, size, currentMinHeight int, grid [][]taleslabentities.Eleme
 	return grid
 }
 
-func getMinMax(grid [][]taleslabentities.Element) (taleslabentities.Vector3d, taleslabentities.Vector3d) {
-	min := math.MaxInt
-	minX := 0
-	minY := 0
-	max := 0
-	maxX := 0
-	maxY := 0
+func getMinMax(grid [][]taleslabentities.Element) (*rrt.Coordinate, *rrt.Coordinate) {
+	minHeight := math.MaxInt
+	min := &rrt.Coordinate{}
+	maxHeight := 0
+	max := &rrt.Coordinate{}
 
 	for i := 0; i < len(grid); i++ {
 		for j := 0; j < len(grid[i]); j++ {
 			elevation := grid[i][j].Height
-			if elevation < min {
-				min = elevation
-				minX = i
-				minY = j
+			if elevation < minHeight {
+				minHeight = elevation
+				min = &rrt.Coordinate{X: float64(i), Y: float64(j)}
 			}
-			if elevation > max {
-				max = elevation
-				maxX = i
-				maxY = j
+			if elevation > maxHeight {
+				maxHeight = elevation
+				max = &rrt.Coordinate{X: float64(i), Y: float64(j)}
 			}
 		}
 	}
 
-	return taleslabentities.Vector3d{X: minX, Y: minY, Z: min}, taleslabentities.Vector3d{X: maxX, Y: maxY, Z: max}
+	return min, max
 }
 
 func getDistance(t1X, t1Y, t2X, t2Y int) float64 {
