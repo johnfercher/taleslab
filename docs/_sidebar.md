@@ -8,11 +8,11 @@
     * [Desert](/codes/procedurals/desert.md)
     * [Lava](/codes/procedurals/lava.md)
     * [Subtropical Forest](/codes/procedurals/subtropicalforest.md)
-    * [Swamp](/codes/3dswamp/README.md)
-    * [Temperate Forest](/codes/3dtemperateforest/README.md)
-    * [Tundra](/codes/3dtundra/README.md)
+    * [Swamp](/codes/procedurals/swamp.md)
+    * [Temperate Forest](/codes/procedurals/temperateforest.md)
+    * [Tundra](/codes/procedurals/tundra.md)
   * **Maps Transition**
-    * [Temperate Forest To Tundra](/codes/3dtemperateforesttotundra/README.md)
+    * [Temperate Forest To Tundra](/codes/transitions/temperateforesttotundra.md)
   * **Other Examples**
     * [Fire Spiral](/codes/firespiral/README.md)
     * [Pyramid](/codes/pyramid/README.md)

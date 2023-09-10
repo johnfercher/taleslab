@@ -4,7 +4,7 @@
 [![Codecov](https://img.shields.io/codecov/c/github/johnfercher/taleslab)](https://codecov.io/gh/johnfercher/taleslab)
 [![Go Report Card](https://goreportcard.com/badge/github.com/johnfercher/taleslab)](https://goreportcard.com/report/github.com/johnfercher/taleslab)
 
-![version_size](cmd/transations/temperateforesttotundra/image.png)
+![version_size](cmd/transitions/temperateforesttotundra/image.png)
 
 You can see the documentation [here](http://johnfercher.com/taleslab).
 
