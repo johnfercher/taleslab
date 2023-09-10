@@ -2,7 +2,7 @@ package taleslabentities
 
 import (
 	"fmt"
-	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts"
+	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts/elementtype"
 )
 
 type Relief struct {
@@ -11,7 +11,7 @@ type Relief struct {
 	PropBlocks     *PropBlocks `json:"prop_blocks"`
 }
 
-func (r *Relief) Print(label taleslabconsts.ElementType) {
+func (r *Relief) Print(label elementtype.ElementType) {
 	if r == nil {
 		return
 	}

@@ -2,8 +2,8 @@ package taleslabrepositories
 
 import (
 	"encoding/json"
-	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts/biometype"
+	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts/elementtype"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabrepositories"
 	"io/ioutil"
@@ -53,11 +53,11 @@ func (self *biomeJsonRepository) loadBiomes() {
 	self.biomes = biomeMap
 }
 
-func (self *biomeJsonRepository) reliefsArrayToMap(reliefs []*taleslabentities.Relief) map[taleslabconsts.ElementType]*taleslabentities.Relief {
-	reliefMap := make(map[taleslabconsts.ElementType]*taleslabentities.Relief)
+func (self *biomeJsonRepository) reliefsArrayToMap(reliefs []*taleslabentities.Relief) map[elementtype.ElementType]*taleslabentities.Relief {
+	reliefMap := make(map[elementtype.ElementType]*taleslabentities.Relief)
 
 	for _, relief := range reliefs {
-		reliefMap[taleslabconsts.ElementType(relief.Key)] = relief
+		reliefMap[elementtype.ElementType(relief.Key)] = relief
 	}
 
 	return reliefMap

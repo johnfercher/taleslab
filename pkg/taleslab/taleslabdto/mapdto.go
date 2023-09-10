@@ -1,71 +1,21 @@
 package taleslabdto
 
 import (
-	validation "github.com/go-ozzo/ozzo-validation"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts/biometype"
 )
 
-// MapDtoResponse response model
-// swagger:model
 type MapDtoResponse struct {
-	// Version of the TaleSpire Slab
-	SlabVersion string `json:"slab_version"`
-	// Size of the base64 string
-	Size int `json:"size"`
-	// Codes to insert in the game
-	Codes [][]string `json:"codes"`
+	SlabVersion string     `json:"slab_version"`
+	Size        int        `json:"size"`
+	Codes       [][]string `json:"codes"`
 }
 
-// MapDtoRequest request model
-// swagger:model
 type MapDtoRequest struct {
-	// Biome type (subtropical_forest, temperate_forest, dead_forest, desert, tundra)
-	// required: true
-	// example: temperate_forest
-	Biome biometype.BiomeType `json:"biome_type,omitempty"`
-	// SecondaryBiome type (subtropical_forest, temperate_forest, dead_forest, desert, tundra)
-	// required: false
-	// example: tundra
-	SecondaryBiome biometype.BiomeType `json:"secondary_biome_type,omitempty"`
-	// required: true
-	Ground *GroundDtoRequest `json:"ground,omitempty"`
-	// required: false
-	Mountains *MountainsDtoRequest `json:"mountains,omitempty"`
-	// required: false
-	River *RiverDtoRequest `json:"river,omitempty"`
-	// required: false
-	Canyon *CanyonDtoRequest `json:"canyon,omitempty"`
-	// required: true
-	Props *PropsDtoRequest `json:"props,omitempty"`
-}
-
-func (self MapDtoRequest) Validate() error {
-	err := validation.Errors{
-		"map": validation.ValidateStruct(&self,
-			validation.Field(&self.Biome, validation.Required, validation.By(biometype.ValidateBiomeType)),
-			validation.Field(&self.SecondaryBiome, validation.By(biometype.ValidateBiomeType)),
-			validation.Field(&self.Ground),
-			validation.Field(&self.Mountains),
-			validation.Field(&self.Canyon),
-			validation.Field(&self.Props),
-		),
-	}.Filter()
-
-	return err
-}
-
-// Response from API
-// swagger:response swaggMapRes
-// nolint:deadcode,unused
-type swaggMapRes struct {
-	// in: body
-	Map MapDtoResponse
-}
-
-// Request from API
-// swagger:parameters MapDtoRequest
-// nolint:deadcode,unused
-type swaggMapReq struct {
-	//in: body
-	Map MapDtoRequest
+	Biome          biometype.BiomeType  `json:"biome_type,omitempty"`
+	SecondaryBiome biometype.BiomeType  `json:"secondary_biome_type,omitempty"`
+	Ground         *GroundDtoRequest    `json:"ground,omitempty"`
+	Mountains      *MountainsDtoRequest `json:"mountains,omitempty"`
+	River          *RiverDtoRequest     `json:"river,omitempty"`
+	Canyon         *CanyonDtoRequest    `json:"canyon,omitempty"`
+	Props          *PropsDtoRequest     `json:"props,omitempty"`
 }

@@ -1,4 +1,4 @@
-package taleslabconsts
+package elementtype
 
 type ElementType string
 
@@ -10,8 +10,7 @@ const (
 	Mountain   ElementType = "mountain"
 	Water      ElementType = "water"
 
-	Tree      ElementType = "tree"
-	Stone     ElementType = "stone"
-	StoneWall ElementType = "stone_wall"
-	Misc      ElementType = "misc"
+	Tree  ElementType = "tree"
+	Stone ElementType = "stone"
+	Misc  ElementType = "misc"
 )

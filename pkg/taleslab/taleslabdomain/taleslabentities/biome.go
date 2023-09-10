@@ -4,15 +4,15 @@ import (
 	"errors"
 	"fmt"
 	"github.com/johnfercher/taleslab/pkg/math"
-	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts/biometype"
+	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts/elementtype"
 	"math/rand"
 )
 
 type Biome struct {
-	Type      biometype.BiomeType                    `json:"biome_type"`
-	Reliefs   map[taleslabconsts.ElementType]*Relief `json:"reliefs"`
-	StoneWall string                                 `json:"stone_wall"`
+	Type      biometype.BiomeType                 `json:"biome_type"`
+	Reliefs   map[elementtype.ElementType]*Relief `json:"reliefs"`
+	StoneWall string                              `json:"stone_wall"`
 }
 
 func (b *Biome) Print() {
@@ -27,7 +27,7 @@ func (b *Biome) Print() {
 	}
 }
 
-func (b *Biome) GetBuildingBlockFromElement(reliefType taleslabconsts.ElementType) (string, error) {
+func (b *Biome) GetBuildingBlockFromElement(reliefType elementtype.ElementType) (string, error) {
 	relief, ok := b.Reliefs[reliefType]
 	if !ok {
 		return "", errors.New("unknown relief")
@@ -43,13 +43,13 @@ func (b *Biome) GetBuildingBlockFromElement(reliefType taleslabconsts.ElementTyp
 	return block[index], nil
 }
 
-func (b *Biome) GetPropBlockFromElement(reliefType taleslabconsts.ElementType, propType taleslabconsts.ElementType) (string, error) {
+func (b *Biome) GetPropBlockFromElement(reliefType elementtype.ElementType, propType elementtype.ElementType) (string, error) {
 	relief, ok := b.Reliefs[reliefType]
 	if !ok {
 		return "", errors.New("unknown relief")
 	}
 
-	if propType == taleslabconsts.Tree {
+	if propType == elementtype.Tree {
 		vegetation := relief.PropBlocks.Vegetation
 		if len(vegetation.Props) <= 0 {
 			return "", errors.New("there is no building blocks for this relief type")
@@ -60,7 +60,7 @@ func (b *Biome) GetPropBlockFromElement(reliefType taleslabconsts.ElementType, p
 		return vegetation.Props[index], nil
 	}
 
-	if propType == taleslabconsts.Stone {
+	if propType == elementtype.Stone {
 		stones := relief.PropBlocks.Stones
 		if len(stones.Props) <= 0 {
 			return "", errors.New("there is no building blocks for this relief type")
@@ -81,18 +81,18 @@ func (b *Biome) GetPropBlockFromElement(reliefType taleslabconsts.ElementType, p
 	return misc.Props[index], nil
 }
 
-func (b *Biome) GetPropBlockWeight(reliefType taleslabconsts.ElementType, propType taleslabconsts.ElementType) (float64, error) {
+func (b *Biome) GetPropBlockWeight(reliefType elementtype.ElementType, propType elementtype.ElementType) (float64, error) {
 	relief, ok := b.Reliefs[reliefType]
 	if !ok {
 		return 0, errors.New("unknown relief")
 	}
 
-	if propType == taleslabconsts.Tree {
+	if propType == elementtype.Tree {
 		vegetation := relief.PropBlocks.Vegetation
 		return vegetation.Weight, nil
 	}
 
-	if propType == taleslabconsts.Stone {
+	if propType == elementtype.Stone {
 		stones := relief.PropBlocks.Stones
 		return stones.Weight, nil
 	}

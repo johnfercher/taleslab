@@ -2,15 +2,13 @@ package file
 
 import (
 	"fmt"
-	"github.com/johnfercher/taleslab/internal/api/apierror"
-	"net/http"
 	"os"
 )
 
-func SaveCodes(base64MatrixContents [][]string, pathFile string) apierror.ApiError {
+func SaveCodes(base64MatrixContents [][]string, pathFile string) error {
 	f, err := os.Create(pathFile)
 	if err != nil {
-		return apierror.New(http.StatusInternalServerError, err.Error())
+		return err
 	}
 
 	defer f.Close()
@@ -26,7 +24,7 @@ func SaveCodes(base64MatrixContents [][]string, pathFile string) apierror.ApiErr
 
 	_, err = f.WriteString(contents)
 	if err != nil {
-		return apierror.New(http.StatusInternalServerError, err.Error())
+		return err
 	}
 
 	fmt.Printf("File generated in %s", pathFile)
@@ -34,17 +32,17 @@ func SaveCodes(base64MatrixContents [][]string, pathFile string) apierror.ApiErr
 	return nil
 }
 
-func SaveJSON(json string, pathFile string) apierror.ApiError {
+func SaveJSON(json string, pathFile string) error {
 	f, err := os.Create(pathFile)
 	if err != nil {
-		return apierror.New(http.StatusInternalServerError, err.Error())
+		return err
 	}
 
 	defer f.Close()
 
 	_, err = f.WriteString(json)
 	if err != nil {
-		return apierror.New(http.StatusInternalServerError, err.Error())
+		return err
 	}
 
 	fmt.Printf("File generated in %s", pathFile)

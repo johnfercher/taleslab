@@ -6,8 +6,8 @@ import (
 	"github.com/johnfercher/talescoder/pkg/encoder"
 	"github.com/johnfercher/taleslab/pkg/file"
 	"github.com/johnfercher/taleslab/pkg/grid"
-	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts/biometype"
+	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts/elementtype"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdto"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabmappers"
@@ -63,9 +63,9 @@ func main() {
 
 			slab := taleslabmappers.TaleSpireSlabFromAssets(worldAssets)
 
-			base64, encodeError := encoder.Encode(slab)
+			base64, err := encoder.Encode(slab)
 			if err != nil {
-				fmt.Println(encodeError.Error())
+				fmt.Println(err.Error())
 				return
 			}
 
@@ -121,20 +121,20 @@ func BuildNormalizedElevationMap(response *tessadem.AreaResponse) [][]taleslaben
 	return elevation
 }
 
-func getBaseGroundType(hasOcean bool, elevation int) taleslabconsts.ElementType {
+func getBaseGroundType(hasOcean bool, elevation int) elementtype.ElementType {
 	if hasOcean && elevation <= 1 {
-		return taleslabconsts.Water
+		return elementtype.Water
 	}
 
 	if elevation <= 3 {
-		return taleslabconsts.BaseGround
+		return elementtype.BaseGround
 	}
 
 	if elevation <= 10 {
-		return taleslabconsts.Ground
+		return elementtype.Ground
 	}
 
-	return taleslabconsts.Mountain
+	return elementtype.Mountain
 }
 
 func getMinMax(response *tessadem.AreaResponse) (float64, float64) {

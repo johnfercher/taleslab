@@ -2,12 +2,12 @@ package taleslabentities
 
 import (
 	"fmt"
-	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts"
+	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts/elementtype"
 )
 
 type Element struct {
 	Height      int
-	ElementType taleslabconsts.ElementType
+	ElementType elementtype.ElementType
 }
 
 func (e *Element) Print() {

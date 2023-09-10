@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/johnfercher/go-rrt/pkg/rrt"
 	mathRRT "github.com/johnfercher/go-rrt/pkg/rrt/math"
-	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts"
+	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts/elementtype"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"
 	"math"
 )
@@ -145,7 +145,7 @@ func digSquare(x, y, size, currentMinHeight int, grid [][]taleslabentities.Eleme
 	for i := x - squareSize; i < x+squareSize; i++ {
 		for j := y - squareSize; j < y+squareSize; j++ {
 			if i > 0 && i < len(grid) && j > 0 && j < len(grid[0]) {
-				grid[i][j].ElementType = taleslabconsts.Water
+				grid[i][j].ElementType = elementtype.Water
 				grid[i][j].Height = currentMinHeight
 			}
 		}
@@ -196,7 +196,7 @@ func DigTerrainInOffset(baseTerrain [][]taleslabentities.Element, offset int) []
 		for x := 0; x < int(randomX); x++ {
 			baseTerrain[x][j] = taleslabentities.Element{
 				Height:      1,
-				ElementType: taleslabconsts.BaseGround,
+				ElementType: elementtype.BaseGround,
 			}
 		}
 	}

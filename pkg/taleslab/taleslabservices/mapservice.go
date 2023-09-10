@@ -3,13 +3,11 @@ package taleslabservices
 import (
 	"context"
 	"github.com/johnfercher/talescoder/pkg/encoder"
-	"github.com/johnfercher/taleslab/internal/api/apierror"
 	"github.com/johnfercher/taleslab/pkg/grid"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabrepositories"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabservices"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdto"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabmappers"
-	"net/http"
 )
 
 type mapService struct {
@@ -26,7 +24,7 @@ func NewMapService(biomeRepository taleslabrepositories.BiomeRepository, propsRe
 	}
 }
 
-func (self *mapService) Generate(ctx context.Context, inputMap *taleslabdto.MapDtoRequest) (*taleslabdto.MapDtoResponse, apierror.ApiError) {
+func (self *mapService) Generate(ctx context.Context, inputMap *taleslabdto.MapDtoRequest) (*taleslabdto.MapDtoResponse, error) {
 	matrixGenerator := NewMatrixGenerator().
 		SetMountains(inputMap.Mountains).
 		SetGround(inputMap.Ground).
@@ -64,9 +62,9 @@ func (self *mapService) Generate(ctx context.Context, inputMap *taleslabdto.MapD
 
 			slab := taleslabmappers.TaleSpireSlabFromAssets(worldAssets)
 
-			base64, encodeError := self.encoder.Encode(slab)
+			base64, err := self.encoder.Encode(slab)
 			if err != nil {
-				return nil, apierror.New(http.StatusInternalServerError, encodeError.Error())
+				return nil, err
 			}
 
 			sliceCode = append(sliceCode, base64)

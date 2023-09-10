@@ -2,7 +2,7 @@ package grid
 
 import (
 	"fmt"
-	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts"
+	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts/elementtype"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"
 	"math"
 	"math/rand"
@@ -15,7 +15,7 @@ func TerrainGenerator(x, y int, xFrequency, yFrequency, gain float64, minHeight 
 	for i := 0; i < x; i++ {
 		array := []taleslabentities.Element{}
 		for j := 0; j < y; j++ {
-			array = append(array, taleslabentities.Element{Height: 0, ElementType: taleslabconsts.Ground})
+			array = append(array, taleslabentities.Element{Height: 0, ElementType: elementtype.Ground})
 		}
 		groundHeight = append(groundHeight, array)
 	}
@@ -46,7 +46,7 @@ func TerrainGenerator(x, y int, xFrequency, yFrequency, gain float64, minHeight 
 
 			// Remove Ground
 			if !forceBaseLand && heightAvg == 0 {
-				groundHeight[i][j].ElementType = taleslabconsts.Water
+				groundHeight[i][j].ElementType = elementtype.Water
 			}
 		}
 	}
@@ -63,7 +63,7 @@ func MountainGenerator(x, y int, gain float64, minHeight int) taleslabentities.E
 	for i := 0; i < x; i++ {
 		array := []taleslabentities.Element{}
 		for j := 0; j < y; j++ {
-			array = append(array, taleslabentities.Element{Height: 0, ElementType: taleslabconsts.Mountain})
+			array = append(array, taleslabentities.Element{Height: 0, ElementType: elementtype.Mountain})
 		}
 		mountainElements = append(mountainElements, array)
 	}
@@ -122,7 +122,7 @@ func GetSliceInOffset(base [][]taleslabentities.Element, sliceSize, offsetX, off
 		ySliceSize = sliceSize + len(base[0]) - (offsetY + sliceSize)
 	}
 
-	slice := GenerateElementGrid(xSliceSize, ySliceSize, taleslabentities.Element{0, taleslabconsts.Ground})
+	slice := GenerateElementGrid(xSliceSize, ySliceSize, taleslabentities.Element{0, elementtype.Ground})
 
 	for i := 0; i+offsetX < len(base) && i < sliceSize; i++ {
 		for j := 0; j+offsetY < len(base[i]) && j < sliceSize; j++ {

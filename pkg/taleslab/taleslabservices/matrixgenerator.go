@@ -1,7 +1,7 @@
 package taleslabservices
 
 import (
-	"github.com/johnfercher/taleslab/internal/api/apierror"
+	"errors"
 	"github.com/johnfercher/taleslab/pkg/grid"
 	"github.com/johnfercher/taleslab/pkg/math"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"
@@ -51,9 +51,9 @@ func (m *matrixGenerator) SetCanyon(canyon *taleslabdto.CanyonDtoRequest) talesl
 	return m
 }
 
-func (m *matrixGenerator) Generate() ([][]taleslabentities.Element, apierror.ApiError) {
+func (m *matrixGenerator) Generate() ([][]taleslabentities.Element, error) {
 	if m.ground == nil {
-		return nil, apierror.New(400, "Ground must be provided")
+		return nil, errors.New("ground must be provided")
 	}
 
 	world := grid.TerrainGenerator(m.ground.Width, m.ground.Length, 2.0, 2.0,
