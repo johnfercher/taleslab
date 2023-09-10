@@ -154,5 +154,15 @@ func getMappedProps() map[string]bool {
 		"clay_with_feather_small":             true,
 		"dead_land":                           true,
 		"cavern_one_rock":                     true,
+		"lava":                                true,
+		"lava_dust":                           true,
+		"orange_fish":                         true,
+		"one_small_rock-z0":                   true,
+		"one_small_rock-z1":                   true,
+		"coconut":                             true,
+		"dead_ground_small":                   true,
+		"lava_cold":                           true,
+		"water":                               true,
+		"coral":                               true,
 	}
 }
