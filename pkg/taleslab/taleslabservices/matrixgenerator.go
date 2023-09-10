@@ -13,7 +13,7 @@ import (
 type matrixGenerator struct {
 	ground    *taleslabdto.GroundDtoRequest
 	mountains *taleslabdto.MountainsDtoRequest
-	river     *taleslabdto.RiverDtoRequest
+	river     *grid.River
 	canyon    *taleslabdto.CanyonDtoRequest
 }
 
@@ -34,7 +34,7 @@ func (m *matrixGenerator) SetMountains(mountains *taleslabdto.MountainsDtoReques
 	return m
 }
 
-func (m *matrixGenerator) SetRiver(river *taleslabdto.RiverDtoRequest) taleslabservices.MatrixGenerator {
+func (m *matrixGenerator) SetRiver(river *grid.River) taleslabservices.MatrixGenerator {
 	if river != nil {
 		m.river = river
 	}
@@ -69,13 +69,8 @@ func (m *matrixGenerator) Generate() ([][]taleslabentities.Element, error) {
 		world = grid.DigTerrainInOffset(world, m.canyon.CanyonOffset)
 	}
 
-	if m.river != nil && m.river.HasRiver {
-		river := &grid.River{
-			Start:              &taleslabentities.Vector3d{X: 0, Y: 0},
-			End:                &taleslabentities.Vector3d{X: len(world) - 1, Y: len(world[0]) - 1},
-			HeightCutThreshold: 5,
-		}
-		world = grid.DigRiver(world, river)
+	if m.river != nil {
+		world = grid.DigRiver(world, m.river)
 	}
 
 	// grid.PrintHeights(world)
