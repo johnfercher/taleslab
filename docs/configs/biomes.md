@@ -1,3 +1,3 @@
 # Biomes
 
-[filename](biomes.json ':include :type=code')
+[filename](refbiomes.json ':include :type=code')

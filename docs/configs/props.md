@@ -1,3 +1,3 @@
 # Props
 
-[filename](props.json ':include :type=code')
+[filename](refprops.json ':include :type=code')

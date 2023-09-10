@@ -27,7 +27,7 @@ func (self *propJsonRepository) GetProps() map[string]*taleslabentities.Prop {
 }
 
 func (self *propJsonRepository) loadProps() error {
-	bytes, err := ioutil.ReadFile("./docs/configs/props.json")
+	bytes, err := ioutil.ReadFile("./configs/props.json")
 	if err != nil {
 		return err
 	}
