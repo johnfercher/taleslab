@@ -51,7 +51,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	err = file.SaveCodes([][]string{{base64}}, "docs/codes/randomcube/data.txt")
+	err = file.SaveCodes([][]string{{base64}}, "cmd/others/randomcube/data.txt")
 	if err != nil {
 		log.Fatal(err)
 	}

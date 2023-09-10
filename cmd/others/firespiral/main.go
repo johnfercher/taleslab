@@ -51,7 +51,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	err = file.SaveCodes([][]string{{base64}}, "docs/codes/firespiral/data.txt")
+	err = file.SaveCodes([][]string{{base64}}, "cmd/others/firespiral/data.txt")
 	if err != nil {
 		log.Fatal(err)
 	}
