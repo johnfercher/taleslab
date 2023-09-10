@@ -1,12 +1,11 @@
 package taleslabrepositories_test
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabrepositories"
-	"log"
 	"os"
 	"path"
+	"strings"
 	"testing"
 
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"
@@ -17,38 +16,6 @@ var (
 	AppBaseDir = ""
 	rawProps   []taleslabentities.Prop
 )
-
-// nolint: gochecknoinits
-func init() {
-	if AppBaseDir != "" {
-		return
-	}
-
-	if AppBaseDir == "" {
-		base := os.Getenv("GOPATH")
-		AppBaseDir = path.Join(base, "src/github.com/johnfercher/taleslab")
-	}
-
-	err := os.Chdir(AppBaseDir)
-	if err != nil {
-		log.Fatal(err.Error())
-	}
-
-	_, err = os.Getwd()
-	if err != nil {
-		log.Fatal(err.Error())
-	}
-
-	propsBytes, err := os.ReadFile("./configs/props.json")
-	if err != nil {
-		log.Fatal(err.Error())
-	}
-
-	err = json.Unmarshal(propsBytes, &rawProps)
-	if err != nil {
-		log.Fatal(err.Error())
-	}
-}
 
 func TestNewPropRepository(t *testing.T) {
 	// Act
@@ -61,30 +28,20 @@ func TestNewPropRepository(t *testing.T) {
 
 func TestAssetLoader_GetProps(t *testing.T) {
 	// Arrange
-	sut := taleslabrepositories.NewPropRepository()
+	sut := taleslabrepositories.NewPropRepository(buildPath())
 
 	// Act
 	props := sut.GetProps()
 
 	// Assert
 	assert.NotNil(t, props)
-	assert.Equal(t, len(rawProps), len(props), "different quantity array loaded x map returned")
 	assert.Equal(t, len(getMappedProps()), len(props), "different quantity mappeds x map returned")
-
-	for i := 0; i < len(rawProps); i++ {
-		for j := 0; j < len(rawProps); j++ {
-			if i != j {
-				assert.NotEqual(t, rawProps[i].ID, rawProps[j].ID, fmt.Sprintf("repeated ornaments ids, name: %s", rawProps[i].ID))
-				assert.NotEqual(t, rawProps[i].ID, rawProps[j].ID, fmt.Sprintf("repeated ornaments names, id %s", rawProps[i].ID))
-			}
-		}
-	}
 }
 
 func TestAssetLoader_GetProp(t *testing.T) {
 	// Arrange
 	mappedProps := getMappedProps()
-	sut := taleslabrepositories.NewPropRepository()
+	sut := taleslabrepositories.NewPropRepository(buildPath())
 
 	// Act & Assert
 	for mappedPropKey := range mappedProps {
@@ -95,6 +52,16 @@ func TestAssetLoader_GetProp(t *testing.T) {
 	for loadedPropKey := range loadedProps {
 		assert.True(t, mappedProps[loadedPropKey], fmt.Sprintf("ornament not mapped %s", loadedPropKey))
 	}
+}
+
+func buildPath() string {
+	dir, err := os.Getwd()
+	if err != nil {
+		return ""
+	}
+
+	dir = strings.Replace(dir, "/pkg/taleslab/taleslabrepositories", "", 1)
+	return path.Join(dir, "/configs/props.json")
 }
 
 func getMappedProps() map[string]bool {

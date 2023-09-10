@@ -12,11 +12,17 @@ import (
 )
 
 type biomeJSONRepository struct {
+	path   string
 	biomes map[biometype.BiomeType]*taleslabentities.Biome
 }
 
-func NewBiomeRepository() taleslabrepositories.BiomeRepository {
+func NewBiomeRepository(path ...string) taleslabrepositories.BiomeRepository {
 	repository := &biomeJSONRepository{}
+	if len(path) != 0 {
+		repository.path = path[0]
+	} else {
+		repository.path = "./configs/biomes.json"
+	}
 
 	repository.loadBiomes()
 
@@ -28,7 +34,7 @@ func (b *biomeJSONRepository) GetBiome(biomeType biometype.BiomeType) *taleslabe
 }
 
 func (b *biomeJSONRepository) loadBiomes() {
-	bytes, err := os.ReadFile("./configs/biomes.json")
+	bytes, err := os.ReadFile(b.path)
 	if err != nil {
 		log.Fatal(err.Error())
 	}

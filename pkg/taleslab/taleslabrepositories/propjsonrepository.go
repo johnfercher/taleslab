@@ -9,11 +9,17 @@ import (
 )
 
 type propJSONRepository struct {
+	path  string
 	props map[string]*taleslabentities.Prop
 }
 
-func NewPropRepository() taleslabrepositories.PropRepository {
+func NewPropRepository(path ...string) taleslabrepositories.PropRepository {
 	assetLoader := &propJSONRepository{}
+	if len(path) != 0 {
+		assetLoader.path = path[0]
+	} else {
+		assetLoader.path = "./configs/props.json"
+	}
 
 	_ = assetLoader.loadProps()
 	return assetLoader
@@ -28,7 +34,7 @@ func (p *propJSONRepository) GetProps() map[string]*taleslabentities.Prop {
 }
 
 func (p *propJSONRepository) loadProps() error {
-	bytes, err := os.ReadFile("./configs/props.json")
+	bytes, err := os.ReadFile(p.path)
 	if err != nil {
 		return err
 	}
