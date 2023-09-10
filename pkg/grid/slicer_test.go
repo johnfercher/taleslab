@@ -1,10 +1,11 @@
 package grid_test
 
 import (
+	"testing"
+
 	grid "github.com/johnfercher/taleslab/pkg/grid"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"
 	"github.com/stretchr/testify/assert"
-	"testing"
 )
 
 func TestSliceTerrain_PerfectCase(t *testing.T) {
