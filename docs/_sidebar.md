@@ -4,8 +4,8 @@
     * [Praia da Daniela/SC - Brazil](/codes/geodatadaniela/README.md)
   * **Procedural Maps**
     * [Beach](/codes/procedurals/beach.md)
-    * [Dead Forest](/codes/3ddeadforest/README.md)
-    * [Desert](/codes/3ddesert/README.md)
+    * [Dead Forest](/codes/procedurals/deadforest.md)
+    * [Desert](/codes/procedurals/desert.md)
     * [Lava](/codes/3dlava/README.md)
     * [Subtropical Forest](/codes/3dsubtropicalforest/README.md)
     * [Swamp](/codes/3dswamp/README.md)

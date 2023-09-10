@@ -1,9 +1,9 @@
 # Dead Forest
 
-![version_size](../../../cmd/procedurals/deadforest/image.png)
+![version_size](https://raw.githubusercontent.com/johnfercher/taleslab/main/cmd/procedurals/deadforest/image.png)
 
 ## Base64
-[filename](../../../cmd/procedurals/deadforest/data.txt ':include :type=code')
+[filename](https://raw.githubusercontent.com/johnfercher/taleslab/main/cmd/procedurals/deadforest/data.txt ':include :type=code')
 
 ## Code
-[filename](../../../cmd/procedurals/deadforest/main.go ':include :type=code')
+[filename](https://raw.githubusercontent.com/johnfercher/taleslab/main/cmd/procedurals/deadforest/main.go ':include :type=code')
