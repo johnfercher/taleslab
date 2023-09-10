@@ -2,6 +2,8 @@ package main
 
 import (
 	"context"
+	"github.com/johnfercher/taleslab/pkg/grid"
+	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"
 	"log"
 
 	"github.com/johnfercher/talescoder/pkg/encoder"
@@ -44,8 +46,10 @@ func main() {
 			MinHeight:      10,
 			RandHeight:     10,
 		},
-		River: &taleslabdto.RiverDtoRequest{
-			HasRiver: true,
+		River: &grid.River{
+			Start:              &taleslabentities.Vector3d{49, 49, 0},
+			End:                &taleslabentities.Vector3d{0, 0, 0},
+			HeightCutThreshold: 5,
 		},
 	}
 

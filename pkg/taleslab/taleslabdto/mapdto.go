@@ -1,6 +1,7 @@
 package taleslabdto
 
 import (
+	"github.com/johnfercher/taleslab/pkg/grid"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts/biometype"
 )
 
@@ -15,7 +16,7 @@ type MapDtoRequest struct {
 	SecondaryBiome biometype.BiomeType  `json:"secondary_biome_type,omitempty"`
 	Ground         *GroundDtoRequest    `json:"ground,omitempty"`
 	Mountains      *MountainsDtoRequest `json:"mountains,omitempty"`
-	River          *RiverDtoRequest     `json:"river,omitempty"`
+	River          *grid.River          `json:"river,omitempty"`
 	Canyon         *CanyonDtoRequest    `json:"canyon,omitempty"`
 	Props          *PropsDtoRequest     `json:"props,omitempty"`
 }

@@ -34,9 +34,6 @@ func main() {
 			TreeDensity:  15,
 			MiscDensity:  130,
 		},
-		River: &taleslabdto.RiverDtoRequest{
-			HasRiver: false,
-		},
 	}
 
 	slab, err := mapService.Generate(ctx, inputMap)

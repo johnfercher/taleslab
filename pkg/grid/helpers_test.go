@@ -10,7 +10,7 @@ import (
 )
 
 func TestGenerateElementGrid(t *testing.T) {
-	// Acts
+	// Act
 	elementGrind := grid.GenerateElementGrid(5, 5, taleslabentities.Element{Height: 0, ElementType: elementtype.Ground})
 
 	// Assert

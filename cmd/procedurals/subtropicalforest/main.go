@@ -45,9 +45,6 @@ func main() {
 			MinHeight:      10,
 			RandHeight:     10,
 		},
-		River: &taleslabdto.RiverDtoRequest{
-			HasRiver: false,
-		},
 		Canyon: &taleslabdto.CanyonDtoRequest{
 			HasCanyon:    true,
 			CanyonOffset: 10,

@@ -16,10 +16,10 @@ This project uses this other projects to do all the magic:
 ![version_size](https://raw.githubusercontent.com/johnfercher/taleslab/main/cmd/elevations/danielabeach/image.png)
 
 ## TaleSpire Code Example
-[filename](https://raw.githubusercontent.com/johnfercher/taleslab/main/cmd/transitions/temperateforesttotundra/data.txt ':include :type=code')
+[filename](https://raw.githubusercontent.com/johnfercher/taleslab/main/cmd/procedurals/beach/data.txt ':include :type=code')
 
 ## Go Code Example
-[filename](https://raw.githubusercontent.com/johnfercher/taleslab/main/cmd/transitions/temperateforesttotundra/main.go ':include :type=code')
+[filename](https://raw.githubusercontent.com/johnfercher/taleslab/main/cmd/procedurals/beach/main.go ':include :type=code')
 
 ## Video Example
 <iframe width="560" height="560" src="https://www.youtube.com/embed/oCb4TEgpAt0?si=2rvhn-63IDkJeV4M" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>

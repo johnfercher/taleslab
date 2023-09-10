@@ -13,7 +13,7 @@ import (
 type matrixGenerator struct {
 	ground    *taleslabdto.GroundDtoRequest
 	mountains *taleslabdto.MountainsDtoRequest
-	river     *taleslabdto.RiverDtoRequest
+	river     *grid.River
 	canyon    *taleslabdto.CanyonDtoRequest
 }
 
@@ -34,7 +34,7 @@ func (m *matrixGenerator) SetMountains(mountains *taleslabdto.MountainsDtoReques
 	return m
 }
 
-func (m *matrixGenerator) SetRiver(river *taleslabdto.RiverDtoRequest) taleslabservices.MatrixGenerator {
+func (m *matrixGenerator) SetRiver(river *grid.River) taleslabservices.MatrixGenerator {
 	if river != nil {
 		m.river = river
 	}
@@ -55,7 +55,7 @@ func (m *matrixGenerator) Generate() ([][]taleslabentities.Element, error) {
 		return nil, errors.New("ground must be provided")
 	}
 
-	world := grid.TerrainGenerator(m.ground.Width, m.ground.Length, 2.0, 2.0,
+	world := grid.GenerateTerrain(m.ground.Width, m.ground.Length, 2.0, 2.0,
 		m.ground.TerrainComplexity, m.ground.MinHeight, m.ground.ForceBaseLand)
 
 	if m.mountains != nil {
@@ -69,13 +69,8 @@ func (m *matrixGenerator) Generate() ([][]taleslabentities.Element, error) {
 		world = grid.DigTerrainInOffset(world, m.canyon.CanyonOffset)
 	}
 
-	if m.river != nil && m.river.HasRiver {
-		river := &grid.River{
-			Start:              &taleslabentities.Vector3d{X: 0, Y: 0},
-			End:                &taleslabentities.Vector3d{X: len(world) - 1, Y: len(world[0]) - 1},
-			HeightCutThreshold: 5,
-		}
-		world = grid.DigRiver(world, river)
+	if m.river != nil {
+		world = grid.DigRiver(world, m.river)
 	}
 
 	// grid.PrintHeights(world)
@@ -103,7 +98,7 @@ func (m *matrixGenerator) generateMountainsGrid(minHeight int) []taleslabentitie
 
 			gain := float64(rand.DifferentIntn(m.mountains.RandHeight, "m.mountains.RandHeight") + m.mountains.MinHeight)
 
-			mountain := grid.MountainGenerator(mountainX, mountainY, gain, minHeight)
+			mountain := grid.GenerateMountain(mountainX, mountainY, gain, minHeight)
 			mountains = append(mountains, mountain)
 		}
 	}
