@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 	"github.com/johnfercher/talescoder/pkg/encoder"
-	"github.com/johnfercher/taleslab/internal/file"
+	"github.com/johnfercher/taleslab/pkg/file"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts/biometype"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdto"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabrepositories"

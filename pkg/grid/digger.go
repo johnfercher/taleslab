@@ -9,52 +9,8 @@ import (
 	"math"
 )
 
-func DigRiver(grid [][]taleslabentities.Element) [][]taleslabentities.Element {
-	xFrequency := 2.0
-
-	x := len(grid)
-
-	gain := 5.0
-	offset := x / 2.0
-	averageMin := math.MaxInt
-
-	for i := 0; i < x; i++ {
-		yNormalizedValue := float64(float64(i)/(float64(x)/(xFrequency)) + (math.Pi))
-
-		randomY := uint16(gain*math.Sin(yNormalizedValue*math.Pi)) + uint16(offset)
-
-		currentAverageMin := (grid[i][randomY].Height + grid[i][randomY+1].Height + grid[i][randomY+2].Height) / 3.0
-		if currentAverageMin < averageMin {
-			averageMin = currentAverageMin
-		}
-
-		grid[i][randomY] = taleslabentities.Element{
-			Height:      getRiverHeight(averageMin),
-			ElementType: taleslabconsts.Water,
-		}
-		grid[i][randomY+1] = taleslabentities.Element{
-			Height:      getRiverHeight(averageMin),
-			ElementType: taleslabconsts.Water,
-		}
-		grid[i][randomY+2] = taleslabentities.Element{
-			Height:      getRiverHeight(averageMin),
-			ElementType: taleslabconsts.Water,
-		}
-	}
-
-	return grid
-}
-
-func getRiverHeight(height int) int {
-	if height <= 0 {
-		return height
-	}
-
-	return height - 1
-}
-
-func DigRiver3(grid [][]taleslabentities.Element) [][]taleslabentities.Element {
-	points := findRiverRandomPath(grid)
+func DigRiver(grid [][]taleslabentities.Element, river *River) [][]taleslabentities.Element {
+	points := findRiverRandomPath(grid, river)
 
 	points = GetFilledPoints(points, grid)
 
@@ -152,13 +108,23 @@ func getMinMaxY(a *mathRRT.Point[taleslabentities.Element], b *mathRRT.Point[tal
 	return int(b.Y), int(a.Y)
 }
 
-func findRiverRandomPath(grid [][]taleslabentities.Element) []*mathRRT.Point[taleslabentities.Element] {
-	min, max := getMinMaxHeights(grid)
+func findRiverRandomPath(grid [][]taleslabentities.Element, river *River) []*mathRRT.Point[taleslabentities.Element] {
+	var min *mathRRT.Coordinate
+	var max *mathRRT.Coordinate
+	start := river.Start
+	end := river.End
+
+	if start != nil && end != nil {
+		max = &mathRRT.Coordinate{X: float64(start.X), Y: float64(start.Y)}
+		min = &mathRRT.Coordinate{X: float64(end.X), Y: float64(end.Y)}
+	} else {
+		min, max = getMinMaxHeights(grid)
+	}
 
 	riverRRT := rrt.New[taleslabentities.Element](5, 10000, 15)
 	currentMax := grid[int(max.X)][int(max.Y)].Height
 	riverRRT.AddCollisionCondition(func(point taleslabentities.Element) bool {
-		if point.Height <= currentMax+2 {
+		if point.Height <= currentMax+river.HeightCutThreshold {
 			currentMax = point.Height
 			return false
 		}

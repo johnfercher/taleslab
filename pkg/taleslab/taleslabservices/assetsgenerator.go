@@ -3,8 +3,8 @@ package taleslabservices
 import (
 	"fmt"
 	"github.com/johnfercher/taleslab/internal/api/apierror"
-	"github.com/johnfercher/taleslab/internal/math"
 	"github.com/johnfercher/taleslab/pkg/grid"
+	"github.com/johnfercher/taleslab/pkg/math"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts/biometype"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"

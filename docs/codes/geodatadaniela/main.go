@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/johnfercher/talescoder/pkg/encoder"
-	"github.com/johnfercher/taleslab/internal/file"
+	"github.com/johnfercher/taleslab/pkg/file"
 	"github.com/johnfercher/taleslab/pkg/grid"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts/biometype"

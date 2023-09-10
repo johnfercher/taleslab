@@ -3,7 +3,7 @@ package taleslabentities
 import (
 	"errors"
 	"fmt"
-	"github.com/johnfercher/taleslab/internal/math"
+	"github.com/johnfercher/taleslab/pkg/math"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts/biometype"
 	"math/rand"

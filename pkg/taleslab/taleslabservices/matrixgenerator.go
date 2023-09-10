@@ -2,8 +2,8 @@ package taleslabservices
 
 import (
 	"github.com/johnfercher/taleslab/internal/api/apierror"
-	"github.com/johnfercher/taleslab/internal/math"
 	"github.com/johnfercher/taleslab/pkg/grid"
+	"github.com/johnfercher/taleslab/pkg/math"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabservices"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdto"
@@ -71,7 +71,12 @@ func (m *matrixGenerator) Generate() ([][]taleslabentities.Element, apierror.Api
 	}
 
 	if m.river != nil && m.river.HasRiver {
-		world = grid.DigRiver(world)
+		river := &grid.River{
+			Start:              &taleslabentities.Vector3d{X: 0, Y: 0},
+			End:                &taleslabentities.Vector3d{X: len(world) - 1, Y: len(world[0]) - 1},
+			HeightCutThreshold: 5,
+		}
+		world = grid.DigRiver(world, river)
 	}
 
 	//grid.PrintHeights(world)
