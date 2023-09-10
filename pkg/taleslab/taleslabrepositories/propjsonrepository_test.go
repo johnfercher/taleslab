@@ -2,19 +2,14 @@ package taleslabrepositories_test
 
 import (
 	"fmt"
-	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabrepositories"
 	"os"
 	"path"
 	"strings"
 	"testing"
 
-	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"
-	"github.com/stretchr/testify/assert"
-)
+	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabrepositories"
 
-var (
-	AppBaseDir = ""
-	rawProps   []taleslabentities.Prop
+	"github.com/stretchr/testify/assert"
 )
 
 func TestNewPropRepository(t *testing.T) {
