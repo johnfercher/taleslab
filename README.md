@@ -1,8 +1,11 @@
 # TaleSlab
 
 [![GoDoc](https://godoc.org/github.com/johnfercher/taleslab?status.svg)](https://godoc.org/github.com/johnfercher/taleslab)
-[![Codecov](https://img.shields.io/codecov/c/github/johnfercher/taleslab)](https://codecov.io/gh/johnfercher/taleslab)
 [![Go Report Card](https://goreportcard.com/badge/github.com/johnfercher/taleslab)](https://goreportcard.com/report/github.com/johnfercher/taleslab)
+[![CI](https://github.com/johnfercher/go-tree/actions/workflows/goci.yml/badge.svg)](https://github.com/johnfercher/go-tree/actions/workflows/goci.yml)
+[![Lint](https://github.com/johnfercher/go-tree/actions/workflows/golangci-lint.yml/badge.svg)](https://github.com/johnfercher/go-tree/actions/workflows/golangci-lint.yml)
+[![Codecov](https://codecov.io/gh/johnfercher/taleslab/branch/main/graph/badge.svg)](https://codecov.io/gh/johnfercher/taleslab)
+
 
 **WARNING: this project is in "alpha", so it's in heavy development and there is no concerns with breaking changes at this
 development phase.**
