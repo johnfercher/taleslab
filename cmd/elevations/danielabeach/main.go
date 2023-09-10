@@ -41,8 +41,8 @@ func main() {
 	worldMatrixSlices := grid.SliceTerrain(worldMatrix, squareSize)
 
 	encoder := encoder.NewEncoder()
-	propRepository := taleslabrepositories.NewPropRepository()
-	biomeRepository := taleslabrepositories.NewBiomeRepository()
+	propRepository, _ := taleslabrepositories.NewPropRepository()
+	biomeRepository, _ := taleslabrepositories.NewBiomeRepository()
 
 	response := &taleslabdto.MapDtoResponse{
 		SlabVersion: "v2",
