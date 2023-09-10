@@ -35,7 +35,7 @@ func init() {
 		log.Fatal(err.Error())
 	}
 
-	propsBytes, err := ioutil.ReadFile("./config/assets/props.json")
+	propsBytes, err := ioutil.ReadFile("./configs/assets/props.json")
 	if err != nil {
 		log.Fatal(err.Error())
 	}
