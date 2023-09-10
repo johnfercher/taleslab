@@ -6,7 +6,6 @@
 [![Lint](https://github.com/johnfercher/go-tree/actions/workflows/golangci-lint.yml/badge.svg)](https://github.com/johnfercher/go-tree/actions/workflows/golangci-lint.yml)
 [![Codecov](https://codecov.io/gh/johnfercher/taleslab/branch/main/graph/badge.svg)](https://codecov.io/gh/johnfercher/taleslab)
 
-
 **WARNING: this project is in "alpha", so it's in heavy development and there is no concerns with breaking changes at this
 development phase.**
 
