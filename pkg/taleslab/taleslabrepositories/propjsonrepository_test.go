@@ -49,12 +49,12 @@ func TestPropJSONRepository_GetProp(t *testing.T) {
 	sut, _ := taleslabrepositories.NewPropRepository(buildPropsPath())
 
 	// Act & Assert
-	for key, _ := range mappedProps {
+	for key := range mappedProps {
 		assert.NotNil(t, sut.GetProp(key), fmt.Sprintf("ornament not loaded %s", key))
 	}
 
 	loadedProps := sut.GetProps()
-	for key, _ := range loadedProps {
+	for key := range loadedProps {
 		assert.True(t, mappedProps[key], fmt.Sprintf("ornament not mapped %s", key))
 	}
 }
