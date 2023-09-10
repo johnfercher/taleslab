@@ -43,7 +43,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	err = file.SaveCodes(slab.Codes, "docs/codes/lava/data.txt")
+	err = file.SaveCodes(slab.Codes, "cmd/procedurals/lava/data.txt")
 	if err != nil {
 		log.Fatal(err)
 	}
