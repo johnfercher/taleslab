@@ -21,7 +21,7 @@ func main() {
 	mapService := taleslabservices.NewMapService(biomeRepository, propRepository, encoder)
 
 	inputMap := &taleslabdto.MapDtoRequest{
-		Biome: biometype.Swamp,
+		Biome: biometype.Desert,
 		Ground: &taleslabdto.GroundDtoRequest{
 			Width:             50,
 			Length:            50,
@@ -30,8 +30,8 @@ func main() {
 		},
 		Props: &taleslabdto.PropsDtoRequest{
 			StoneDensity: 300,
-			TreeDensity:  15,
-			MiscDensity:  130,
+			TreeDensity:  180,
+			MiscDensity:  350,
 		},
 		River: &taleslabdto.RiverDtoRequest{
 			HasRiver: false,
@@ -43,7 +43,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	err = file.SaveCodes(slab.Codes, "docs/codes/3dswamp/data.txt")
+	err = file.SaveCodes(slab.Codes, "docs/codes/desert/data.txt")
 	if err != nil {
 		log.Fatal(err)
 	}
