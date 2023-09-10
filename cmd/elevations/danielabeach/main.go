@@ -79,7 +79,7 @@ func main() {
 		currentX += squareSize
 	}
 
-	err = file.SaveCodes(response.Codes, "docs/codes/danielabeach/data.txt")
+	err = file.SaveCodes(response.Codes, "cmd/elevations/danielabeach/data.txt")
 	if err != nil {
 		fmt.Println(err.Error())
 		return

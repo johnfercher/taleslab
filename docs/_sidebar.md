@@ -1,7 +1,7 @@
 * [Home](README.md)
   * **Geo referencing Maps**
     * [Petrópolis/RJ - Brazil](/codes/elevations/petropolis.md)
-    * [Praia da Daniela/SC - Brazil](/codes/geodatadaniela/README.md)
+    * [Praia da Daniela/SC - Brazil](/codes/elevations/danielabeach.md)
   * **Procedural Maps**
     * [Beach](/codes/procedurals/beach.md)
     * [Dead Forest](/codes/procedurals/deadforest.md)
