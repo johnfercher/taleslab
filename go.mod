@@ -9,11 +9,14 @@ require (
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
-	github.com/johnfercher/go-rrt v0.0.2 // indirect
-	github.com/johnfercher/go-tree v1.0.1 // indirect
+	github.com/johnfercher/go-rrt v0.0.7 // indirect
+	github.com/johnfercher/go-tree v1.0.2 // indirect
 	github.com/johnfercher/rrt v0.0.0-20230907191927-78907e826414 // indirect
 	github.com/johnfercher/talescoder v1.0.5 // indirect
 	github.com/johnfercher/tessadem-sdk v1.0.2 // indirect
+	github.com/jung-kurt/gofpdf v1.16.2 // indirect
+	github.com/muesli/clusters v0.0.0-20180605185049-a07a36e67d36 // indirect
+	github.com/muesli/kmeans v0.3.1 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	go.uber.org/atomic v1.7.0 // indirect
 	go.uber.org/dig v1.17.0 // indirect

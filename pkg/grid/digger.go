@@ -3,6 +3,7 @@ package grid
 import (
 	"fmt"
 	"github.com/johnfercher/go-rrt/pkg/rrt"
+	mathRRT "github.com/johnfercher/go-rrt/pkg/rrt/math"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"
 	"math"
@@ -53,196 +54,131 @@ func getRiverHeight(height int) int {
 }
 
 func DigRiver3(grid [][]taleslabentities.Element) [][]taleslabentities.Element {
-	min, max := getMinMax(grid)
-	riverRRT := rrt.New[taleslabentities.Element](0.1)
+	points := findRiverRandomPath(grid)
 
-	riverRRT.AddCollisionCondition(func(point taleslabentities.Element) bool {
-		return point.Height > 10
-	})
-	riverRRT.AddStopCondition(func(testPoint *rrt.Point[taleslabentities.Element], finish *rrt.Point[taleslabentities.Element]) bool {
-		return testPoint.DistanceTo(finish) <= 5
-	})
+	points = GetFilledPoints(points, grid)
 
-	points := riverRRT.FindPath(max, min, grid)
-	for _, point := range points {
-		point.Println()
-		x := int(point.X)
-		y := int(point.Y)
-		grid = digSquare(x, y, 3, grid[x][y].Height-1, grid)
+	for i := 0; i < len(points)-1; i++ {
+		grid = digRiverBetweenPoints(points[i], points[i+1], grid)
 	}
 
 	return grid
 }
 
-func GenRiver(xMin, yMin, xMax, yMax, currentMinHeight int, grid [][]taleslabentities.Element) [][]taleslabentities.Element {
-	lengthX := len(grid)
-	lengthY := len(grid[0])
+func GetFilledPoints(points []*mathRRT.Point[taleslabentities.Element], grid [][]taleslabentities.Element) []*mathRRT.Point[taleslabentities.Element] {
+	var newPoints []*mathRRT.Point[taleslabentities.Element]
 
-	x := xMax
-	y := yMax
+	for i := len(points) - 1; i > 0; i-- {
+		fmt.Printf("%s -> %s\n", points[i-1].GetString(), points[i].GetString())
+		newPoints = append(newPoints, getPointsBetweenPoints(points[i-1], points[i], grid)...)
+	}
 
-	grid = digSquare(x, y, 3, currentMinHeight, grid)
+	return newPoints
+}
 
-	minDistance := math.MaxFloat64
-	minXDistance := xMax
-	minYDistance := yMax
+func getPointsBetweenPoints(a *mathRRT.Point[taleslabentities.Element], b *mathRRT.Point[taleslabentities.Element], grid [][]taleslabentities.Element) []*mathRRT.Point[taleslabentities.Element] {
+	radian := mathRRT.Radian(a, b)
 
-	currentHeight := grid[xMax][yMax].Height
+	points := make(map[string]*mathRRT.Point[taleslabentities.Element])
+
+	i := 0.0
+	for {
+		deltaX := math.Sin(radian) * float64(i)
+		x := int(a.X) + int(deltaX)
+
+		deltaY := math.Cos(radian) * float64(i)
+		y := int(a.Y) + int(deltaY)
+
+		point := &mathRRT.Point[taleslabentities.Element]{
+			X:    float64(x),
+			Y:    float64(y),
+			Data: grid[x][y],
+		}
+
+		points[fmt.Sprintf("%d-%d", x, y)] = point
+		i += 0.5
+		if mathRRT.Distance(point, b) < 1 {
+			break
+		}
+	}
+
+	var arr []*mathRRT.Point[taleslabentities.Element]
+	for _, point := range points {
+		arr = append(arr, point)
+	}
+
+	var reverse []*mathRRT.Point[taleslabentities.Element]
+	for i := len(arr) - 1; i >= 0; i-- {
+		reverse = append(reverse, arr[i])
+	}
+
+	return reverse
+}
+
+func digRiverBetweenPoints(a *mathRRT.Point[taleslabentities.Element], b *mathRRT.Point[taleslabentities.Element], grid [][]taleslabentities.Element) [][]taleslabentities.Element {
+	minX, maxX := getMinMaxX(a, b)
+	minY, maxY := getMinMaxY(a, b)
+
 	minHeight := math.MaxInt
-	minXHeight := xMax
-	minYHeight := yMax
-
-	// Up
-	if y > 0 {
-		distance := getDistance(xMin, yMin, xMax, y-1)
-		if distance < minDistance {
-			minDistance = distance
-			minXDistance = xMax
-			minYDistance = y - 1
-		}
-		height := grid[xMax][y-1].Height
-		if height < minHeight && grid[xMax][y-1].ElementType != taleslabconsts.Water {
-			minHeight = height
-			minXHeight = xMax
-			minYHeight = y - 1
+	for i := minX; i < maxX+1; i++ {
+		for j := minY; j < maxY+1; j++ {
+			height := grid[i][j].Height - 1
+			if height < 0 {
+				height = 0
+			}
+			if height < minHeight {
+				minHeight = height
+			}
+			digSquare(i, j, 3, minHeight, grid)
 		}
 	}
 
-	// Up-Left
-	if x > 0 && y > 0 {
-		distance := getDistance(xMin, yMin, x-1, y-1)
-		if distance < minDistance {
-			minDistance = distance
-			minXDistance = x - 1
-			minYDistance = y - 1
-		}
-		height := grid[x-1][y-1].Height
-		if height < minHeight && grid[x-1][y-1].ElementType != taleslabconsts.Water {
-			minHeight = height
-			minXHeight = x - 1
-			minYHeight = y - 1
-		}
+	return grid
+}
+
+func getMinMaxX(a *mathRRT.Point[taleslabentities.Element], b *mathRRT.Point[taleslabentities.Element]) (int, int) {
+	if a.X < b.X {
+		return int(a.X), int(b.X)
 	}
 
-	// Left
-	if x > 0 {
-		distance := getDistance(xMin, yMin, x-1, yMax)
-		if distance < minDistance {
-			minDistance = distance
-			minXDistance = x - 1
-			minYDistance = yMax
-		}
-		height := grid[x-1][yMax].Height
-		if height < minHeight && grid[x-1][yMax].ElementType != taleslabconsts.Water {
-			minHeight = height
-			minXHeight = x - 1
-			minYHeight = yMax
-		}
+	return int(b.X), int(a.X)
+}
+
+func getMinMaxY(a *mathRRT.Point[taleslabentities.Element], b *mathRRT.Point[taleslabentities.Element]) (int, int) {
+	if a.Y < b.Y {
+		return int(a.Y), int(b.Y)
 	}
 
-	// Down-Left
-	if x > 0 && y < lengthY-1 {
-		distance := getDistance(xMin, yMin, x-1, y+1)
-		if distance < minDistance {
-			minDistance = distance
-			minXDistance = x - 1
-			minYDistance = y + 1
-		}
-		height := grid[x-1][y+1].Height
-		if height < minHeight && grid[x-1][y+1].ElementType != taleslabconsts.Water {
-			minHeight = height
-			minXHeight = x - 1
-			minYHeight = y + 1
-		}
+	return int(b.Y), int(a.Y)
+}
+
+func getMinMax(a float64, b float64) (int, int) {
+	if a < b {
+		return int(a), int(b)
 	}
 
-	// Down
-	if y < lengthY-1 {
-		distance := getDistance(xMin, yMin, xMax, y+1)
-		if distance < minDistance {
-			minDistance = distance
-			minXDistance = xMax
-			minYDistance = y + 1
+	return int(b), int(a)
+}
+
+func findRiverRandomPath(grid [][]taleslabentities.Element) []*mathRRT.Point[taleslabentities.Element] {
+	min, max := getMinMaxHeights(grid)
+
+	riverRRT := rrt.New[taleslabentities.Element](5, 10000, 15)
+	currentMax := grid[int(max.X)][int(max.Y)].Height
+	riverRRT.AddCollisionCondition(func(point taleslabentities.Element) bool {
+		if point.Height <= currentMax+2 {
+			currentMax = point.Height
+			return false
 		}
-		height := grid[xMax][y+1].Height
-		if height < minHeight && grid[xMax][y+1].ElementType != taleslabconsts.Water {
-			minHeight = height
-			minXHeight = xMax
-			minYHeight = y + 1
-		}
-	}
 
-	// Down-Right
-	if x < lengthX-1 && y < lengthY-1 {
-		distance := getDistance(xMin, yMin, x+1, y+1)
-		if distance < minDistance {
-			minDistance = distance
-			minXDistance = x + 1
-			minYDistance = y + 1
-		}
-		height := grid[x+1][y+1].Height
-		if height < minHeight && grid[x+1][y+1].ElementType != taleslabconsts.Water {
-			minHeight = height
-			minXHeight = x + 1
-			minYHeight = y + 1
-		}
-	}
+		return true
+	})
 
-	// Right
-	if x < lengthX-1 {
-		distance := getDistance(xMin, yMin, x+1, yMax)
-		if distance < minDistance {
-			minDistance = distance
-			minXDistance = x + 1
-			minYDistance = yMax
-		}
-		height := grid[x+1][yMax].Height
-		if height < minHeight && grid[x+1][yMax].ElementType != taleslabconsts.Water {
-			minHeight = height
-			minXHeight = x + 1
-			minYHeight = yMax
-		}
-	}
+	riverRRT.AddStopCondition(func(testPoint *mathRRT.Point[taleslabentities.Element], finish *mathRRT.Point[taleslabentities.Element]) bool {
+		return testPoint.DistanceTo(finish) <= 5
+	})
 
-	// Up-Right
-	if x < lengthX-1 && y > 0 {
-		distance := getDistance(xMin, yMin, x+1, y-1)
-		if distance < minDistance {
-			minDistance = distance
-			minXDistance = x + 1
-			minYDistance = y - 1
-		}
-		height := grid[x+1][y-1].Height
-		if height < minHeight && grid[x+1][y-1].ElementType != taleslabconsts.Water {
-			minHeight = height
-			minXHeight = x + 1
-			minYHeight = y - 1
-		}
-	}
-
-	if minHeight < currentMinHeight {
-		currentMinHeight = minHeight
-	}
-
-	if minDistance <= 1 {
-		grid = digSquare(minXDistance, minYDistance, 3, currentMinHeight, grid)
-		return grid
-	}
-
-	newX := 0
-	newY := 0
-
-	if minHeight < currentHeight {
-		newX = minXHeight
-		newY = minYHeight
-	} else {
-		newX = minXDistance
-		newY = minYDistance
-	}
-
-	fmt.Printf("%d, %d\n", newX, newY)
-
-	return GenRiver(xMin, yMin, newX, newY, currentMinHeight, grid)
+	return riverRRT.FindPath(max, min, grid)
 }
 
 func digSquare(x, y, size, currentMinHeight int, grid [][]taleslabentities.Element) [][]taleslabentities.Element {
@@ -260,22 +196,22 @@ func digSquare(x, y, size, currentMinHeight int, grid [][]taleslabentities.Eleme
 	return grid
 }
 
-func getMinMax(grid [][]taleslabentities.Element) (*rrt.Coordinate, *rrt.Coordinate) {
+func getMinMaxHeights(grid [][]taleslabentities.Element) (*mathRRT.Coordinate, *mathRRT.Coordinate) {
 	minHeight := math.MaxInt
-	min := &rrt.Coordinate{}
+	min := &mathRRT.Coordinate{}
 	maxHeight := 0
-	max := &rrt.Coordinate{}
+	max := &mathRRT.Coordinate{}
 
 	for i := 0; i < len(grid); i++ {
 		for j := 0; j < len(grid[i]); j++ {
 			elevation := grid[i][j].Height
 			if elevation < minHeight {
 				minHeight = elevation
-				min = &rrt.Coordinate{X: float64(i), Y: float64(j)}
+				min = &mathRRT.Coordinate{X: float64(i), Y: float64(j)}
 			}
 			if elevation > maxHeight {
 				maxHeight = elevation
-				max = &rrt.Coordinate{X: float64(i), Y: float64(j)}
+				max = &mathRRT.Coordinate{X: float64(i), Y: float64(j)}
 			}
 		}
 	}

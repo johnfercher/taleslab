@@ -18,20 +18,30 @@ func TestDigRiver(t *testing.T) {
 	world.Print()
 }
 
-func TestDigRiver2(t *testing.T) {
-	world := grid.GenerateElementGrid(5, 5, taleslabentities.Element{
-		1,
-		taleslabconsts.Ground,
+/*func TestGetFilledPoints(t *testing.T) {
+	// Arrange
+	var points = []*math.Point[taleslabentities.Element]{}
+	points = append(points, &math.Point[taleslabentities.Element]{
+		X: 0,
+		Y: 0,
+	})
+	points = append(points, &math.Point[taleslabentities.Element]{
+		X: 0,
+		Y: 5,
+	})
+	points = append(points, &math.Point[taleslabentities.Element]{
+		X: 5,
+		Y: 5,
+	})
+	points = append(points, &math.Point[taleslabentities.Element]{
+		X: 10,
+		Y: 10,
 	})
 
-	world[0][0].Height = 2
+	// Act
+	newPoints := grid.GetFilledPoints(points)
 
-	x := len(world) - 1
-	y := len(world[0]) - 1
-	world[x][y].Height = 0
-
-	//world.Print()
-
-	world = grid.DigRiver2(world)
-	world.Print()
+	// Assert
+	assert.Equal(t, true, newPoints)
 }
+*/
