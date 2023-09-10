@@ -5,8 +5,8 @@
 ## TalesBazaar
 https://talesbazaar.com/board/864
 
-## Base64
+## TaleSpire Code
 [filename](https://raw.githubusercontent.com/johnfercher/taleslab/main/cmd/elevations/danielabeach/data.txt ':include :type=code')
 
-## Code
+## Go Code
 [filename](https://raw.githubusercontent.com/johnfercher/taleslab/main/cmd/elevations/danielabeach/main.go ':include :type=code')

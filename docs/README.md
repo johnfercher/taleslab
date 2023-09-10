@@ -1,5 +1,8 @@
 # TaleSlab
 
+**WARNING: this project is in "alpha", so it's in heavy development and there is no concerns with breaking changes at this
+development phase.**
+
 A map generator for the [TaleSpire](https://store.steampowered.com/app/720620/TaleSpire/) (rpg tabletop). This project
 support the creation of maps in different sizes, biomes and characteristics. The maps can be built using [procedural algorithms](http://johnfercher.com/taleslab/#/codes/procedurals/beach)
 or even with [georeferencing data](http://johnfercher.com/taleslab/#/codes/elevations/petropolis).

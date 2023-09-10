@@ -2,8 +2,8 @@
 
 ![version_size](https://raw.githubusercontent.com/johnfercher/taleslab/main/cmd/procedurals/deadforest/image.png)
 
-## Base64
+## TaleSpire Code
 [filename](https://raw.githubusercontent.com/johnfercher/taleslab/main/cmd/procedurals/deadforest/data.txt ':include :type=code')
 
-## Code
+## Go Code
 [filename](https://raw.githubusercontent.com/johnfercher/taleslab/main/cmd/procedurals/deadforest/main.go ':include :type=code')
