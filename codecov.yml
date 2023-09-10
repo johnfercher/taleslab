@@ -6,3 +6,6 @@ coverage:
 ignore:
   - ".idea"
   - "cmd/*"
+  - "docs/*"
+  - "configs/*"
+  - "mocks/*"
