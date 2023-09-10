@@ -1,6 +1,6 @@
-package taleslabdto
+package proceduralentities
 
-type MountainsDtoRequest struct {
+type Mountains struct {
 	MinX           int `json:"min_x"`
 	RandX          int `json:"rand_x"`
 	MinY           int `json:"min_y"`

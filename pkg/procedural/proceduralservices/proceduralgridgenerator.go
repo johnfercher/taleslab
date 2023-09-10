@@ -1,32 +1,32 @@
-package taleslabservices
+package proceduralservices
 
 import (
 	"errors"
+	"github.com/johnfercher/taleslab/pkg/procedural/proceduraldomain/proceduralentities"
+	"github.com/johnfercher/taleslab/pkg/procedural/proceduraldomain/proceduralservices"
+	"github.com/johnfercher/taleslab/pkg/shared/grid"
+	"github.com/johnfercher/taleslab/pkg/shared/rand"
 
-	"github.com/johnfercher/taleslab/pkg/grid"
-	"github.com/johnfercher/taleslab/pkg/rand"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"
-	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabservices"
-	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdto"
 )
 
 type proceduralGridGenerator struct {
-	ground    *taleslabdto.GroundDtoRequest
-	mountains *taleslabdto.MountainsDtoRequest
+	ground    *proceduralentities.Ground
+	mountains *proceduralentities.Mountains
 	river     *grid.River
-	canyon    *taleslabdto.CanyonDtoRequest
+	canyon    *proceduralentities.Canyon
 }
 
-func NewMatrixGenerator() taleslabservices.ProceduralGridGenerator {
+func NewMatrixGenerator() proceduralservices.ProceduralGridGenerator {
 	return &proceduralGridGenerator{}
 }
 
-func (m *proceduralGridGenerator) SetGround(ground *taleslabdto.GroundDtoRequest) taleslabservices.ProceduralGridGenerator {
+func (m *proceduralGridGenerator) SetGround(ground *proceduralentities.Ground) proceduralservices.ProceduralGridGenerator {
 	m.ground = ground
 	return m
 }
 
-func (m *proceduralGridGenerator) SetMountains(mountains *taleslabdto.MountainsDtoRequest) taleslabservices.ProceduralGridGenerator {
+func (m *proceduralGridGenerator) SetMountains(mountains *proceduralentities.Mountains) proceduralservices.ProceduralGridGenerator {
 	if mountains == nil {
 		return m
 	}
@@ -34,7 +34,7 @@ func (m *proceduralGridGenerator) SetMountains(mountains *taleslabdto.MountainsD
 	return m
 }
 
-func (m *proceduralGridGenerator) SetRiver(river *grid.River) taleslabservices.ProceduralGridGenerator {
+func (m *proceduralGridGenerator) SetRiver(river *grid.River) proceduralservices.ProceduralGridGenerator {
 	if river != nil {
 		m.river = river
 	}
@@ -42,7 +42,7 @@ func (m *proceduralGridGenerator) SetRiver(river *grid.River) taleslabservices.P
 	return m
 }
 
-func (m *proceduralGridGenerator) SetCanyon(canyon *taleslabdto.CanyonDtoRequest) taleslabservices.ProceduralGridGenerator {
+func (m *proceduralGridGenerator) SetCanyon(canyon *proceduralentities.Canyon) proceduralservices.ProceduralGridGenerator {
 	if canyon != nil {
 		m.canyon = canyon
 	}

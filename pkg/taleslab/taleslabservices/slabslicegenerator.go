@@ -3,11 +3,9 @@ package taleslabservices
 import (
 	"errors"
 	"fmt"
+	"github.com/johnfercher/taleslab/pkg/shared/grid"
+	"github.com/johnfercher/taleslab/pkg/shared/rand"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts/biometype"
-	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdto"
-
-	"github.com/johnfercher/taleslab/pkg/grid"
-	"github.com/johnfercher/taleslab/pkg/rand"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts/elementtype"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabrepositories"
@@ -26,32 +24,32 @@ func NewSlabSliceGenerator(biomeRepository taleslabrepositories.BiomeRepository,
 	}
 }
 
-func (a *slabSliceGenerator) Generate(sliceDto *taleslabdto.SliceDto) (*taleslabentities.Slab, error) {
+func (a *slabSliceGenerator) Generate(sliceGeneration *taleslabentities.SliceGeneration) (*taleslabentities.Slab, error) {
 	rotation := 768
 
-	if len(sliceDto.Biomes) == 0 {
+	if len(sliceGeneration.Biomes) == 0 {
 		return nil, errors.New("you must provide at least one biome")
 	}
 
-	slab := a.generateWorldAssets(sliceDto, rotation)
-	propsGrid := a.generateDetailAssets(sliceDto)
+	slab := a.generateWorldAssets(sliceGeneration, rotation)
+	propsGrid := a.generateDetailAssets(sliceGeneration)
 
-	slab = a.appendPropsToSlab(slab, propsGrid, sliceDto)
+	slab = a.appendPropsToSlab(slab, propsGrid, sliceGeneration)
 
 	return slab, nil
 }
 
-func (a *slabSliceGenerator) generateWorldAssets(sliceDto *taleslabdto.SliceDto, rotation int) *taleslabentities.Slab {
+func (a *slabSliceGenerator) generateWorldAssets(sliceGeneration *taleslabentities.SliceGeneration, rotation int) *taleslabentities.Slab {
 	slab := &taleslabentities.Slab{}
-	world := sliceDto.World
-	offsetX := sliceDto.OffsetX
-	maxWidth := sliceDto.FullDimension.Width
+	world := sliceGeneration.World
+	offsetX := sliceGeneration.OffsetX
+	maxWidth := sliceGeneration.FullDimension.Width
 
 	// X axis
 	for i, array := range world {
 		// Y axis
 		for j, element := range array {
-			prop := a.getBiomeBuildingBlock(offsetX+i, maxWidth, element.ElementType, sliceDto.Biomes)
+			prop := a.getBiomeBuildingBlock(offsetX+i, maxWidth, element.ElementType, sliceGeneration.Biomes)
 
 			minValue := element
 
@@ -92,14 +90,14 @@ func (a *slabSliceGenerator) generateWorldAssets(sliceDto *taleslabdto.SliceDto,
 	return slab
 }
 
-func (a *slabSliceGenerator) generateDetailAssets(sliceDto *taleslabdto.SliceDto) [][]taleslabentities.Element {
-	worldWidth := sliceDto.SliceDimension.Width
-	worldLength := sliceDto.SliceDimension.Length
-	world := sliceDto.World
+func (a *slabSliceGenerator) generateDetailAssets(sliceGeneration *taleslabentities.SliceGeneration) [][]taleslabentities.Element {
+	worldWidth := sliceGeneration.SliceDimension.Width
+	worldLength := sliceGeneration.SliceDimension.Length
+	world := sliceGeneration.World
 
 	propsGrid := grid.GenerateElementGrid(worldWidth, worldLength, taleslabentities.Element{ElementType: elementtype.None})
 
-	biome := a.biomeRepository.GetBiome(sliceDto.Biomes[0])
+	biome := a.biomeRepository.GetBiome(sliceGeneration.Biomes[0])
 
 	propsKey := []elementtype.ElementType{
 		elementtype.Tree,
@@ -148,10 +146,10 @@ func (a *slabSliceGenerator) generateDetailAssets(sliceDto *taleslabdto.SliceDto
 	return propsGrid
 }
 
-func (a *slabSliceGenerator) appendPropsToSlab(slab *taleslabentities.Slab, gridProps [][]taleslabentities.Element, sliceDto *taleslabdto.SliceDto) *taleslabentities.Slab {
-	world := sliceDto.World
-	offsetX := sliceDto.OffsetX
-	maxWidth := sliceDto.FullDimension.Width
+func (a *slabSliceGenerator) appendPropsToSlab(slab *taleslabentities.Slab, gridProps [][]taleslabentities.Element, sliceGeneration *taleslabentities.SliceGeneration) *taleslabentities.Slab {
+	world := sliceGeneration.World
+	offsetX := sliceGeneration.OffsetX
+	maxWidth := sliceGeneration.FullDimension.Width
 
 	for i, array := range world {
 		for j, element := range array {
@@ -159,7 +157,7 @@ func (a *slabSliceGenerator) appendPropsToSlab(slab *taleslabentities.Slab, grid
 			propType := gridProps[i][j].ElementType
 
 			if propType != elementtype.None {
-				prop := a.getBiomeProp(offsetX+i, maxWidth, reliefType, propType, sliceDto.Biomes)
+				prop := a.getBiomeProp(offsetX+i, maxWidth, reliefType, propType, sliceGeneration.Biomes)
 				if prop == nil {
 					continue
 				}

@@ -1,9 +1,9 @@
-package taleslabservices
+package georeferencingservices
 
 import (
+	"github.com/johnfercher/taleslab/pkg/georeferencing/georeferencingdomain/georeferencingservices"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts/elementtype"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"
-	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabservices"
 	"github.com/johnfercher/tessadem-sdk/pkg/tessadem"
 	"math"
 )
@@ -15,7 +15,7 @@ type geoReferencingGridGenerator struct {
 	groundHeightLimit        int
 }
 
-func NewGeoReferencingGridGenerator() taleslabservices.GeoReferencingGridGenerator {
+func NewGeoReferencingGridGenerator() georeferencingservices.GeoReferencingGridGenerator {
 	return &geoReferencingGridGenerator{
 		waterHeightLimit:      1,
 		baseGroundHeightLimit: 3,

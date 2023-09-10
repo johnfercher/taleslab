@@ -1,4 +1,4 @@
-package taleslabservices
+package georeferencingservices
 
 import (
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"
