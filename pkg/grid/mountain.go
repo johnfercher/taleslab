@@ -2,10 +2,11 @@ package grid
 
 import (
 	"fmt"
+	"math"
+
 	"github.com/johnfercher/taleslab/pkg/rand"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts/elementtype"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"
-	"math"
 )
 
 func TerrainGenerator(x, y int, xFrequency, yFrequency, gain float64, minHeight int, forceBaseLand bool) taleslabentities.ElementMatrix {
@@ -118,11 +119,11 @@ func GetSliceInOffset(base [][]taleslabentities.Element, sliceSize, offsetX, off
 		ySliceSize = sliceSize + len(base[0]) - (offsetY + sliceSize)
 	}
 
-	slice := GenerateElementGrid(xSliceSize, ySliceSize, taleslabentities.Element{0, elementtype.Ground})
+	slice := GenerateElementGrid(xSliceSize, ySliceSize, taleslabentities.Element{Height: 0, ElementType: elementtype.Ground})
 
 	for i := 0; i+offsetX < len(base) && i < sliceSize; i++ {
 		for j := 0; j+offsetY < len(base[i]) && j < sliceSize; j++ {
-			//fmt.Printf("[%d] = %d, [%d] = %d\n", i, i+offsetX, j, j+offsetY)
+			// fmt.Printf("[%d] = %d, [%d] = %d\n", i, i+offsetX, j, j+offsetY)
 			slice[i][j] = base[i+offsetX][j+offsetY]
 		}
 	}

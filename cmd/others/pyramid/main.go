@@ -1,12 +1,13 @@
 package main
 
 import (
+	"log"
+
 	"github.com/johnfercher/talescoder/pkg/encoder"
 	"github.com/johnfercher/taleslab/pkg/file"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabmappers"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabrepositories"
-	"log"
 )
 
 func main() {
@@ -26,7 +27,7 @@ func main() {
 		for i := xSize - k; i > k; i-- {
 			for j := ySize - k; j > k; j-- {
 				asset := &taleslabentities.Asset{
-					Id: asset.Parts[0].Id,
+					ID: asset.Parts[0].ID,
 					Coordinates: &taleslabentities.Vector3d{
 						X: i,
 						Y: j,

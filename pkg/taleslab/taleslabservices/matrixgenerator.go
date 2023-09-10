@@ -2,6 +2,7 @@ package taleslabservices
 
 import (
 	"errors"
+
 	"github.com/johnfercher/taleslab/pkg/grid"
 	"github.com/johnfercher/taleslab/pkg/rand"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"
@@ -77,7 +78,7 @@ func (m *matrixGenerator) Generate() ([][]taleslabentities.Element, error) {
 		world = grid.DigRiver(world, river)
 	}
 
-	//grid.PrintHeights(world)
+	// grid.PrintHeights(world)
 
 	return world, nil
 }

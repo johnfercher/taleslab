@@ -1,6 +1,8 @@
 package taleslabmappers
 
 import (
+	"bytes"
+
 	"github.com/johnfercher/talescoder/pkg/models"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"
@@ -15,9 +17,9 @@ func TaleSpireSlabFromAssets(assets taleslabentities.Assets) *models.Slab {
 	}
 
 	for _, uniqueAsset := range uniqueAssets {
-		layouts := getLayoutFromAsset(uniqueAsset.Id, assets)
+		layouts := getLayoutFromAsset(uniqueAsset.ID, assets)
 		taleSpireAsset := &models.Asset{
-			Id:           uniqueAsset.Id,
+			Id:           uniqueAsset.ID,
 			LayoutsCount: int16(len(layouts)),
 			Layouts:      layouts,
 		}
@@ -32,8 +34,8 @@ func getUniqueAssets(assets taleslabentities.Assets) map[string]*taleslabentitie
 	uniqueAssets := make(map[string]*taleslabentities.Asset)
 
 	for _, asset := range assets {
-		if uniqueAssets[string(asset.Id)] == nil {
-			uniqueAssets[string(asset.Id)] = asset
+		if uniqueAssets[string(asset.ID)] == nil {
+			uniqueAssets[string(asset.ID)] = asset
 		}
 	}
 
@@ -44,7 +46,7 @@ func getLayoutFromAsset(id []byte, assets taleslabentities.Assets) []*models.Lay
 	bounds := []*models.Layout{}
 
 	for _, asset := range assets {
-		if string(id) == string(asset.Id) {
+		if bytes.Equal(id, asset.ID) {
 			bound := &models.Layout{
 				Coordinates: &models.Vector3d{
 					X: uint16(asset.Coordinates.X),
@@ -66,7 +68,7 @@ func AssetsFromTaleSpireSlab(taleSpire *models.Slab) taleslabentities.Assets {
 	for _, asset := range taleSpire.Assets {
 		for _, layout := range asset.Layouts {
 			entity := &taleslabentities.Asset{
-				Id: asset.Id,
+				ID: asset.Id,
 				Coordinates: &taleslabentities.Vector3d{
 					X: int(layout.Coordinates.X),
 					Y: int(layout.Coordinates.Y),
@@ -80,28 +82,3 @@ func AssetsFromTaleSpireSlab(taleSpire *models.Slab) taleslabentities.Assets {
 
 	return assets
 }
-
-/*func entityAssetFromTaleSpire(taleSpire *talespirecontracts.Asset) *taleslabentities.Asset {
-	entity := &taleslabentities.Asset{
-		Id: taleSpire.Id,
-	}
-
-	for _, layout := range taleSpire.Layouts {
-		entity.Layouts = append(entity.Layouts, entityBoundsFromTaleSpire(layout))
-	}
-
-	return entity
-}
-
-func entityBoundsFromTaleSpire(taleSpire *talespirecontracts.Bounds) *taleslabentities.Bounds {
-	entity := &taleslabentities.Bounds{
-		Coordinates: &taleslabentities.Vector3d{
-			X: int(taleSpire.Coordinates.X),
-			Y: int(taleSpire.Coordinates.Y),
-			Z: int(taleSpire.Coordinates.Z),
-		},
-		Rotation: int(taleSpire.Rotation),
-	}
-
-	return entity
-}*/

@@ -2,33 +2,33 @@ package taleslabrepositories
 
 import (
 	"encoding/json"
+	"log"
+	"os"
+
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts/biometype"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts/elementtype"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabrepositories"
-	"io/ioutil"
-	"log"
 )
 
-type biomeJsonRepository struct {
-	biomeType biometype.BiomeType
-	biomes    map[biometype.BiomeType]*taleslabentities.Biome
+type biomeJSONRepository struct {
+	biomes map[biometype.BiomeType]*taleslabentities.Biome
 }
 
 func NewBiomeRepository() taleslabrepositories.BiomeRepository {
-	repository := &biomeJsonRepository{}
+	repository := &biomeJSONRepository{}
 
 	repository.loadBiomes()
 
 	return repository
 }
 
-func (self *biomeJsonRepository) GetBiome(biomeType biometype.BiomeType) *taleslabentities.Biome {
-	return self.biomes[biomeType]
+func (b *biomeJSONRepository) GetBiome(biomeType biometype.BiomeType) *taleslabentities.Biome {
+	return b.biomes[biomeType]
 }
 
-func (self *biomeJsonRepository) loadBiomes() {
-	bytes, err := ioutil.ReadFile("./configs/biomes.json")
+func (b *biomeJSONRepository) loadBiomes() {
+	bytes, err := os.ReadFile("./configs/biomes.json")
 	if err != nil {
 		log.Fatal(err.Error())
 	}
@@ -45,15 +45,15 @@ func (self *biomeJsonRepository) loadBiomes() {
 	for _, biome := range biomes {
 		biomeMap[biome.Type] = &taleslabentities.Biome{
 			Type:      biome.Type,
-			Reliefs:   self.reliefsArrayToMap(biome.Reliefs),
+			Reliefs:   b.reliefsArrayToMap(biome.Reliefs),
 			StoneWall: biome.StoneWall,
 		}
 	}
 
-	self.biomes = biomeMap
+	b.biomes = biomeMap
 }
 
-func (self *biomeJsonRepository) reliefsArrayToMap(reliefs []*taleslabentities.Relief) map[elementtype.ElementType]*taleslabentities.Relief {
+func (b *biomeJSONRepository) reliefsArrayToMap(reliefs []*taleslabentities.Relief) map[elementtype.ElementType]*taleslabentities.Relief {
 	reliefMap := make(map[elementtype.ElementType]*taleslabentities.Relief)
 
 	for _, relief := range reliefs {

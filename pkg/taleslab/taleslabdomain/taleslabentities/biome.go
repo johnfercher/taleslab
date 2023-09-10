@@ -3,6 +3,7 @@ package taleslabentities
 import (
 	"errors"
 	"fmt"
+
 	"github.com/johnfercher/taleslab/pkg/rand"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts/biometype"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts/elementtype"
@@ -33,7 +34,7 @@ func (b *Biome) GetBuildingBlockFromElement(reliefType elementtype.ElementType) 
 	}
 
 	block := relief.BuildingBlocks
-	if len(block) <= 0 {
+	if len(block) == 0 {
 		return "", errors.New("there is no building blocks for this relief type")
 	}
 
@@ -50,7 +51,7 @@ func (b *Biome) GetPropBlockFromElement(reliefType elementtype.ElementType, prop
 
 	if propType == elementtype.Tree {
 		vegetation := relief.PropBlocks.Vegetation
-		if len(vegetation.Props) <= 0 {
+		if len(vegetation.Props) == 0 {
 			return "", errors.New("there is no building blocks for this relief type")
 		}
 
@@ -61,7 +62,7 @@ func (b *Biome) GetPropBlockFromElement(reliefType elementtype.ElementType, prop
 
 	if propType == elementtype.Stone {
 		stones := relief.PropBlocks.Stones
-		if len(stones.Props) <= 0 {
+		if len(stones.Props) == 0 {
 			return "", errors.New("there is no building blocks for this relief type")
 		}
 
@@ -71,7 +72,7 @@ func (b *Biome) GetPropBlockFromElement(reliefType elementtype.ElementType, prop
 	}
 
 	misc := relief.PropBlocks.Misc
-	if len(misc.Props) <= 0 {
+	if len(misc.Props) == 0 {
 		return "", errors.New("there is no building blocks for this relief type")
 	}
 

@@ -2,6 +2,7 @@ package taleslabservices
 
 import (
 	"context"
+
 	"github.com/johnfercher/talescoder/pkg/encoder"
 	"github.com/johnfercher/taleslab/pkg/grid"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabrepositories"
@@ -16,7 +17,9 @@ type mapService struct {
 	encoder         encoder.Encoder
 }
 
-func NewMapService(biomeRepository taleslabrepositories.BiomeRepository, propsRepository taleslabrepositories.PropRepository, encoder encoder.Encoder) taleslabservices.SlabGenerator {
+func NewMapService(biomeRepository taleslabrepositories.BiomeRepository, propsRepository taleslabrepositories.PropRepository,
+	encoder encoder.Encoder,
+) taleslabservices.SlabGenerator {
 	return &mapService{
 		biomeRepository: biomeRepository,
 		propsRepository: propsRepository,
@@ -24,7 +27,7 @@ func NewMapService(biomeRepository taleslabrepositories.BiomeRepository, propsRe
 	}
 }
 
-func (self *mapService) Generate(ctx context.Context, inputMap *taleslabdto.MapDtoRequest) (*taleslabdto.MapDtoResponse, error) {
+func (m *mapService) Generate(ctx context.Context, inputMap *taleslabdto.MapDtoRequest) (*taleslabdto.MapDtoResponse, error) {
 	matrixGenerator := NewMatrixGenerator().
 		SetMountains(inputMap.Mountains).
 		SetGround(inputMap.Ground).
@@ -51,7 +54,7 @@ func (self *mapService) Generate(ctx context.Context, inputMap *taleslabdto.MapD
 	for _, worldMatrix := range worldMatrixSlices {
 		sliceCode := []string{}
 		for _, slice := range worldMatrix {
-			assetsGenerator := NewAssetsGenerator(self.biomeRepository, self.propsRepository, maxWidth, maxLength).
+			assetsGenerator := NewAssetsGenerator(m.biomeRepository, m.propsRepository, maxWidth, maxLength).
 				SetBiome(inputMap.Biome).
 				SetSecondaryBiome(inputMap.SecondaryBiome)
 
@@ -62,7 +65,7 @@ func (self *mapService) Generate(ctx context.Context, inputMap *taleslabdto.MapD
 
 			slab := taleslabmappers.TaleSpireSlabFromAssets(worldAssets)
 
-			base64, err := self.encoder.Encode(slab)
+			base64, err := m.encoder.Encode(slab)
 			if err != nil {
 				return nil, err
 			}

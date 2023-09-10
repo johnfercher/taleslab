@@ -1,20 +1,24 @@
-package taleslabrepositories
+package taleslabrepositories_test
 
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"
-	"github.com/stretchr/testify/assert"
-	"io/ioutil"
+	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabrepositories"
 	"log"
 	"os"
 	"path"
 	"testing"
+
+	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"
+	"github.com/stretchr/testify/assert"
 )
 
-var AppBaseDir = ""
-var rawProps []taleslabentities.Prop
+var (
+	AppBaseDir = ""
+	rawProps   []taleslabentities.Prop
+)
 
+// nolint: gochecknoinits
 func init() {
 	if AppBaseDir != "" {
 		return
@@ -35,7 +39,7 @@ func init() {
 		log.Fatal(err.Error())
 	}
 
-	propsBytes, err := ioutil.ReadFile("./configs/assets/props.json")
+	propsBytes, err := os.ReadFile("./configs/props.json")
 	if err != nil {
 		log.Fatal(err.Error())
 	}
@@ -48,16 +52,16 @@ func init() {
 
 func TestNewPropRepository(t *testing.T) {
 	// Act
-	sut := NewPropRepository()
+	sut := taleslabrepositories.NewPropRepository()
 
 	// Assert
 	assert.NotNil(t, sut)
-	assert.Equal(t, "*taleslabrepositories.propJsonRepository", fmt.Sprintf("%T", sut))
+	assert.Equal(t, "*taleslabrepositories.propJSONRepository", fmt.Sprintf("%T", sut))
 }
 
 func TestAssetLoader_GetProps(t *testing.T) {
 	// Arrange
-	sut := NewPropRepository()
+	sut := taleslabrepositories.NewPropRepository()
 
 	// Act
 	props := sut.GetProps()
@@ -70,8 +74,8 @@ func TestAssetLoader_GetProps(t *testing.T) {
 	for i := 0; i < len(rawProps); i++ {
 		for j := 0; j < len(rawProps); j++ {
 			if i != j {
-				assert.NotEqual(t, rawProps[i].Id, rawProps[j].Id, fmt.Sprintf("repeated ornaments ids, name: %s", rawProps[i].Id))
-				assert.NotEqual(t, rawProps[i].Id, rawProps[j].Id, fmt.Sprintf("repeated ornaments names, id %s", rawProps[i].Id))
+				assert.NotEqual(t, rawProps[i].ID, rawProps[j].ID, fmt.Sprintf("repeated ornaments ids, name: %s", rawProps[i].ID))
+				assert.NotEqual(t, rawProps[i].ID, rawProps[j].ID, fmt.Sprintf("repeated ornaments names, id %s", rawProps[i].ID))
 			}
 		}
 	}
@@ -80,7 +84,7 @@ func TestAssetLoader_GetProps(t *testing.T) {
 func TestAssetLoader_GetProp(t *testing.T) {
 	// Arrange
 	mappedProps := getMappedProps()
-	sut := NewPropRepository()
+	sut := taleslabrepositories.NewPropRepository()
 
 	// Act & Assert
 	for mappedPropKey := range mappedProps {

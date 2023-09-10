@@ -3,6 +3,8 @@ package main
 import (
 	"context"
 	"fmt"
+	"math"
+
 	"github.com/johnfercher/talescoder/pkg/encoder"
 	"github.com/johnfercher/taleslab/pkg/file"
 	"github.com/johnfercher/taleslab/pkg/grid"
@@ -14,7 +16,6 @@ import (
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabrepositories"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabservices"
 	"github.com/johnfercher/tessadem-sdk/pkg/tessadem"
-	"math"
 )
 
 func main() {

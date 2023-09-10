@@ -1,13 +1,14 @@
 package main
 
 import (
+	"log"
+	"math"
+
 	"github.com/johnfercher/talescoder/pkg/encoder"
 	"github.com/johnfercher/taleslab/pkg/file"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabmappers"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabrepositories"
-	"log"
-	"math"
 )
 
 func main() {
@@ -32,7 +33,7 @@ func main() {
 		yPositiveTranslated := radius + yRounded
 
 		asset := &taleslabentities.Asset{
-			Id: asset.Parts[0].Id,
+			ID: asset.Parts[0].ID,
 			Coordinates: &taleslabentities.Vector3d{
 				X: xPositiveTranslated,
 				Y: yPositiveTranslated,

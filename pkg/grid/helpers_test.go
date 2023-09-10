@@ -1,11 +1,12 @@
 package grid_test
 
 import (
+	"testing"
+
 	"github.com/johnfercher/taleslab/pkg/grid"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts/elementtype"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"
 	"github.com/stretchr/testify/assert"
-	"testing"
 )
 
 func TestGenerateElementGrid(t *testing.T) {

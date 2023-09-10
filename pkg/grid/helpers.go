@@ -2,6 +2,7 @@ package grid
 
 import (
 	"fmt"
+
 	"github.com/johnfercher/taleslab/pkg/rand"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"
 )
@@ -20,7 +21,9 @@ func GenerateElementGrid(x, y int, defaultElement taleslabentities.Element) tale
 	return unitGrid
 }
 
-func AppendTerrainRandomly(baseTerrain [][]taleslabentities.Element, terrainToAppend [][]taleslabentities.Element) [][]taleslabentities.Element {
+func AppendTerrainRandomly(baseTerrain [][]taleslabentities.Element,
+	terrainToAppend [][]taleslabentities.Element,
+) [][]taleslabentities.Element {
 	xMax := len(baseTerrain)
 	yMax := len(baseTerrain[0])
 

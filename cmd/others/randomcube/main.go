@@ -1,13 +1,14 @@
 package main
 
 import (
+	"log"
+
 	"github.com/johnfercher/talescoder/pkg/encoder"
 	"github.com/johnfercher/taleslab/pkg/file"
 	"github.com/johnfercher/taleslab/pkg/rand"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabmappers"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabrepositories"
-	"log"
 )
 
 func main() {
@@ -28,7 +29,7 @@ func main() {
 			for k := zSize; k > 0; k-- {
 				if rand.Int()%2 == 0 {
 					asset := &taleslabentities.Asset{
-						Id: constructor.Parts[0].Id,
+						ID: constructor.Parts[0].ID,
 						Coordinates: &taleslabentities.Vector3d{
 							X: i - 1,
 							Y: j - 1,
@@ -46,7 +47,6 @@ func main() {
 	taleSpireSlab := taleslabmappers.TaleSpireSlabFromAssets(assets)
 
 	base64, err := encoder.Encode(taleSpireSlab)
-
 	if err != nil {
 		log.Fatal(err)
 	}

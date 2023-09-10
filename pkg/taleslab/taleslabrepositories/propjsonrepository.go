@@ -2,32 +2,33 @@ package taleslabrepositories
 
 import (
 	"encoding/json"
+	"os"
+
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabrepositories"
-	"io/ioutil"
 )
 
-type propJsonRepository struct {
+type propJSONRepository struct {
 	props map[string]*taleslabentities.Prop
 }
 
 func NewPropRepository() taleslabrepositories.PropRepository {
-	assetLoader := &propJsonRepository{}
+	assetLoader := &propJSONRepository{}
 
 	_ = assetLoader.loadProps()
 	return assetLoader
 }
 
-func (self *propJsonRepository) GetProp(id string) *taleslabentities.Prop {
-	return self.props[id]
+func (p *propJSONRepository) GetProp(id string) *taleslabentities.Prop {
+	return p.props[id]
 }
 
-func (self *propJsonRepository) GetProps() map[string]*taleslabentities.Prop {
-	return self.props
+func (p *propJSONRepository) GetProps() map[string]*taleslabentities.Prop {
+	return p.props
 }
 
-func (self *propJsonRepository) loadProps() error {
-	bytes, err := ioutil.ReadFile("./configs/props.json")
+func (p *propJSONRepository) loadProps() error {
+	bytes, err := os.ReadFile("./configs/props.json")
 	if err != nil {
 		return err
 	}
@@ -42,10 +43,10 @@ func (self *propJsonRepository) loadProps() error {
 	propMap := make(map[string]*taleslabentities.Prop)
 
 	for _, prop := range props {
-		propMap[prop.Id] = prop
+		propMap[prop.ID] = prop
 	}
 
-	self.props = propMap
+	p.props = propMap
 
 	return nil
 }

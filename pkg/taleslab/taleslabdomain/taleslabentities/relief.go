@@ -2,6 +2,7 @@ package taleslabentities
 
 import (
 	"fmt"
+
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts/elementtype"
 )
 

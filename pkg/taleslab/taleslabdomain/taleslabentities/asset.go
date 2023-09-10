@@ -1,7 +1,7 @@
 package taleslabentities
 
 type Asset struct {
-	Id          []byte
+	ID          []byte
 	Name        string
 	Coordinates *Vector3d
 	Rotation    int

@@ -31,21 +31,3 @@ func SaveCodes(base64MatrixContents [][]string, pathFile string) error {
 
 	return nil
 }
-
-func SaveJSON(json string, pathFile string) error {
-	f, err := os.Create(pathFile)
-	if err != nil {
-		return err
-	}
-
-	defer f.Close()
-
-	_, err = f.WriteString(json)
-	if err != nil {
-		return err
-	}
-
-	fmt.Printf("File generated in %s", pathFile)
-
-	return nil
-}

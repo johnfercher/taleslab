@@ -2,11 +2,12 @@ package grid
 
 import (
 	"fmt"
+	"math"
+
 	"github.com/johnfercher/go-rrt/pkg/rrt"
 	mathRRT "github.com/johnfercher/go-rrt/pkg/rrt/math"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts/elementtype"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"
-	"math"
 )
 
 func DigRiver(grid [][]taleslabentities.Element, river *River) [][]taleslabentities.Element {
@@ -21,7 +22,9 @@ func DigRiver(grid [][]taleslabentities.Element, river *River) [][]taleslabentit
 	return grid
 }
 
-func GetFilledPoints(points []*mathRRT.Point[taleslabentities.Element], grid [][]taleslabentities.Element) []*mathRRT.Point[taleslabentities.Element] {
+func GetFilledPoints(points []*mathRRT.Point[taleslabentities.Element],
+	grid [][]taleslabentities.Element,
+) []*mathRRT.Point[taleslabentities.Element] {
 	var newPoints []*mathRRT.Point[taleslabentities.Element]
 
 	for i := len(points) - 1; i > 0; i-- {
@@ -32,17 +35,19 @@ func GetFilledPoints(points []*mathRRT.Point[taleslabentities.Element], grid [][
 	return newPoints
 }
 
-func getPointsBetweenPoints(a *mathRRT.Point[taleslabentities.Element], b *mathRRT.Point[taleslabentities.Element], grid [][]taleslabentities.Element) []*mathRRT.Point[taleslabentities.Element] {
+func getPointsBetweenPoints(a *mathRRT.Point[taleslabentities.Element], b *mathRRT.Point[taleslabentities.Element],
+	grid [][]taleslabentities.Element,
+) []*mathRRT.Point[taleslabentities.Element] {
 	radian := mathRRT.Radian(a, b)
 
 	points := make(map[string]*mathRRT.Point[taleslabentities.Element])
 
 	i := 0.0
 	for {
-		deltaX := math.Sin(radian) * float64(i)
+		deltaX := math.Sin(radian) * i
 		x := int(a.X) + int(deltaX)
 
-		deltaY := math.Cos(radian) * float64(i)
+		deltaY := math.Cos(radian) * i
 		y := int(a.Y) + int(deltaY)
 
 		point := &mathRRT.Point[taleslabentities.Element]{
@@ -71,7 +76,9 @@ func getPointsBetweenPoints(a *mathRRT.Point[taleslabentities.Element], b *mathR
 	return reverse
 }
 
-func digRiverBetweenPoints(a *mathRRT.Point[taleslabentities.Element], b *mathRRT.Point[taleslabentities.Element], grid [][]taleslabentities.Element) [][]taleslabentities.Element {
+func digRiverBetweenPoints(a *mathRRT.Point[taleslabentities.Element], b *mathRRT.Point[taleslabentities.Element],
+	grid [][]taleslabentities.Element,
+) [][]taleslabentities.Element {
 	minX, maxX := getMinMaxX(a, b)
 	minY, maxY := getMinMaxY(a, b)
 
@@ -177,10 +184,6 @@ func getMinMaxHeights(grid [][]taleslabentities.Element) (*mathRRT.Coordinate, *
 	return min, max
 }
 
-func getDistance(t1X, t1Y, t2X, t2Y int) float64 {
-	return math.Sqrt(float64(t1X-t2X)*float64(t1X-t2X) + float64(t1Y-t2Y)*float64(t1Y-t2Y))
-}
-
 func DigTerrainInOffset(baseTerrain [][]taleslabentities.Element, offset int) [][]taleslabentities.Element {
 	yFrequency := 2.0
 
@@ -189,7 +192,7 @@ func DigTerrainInOffset(baseTerrain [][]taleslabentities.Element, offset int) []
 	gain := 3.0
 
 	for j := 0; j < y; j++ {
-		yNormalizedValue := float64(float64(j)/(float64(y)/(yFrequency)) + (math.Pi))
+		yNormalizedValue := float64(j)/(float64(y)/(yFrequency)) + (math.Pi)
 
 		randomX := uint16(gain*math.Sin(yNormalizedValue*math.Pi)) + uint16(offset)
 

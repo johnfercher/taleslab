@@ -3,9 +3,10 @@ package main
 import (
 	"context"
 	"fmt"
+	"os"
+
 	"github.com/johnfercher/tessadem-sdk/pkg/tessadem"
 	"github.com/joho/godotenv"
-	"os"
 )
 
 func main() {

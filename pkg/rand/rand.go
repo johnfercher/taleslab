@@ -2,7 +2,6 @@ package rand
 
 import (
 	"math/rand"
-	"time"
 )
 
 var lastRotation = make(map[string]int)
@@ -17,8 +16,6 @@ func DifferentRotation(verticalX bool, ticksOfFreedom int, key string) int {
 		value += value90
 	}
 
-	rand.Seed(time.Now().UnixNano())
-
 	if rand.Intn(100)%2 == 0 {
 		value += value90
 	} else {
@@ -27,7 +24,6 @@ func DifferentRotation(verticalX bool, ticksOfFreedom int, key string) int {
 
 	randomValue := rand.Intn(ticksOfFreedom) * minTick
 
-	rand.Seed(time.Now().UnixNano())
 	if rand.Intn(100)%2 == 0 {
 		value += randomValue
 	} else {
