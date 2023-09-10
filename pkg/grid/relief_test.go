@@ -82,3 +82,37 @@ func TestGenerateMountain(t *testing.T) {
 		}
 	}
 }
+
+func TestAppendTerrainRandomly(t *testing.T) {
+	// Arrange
+	forceBaseLand := true
+	minHeight := 1
+	maxX := 100
+	maxY := 100
+	xFrequency := 2.0
+	yFrequency := 2.0
+	gain := 5.0
+
+	terrain := grid.GenerateTerrain(maxX, maxY, xFrequency, yFrequency, gain, minHeight, forceBaseLand)
+
+	mountainMaxX := 10
+	mountainMaxY := 10
+	mountainGain := 5.0
+	mountainMinHeight := 5
+
+	mountain := grid.GenerateMountain(mountainMaxX, mountainMaxY, mountainGain, mountainMinHeight)
+
+	// Act
+	newTerrain := grid.AppendTerrainRandomly(terrain, mountain)
+
+	// Assert
+	assert.Equal(t, maxX, len(newTerrain))
+	assert.Equal(t, maxY, len(newTerrain[0]))
+	for _, line := range newTerrain {
+		for _, element := range line {
+			groundOrMountain := element.ElementType == elementtype.Ground || element.ElementType == elementtype.Mountain
+			assert.True(t, groundOrMountain)
+			assert.LessOrEqual(t, minHeight, element.Height)
+		}
+	}
+}

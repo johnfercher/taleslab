@@ -3,7 +3,6 @@ package grid
 import (
 	"fmt"
 
-	"github.com/johnfercher/taleslab/pkg/rand"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"
 )
 
@@ -19,36 +18,6 @@ func GenerateElementGrid(x, y int, defaultElement taleslabentities.Element) tale
 	}
 
 	return unitGrid
-}
-
-func AppendTerrainRandomly(baseTerrain [][]taleslabentities.Element,
-	terrainToAppend [][]taleslabentities.Element,
-) [][]taleslabentities.Element {
-	xMax := len(baseTerrain)
-	yMax := len(baseTerrain[0])
-
-	assetXMax := len(terrainToAppend)
-	assetYMax := len(terrainToAppend[0])
-
-	newWorld := Copy(baseTerrain)
-
-	randomXPosition := rand.Intn(xMax - assetXMax)
-	randomYPosition := rand.Intn(yMax - assetYMax)
-
-	for i := 0; i < assetXMax; i++ {
-		for j := 0; j < assetYMax; j++ {
-			assetValue := terrainToAppend[i][j]
-			worldValue := baseTerrain[i+randomXPosition][j+randomYPosition]
-
-			if assetValue.Height > worldValue.Height {
-				newWorld[i+randomXPosition][j+randomYPosition] = assetValue
-			} else {
-				newWorld[i+randomXPosition][j+randomYPosition] = worldValue
-			}
-		}
-	}
-
-	return newWorld
 }
 
 func Copy(gridOriginal [][]taleslabentities.Element) [][]taleslabentities.Element {
