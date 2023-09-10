@@ -2,7 +2,6 @@ package taleslabrepositories
 
 import (
 	"encoding/json"
-	"log"
 	"os"
 
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts/biometype"
@@ -16,7 +15,7 @@ type biomeJSONRepository struct {
 	biomes map[biometype.BiomeType]*taleslabentities.Biome
 }
 
-func NewBiomeRepository(path ...string) taleslabrepositories.BiomeRepository {
+func NewBiomeRepository(path ...string) (taleslabrepositories.BiomeRepository, error) {
 	repository := &biomeJSONRepository{}
 	if len(path) != 0 {
 		repository.path = path[0]
@@ -24,26 +23,33 @@ func NewBiomeRepository(path ...string) taleslabrepositories.BiomeRepository {
 		repository.path = "./configs/biomes.json"
 	}
 
-	repository.loadBiomes()
+	err := repository.loadBiomes()
+	if err != nil {
+		return nil, err
+	}
 
-	return repository
+	return repository, nil
 }
 
 func (b *biomeJSONRepository) GetBiome(biomeType biometype.BiomeType) *taleslabentities.Biome {
 	return b.biomes[biomeType]
 }
 
-func (b *biomeJSONRepository) loadBiomes() {
+func (b *biomeJSONRepository) GetBiomes() map[biometype.BiomeType]*taleslabentities.Biome {
+	return b.biomes
+}
+
+func (b *biomeJSONRepository) loadBiomes() error {
 	bytes, err := os.ReadFile(b.path)
 	if err != nil {
-		log.Fatal(err.Error())
+		return err
 	}
 
 	biomes := []*BiomeDao{}
 
 	err = json.Unmarshal(bytes, &biomes)
 	if err != nil {
-		log.Fatal(err.Error())
+		return err
 	}
 
 	biomeMap := make(map[biometype.BiomeType]*taleslabentities.Biome)
@@ -57,6 +63,7 @@ func (b *biomeJSONRepository) loadBiomes() {
 	}
 
 	b.biomes = biomeMap
+	return nil
 }
 
 func (b *biomeJSONRepository) reliefsArrayToMap(reliefs []*taleslabentities.Relief) map[elementtype.ElementType]*taleslabentities.Relief {

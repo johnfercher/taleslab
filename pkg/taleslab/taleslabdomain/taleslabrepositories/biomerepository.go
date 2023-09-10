@@ -7,4 +7,5 @@ import (
 
 type BiomeRepository interface {
 	GetBiome(biometype.BiomeType) *taleslabentities.Biome
+	GetBiomes() map[biometype.BiomeType]*taleslabentities.Biome
 }

@@ -12,18 +12,28 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestNewPropRepository(t *testing.T) {
+func TestNewPropRepository_WhenCantCreate_ShouldReturnError(t *testing.T) {
 	// Act
-	sut := taleslabrepositories.NewPropRepository()
+	sut, err := taleslabrepositories.NewPropRepository()
 
 	// Assert
+	assert.NotNil(t, err)
+	assert.Nil(t, sut)
+}
+
+func TestNewPropRepository_WhenCanCreate_ShouldReturnRepository(t *testing.T) {
+	// Act
+	sut, err := taleslabrepositories.NewPropRepository(buildPropsPath())
+
+	// Assert
+	assert.Nil(t, err)
 	assert.NotNil(t, sut)
 	assert.Equal(t, "*taleslabrepositories.propJSONRepository", fmt.Sprintf("%T", sut))
 }
 
-func TestAssetLoader_GetProps(t *testing.T) {
+func TestPropJSONRepository_GetProps(t *testing.T) {
 	// Arrange
-	sut := taleslabrepositories.NewPropRepository(buildPath())
+	sut, _ := taleslabrepositories.NewPropRepository(buildPropsPath())
 
 	// Act
 	props := sut.GetProps()
@@ -33,23 +43,23 @@ func TestAssetLoader_GetProps(t *testing.T) {
 	assert.Equal(t, len(getMappedProps()), len(props), "different quantity mappeds x map returned")
 }
 
-func TestAssetLoader_GetProp(t *testing.T) {
+func TestPropJSONRepository_GetProp(t *testing.T) {
 	// Arrange
 	mappedProps := getMappedProps()
-	sut := taleslabrepositories.NewPropRepository(buildPath())
+	sut, _ := taleslabrepositories.NewPropRepository(buildPropsPath())
 
 	// Act & Assert
-	for mappedPropKey := range mappedProps {
-		assert.NotNil(t, sut.GetProp(mappedPropKey), fmt.Sprintf("ornament not loaded %s", mappedPropKey))
+	for key := range mappedProps {
+		assert.NotNil(t, sut.GetProp(key), fmt.Sprintf("ornament not loaded %s", key))
 	}
 
 	loadedProps := sut.GetProps()
-	for loadedPropKey := range loadedProps {
-		assert.True(t, mappedProps[loadedPropKey], fmt.Sprintf("ornament not mapped %s", loadedPropKey))
+	for key := range loadedProps {
+		assert.True(t, mappedProps[key], fmt.Sprintf("ornament not mapped %s", key))
 	}
 }
 
-func buildPath() string {
+func buildPropsPath() string {
 	dir, err := os.Getwd()
 	if err != nil {
 		return ""

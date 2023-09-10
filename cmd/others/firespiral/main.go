@@ -12,7 +12,7 @@ import (
 )
 
 func main() {
-	propRepository := taleslabrepositories.NewPropRepository()
+	propRepository, _ := taleslabrepositories.NewPropRepository()
 
 	encoder := encoder.NewEncoder()
 

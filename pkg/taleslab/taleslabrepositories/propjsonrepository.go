@@ -13,7 +13,7 @@ type propJSONRepository struct {
 	props map[string]*taleslabentities.Prop
 }
 
-func NewPropRepository(path ...string) taleslabrepositories.PropRepository {
+func NewPropRepository(path ...string) (taleslabrepositories.PropRepository, error) {
 	assetLoader := &propJSONRepository{}
 	if len(path) != 0 {
 		assetLoader.path = path[0]
@@ -21,8 +21,12 @@ func NewPropRepository(path ...string) taleslabrepositories.PropRepository {
 		assetLoader.path = "./configs/props.json"
 	}
 
-	_ = assetLoader.loadProps()
-	return assetLoader
+	err := assetLoader.loadProps()
+	if err != nil {
+		return nil, err
+	}
+
+	return assetLoader, nil
 }
 
 func (p *propJSONRepository) GetProp(id string) *taleslabentities.Prop {
