@@ -22,7 +22,7 @@ func main() {
 
 	fileReader := tessadem.NewFileReader()
 
-	areaResponse, err := fileReader.ReadArea(ctx, "data/elevation/daniela.json")
+	areaResponse, err := fileReader.ReadArea(ctx, "data/elevation/petropolis.json")
 	if err != nil {
 		fmt.Println(err.Error())
 		return
@@ -33,9 +33,14 @@ func main() {
 	maxLength := len(worldMatrix[0])
 	squareSize := 50
 
+	river := &grid.River{
+		HeightCutThreshold: 2,
+	}
+	worldMatrix = grid.DigRiver(worldMatrix, river)
+
 	fmt.Println(len(worldMatrix), len(worldMatrix[0]))
 
-	biome := biometype.Beach
+	biome := biometype.TemperateForest
 
 	worldMatrixSlices := grid.SliceTerrain(worldMatrix, squareSize)
 
@@ -63,9 +68,9 @@ func main() {
 
 			slab := taleslabmappers.TaleSpireSlabFromAssets(worldAssets)
 
-			base64, err := encoder.Encode(slab)
+			base64, encodeError := encoder.Encode(slab)
 			if err != nil {
-				fmt.Println(err.Error())
+				fmt.Println(encodeError.Error())
 				return
 			}
 
@@ -79,7 +84,7 @@ func main() {
 		currentX += squareSize
 	}
 
-	err = file.SaveCodes(response.Codes, "docs/codes/geodatadaniela/data.txt")
+	err = file.SaveCodes(response.Codes, "cmd/elevations/petropolis/data.txt")
 	if err != nil {
 		fmt.Println(err.Error())
 		return
