@@ -22,7 +22,7 @@ func main() {
 
 	fileReader := tessadem.NewFileReader()
 
-	areaResponse, err := fileReader.ReadArea(ctx, "docs/geodata/daniela.json")
+	areaResponse, err := fileReader.ReadArea(ctx, "data/elevation/daniela.json")
 	if err != nil {
 		fmt.Println(err.Error())
 		return

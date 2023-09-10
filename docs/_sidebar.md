@@ -3,7 +3,7 @@
     * [Petrópolis/RJ - Brazil](/codes/geodatapetropolis/README.md)
     * [Praia da Daniela/SC - Brazil](/codes/geodatadaniela/README.md)
   * **Procedural Maps**
-    * [Beach](/codes/3dbeach/README.md)
+    * [Beach](/codes/procedurals/beach.md)
     * [Dead Forest](/codes/3ddeadforest/README.md)
     * [Desert](/codes/3ddesert/README.md)
     * [Lava](/codes/3dlava/README.md)
