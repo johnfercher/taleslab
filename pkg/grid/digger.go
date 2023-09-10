@@ -152,14 +152,6 @@ func getMinMaxY(a *mathRRT.Point[taleslabentities.Element], b *mathRRT.Point[tal
 	return int(b.Y), int(a.Y)
 }
 
-func getMinMax(a float64, b float64) (int, int) {
-	if a < b {
-		return int(a), int(b)
-	}
-
-	return int(b), int(a)
-}
-
 func findRiverRandomPath(grid [][]taleslabentities.Element) []*mathRRT.Point[taleslabentities.Element] {
 	min, max := getMinMaxHeights(grid)
 
