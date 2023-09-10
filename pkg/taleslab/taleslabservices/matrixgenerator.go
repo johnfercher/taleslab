@@ -3,12 +3,10 @@ package taleslabservices
 import (
 	"errors"
 	"github.com/johnfercher/taleslab/pkg/grid"
-	"github.com/johnfercher/taleslab/pkg/math"
+	"github.com/johnfercher/taleslab/pkg/rand"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabservices"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdto"
-	"math/rand"
-	"time"
 )
 
 type matrixGenerator struct {
@@ -87,25 +85,22 @@ func (m *matrixGenerator) Generate() ([][]taleslabentities.Element, error) {
 func (m *matrixGenerator) generateMountainsGrid(minHeight int) []taleslabentities.ElementMatrix {
 	mountains := []taleslabentities.ElementMatrix{}
 
-	rand.Seed(time.Now().UnixNano())
 	iCount := rand.Intn(m.mountains.RandComplexity) + m.mountains.MinComplexity
-
-	rand.Seed(time.Now().UnixNano())
 	jCount := rand.Intn(m.mountains.RandComplexity) + m.mountains.MinComplexity
 
 	for i := 0; i < iCount; i++ {
 		for j := 0; j < jCount; j++ {
-			bothAxis := math.GetRandomValue(10, "bothAxis")
+			bothAxis := rand.DifferentIntn(10, "bothAxis")
 
 			balancedWidth := m.mountains.MinX
-			balancedRandWidth := math.GetRandomValue(m.mountains.RandX, "balancedRandWidth")
+			balancedRandWidth := rand.DifferentIntn(m.mountains.RandX, "balancedRandWidth")
 			mountainX := balancedWidth + balancedRandWidth + bothAxis
 
 			balancedLength := m.mountains.MinY
-			balancedRandLength := math.GetRandomValue(m.mountains.RandY, "balancedRandLength")
+			balancedRandLength := rand.DifferentIntn(m.mountains.RandY, "balancedRandLength")
 			mountainY := balancedLength + balancedRandLength + bothAxis
 
-			gain := float64(math.GetRandomValue(m.mountains.RandHeight, "m.mountains.RandHeight") + m.mountains.MinHeight)
+			gain := float64(rand.DifferentIntn(m.mountains.RandHeight, "m.mountains.RandHeight") + m.mountains.MinHeight)
 
 			mountain := grid.MountainGenerator(mountainX, mountainY, gain, minHeight)
 			mountains = append(mountains, mountain)

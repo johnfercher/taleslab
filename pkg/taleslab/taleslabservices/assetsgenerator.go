@@ -3,7 +3,7 @@ package taleslabservices
 import (
 	"fmt"
 	"github.com/johnfercher/taleslab/pkg/grid"
-	"github.com/johnfercher/taleslab/pkg/math"
+	"github.com/johnfercher/taleslab/pkg/rand"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts/biometype"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts/elementtype"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"
@@ -155,7 +155,7 @@ func (self *assetsGenerator) generateDetailAssets(world [][]taleslabentities.Ele
 
 					maxRand := 100
 					weight, _ := biome.GetPropBlockWeight(key, prop)
-					random := math.GetRandomValue(maxRand, fmt.Sprintf("%s-%s-add", key, prop))
+					random := rand.DifferentIntn(maxRand, fmt.Sprintf("%s-%s-add", key, prop))
 					if float64(maxRand)*weight > float64(random) {
 						propsGrid[i][j] = taleslabentities.Element{ElementType: prop}
 					}
@@ -189,7 +189,7 @@ func (self *assetsGenerator) appendPropsToSlab(assets taleslabentities.Assets,
 						OffsetZ:    prop.Parts[id].OffsetZ,
 					}
 
-					rotation := math.GetRandomRotation(true, 5, "props")
+					rotation := rand.DifferentRotation(true, 5, "props")
 					self.addCoordinates(asset, i, j, element.Height+assetPart.OffsetZ, rotation)
 
 					assets = append(assets, asset)
@@ -210,7 +210,7 @@ func (self *assetsGenerator) addCoordinates(asset *taleslabentities.Asset, x, y,
 	asset.Rotation = rotation + (y * asset.Dimensions.Length / 41)
 }
 
-func (self *assetsGenerator) getBiomeProp(i, iMax int, reliefType elementtype.ElementType, propType elementtype.ElementType) *taleslabentities.Prop {
+func (self *assetsGenerator) getBiomeProp(currentXCoordinate, maxXCoordinate int, reliefType elementtype.ElementType, propType elementtype.ElementType) *taleslabentities.Prop {
 	biome := self.biomeRepository.GetBiome(self.biomeType)
 
 	if self.secondaryBiomeType == "" {
@@ -218,7 +218,7 @@ func (self *assetsGenerator) getBiomeProp(i, iMax int, reliefType elementtype.El
 		return self.propsRepository.GetProp(key)
 	}
 
-	option := math.GetRandomOption(i, iMax, 13.0)
+	option := rand.Option(currentXCoordinate, maxXCoordinate, 13.0)
 
 	if option {
 		key, _ := biome.GetPropBlockFromElement(reliefType, propType)
@@ -238,7 +238,7 @@ func (self *assetsGenerator) getBiomeBuildingBlock(i, iMax int, reliefType eleme
 		return self.propsRepository.GetProp(key)
 	}
 
-	option := math.GetRandomOption(i, iMax, 13.0)
+	option := rand.Option(i, iMax, 13.0)
 
 	if option {
 		key, _ := biome.GetBuildingBlockFromElement(reliefType)

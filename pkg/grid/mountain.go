@@ -2,11 +2,10 @@ package grid
 
 import (
 	"fmt"
+	"github.com/johnfercher/taleslab/pkg/rand"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts/elementtype"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"
 	"math"
-	"math/rand"
-	"time"
 )
 
 func TerrainGenerator(x, y int, xFrequency, yFrequency, gain float64, minHeight int, forceBaseLand bool) taleslabentities.ElementMatrix {
@@ -20,10 +19,7 @@ func TerrainGenerator(x, y int, xFrequency, yFrequency, gain float64, minHeight 
 		groundHeight = append(groundHeight, array)
 	}
 
-	rand.Seed(time.Now().UnixNano())
 	randomShiftX := float64(rand.Intn(20.0)/10.0) + 1
-
-	rand.Seed(time.Now().UnixNano())
 	randomShiftY := float64(rand.Intn(20.0)/10.0) + 1
 
 	for i := 0; i < x; i++ {
@@ -31,12 +27,12 @@ func TerrainGenerator(x, y int, xFrequency, yFrequency, gain float64, minHeight 
 			// i / x => normalized value between 0 and 1, represents each tile X axis
 			// j / y => normalized value between 0 and 1, represents each tile Y axis
 			// xFrequency | yFrequency => frequency of the senoidal wave that generates the mountain
-			// + (math.Pi / 2) => shifts the senoidal wave starting point
+			// + (rand.Pi / 2) => shifts the senoidal wave starting point
 
 			xNormalizedValue := float64(i)/(float64(x)/(xFrequency)) + (math.Pi / randomShiftX)
 			yNormalizedValue := float64(j)/(float64(y)/(yFrequency)) + (math.Pi / randomShiftY)
 
-			// xHeight / yHeight => multiplied by math.Pi because math.Sin only accepts RADs
+			// xHeight / yHeight => multiplied by rand.Pi because rand.Sin only accepts RADs
 			xHeight := (gain * math.Sin(xNormalizedValue*math.Pi)) + gain
 			yHeight := (gain * math.Sin(yNormalizedValue*math.Pi)) + gain
 
@@ -73,12 +69,12 @@ func MountainGenerator(x, y int, gain float64, minHeight int) taleslabentities.E
 			// i / x => normalized value between 0 and 1, represents each tile X axis
 			// j / y => normalized value between 0 and 1, represents each tile Y axis
 			// xFrequency | yFrequency => frequency of the senoidal wave that generates the mountain
-			// + (math.Pi / 2) => shifts the senoidal wave starting point
+			// + (rand.Pi / 2) => shifts the senoidal wave starting point
 
 			xNormalizedValue := float64(i)/(float64(x)/xFrequency) + (math.Pi / 2.0)
 			yNormalizedValue := float64(j)/(float64(y)/yFrequency) + (math.Pi / 2.0)
 
-			// xHeight / yHeight => multiplied by math.Pi because math.Sin only accepts RADs
+			// xHeight / yHeight => multiplied by rand.Pi because rand.Sin only accepts RADs
 			xHeight := (gain * math.Sin(xNormalizedValue*math.Pi)) + gain
 			yHeight := (gain * math.Sin(yNormalizedValue*math.Pi)) + gain
 

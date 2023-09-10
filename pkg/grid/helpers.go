@@ -2,9 +2,8 @@ package grid
 
 import (
 	"fmt"
+	"github.com/johnfercher/taleslab/pkg/rand"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"
-	"math/rand"
-	"time"
 )
 
 func GenerateElementGrid(x, y int, defaultElement taleslabentities.Element) taleslabentities.ElementMatrix {
@@ -29,8 +28,6 @@ func AppendTerrainRandomly(baseTerrain [][]taleslabentities.Element, terrainToAp
 	assetYMax := len(terrainToAppend[0])
 
 	newWorld := Copy(baseTerrain)
-
-	rand.Seed(time.Now().UnixNano())
 
 	randomXPosition := rand.Intn(xMax - assetXMax)
 	randomYPosition := rand.Intn(yMax - assetYMax)

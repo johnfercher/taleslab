@@ -3,10 +3,9 @@ package taleslabentities
 import (
 	"errors"
 	"fmt"
-	"github.com/johnfercher/taleslab/pkg/math"
+	"github.com/johnfercher/taleslab/pkg/rand"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts/biometype"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts/elementtype"
-	"math/rand"
 )
 
 type Biome struct {
@@ -55,7 +54,7 @@ func (b *Biome) GetPropBlockFromElement(reliefType elementtype.ElementType, prop
 			return "", errors.New("there is no building blocks for this relief type")
 		}
 
-		index := math.GetRandomValue(len(vegetation.Props), fmt.Sprintf("%s-%s-vegetation", reliefType, propType))
+		index := rand.DifferentIntn(len(vegetation.Props), fmt.Sprintf("%s-%s-vegetation", reliefType, propType))
 
 		return vegetation.Props[index], nil
 	}
@@ -66,7 +65,7 @@ func (b *Biome) GetPropBlockFromElement(reliefType elementtype.ElementType, prop
 			return "", errors.New("there is no building blocks for this relief type")
 		}
 
-		index := math.GetRandomValue(len(stones.Props), fmt.Sprintf("%s-%s-stones", reliefType, propType))
+		index := rand.DifferentIntn(len(stones.Props), fmt.Sprintf("%s-%s-stones", reliefType, propType))
 
 		return stones.Props[index], nil
 	}
@@ -76,7 +75,7 @@ func (b *Biome) GetPropBlockFromElement(reliefType elementtype.ElementType, prop
 		return "", errors.New("there is no building blocks for this relief type")
 	}
 
-	index := math.GetRandomValue(len(misc.Props), fmt.Sprintf("%s-%s-misc", reliefType, propType))
+	index := rand.DifferentIntn(len(misc.Props), fmt.Sprintf("%s-%s-misc", reliefType, propType))
 
 	return misc.Props[index], nil
 }
