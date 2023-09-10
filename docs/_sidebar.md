@@ -22,5 +22,5 @@
       * [Version 1](/versions/v1/README.md)
       * [Version 2](/versions/v2/README.md)
   * **Configs**
-    * [Biomes](contents/configs/biomes.md)
-    * [Props](contents/configs/props.md)
+    * [Biomes](configs/biomes.md)
+    * [Props](configs/props.md)
