@@ -16,7 +16,7 @@ func main() {
 
 	encoder := encoder.NewEncoder()
 
-	assets := taleslabentities.Assets{}
+	slab := &taleslabentities.Slab{}
 
 	constructor := propRepository.GetProp("ground_nature_small")
 
@@ -38,13 +38,13 @@ func main() {
 						Rotation: (j - 1) / 41,
 					}
 
-					assets = append(assets, asset)
+					slab.Assets = append(slab.Assets, asset)
 				}
 			}
 		}
 	}
 
-	taleSpireSlab := taleslabmappers.TaleSpireSlabFromAssets(assets)
+	taleSpireSlab := taleslabmappers.TaleSpireSlabFromSlab(slab)
 
 	base64, err := encoder.Encode(taleSpireSlab)
 	if err != nil {

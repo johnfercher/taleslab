@@ -8,16 +8,16 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestEntitySlabFromTaleSpire(t *testing.T) {
+func TestSlabFromTaleSpireSlab(t *testing.T) {
 	// Arrange
 	taleSpireSlab := mocks.CreateTaleSpireSlab()
 
 	// Act
-	assets := AssetsFromTaleSpireSlab(taleSpireSlab)
+	slab := SlabFromTaleSpireSlab(taleSpireSlab)
 
 	// Assert
-	assert.NotNil(t, assets)
-	asset := assets[0]
+	assert.NotNil(t, slab.Assets)
+	asset := slab.Assets[0]
 
 	assert.Equal(t, []byte{
 		0x0, 0x0, 0x2c, 0x3e, 0x77, 0x5d, 0x2f, 0xca, 0x44, 0x4c,
@@ -30,12 +30,12 @@ func TestEntitySlabFromTaleSpire(t *testing.T) {
 	assert.Equal(t, 0, asset.Coordinates.Z)
 }
 
-func TestTaleSpireSlabFromEntity(t *testing.T) {
+func TestTaleSpireSlabFromSlab(t *testing.T) {
 	// Arrange
 	assets := mocks.CreateAssets()
 
 	// Act
-	taleSpireSlab := TaleSpireSlabFromAssets(assets)
+	taleSpireSlab := TaleSpireSlabFromSlab(assets)
 
 	// Assert
 	assert.NotNil(t, taleSpireSlab)

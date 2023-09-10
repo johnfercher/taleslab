@@ -8,5 +8,3 @@ type Asset struct {
 	Dimensions  *Dimensions
 	OffsetZ     int
 }
-
-type Assets []*Asset

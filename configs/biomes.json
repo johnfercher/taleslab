@@ -420,7 +420,7 @@
           },
           "stones": {
             "weight": 0.01,
-            "props": ["snow_stone_small"]
+            "props": ["one_small_rock-z0"]
           },
           "misc": {
             "weight": 0.01,
@@ -438,7 +438,7 @@
           },
           "stones": {
             "weight": 0.01,
-            "props": ["snow_stone_small"]
+            "props": ["one_small_rock-z0"]
           },
           "misc": {
             "weight": 0.01,
@@ -456,7 +456,7 @@
           },
           "stones": {
             "weight": 0.01,
-            "props": ["snow_stone_small"]
+            "props": ["one_small_rock-z0"]
           },
           "misc": {
             "weight": 0.01,

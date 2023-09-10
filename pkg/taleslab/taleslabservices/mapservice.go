@@ -2,82 +2,74 @@ package taleslabservices
 
 import (
 	"context"
-
+	"errors"
 	"github.com/johnfercher/talescoder/pkg/encoder"
-	"github.com/johnfercher/taleslab/pkg/grid"
-	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabrepositories"
+	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts/biometype"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabservices"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdto"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabmappers"
 )
 
 type mapService struct {
-	biomeRepository taleslabrepositories.BiomeRepository
-	propsRepository taleslabrepositories.PropRepository
-	encoder         encoder.Encoder
+	slabGenerator taleslabservices.SlabGenerator
+	encoder       encoder.Encoder
 }
 
-func NewMapService(biomeRepository taleslabrepositories.BiomeRepository, propsRepository taleslabrepositories.PropRepository,
-	encoder encoder.Encoder,
-) taleslabservices.SlabGenerator {
+func NewMapService(slabGenerator taleslabservices.SlabGenerator, encoder encoder.Encoder) taleslabservices.MapService {
 	return &mapService{
-		biomeRepository: biomeRepository,
-		propsRepository: propsRepository,
-		encoder:         encoder,
+		slabGenerator: slabGenerator,
+		encoder:       encoder,
 	}
 }
 
 func (m *mapService) Generate(ctx context.Context, inputMap *taleslabdto.MapDtoRequest) (*taleslabdto.MapDtoResponse, error) {
+	if inputMap.Biome == "" {
+		return nil, errors.New("must provide at least one biome")
+	}
+
 	matrixGenerator := NewMatrixGenerator().
 		SetMountains(inputMap.Mountains).
 		SetGround(inputMap.Ground).
 		SetRiver(inputMap.River).
 		SetCanyon(inputMap.Canyon)
 
-	worldMatrix, err := matrixGenerator.Generate()
+	world, err := matrixGenerator.Generate()
 	if err != nil {
 		return nil, err
 	}
 
-	maxWidth := len(worldMatrix)
-	maxLength := len(worldMatrix[0])
-	squareSize := 50
+	slabDto := &taleslabdto.SlabDto{
+		World:     world,
+		SliceSize: 50,
+		Biomes:    []biometype.BiomeType{inputMap.Biome},
+	}
 
-	worldMatrixSlices := grid.SliceTerrain(worldMatrix, squareSize)
+	if inputMap.SecondaryBiome != "" {
+		slabDto.Biomes = append(slabDto.Biomes, inputMap.SecondaryBiome)
+	}
+
+	slabs, err := m.slabGenerator.Generate(slabDto)
+	if err != nil {
+		return nil, err
+	}
 
 	response := &taleslabdto.MapDtoResponse{
 		SlabVersion: "v2",
 	}
 
-	currentX := 0
-	currentY := 0
-	for _, worldMatrix := range worldMatrixSlices {
-		sliceCode := []string{}
-		for _, slice := range worldMatrix {
-			assetsGenerator := NewAssetsGenerator(m.biomeRepository, m.propsRepository, maxWidth, maxLength).
-				SetBiome(inputMap.Biome).
-				SetSecondaryBiome(inputMap.SecondaryBiome)
-
-			worldAssets, err := assetsGenerator.Generate(slice, currentX, currentY)
+	for _, slab := range slabs {
+		var codes []string
+		for _, line := range slab {
+			talespireSlab := taleslabmappers.TaleSpireSlabFromSlab(line)
+			base64, err := m.encoder.Encode(talespireSlab)
 			if err != nil {
 				return nil, err
 			}
 
-			slab := taleslabmappers.TaleSpireSlabFromAssets(worldAssets)
-
-			base64, err := m.encoder.Encode(slab)
-			if err != nil {
-				return nil, err
-			}
-
-			sliceCode = append(sliceCode, base64)
+			codes = append(codes, base64)
 			response.Size += len(base64) / 1024
-			currentX += squareSize
 		}
-
-		response.Codes = append(response.Codes, sliceCode)
-		currentX = 0
-		currentY += squareSize
+		response.Codes = append(response.Codes, codes)
 	}
 
 	return response, nil

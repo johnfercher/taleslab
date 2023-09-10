@@ -16,10 +16,12 @@ func main() {
 	ctx := context.TODO()
 
 	encoder := encoder.NewEncoder()
-
 	propRepository, _ := taleslabrepositories.NewPropRepository()
 	biomeRepository, _ := taleslabrepositories.NewBiomeRepository()
-	mapService := taleslabservices.NewMapService(biomeRepository, propRepository, encoder)
+	sliceGenerator := taleslabservices.NewSlabSliceGenerator(biomeRepository, propRepository)
+	slabGenerator := taleslabservices.NewSlabGenerator(sliceGenerator)
+
+	mapService := taleslabservices.NewMapService(slabGenerator, encoder)
 
 	inputMap := &taleslabdto.MapDtoRequest{
 		Biome: biometype.Lava,
