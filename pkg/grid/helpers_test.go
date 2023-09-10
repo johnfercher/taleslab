@@ -10,12 +10,12 @@ import (
 
 func TestGenerateElementGrid(t *testing.T) {
 	// Acts
-	elementGrind := grid.GenerateElementGrid(5, 5, taleslabentities.Element{Height: 0, ElementType: taleslabconsts.GroundType})
+	elementGrind := grid.GenerateElementGrid(5, 5, taleslabentities.Element{Height: 0, ElementType: taleslabconsts.Ground})
 
 	// Assert
 	for i := 0; i < 5; i++ {
 		for j := 0; j < 5; j++ {
-			assert.Equal(t, taleslabentities.Element{Height: 0, ElementType: taleslabconsts.GroundType}, elementGrind[i][j])
+			assert.Equal(t, taleslabentities.Element{Height: 0, ElementType: taleslabconsts.Ground}, elementGrind[i][j])
 		}
 	}
 }

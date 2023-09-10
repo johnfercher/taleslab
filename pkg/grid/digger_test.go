@@ -10,7 +10,7 @@ import (
 func TestDigRiver(t *testing.T) {
 	world := grid.GenerateElementGrid(30, 30, taleslabentities.Element{
 		1,
-		taleslabconsts.GroundType,
+		taleslabconsts.Ground,
 	})
 
 	world = grid.DigRiver(world)
