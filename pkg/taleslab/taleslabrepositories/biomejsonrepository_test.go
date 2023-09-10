@@ -2,11 +2,12 @@ package taleslabrepositories_test
 
 import (
 	"fmt"
-	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts/biometype"
 	"os"
 	"path"
 	"strings"
 	"testing"
+
+	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts/biometype"
 
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabrepositories"
 
@@ -50,12 +51,12 @@ func TestAssetLoader_GetProp(t *testing.T) {
 	sut, _ := taleslabrepositories.NewBiomeRepository(buildBiomePath())
 
 	// Act & Assert
-	for key, _ := range mappedBiomes {
+	for key := range mappedBiomes {
 		assert.NotNil(t, sut.GetBiome(biometype.BiomeType(key)), fmt.Sprintf("biome not loaded %s", key))
 	}
 
 	loadedProps := sut.GetBiomes()
-	for key, _ := range loadedProps {
+	for key := range loadedProps {
 		assert.True(t, mappedBiomes[string(key)], fmt.Sprintf("biome not mapped %s", key))
 	}
 }
