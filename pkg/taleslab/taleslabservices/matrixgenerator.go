@@ -55,7 +55,7 @@ func (m *matrixGenerator) Generate() ([][]taleslabentities.Element, error) {
 		return nil, errors.New("ground must be provided")
 	}
 
-	world := grid.TerrainGenerator(m.ground.Width, m.ground.Length, 2.0, 2.0,
+	world := grid.GenerateTerrain(m.ground.Width, m.ground.Length, 2.0, 2.0,
 		m.ground.TerrainComplexity, m.ground.MinHeight, m.ground.ForceBaseLand)
 
 	if m.mountains != nil {
@@ -103,7 +103,7 @@ func (m *matrixGenerator) generateMountainsGrid(minHeight int) []taleslabentitie
 
 			gain := float64(rand.DifferentIntn(m.mountains.RandHeight, "m.mountains.RandHeight") + m.mountains.MinHeight)
 
-			mountain := grid.MountainGenerator(mountainX, mountainY, gain, minHeight)
+			mountain := grid.GenerateMountain(mountainX, mountainY, gain, minHeight)
 			mountains = append(mountains, mountain)
 		}
 	}

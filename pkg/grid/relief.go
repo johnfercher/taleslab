@@ -8,12 +8,14 @@ import (
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"
 )
 
-func TerrainGenerator(x, y int, xFrequency, yFrequency, gain float64, minHeight int, forceBaseLand bool) taleslabentities.ElementMatrix {
+func GenerateTerrain(maxX, maxY int, xFrequency, yFrequency, gain float64, minHeight int,
+	forceBaseLand bool,
+) taleslabentities.ElementMatrix {
 	groundHeight := [][]taleslabentities.Element{}
 
-	for i := 0; i < x; i++ {
+	for i := 0; i < maxX; i++ {
 		array := []taleslabentities.Element{}
-		for j := 0; j < y; j++ {
+		for j := 0; j < maxY; j++ {
 			array = append(array, taleslabentities.Element{Height: 0, ElementType: elementtype.Ground})
 		}
 		groundHeight = append(groundHeight, array)
@@ -22,15 +24,15 @@ func TerrainGenerator(x, y int, xFrequency, yFrequency, gain float64, minHeight 
 	randomShiftX := float64(rand.Intn(20.0)/10.0) + 1
 	randomShiftY := float64(rand.Intn(20.0)/10.0) + 1
 
-	for i := 0; i < x; i++ {
-		for j := 0; j < y; j++ {
-			// i / x => normalized value between 0 and 1, represents each tile X axis
-			// j / y => normalized value between 0 and 1, represents each tile Y axis
+	for i := 0; i < maxX; i++ {
+		for j := 0; j < maxY; j++ {
+			// i / maxX => normalized value between 0 and 1, represents each tile X axis
+			// j / maxY => normalized value between 0 and 1, represents each tile Y axis
 			// xFrequency | yFrequency => frequency of the senoidal wave that generates the mountain
 			// + (rand.Pi / 2) => shifts the senoidal wave starting point
 
-			xNormalizedValue := float64(i)/(float64(x)/(xFrequency)) + (math.Pi / randomShiftX)
-			yNormalizedValue := float64(j)/(float64(y)/(yFrequency)) + (math.Pi / randomShiftY)
+			xNormalizedValue := float64(i)/(float64(maxX)/(xFrequency)) + (math.Pi / randomShiftX)
+			yNormalizedValue := float64(j)/(float64(maxY)/(yFrequency)) + (math.Pi / randomShiftY)
 
 			// xHeight / yHeight => multiplied by rand.Pi because rand.Sin only accepts RADs
 			xHeight := (gain * math.Sin(xNormalizedValue*math.Pi)) + gain
@@ -50,7 +52,7 @@ func TerrainGenerator(x, y int, xFrequency, yFrequency, gain float64, minHeight 
 	return groundHeight
 }
 
-func MountainGenerator(x, y int, gain float64, minHeight int) taleslabentities.ElementMatrix {
+func GenerateMountain(x, y int, gain float64, minHeight int) taleslabentities.ElementMatrix {
 	xFrequency := 2.0
 	yFrequency := 2.0
 
@@ -84,6 +86,7 @@ func MountainGenerator(x, y int, gain float64, minHeight int) taleslabentities.E
 				mountainElements[i][j].Height = heightAvg - int(gain) + minHeight
 			} else {
 				mountainElements[i][j].Height = 0
+				mountainElements[i][j].ElementType = elementtype.None
 			}
 		}
 	}
