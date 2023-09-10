@@ -14,7 +14,7 @@
   * **Maps Transition**
     * [Temperate Forest To Tundra](/codes/transitions/temperateforesttotundra.md)
   * **Other Examples**
-    * [Fire Spiral](/codes/firespiral/README.md)
+    * [Fire Spiral](/codes/others/firespiral.md)
     * [Pyramid](/codes/pyramid/README.md)
     * [Random Cube](/codes/randomcube/README.md)
   * **Protocols**

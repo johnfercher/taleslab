@@ -59,7 +59,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	err = file.SaveCodes(slab.Codes, "docs/codes/temperateforesttotundra/data.txt")
+	err = file.SaveCodes(slab.Codes, "cmd/transitions/temperateforesttotundra/data.txt")
 	if err != nil {
 		log.Fatal(err)
 	}
