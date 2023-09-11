@@ -10,23 +10,23 @@ import (
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdto"
 )
 
-type matrixGenerator struct {
+type proceduralGridGenerator struct {
 	ground    *taleslabdto.GroundDtoRequest
 	mountains *taleslabdto.MountainsDtoRequest
 	river     *grid.River
 	canyon    *taleslabdto.CanyonDtoRequest
 }
 
-func NewMatrixGenerator() taleslabservices.MatrixGenerator {
-	return &matrixGenerator{}
+func NewMatrixGenerator() taleslabservices.ProceduralGridGenerator {
+	return &proceduralGridGenerator{}
 }
 
-func (m *matrixGenerator) SetGround(ground *taleslabdto.GroundDtoRequest) taleslabservices.MatrixGenerator {
+func (m *proceduralGridGenerator) SetGround(ground *taleslabdto.GroundDtoRequest) taleslabservices.ProceduralGridGenerator {
 	m.ground = ground
 	return m
 }
 
-func (m *matrixGenerator) SetMountains(mountains *taleslabdto.MountainsDtoRequest) taleslabservices.MatrixGenerator {
+func (m *proceduralGridGenerator) SetMountains(mountains *taleslabdto.MountainsDtoRequest) taleslabservices.ProceduralGridGenerator {
 	if mountains == nil {
 		return m
 	}
@@ -34,7 +34,7 @@ func (m *matrixGenerator) SetMountains(mountains *taleslabdto.MountainsDtoReques
 	return m
 }
 
-func (m *matrixGenerator) SetRiver(river *grid.River) taleslabservices.MatrixGenerator {
+func (m *proceduralGridGenerator) SetRiver(river *grid.River) taleslabservices.ProceduralGridGenerator {
 	if river != nil {
 		m.river = river
 	}
@@ -42,7 +42,7 @@ func (m *matrixGenerator) SetRiver(river *grid.River) taleslabservices.MatrixGen
 	return m
 }
 
-func (m *matrixGenerator) SetCanyon(canyon *taleslabdto.CanyonDtoRequest) taleslabservices.MatrixGenerator {
+func (m *proceduralGridGenerator) SetCanyon(canyon *taleslabdto.CanyonDtoRequest) taleslabservices.ProceduralGridGenerator {
 	if canyon != nil {
 		m.canyon = canyon
 	}
@@ -50,7 +50,7 @@ func (m *matrixGenerator) SetCanyon(canyon *taleslabdto.CanyonDtoRequest) talesl
 	return m
 }
 
-func (m *matrixGenerator) Generate() ([][]taleslabentities.Element, error) {
+func (m *proceduralGridGenerator) Generate() ([][]taleslabentities.Element, error) {
 	if m.ground == nil {
 		return nil, errors.New("ground must be provided")
 	}
@@ -78,7 +78,7 @@ func (m *matrixGenerator) Generate() ([][]taleslabentities.Element, error) {
 	return world, nil
 }
 
-func (m *matrixGenerator) generateMountainsGrid(minHeight int) []taleslabentities.ElementMatrix {
+func (m *proceduralGridGenerator) generateMountainsGrid(minHeight int) []taleslabentities.ElementMatrix {
 	mountains := []taleslabentities.ElementMatrix{}
 
 	iCount := rand.Intn(m.mountains.RandComplexity) + m.mountains.MinComplexity

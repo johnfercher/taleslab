@@ -8,7 +8,7 @@ import (
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"
 )
 
-func TaleSpireSlabFromAssets(assets taleslabentities.Assets) *models.Slab {
+func TaleSpireSlabFromSlab(assets *taleslabentities.Slab) *models.Slab {
 	uniqueAssets := getUniqueAssets(assets)
 	taleSpire := &models.Slab{
 		MagicBytes:  taleslabconsts.MagicBytes,
@@ -30,10 +30,10 @@ func TaleSpireSlabFromAssets(assets taleslabentities.Assets) *models.Slab {
 	return taleSpire
 }
 
-func getUniqueAssets(assets taleslabentities.Assets) map[string]*taleslabentities.Asset {
+func getUniqueAssets(slab *taleslabentities.Slab) map[string]*taleslabentities.Asset {
 	uniqueAssets := make(map[string]*taleslabentities.Asset)
 
-	for _, asset := range assets {
+	for _, asset := range slab.Assets {
 		if uniqueAssets[string(asset.ID)] == nil {
 			uniqueAssets[string(asset.ID)] = asset
 		}
@@ -42,10 +42,10 @@ func getUniqueAssets(assets taleslabentities.Assets) map[string]*taleslabentitie
 	return uniqueAssets
 }
 
-func getLayoutFromAsset(id []byte, assets taleslabentities.Assets) []*models.Layout {
+func getLayoutFromAsset(id []byte, slab *taleslabentities.Slab) []*models.Layout {
 	bounds := []*models.Layout{}
 
-	for _, asset := range assets {
+	for _, asset := range slab.Assets {
 		if bytes.Equal(id, asset.ID) {
 			bound := &models.Layout{
 				Coordinates: &models.Vector3d{
@@ -62,8 +62,8 @@ func getLayoutFromAsset(id []byte, assets taleslabentities.Assets) []*models.Lay
 	return bounds
 }
 
-func AssetsFromTaleSpireSlab(taleSpire *models.Slab) taleslabentities.Assets {
-	assets := taleslabentities.Assets{}
+func SlabFromTaleSpireSlab(taleSpire *models.Slab) *taleslabentities.Slab {
+	slab := &taleslabentities.Slab{}
 
 	for _, asset := range taleSpire.Assets {
 		for _, layout := range asset.Layouts {
@@ -76,9 +76,9 @@ func AssetsFromTaleSpireSlab(taleSpire *models.Slab) taleslabentities.Assets {
 				},
 			}
 
-			assets = append(assets, entity)
+			slab.Assets = append(slab.Assets, entity)
 		}
 	}
 
-	return assets
+	return slab
 }
