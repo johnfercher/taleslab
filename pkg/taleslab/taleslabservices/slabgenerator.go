@@ -17,24 +17,24 @@ func NewSlabGenerator(slabSliceGenerator taleslabservices.SlabSliceGenerator) ta
 	}
 }
 
-func (s *slabGenerator) Generate(slabDto *taleslabentities.SlabGeneration) ([][]*taleslabentities.Slab, error) {
-	if len(slabDto.Biomes) == 0 {
+func (s *slabGenerator) Generate(slabGeneration *taleslabentities.SlabGeneration) ([][]*taleslabentities.Slab, error) {
+	if len(slabGeneration.Biomes) == 0 {
 		return nil, errors.New("must provide at least one biome")
 	}
 
 	slabs := [][]*taleslabentities.Slab{}
-	worldMatrixSlices := grid.SliceTerrain(slabDto.World, slabDto.SliceSize)
+	worldMatrixSlices := grid.SliceTerrain(slabGeneration.World, slabGeneration.SliceSize)
 
 	currentX := 0
 	currentY := 0
 	for _, worldMatrix := range worldMatrixSlices {
 		line := []*taleslabentities.Slab{}
 		for _, slice := range worldMatrix {
-			sliceDto := &taleslabentities.SliceGeneration{
+			sliceGeneration := &taleslabentities.SliceGeneration{
 				World: slice,
 				FullDimension: &taleslabentities.Dimensions{
-					Width:  len(slabDto.World),
-					Length: len(slabDto.World[0]),
+					Width:  len(slabGeneration.World),
+					Length: len(slabGeneration.World[0]),
 				},
 				SliceDimension: &taleslabentities.Dimensions{
 					Width:  len(slice),
@@ -42,19 +42,19 @@ func (s *slabGenerator) Generate(slabDto *taleslabentities.SlabGeneration) ([][]
 				},
 				OffsetX: currentX,
 				OffsetY: currentY,
-				Biomes:  slabDto.Biomes,
+				Biomes:  slabGeneration.Biomes,
 			}
 
-			slab, err := s.slabSliceGenerator.Generate(sliceDto)
+			slab, err := s.slabSliceGenerator.Generate(sliceGeneration)
 			if err != nil {
 				return nil, err
 			}
 			line = append(line, slab)
-			currentY += slabDto.SliceSize
+			currentY += slabGeneration.SliceSize
 		}
 		slabs = append(slabs, line)
 		currentY = 0
-		currentX += slabDto.SliceSize
+		currentX += slabGeneration.SliceSize
 	}
 
 	return slabs, nil

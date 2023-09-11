@@ -4,7 +4,7 @@ import (
 	"errors"
 	"github.com/johnfercher/taleslab/pkg/procedural/proceduraldomain/proceduralentities"
 	"github.com/johnfercher/taleslab/pkg/procedural/proceduraldomain/proceduralservices"
-	grid2 "github.com/johnfercher/taleslab/pkg/shared/grid"
+	"github.com/johnfercher/taleslab/pkg/shared/grid"
 	"github.com/johnfercher/taleslab/pkg/shared/rand"
 
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"
@@ -13,7 +13,7 @@ import (
 type proceduralGridGenerator struct {
 	ground    *proceduralentities.Ground
 	mountains *proceduralentities.Mountains
-	river     *grid2.River
+	river     *grid.River
 	canyon    *proceduralentities.Canyon
 }
 
@@ -34,7 +34,7 @@ func (m *proceduralGridGenerator) SetMountains(mountains *proceduralentities.Mou
 	return m
 }
 
-func (m *proceduralGridGenerator) SetRiver(river *grid2.River) proceduralservices.ProceduralGridGenerator {
+func (m *proceduralGridGenerator) SetRiver(river *grid.River) proceduralservices.ProceduralGridGenerator {
 	if river != nil {
 		m.river = river
 	}
@@ -55,22 +55,22 @@ func (m *proceduralGridGenerator) Generate() ([][]taleslabentities.Element, erro
 		return nil, errors.New("ground must be provided")
 	}
 
-	world := grid2.GenerateTerrain(m.ground.Width, m.ground.Length, 2.0, 2.0,
+	world := grid.GenerateTerrain(m.ground.Width, m.ground.Length, 2.0, 2.0,
 		m.ground.TerrainComplexity, m.ground.MinHeight, m.ground.ForceBaseLand)
 
 	if m.mountains != nil {
 		mountains := m.generateMountainsGrid(m.ground.MinHeight)
 		for _, mountain := range mountains {
-			world = grid2.AppendTerrainRandomly(world, mountain)
+			world = grid.AppendTerrainRandomly(world, mountain)
 		}
 	}
 
 	if m.canyon != nil && m.canyon.HasCanyon {
-		world = grid2.DigTerrainInOffset(world, m.canyon.CanyonOffset)
+		world = grid.DigTerrainInOffset(world, m.canyon.CanyonOffset)
 	}
 
 	if m.river != nil {
-		world = grid2.DigRiver(world, m.river)
+		world = grid.DigRiver(world, m.river)
 	}
 
 	// grid.PrintHeights(world)
@@ -98,7 +98,7 @@ func (m *proceduralGridGenerator) generateMountainsGrid(minHeight int) []talesla
 
 			gain := float64(rand.DifferentIntn(m.mountains.RandHeight, "m.mountains.RandHeight") + m.mountains.MinHeight)
 
-			mountain := grid2.GenerateMountain(mountainX, mountainY, gain, minHeight)
+			mountain := grid.GenerateMountain(mountainX, mountainY, gain, minHeight)
 			mountains = append(mountains, mountain)
 		}
 	}

@@ -5,5 +5,5 @@ import (
 )
 
 type SlabGenerator interface {
-	Generate(slabDto *taleslabentities.SlabGeneration) ([][]*taleslabentities.Slab, error)
+	Generate(slabGeneration *taleslabentities.SlabGeneration) ([][]*taleslabentities.Slab, error)
 }

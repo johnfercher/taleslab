@@ -28,13 +28,13 @@ func main() {
 	sliceGenerator := taleslabservices.NewSlabSliceGenerator(biomeRepository, propRepository)
 	slabGenerator := taleslabservices.NewSlabGenerator(sliceGenerator)
 
-	slabDto := &taleslabentities.SlabGeneration{
+	slabGeneration := &taleslabentities.SlabGeneration{
 		SliceSize: 50,
 		Biomes:    []biometype.BiomeType{biometype.Beach},
 		World:     worldMatrix,
 	}
 
-	slabs, err := slabGenerator.Generate(slabDto)
+	slabs, err := slabGenerator.Generate(slabGeneration)
 	if err != nil {
 		log.Fatal(err.Error())
 		return

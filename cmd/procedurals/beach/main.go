@@ -26,7 +26,7 @@ func main() {
 
 	mapService := proceduralservices.NewMapService(slabGenerator, encoder)
 
-	inputMap := &proceduralentities.MapGeneration{
+	mapGeneration := &proceduralentities.MapGeneration{
 		Biome: biometype.Beach,
 		Ground: &proceduralentities.Ground{
 			Width:             50,
@@ -60,7 +60,7 @@ func main() {
 		},
 	}
 
-	slab, err := mapService.Generate(ctx, inputMap)
+	slab, err := mapService.Generate(ctx, mapGeneration)
 	if err != nil {
 		log.Fatal(err)
 	}

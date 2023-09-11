@@ -40,17 +40,17 @@ func (m *mapService) Generate(ctx context.Context, inputMap *proceduralentities.
 		return nil, err
 	}
 
-	slabDto := &taleslabentities.SlabGeneration{
+	slabGeneration := &taleslabentities.SlabGeneration{
 		World:     world,
 		SliceSize: 50,
 		Biomes:    []biometype.BiomeType{inputMap.Biome},
 	}
 
 	if inputMap.SecondaryBiome != "" {
-		slabDto.Biomes = append(slabDto.Biomes, inputMap.SecondaryBiome)
+		slabGeneration.Biomes = append(slabGeneration.Biomes, inputMap.SecondaryBiome)
 	}
 
-	slabs, err := m.slabGenerator.Generate(slabDto)
+	slabs, err := m.slabGenerator.Generate(slabGeneration)
 	if err != nil {
 		return nil, err
 	}

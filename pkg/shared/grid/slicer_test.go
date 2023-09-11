@@ -1,7 +1,7 @@
 package grid_test
 
 import (
-	grid2 "github.com/johnfercher/taleslab/pkg/shared/grid"
+	"github.com/johnfercher/taleslab/pkg/shared/grid"
 	"testing"
 
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"
@@ -12,10 +12,10 @@ func TestSliceTerrain_PerfectCase(t *testing.T) {
 	// Arrange
 	sliceSize := 50
 	basicElement := taleslabentities.Element{}
-	world := grid2.GenerateElementGrid(100, 100, basicElement)
+	world := grid.GenerateElementGrid(100, 100, basicElement)
 
 	// Act
-	matrix := grid2.SliceTerrain(world, sliceSize)
+	matrix := grid.SliceTerrain(world, sliceSize)
 
 	// Assert
 	assert.Equal(t, 2, len(matrix))
@@ -38,10 +38,10 @@ func TestSliceTerrain_ImperfectCaseInX(t *testing.T) {
 	// Arrange
 	sliceSize := 50
 	basicElement := taleslabentities.Element{}
-	world := grid2.GenerateElementGrid(120, 100, basicElement)
+	world := grid.GenerateElementGrid(120, 100, basicElement)
 
 	// Act
-	matrix := grid2.SliceTerrain(world, sliceSize)
+	matrix := grid.SliceTerrain(world, sliceSize)
 
 	// Assert
 	assert.Equal(t, 3, len(matrix))
@@ -69,10 +69,10 @@ func TestSliceTerrain_ImperfectCaseInY(t *testing.T) {
 	// Arrange
 	sliceSize := 50
 	basicElement := taleslabentities.Element{}
-	world := grid2.GenerateElementGrid(100, 120, basicElement)
+	world := grid.GenerateElementGrid(100, 120, basicElement)
 
 	// Act
-	matrix := grid2.SliceTerrain(world, sliceSize)
+	matrix := grid.SliceTerrain(world, sliceSize)
 
 	// Assert
 	assert.Equal(t, 2, len(matrix))

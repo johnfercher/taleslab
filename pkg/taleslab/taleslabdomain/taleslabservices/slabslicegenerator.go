@@ -5,5 +5,5 @@ import (
 )
 
 type SlabSliceGenerator interface {
-	Generate(sliceDto *taleslabentities.SliceGeneration) (*taleslabentities.Slab, error)
+	Generate(sliceGeneration *taleslabentities.SliceGeneration) (*taleslabentities.Slab, error)
 }
