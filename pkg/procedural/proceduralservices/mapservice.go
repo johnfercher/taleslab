@@ -1,12 +1,14 @@
-package taleslabservices
+package proceduralservices
 
 import (
 	"context"
 	"errors"
 	"github.com/johnfercher/talescoder/pkg/encoder"
+	"github.com/johnfercher/taleslab/pkg/procedural/proceduraldomain/proceduralentities"
+	proceduralservices2 "github.com/johnfercher/taleslab/pkg/procedural/proceduraldomain/proceduralservices"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts/biometype"
+	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabservices"
-	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdto"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabmappers"
 )
 
@@ -15,14 +17,14 @@ type mapService struct {
 	encoder       encoder.Encoder
 }
 
-func NewMapService(slabGenerator taleslabservices.SlabGenerator, encoder encoder.Encoder) taleslabservices.MapService {
+func NewMapService(slabGenerator taleslabservices.SlabGenerator, encoder encoder.Encoder) proceduralservices2.MapService {
 	return &mapService{
 		slabGenerator: slabGenerator,
 		encoder:       encoder,
 	}
 }
 
-func (m *mapService) Generate(ctx context.Context, inputMap *taleslabdto.MapDtoRequest) (*taleslabdto.MapDtoResponse, error) {
+func (m *mapService) Generate(ctx context.Context, inputMap *proceduralentities.MapGeneration) (*proceduralentities.MapGenerated, error) {
 	if inputMap.Biome == "" {
 		return nil, errors.New("must provide at least one biome")
 	}
@@ -38,7 +40,7 @@ func (m *mapService) Generate(ctx context.Context, inputMap *taleslabdto.MapDtoR
 		return nil, err
 	}
 
-	slabDto := &taleslabdto.SlabDto{
+	slabDto := &taleslabentities.SlabGeneration{
 		World:     world,
 		SliceSize: 50,
 		Biomes:    []biometype.BiomeType{inputMap.Biome},
@@ -53,7 +55,7 @@ func (m *mapService) Generate(ctx context.Context, inputMap *taleslabdto.MapDtoR
 		return nil, err
 	}
 
-	response := &taleslabdto.MapDtoResponse{
+	response := &proceduralentities.MapGenerated{
 		SlabVersion: "v2",
 	}
 

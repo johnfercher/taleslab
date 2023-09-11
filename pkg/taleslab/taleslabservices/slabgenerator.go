@@ -2,10 +2,9 @@ package taleslabservices
 
 import (
 	"errors"
-	"github.com/johnfercher/taleslab/pkg/grid"
+	"github.com/johnfercher/taleslab/pkg/shared/grid"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabservices"
-	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdto"
 )
 
 type slabGenerator struct {
@@ -18,7 +17,7 @@ func NewSlabGenerator(slabSliceGenerator taleslabservices.SlabSliceGenerator) ta
 	}
 }
 
-func (s *slabGenerator) Generate(slabDto *taleslabdto.SlabDto) ([][]*taleslabentities.Slab, error) {
+func (s *slabGenerator) Generate(slabDto *taleslabentities.SlabGeneration) ([][]*taleslabentities.Slab, error) {
 	if len(slabDto.Biomes) == 0 {
 		return nil, errors.New("must provide at least one biome")
 	}
@@ -31,7 +30,7 @@ func (s *slabGenerator) Generate(slabDto *taleslabdto.SlabDto) ([][]*taleslabent
 	for _, worldMatrix := range worldMatrixSlices {
 		line := []*taleslabentities.Slab{}
 		for _, slice := range worldMatrix {
-			sliceDto := &taleslabdto.SliceDto{
+			sliceDto := &taleslabentities.SliceGeneration{
 				World: slice,
 				FullDimension: &taleslabentities.Dimensions{
 					Width:  len(slabDto.World),

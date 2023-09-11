@@ -2,14 +2,15 @@ package main
 
 import (
 	"context"
-	"github.com/johnfercher/taleslab/pkg/grid"
+	"github.com/johnfercher/taleslab/pkg/procedural/proceduraldomain/proceduralentities"
+	"github.com/johnfercher/taleslab/pkg/procedural/proceduralservices"
+	"github.com/johnfercher/taleslab/pkg/shared/file"
+	"github.com/johnfercher/taleslab/pkg/shared/grid"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"
 	"log"
 
 	"github.com/johnfercher/talescoder/pkg/encoder"
-	"github.com/johnfercher/taleslab/pkg/file"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts/biometype"
-	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdto"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabrepositories"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabservices"
 )
@@ -23,22 +24,22 @@ func main() {
 	sliceGenerator := taleslabservices.NewSlabSliceGenerator(biomeRepository, propRepository)
 	slabGenerator := taleslabservices.NewSlabGenerator(sliceGenerator)
 
-	mapService := taleslabservices.NewMapService(slabGenerator, encoder)
+	mapService := proceduralservices.NewMapService(slabGenerator, encoder)
 
-	inputMap := &taleslabdto.MapDtoRequest{
+	inputMap := &proceduralentities.MapGeneration{
 		Biome: biometype.Beach,
-		Ground: &taleslabdto.GroundDtoRequest{
+		Ground: &proceduralentities.Ground{
 			Width:             50,
 			Length:            50,
 			TerrainComplexity: 5,
 			MinHeight:         5,
 			ForceBaseLand:     true,
 		},
-		Props: &taleslabdto.PropsDtoRequest{
+		Props: &proceduralentities.Props{
 			StoneDensity: 83,
 			TreeDensity:  15,
 		},
-		Mountains: &taleslabdto.MountainsDtoRequest{
+		Mountains: &proceduralentities.Mountains{
 			MinX:           30,
 			RandX:          5,
 			MinY:           30,
@@ -53,7 +54,7 @@ func main() {
 			End:                &taleslabentities.Vector3d{0, 0, 0},
 			HeightCutThreshold: 5,
 		},
-		Canyon: &taleslabdto.CanyonDtoRequest{
+		Canyon: &proceduralentities.Canyon{
 			HasCanyon:    true,
 			CanyonOffset: 10,
 		},

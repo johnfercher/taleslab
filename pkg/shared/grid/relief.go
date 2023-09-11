@@ -1,9 +1,9 @@
 package grid
 
 import (
+	"github.com/johnfercher/taleslab/pkg/shared/rand"
 	"math"
 
-	"github.com/johnfercher/taleslab/pkg/rand"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts/elementtype"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"
 )

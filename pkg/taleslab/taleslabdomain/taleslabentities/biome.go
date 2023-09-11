@@ -3,8 +3,8 @@ package taleslabentities
 import (
 	"errors"
 	"fmt"
+	"github.com/johnfercher/taleslab/pkg/shared/rand"
 
-	"github.com/johnfercher/taleslab/pkg/rand"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts/biometype"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts/elementtype"
 )

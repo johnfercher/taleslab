@@ -4,11 +4,11 @@ import (
 	"context"
 	"fmt"
 	"github.com/johnfercher/talescoder/pkg/encoder"
-	"github.com/johnfercher/taleslab/pkg/file"
-	"github.com/johnfercher/taleslab/pkg/grid"
+	"github.com/johnfercher/taleslab/pkg/georeferencing/georeferencingservices"
+	"github.com/johnfercher/taleslab/pkg/shared/file"
+	grid2 "github.com/johnfercher/taleslab/pkg/shared/grid"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts/biometype"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"
-	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdto"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabmappers"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabrepositories"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabservices"
@@ -23,10 +23,10 @@ func main() {
 		return
 	}
 
-	river := &grid.River{
+	river := &grid2.River{
 		HeightCutThreshold: 2,
 	}
-	worldMatrix = grid.DigRiver(worldMatrix, river)
+	worldMatrix = grid2.DigRiver(worldMatrix, river)
 
 	encoder := encoder.NewEncoder()
 	propRepository, _ := taleslabrepositories.NewPropRepository()
@@ -34,7 +34,7 @@ func main() {
 	sliceGenerator := taleslabservices.NewSlabSliceGenerator(biomeRepository, propRepository)
 	slabGenerator := taleslabservices.NewSlabGenerator(sliceGenerator)
 
-	slabDto := &taleslabdto.SlabDto{
+	slabDto := &taleslabentities.SlabGeneration{
 		SliceSize: 50,
 		Biomes:    []biometype.BiomeType{biometype.TemperateForest},
 		World:     worldMatrix,
@@ -78,6 +78,6 @@ func generateWorldFromTessadem() ([][]taleslabentities.Element, error) {
 		return nil, err
 	}
 
-	geoGenerator := taleslabservices.NewGeoReferencingGridGenerator()
+	geoGenerator := georeferencingservices.NewGeoReferencingGridGenerator()
 	return geoGenerator.Generate(areaResponse), nil
 }

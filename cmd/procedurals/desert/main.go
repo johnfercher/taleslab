@@ -2,12 +2,13 @@ package main
 
 import (
 	"context"
+	"github.com/johnfercher/taleslab/pkg/procedural/proceduraldomain/proceduralentities"
+	"github.com/johnfercher/taleslab/pkg/procedural/proceduralservices"
+	"github.com/johnfercher/taleslab/pkg/shared/file"
 	"log"
 
 	"github.com/johnfercher/talescoder/pkg/encoder"
-	"github.com/johnfercher/taleslab/pkg/file"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts/biometype"
-	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdto"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabrepositories"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabservices"
 )
@@ -21,17 +22,17 @@ func main() {
 	sliceGenerator := taleslabservices.NewSlabSliceGenerator(biomeRepository, propRepository)
 	slabGenerator := taleslabservices.NewSlabGenerator(sliceGenerator)
 
-	mapService := taleslabservices.NewMapService(slabGenerator, encoder)
+	mapService := proceduralservices.NewMapService(slabGenerator, encoder)
 
-	inputMap := &taleslabdto.MapDtoRequest{
+	inputMap := &proceduralentities.MapGeneration{
 		Biome: biometype.Desert,
-		Ground: &taleslabdto.GroundDtoRequest{
+		Ground: &proceduralentities.Ground{
 			Width:             50,
 			Length:            50,
 			TerrainComplexity: 5,
 			ForceBaseLand:     true,
 		},
-		Props: &taleslabdto.PropsDtoRequest{
+		Props: &proceduralentities.Props{
 			StoneDensity: 300,
 			TreeDensity:  180,
 			MiscDensity:  350,

@@ -1,9 +1,9 @@
 package grid_test
 
 import (
+	"github.com/johnfercher/taleslab/pkg/shared/grid"
 	"testing"
 
-	"github.com/johnfercher/taleslab/pkg/grid"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts/elementtype"
 	"github.com/stretchr/testify/assert"
 )

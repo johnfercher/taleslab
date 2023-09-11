@@ -3,11 +3,9 @@ package taleslabservices
 import (
 	"errors"
 	"fmt"
+	"github.com/johnfercher/taleslab/pkg/shared/grid"
+	"github.com/johnfercher/taleslab/pkg/shared/rand"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts/biometype"
-	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdto"
-
-	"github.com/johnfercher/taleslab/pkg/grid"
-	"github.com/johnfercher/taleslab/pkg/rand"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabconsts/elementtype"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabentities"
 	"github.com/johnfercher/taleslab/pkg/taleslab/taleslabdomain/taleslabrepositories"
@@ -26,7 +24,7 @@ func NewSlabSliceGenerator(biomeRepository taleslabrepositories.BiomeRepository,
 	}
 }
 
-func (a *slabSliceGenerator) Generate(sliceDto *taleslabdto.SliceDto) (*taleslabentities.Slab, error) {
+func (a *slabSliceGenerator) Generate(sliceDto *taleslabentities.SliceGeneration) (*taleslabentities.Slab, error) {
 	rotation := 768
 
 	if len(sliceDto.Biomes) == 0 {
@@ -41,7 +39,7 @@ func (a *slabSliceGenerator) Generate(sliceDto *taleslabdto.SliceDto) (*taleslab
 	return slab, nil
 }
 
-func (a *slabSliceGenerator) generateWorldAssets(sliceDto *taleslabdto.SliceDto, rotation int) *taleslabentities.Slab {
+func (a *slabSliceGenerator) generateWorldAssets(sliceDto *taleslabentities.SliceGeneration, rotation int) *taleslabentities.Slab {
 	slab := &taleslabentities.Slab{}
 	world := sliceDto.World
 	offsetX := sliceDto.OffsetX
@@ -92,7 +90,7 @@ func (a *slabSliceGenerator) generateWorldAssets(sliceDto *taleslabdto.SliceDto,
 	return slab
 }
 
-func (a *slabSliceGenerator) generateDetailAssets(sliceDto *taleslabdto.SliceDto) [][]taleslabentities.Element {
+func (a *slabSliceGenerator) generateDetailAssets(sliceDto *taleslabentities.SliceGeneration) [][]taleslabentities.Element {
 	worldWidth := sliceDto.SliceDimension.Width
 	worldLength := sliceDto.SliceDimension.Length
 	world := sliceDto.World
@@ -148,7 +146,7 @@ func (a *slabSliceGenerator) generateDetailAssets(sliceDto *taleslabdto.SliceDto
 	return propsGrid
 }
 
-func (a *slabSliceGenerator) appendPropsToSlab(slab *taleslabentities.Slab, gridProps [][]taleslabentities.Element, sliceDto *taleslabdto.SliceDto) *taleslabentities.Slab {
+func (a *slabSliceGenerator) appendPropsToSlab(slab *taleslabentities.Slab, gridProps [][]taleslabentities.Element, sliceDto *taleslabentities.SliceGeneration) *taleslabentities.Slab {
 	world := sliceDto.World
 	offsetX := sliceDto.OffsetX
 	maxWidth := sliceDto.FullDimension.Width
