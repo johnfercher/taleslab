@@ -5,6 +5,7 @@
 [![CI](https://github.com/johnfercher/go-tree/actions/workflows/goci.yml/badge.svg)](https://github.com/johnfercher/go-tree/actions/workflows/goci.yml)
 [![Lint](https://github.com/johnfercher/go-tree/actions/workflows/golangci-lint.yml/badge.svg)](https://github.com/johnfercher/go-tree/actions/workflows/golangci-lint.yml)
 [![Codecov](https://codecov.io/gh/johnfercher/taleslab/branch/main/graph/badge.svg)](https://codecov.io/gh/johnfercher/taleslab)
+[![Visits Badge](https://badges.pufler.dev/visits/johnfercher/taleslab)](https://badges.pufler.dev)
 
 **WARNING: this project is in "alpha", so it's in heavy development and there is no concerns with breaking changes at this
 development phase.**
