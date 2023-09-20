@@ -1,5 +1,8 @@
 # TaleSlab
 
+[![Visits Badge](https://badges.pufler.dev/visits/johnfercher/taleslab)](https://badges.pufler.dev)
+
+
 **WARNING: this project is in "alpha", so it's in heavy development and there is no concerns with breaking changes at this
 development phase.**
 
